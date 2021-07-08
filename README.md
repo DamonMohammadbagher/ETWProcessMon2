@@ -26,5 +26,20 @@ Video [3], [Video-3 of Chapter15-Part2]: (video is about C# + ETW vs Process Hol
     link2 => https://share.vidyard.com/watch/4kB2Xy1bLfhRxaTD6pwaLD
 
 
+-----------------------------------------------------------    
+
 ### ETWProcessMon2.exe
+  4. ETWProcessMon2.cs (ETWProcessMon v2)
+  
+  Note: "this code tested for Detection against some new/old methods like C# code for Process Hollowing, DInvoke (syscall), Loading dll/functions from Memory [32BIT], Classic-RemoteThreadInjection, APC Queue Code Injection, Process-Ghosting, Process Hollowing & Process Doppelganging by [Minjector], ..."
+
+ 
+ usage: 
+    
+    step1: [win, Run As Admin] ETWProcessMon2.exe
+    example 1: ETWProcessMon2.exe
+    example 2: ETWProcessMon2.exe > Save_all_outputs.txt
+    Note: in "example 2" you can have all outputs in text file [Imageload/TCPIP/NewThreads events + Injection Detection + Details etc] also at the same time VirMemAlloc events + Injections Detection events saved into log file ETWProcessMonlog.txt also in this ver2 NewProcess/Remote-Thread-Injection events + TCPIP Send Events will save in Windows Event Logs (log name => ETWPM2).
+    
+   ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/Pics/V2_0.png)
 
