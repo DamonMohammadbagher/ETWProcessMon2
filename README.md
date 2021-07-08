@@ -43,4 +43,19 @@ Video [3], [Video-3 of Chapter15-Part2]: (video is about C# + ETW vs Process Hol
     Note: also in this ver2 NewProcess/Remote-Thread-Injection events + TCPIP Send Events will save in Windows Event Logs (log name => ETWPM2).
     
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/Pics/V2_0.png)
+   
+-----------------------------------------------------------   
+### ETWProcessMon2.exe & Remote-Thread-Injection Detection by event log (ETWPM2 Events)
+
+   ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/Pics/V2_2.png)
+
+-----------------------------------------------------------   
+### ETWProcessMon2.exe & Remote-Thread-Injection Detection by event log (ETWPM2 Events)
+
+   ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/Pics/V2_1.png)
+-----------------------------------------------------------   
+### ETWProcessMon2.exe & TCPIP Send events by event log (ETWPM2 Events)
+
+   ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/Pics/V2_3.png)
+
 
