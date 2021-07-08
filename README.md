@@ -9,9 +9,9 @@ Note: VirtualMemAlloc for (Payload-Detection) + ImageLoad & Remote-Thread-Inject
 Note: in (Version 2) NewProcess events + Remote-Thread-Injection Detecetion events + TCPIP send events all will save in Windows Event Log which with EventViewer you can watch them also VirtualMemAlloc events + Remote-thread-injection Detection Events will save in text "ETWProcessMonlog.txt" log file too (at the same time). so in this version2 we have two type of Events log files => 1."windows event logs [ETWPM2]" , 2."ETWProcessMonlog.txt" 
 ETW Events in event log [ETWPM2]:
 
-    Event ID 1  = > NewProcess event
-    Event ID 2  = > Remote-Thread-Injection Detecetion event
-    Event ID 3  = > TCPIP Send event
+    [Information] Event ID 1  = > NewProcess event 
+    [Warning]     Event ID 2  = > Remote-Thread-Injection Detecetion event 
+    [Information] Event ID 3  = > TCPIP Send event
 
 
 ### Videos: 
