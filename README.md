@@ -11,7 +11,7 @@ Note: in (Version 2) NewProcess events + Remote-Thread-Injection Detecetion even
 ETW Events in event log [ETWPM2]:
 
     [Information] Event ID 1  => NewProcess event 
-    [Warning]     Event ID 2  => Remote-Thread-Injection Detecetion event 
+    [Warning]     Event ID 2  => Remote-Thread-Injection Detection event 
     [Information] Event ID 3  => TCPIP Send event
 
 
