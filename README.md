@@ -16,7 +16,7 @@ ETW Events in event log [ETWPM2]:
 
 
 ### Videos: 
-Note: i will make video for ver2 soon.
+Note: i will make video for "ETWProcessMon2" soon.
 
 this Video is for (Version 1), ETWProcessMon.exe v1 download link: https://github.com/DamonMohammadbagher/ETWNetMonv3/ ):
 
