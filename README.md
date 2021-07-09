@@ -34,8 +34,7 @@ Video [3], [Video-3 of Chapter15-Part2]: (video is about C# + ETW vs Process Hol
   
   Note: "this code tested for Detection against some new/old methods like C# code for Process Hollowing, DInvoke (syscall), Loading dll/functions from Memory [32BIT], Classic-RemoteThreadInjection, APC Queue Code Injection, Process-Ghosting, Process Hollowing & Process Doppelganging by [Minjector], ..."
   
-  Note: in EventViewer you should change your log limits for log name "ETWPM2" from 1mb to 10mb at least ;) otherwise event logs will be overwrite ;D
- 
+  Note: in EventViewer you should change your log limits [maximum log size] for log name "ETWPM2" from 1mb to 10mb at least ;) otherwise event logs will be overwrite ;D
  
  usage:  
     
