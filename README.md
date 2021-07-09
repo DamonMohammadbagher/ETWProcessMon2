@@ -50,6 +50,9 @@ Video [3], [Video-3 of Chapter15-Part2]: (video is about C# + ETW vs Process Hol
 
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/Pics/V2_2.png)
 
+Note: about Debug info => TID 228 Injected to Notepad:4060 by this process "NativePayload_TId.exe:3972"
+Note: about Debug info => TID::TIDWin32StartAddress:ParentThreadID:ParentID
+
 -----------------------------------------------------------   
 ### ETWProcessMon2.exe & Remote-Thread-Injection Detection by event log (ETWPM2 Events)
 
