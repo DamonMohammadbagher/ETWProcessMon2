@@ -18,7 +18,7 @@ ETW Events in event log [ETWPM2]:
 ### Videos: 
 Note: i will make video for "ETWProcessMon2" soon.
 
-this Video is for (Version 1), ETWProcessMon.exe v1 download link: https://github.com/DamonMohammadbagher/ETWNetMonv3/ ):
+this Video is for (Version 1), ETWProcessMon.exe v1 download & (step by step with details) => https://github.com/DamonMohammadbagher/ETWNetMonv3/
 
 Video [3], [Video-3 of Chapter15-Part2]: (video is about C# + ETW vs Process Hollowing, DInvoke (syscall),Loading dll/functions from Memory,Classic-RemoteThreadInjection)  
 
