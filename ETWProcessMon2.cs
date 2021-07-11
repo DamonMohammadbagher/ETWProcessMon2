@@ -25,9 +25,6 @@ namespace ETWProcessMon2
     }
   
 
-    //Get the path to a process
-    //proc = the process desired
-    
     class Program
     {
         [DllImport("Kernel32.dll")]
@@ -205,7 +202,7 @@ namespace ETWProcessMon2
 
         private static void Kernel_ImageLoad(Microsoft.Diagnostics.Tracing.Parsers.Kernel.ImageLoadTraceData obj)
         {
-            /// best way is using this syntax to dump logs about Imageload => ETWProcessMon2.exe > outputs.txt
+            /// best way stil is using this syntax to dump logs about Imageload => ETWProcessMon2.exe > outputs.txt
             /// all imageload events will be save in this outputs.txt file ;)
             /// i think it is not good idea to save these ImageLoads ETW events to event logs ;)
             
@@ -271,7 +268,7 @@ namespace ETWProcessMon2
 
                // Console.WriteLine();
                 ETW2MON.WriteEntry("[ETW] " + "\n[TCPIP] TcpIpSend Detected" + "\nTarget_Process: " + obj.ProcessName + ":" + obj.ProcessID + "  TID(" + obj.ThreadID + ")" + " TaskName(" + obj.TaskName + ") " + "\nPIDPath = "
-             + getpathPID(obj.ProcessID) + "\n" + obj.TimeStamp.ToString() + "\n" + TemptcptipInfo
+             + getpathPID(obj.ProcessID) + "\nEventTime = " + obj.TimeStamp.ToString() + "\n\n" + TemptcptipInfo
               , EventLogEntryType.Information, 3) ;
             }
 
@@ -295,10 +292,13 @@ namespace ETWProcessMon2
             //Console.WriteLine("[" + "ParetnID" + ": " + obj.PayloadByName("ParentID").ToString() + "]");
             //Console.WriteLine("[" + "CommandLine" + ": " + obj.PayloadByName("CommandLine").ToString() + "]");
 
-            ETW2MON.WriteEntry("[ETW] NewProcess Started \n" + "PID = " + obj.ProcessID.ToString() + "  PIDPath = "
-               + getpathPID(obj.ProcessID) + "\nProcessName = " + obj.ProcessName + "\n[" + "ParentID: " + obj.PayloadByName("ParentID").ToString() + "]"
-               + "\n[" + "CommandLine: " + obj.PayloadByName("CommandLine").ToString() + "]" + "\nPTime = " + obj.TimeStamp.ToString()
-                , EventLogEntryType.Information, 1);
+            ETW2MON.WriteEntry("[ETW]" + "\n[MEM] NewProcess Started \n" + "PID = " + obj.ProcessID.ToString() + "  PIDPath = "
+               + getpathPID(obj.ProcessID) + "\nProcessName = " + obj.ProcessName
+               + "\n[" + "CommandLine: " + obj.PayloadByName("CommandLine").ToString() + "]"
+               + "\n[" + "ParentID: " + obj.PayloadByName("ParentID").ToString() + "]"
+               + "\n[ParentID Path: " + getpathPID((Int32)obj.PayloadByName("ParentID")) + "]"
+               + "\nEventTime = " + obj.TimeStamp.ToString()
+                , EventLogEntryType.Information, 1); 
            
 
         }
