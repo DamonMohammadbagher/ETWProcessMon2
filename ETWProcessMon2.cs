@@ -202,7 +202,7 @@ namespace ETWProcessMon2
 
         private static void Kernel_ImageLoad(Microsoft.Diagnostics.Tracing.Parsers.Kernel.ImageLoadTraceData obj)
         {
-            /// best way stil is using this syntax to dump logs about Imageload => ETWProcessMon2.exe > outputs.txt
+            /// best way is using this syntax to dump logs about Imageload => ETWProcessMon2.exe > outputs.txt
             /// all imageload events will be save in this outputs.txt file ;)
             /// i think it is not good idea to save these ImageLoads ETW events to event logs ;)
             
