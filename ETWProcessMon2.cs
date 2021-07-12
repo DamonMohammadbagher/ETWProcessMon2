@@ -458,8 +458,8 @@ namespace ETWProcessMon2
                         }
                         _v5++;
                     }
-
-                    // _t = logfilewrite("ETWProcessMonlog.txt", "[" + obj.TimeStamp.ToString() + "] PID:(" + obj.ProcessID + ")(" + obj.ProcessName + ") " + obj.ThreadID + ":" + tempETWdetails + "[Injected by " + prc + "]");
+                      /// oOps sorry ;)
+                      _t = logfilewrite("ETWProcessMonlog.txt", "[" + obj.TimeStamp.ToString() + "] PID:(" + obj.ProcessID + ")(" + obj.ProcessName + ") " + obj.ThreadID + ":" + tempETWdetails + "[Injected by " + prc + "]");
 
                     ETW2MON.WriteEntry("[ETW] \n" + "[MEM] Injected ThreadStart " + "Detected,\nTarget_Process: " + obj.ProcessName + ":" + obj.ProcessID + "   TID(" + obj.ThreadID + ")" + " Injected by " + getpathPID((Int32)obj.PayloadValue(obj.PayloadNames.Length - 1))
                     + "\n\nDebug info:" + " [" + obj.TimeStamp.ToString() + "] PID: (" + obj.ProcessID + ")(" + obj.ProcessName + ") " + obj.ThreadID + ":" + tempETWdetails + "[Injected by " + prc + "]"
