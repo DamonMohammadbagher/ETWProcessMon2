@@ -40,6 +40,10 @@ in this tool you can use Filters to watch realtime these events very simple (Fil
 Note: with "ETWProcessMon2" you make ETW Events in Windows Event log so you can watch them by Windoes EventViewr too but with this tool
 you can watch team like realtime (Results Refreshed by New Events), this will help you as Defender/Blue Teamer for RemoteThredInjection Detection + TCPIP traffic etc.
 
+ usage:  
+    
+    step1: [win, Run As Admin] ETWProcessMon2.exe > Save_all_outputs.txt
+    step2: [win] ETWPM2Monitor.exe    
 
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/Pics/ETWPM2Monitor0.png)
    
