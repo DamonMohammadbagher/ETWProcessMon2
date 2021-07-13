@@ -37,8 +37,8 @@ with this Application you can watch [Realtime ETW Events] with "EventIDs 1,2 & 3
     
 in this tool you can use Filters to watch realtime these events very simple (Filtering by EventIDs), also you save filtered events to text file.
 
-Note: with "ETWProcessMon2" you make ETW Events in Windows Event log so you can watch them by Windoes EventViewr too but with this tool
-you can watch team like realtime (Results Refreshed by New Events), this will help you as Defender/Blue Teamer for RemoteThredInjection Detection + TCPIP traffic etc.
+Note: with "ETWProcessMon2" you make ETW Events in Windows Event log so you can watch them by Windows EventViewer too but with this tool
+you can see team like realtime (Result Refreshed by New Events), this will help you as Defender/Blue Teamer for RemoteThredInjection Detection + TCPIP traffic etc.
 
 Note: after running "ETWPM2Monitor.exe", this code will show you all 3 EventIDs 1,2,3 without filters, but you can use Filter Menu to change this very simple.
 
