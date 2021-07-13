@@ -191,7 +191,7 @@ namespace ETWProcessMon2
             ch = 256;
             _BytesStr = new StringBuilder((int)ch);
 
-
+            
             Bingo = new System.Threading.Thread(ETWCoreI)
             {
                 Priority = System.Threading.ThreadPriority.AboveNormal
@@ -292,7 +292,7 @@ namespace ETWProcessMon2
             //Console.WriteLine("[" + "ParetnID" + ": " + obj.PayloadByName("ParentID").ToString() + "]");
             //Console.WriteLine("[" + "CommandLine" + ": " + obj.PayloadByName("CommandLine").ToString() + "]");
 
-            ETW2MON.WriteEntry("[ETW]" + "\n[MEM] NewProcess Started \n" + "PID = " + obj.ProcessID.ToString() + "  PIDPath = "
+            ETW2MON.WriteEntry("[ETW] " + "\n[MEM] NewProcess Started \n" + "PID = " + obj.ProcessID.ToString() + "  PIDPath = "
                + getpathPID(obj.ProcessID) + "\nProcessName = " + obj.ProcessName
                + "\n[" + "CommandLine: " + obj.PayloadByName("CommandLine").ToString() + "]"
                + "\n[" + "ParentID: " + obj.PayloadByName("ParentID").ToString() + "]"
@@ -458,17 +458,23 @@ namespace ETWProcessMon2
                         }
                         _v5++;
                     }
-                      /// oOps sorry ;)
-                      _t = logfilewrite("ETWProcessMonlog.txt", "[" + obj.TimeStamp.ToString() + "] PID:(" + obj.ProcessID + ")(" + obj.ProcessName + ") " + obj.ThreadID + ":" + tempETWdetails + "[Injected by " + prc + "]");
+                    try
+                    {
+                        _t = logfilewrite("ETWProcessMonlog.txt", "[" + obj.TimeStamp.ToString() + "] PID:(" + obj.ProcessID + ")(" + obj.ProcessName + ") " + obj.ThreadID + ":" + tempETWdetails + "[Injected by " + prc + "]");
 
-                    ETW2MON.WriteEntry("[ETW] \n" + "[MEM] Injected ThreadStart " + "Detected,\nTarget_Process: " + obj.ProcessName + ":" + obj.ProcessID + "   TID(" + obj.ThreadID + ")" + " Injected by " + getpathPID((Int32)obj.PayloadValue(obj.PayloadNames.Length - 1))
-                    + "\n\nDebug info:" + " [" + obj.TimeStamp.ToString() + "] PID: (" + obj.ProcessID + ")(" + obj.ProcessName + ") " + obj.ThreadID + ":" + tempETWdetails + "[Injected by " + prc + "]"
-                , EventLogEntryType.Warning, 2);
-                    tempETWdetails = "";
+                        ETW2MON.WriteEntry("[ETW] \n" + "[MEM] Injected ThreadStart " + "Detected,\nTarget_Process: " + obj.ProcessName + ":" + obj.ProcessID + "   TID(" + obj.ThreadID + ")" + " Injected by " + getpathPID((Int32)obj.PayloadValue(obj.PayloadNames.Length - 1))
+                        + "\n\nDebug info:" + " [" + obj.TimeStamp.ToString() + "] PID: (" + obj.ProcessID + ")(" + obj.ProcessName + ") " + obj.ThreadID + ":" + tempETWdetails + "[Injected by " + prc + "]"
+                    , EventLogEntryType.Warning, 2);
+                        tempETWdetails = "";
 
-                    /// show details about Injection [finding PPID info]
-                    _WriteResult_Inj_Info(_Search_MemInfoPlusDateTime(obj.PayloadValue(obj.PayloadNames.Length - 1).ToString()));
-                    /// show details about Injection
+                        /// show details about Injection [finding PPID info]
+                        _WriteResult_Inj_Info(_Search_MemInfoPlusDateTime(obj.PayloadValue(obj.PayloadNames.Length - 1).ToString()));
+                        /// show details about Injection
+                    }
+                    catch (Exception ops)
+                    {
+                     
+                    }
                 }
             }
 
