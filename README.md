@@ -40,6 +40,12 @@ in this tool you can use Filters to watch realtime these events very simple (Fil
 Note: with "ETWProcessMon2" you make ETW Events in Windows Event log so you can watch them by Windoes EventViewr too but with this tool
 you can watch team like realtime (Results Refreshed by New Events), this will help you as Defender/Blue Teamer for RemoteThredInjection Detection + TCPIP traffic etc.
 
+Note: after running "ETWPM2Monitor.exe", this code will show you all 3 EventIDs 1,2,3 without filters, but you can use Filter Menu to change this very simple.
+
+Note: Filter [EventIDs 1,2] is good if you want to know which Process Created & which RemoteThreadInjection Detection you have after Payload execution etc...
+
+Note: Filter [EventIDs 2,3] is good if you want to know, after which RemoteThreadInjection you will have TCPIP Network Traffic (Send Traffic). 
+
  usage:  
     
     step1: [win, Run As Admin] ETWProcessMon2.exe > Save_all_outputs.txt
