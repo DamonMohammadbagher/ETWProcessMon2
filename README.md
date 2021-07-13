@@ -26,6 +26,23 @@ Video [3], [Video-3 of Chapter15-Part2]: (video is about C# + ETW vs Process Hol
     link1 => https://www.youtube.com/watch?v=d1a8WqOvE84
     link2 => https://share.vidyard.com/watch/4kB2Xy1bLfhRxaTD6pwaLD
 
+-----------------------------------------------------------    
+### ETWPM2Monitor.exe
+"ETWPM2Monitor" is simple C# code for Realtime Event Log Monitor, but this code only will work with logname "ETWPM2" which made by "ETWProcessMon2.exe".
+with this Application you can watch (Realtime ETW Events) with "EventIDs 1,2 & 3" which made by "ETWProcessMon2"
+    
+    [Information] Event ID 1  => NewProcess event 
+    [Warning]     Event ID 2  => Remote-Thread-Injection Detection event 
+    [Information] Event ID 3  => TCPIP Send event
+    
+in this tool you can use Filters to watch realtime these events very simple (Filtering by EventIDs), also you save filtered events to text file.
+
+Note: with "ETWProcessMon2" you make ETW Events in Windows Event log so you can watch them by Windoes EventViewr too but with this tool
+you can watch team like realtime (Results Refreshed by New Events), this will help you as Defender/Blue Teamer for RemoteThredInjection Detection + TCPIP traffic etc.
+
+
+   ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/Pics/ETWPM2Monitor0.png)
+
 
 -----------------------------------------------------------    
 
