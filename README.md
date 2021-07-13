@@ -42,6 +42,9 @@ you can watch team like realtime (Results Refreshed by New Events), this will he
 
 
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/Pics/ETWPM2Monitor0.png)
+   
+   ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/Pics/ETWPM2Monitor1.png)
+
 
 
 -----------------------------------------------------------    
