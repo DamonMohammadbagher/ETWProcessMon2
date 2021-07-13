@@ -28,8 +28,8 @@ Video [3], [Video-3 of Chapter15-Part2]: (video is about C# + ETW vs Process Hol
 
 -----------------------------------------------------------    
 ### ETWPM2Monitor.exe
-"ETWPM2Monitor" is simple C# code for Realtime Event Log Monitor, but this code only will work with logname "ETWPM2" which made by "ETWProcessMon2.exe".
-with this Application you can watch (Realtime ETW Events) with "EventIDs 1,2 & 3" which made by "ETWProcessMon2"
+"ETWPM2Monitor" is simple C# code [test version] for Realtime Event Log Monitor, but this code only will work with logname "ETWPM2" which made by "ETWProcessMon2.exe".
+with this Application you can watch [Realtime ETW Events] with "EventIDs 1,2 & 3" which made by "ETWProcessMon2"
     
     [Information] Event ID 1  => NewProcess event 
     [Warning]     Event ID 2  => Remote-Thread-Injection Detection event 
@@ -45,6 +45,8 @@ Note: after running "ETWPM2Monitor.exe", this code will show you all 3 EventIDs 
 Note: Filter [EventIDs 1,2] is good if you want to know which Process Created & which RemoteThreadInjection Detection you have after Payload execution etc...
 
 Note: Filter [EventIDs 2,3] is good if you want to know, after which RemoteThreadInjection you will have TCPIP Network Traffic (Send Traffic). 
+
+Note: this ETWPM2Monitor is [test version] & this code need to test more & more ;)
 
  usage:  
     
