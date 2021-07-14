@@ -17,14 +17,15 @@ namespace ETWPM2Monitor
     public partial class Form1 : Form
     {
         /// <summary>
-        /// ETWPM2Monitor v1 [test version] Code Published by Damon Mohammadbagher , 2021 
+        /// ETWPM2Monitor v1.1 [test version] Code Published by Damon Mohammadbagher , Jul 2021 
         /// Console App for Realtime monitor ETW Events "ETWPM2" which made by ETWProcessMon2
         /// this app will monitor events in windows event log [logname = ETWPM2].
         /// NewProcess events + RemoteThreadInjection events + TCPIP Send events will monitor by ETWProcessMon2 with logname ETWPM2 which by this tool "ETWPM2Monitor" you can watch them "realtime"
         /// also RemoteThreadInjection events + VirtualMemAlloc events will save by ETWProcessMon2 into text logfile "ETWProcessMonlog.txt" at the same time.
         /// </summary>
 
-        public static Task _t;
+        public Int64 i6 = 0;
+        public static System.Timers.Timer t = new System.Timers.Timer(1500);
         public delegate void DelegateIteamAdd(ListViewItem i);
         public EventLog ETW2MON;
         public static EventLogQuery ETWPM2Query;
@@ -74,7 +75,9 @@ namespace ETWPM2Monitor
                 /// Display grid lines.
                 listView1.GridLines = false;
                 /// Sort the items in the list in ascending order.
-                listView1.Sorting = SortOrder.Ascending;
+
+                t.Elapsed += T_Elapsed;
+                t.Enabled = true;
 
                 listView1.Columns.Add(" ", 20, HorizontalAlignment.Left);
                 listView1.Columns.Add("Time", 130, HorizontalAlignment.Left);
@@ -85,6 +88,35 @@ namespace ETWPM2Monitor
             {
 
             }
+        }
+
+        private async void T_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            await Task.Factory.StartNew(() =>
+            {
+                try
+                {
+                    if (i6 != listView1.Items.Count - 1)
+                    {
+                        try
+                        {
+                            listView1.FocusedItem = listView1.Items[listView1.Items.Count - 1];
+                            listView1.BeginInvoke((MethodInvoker)delegate { listView1.FocusedItem.EnsureVisible(); });
+                            i6 = listView1.Items.Count - 1;
+                        }
+                        catch (Exception)
+                        {
+
+
+                        }
+                    }
+                }
+                catch (Exception)
+                {
+
+
+                }
+            });
         }
 
         public async void IlistItemAdd(ListViewItem i)
@@ -99,6 +131,7 @@ namespace ETWPM2Monitor
                   Thread.Sleep(1000);
               });
         }
+
         public void Watcher_EventRecordWritten(object sender, EventRecordWrittenEventArgs e)
         {
             GC.Collect();
@@ -118,11 +151,13 @@ namespace ETWPM2Monitor
                     iList.SubItems.Add(e.EventRecord.Id.ToString());
                     iList.SubItems.Add(e.EventRecord.FormatDescription());
                     iList.ImageIndex = 0;
-
+                    listView1.BeginUpdate();
                     //listView1.Items.Add(iList);
                     DelegateIteamAdd __DelegateMethod = new DelegateIteamAdd(IlistItemAdd);
                     BeginInvoke(__DelegateMethod, iList);
+                    listView1.EndUpdate();
                     Thread.Sleep(500);
+                   
                 }
             }
             if (e.EventRecord.Id == 2)
@@ -136,12 +171,14 @@ namespace ETWPM2Monitor
                     iList.SubItems.Add(e.EventRecord.Id.ToString());
                     iList.SubItems.Add(e.EventRecord.FormatDescription());
                     iList.ImageIndex = 1;
-
+                    listView1.BeginUpdate();
                     //listView1.Items.Add(iList);
                     DelegateIteamAdd __DelegateMethod = new DelegateIteamAdd(IlistItemAdd);
                     BeginInvoke(__DelegateMethod, iList);
-
+                    listView1.EndUpdate();
                     Thread.Sleep(500);
+                   
+
 
                 }
             }
@@ -156,10 +193,13 @@ namespace ETWPM2Monitor
                     iList.SubItems.Add(e.EventRecord.Id.ToString());
                     iList.SubItems.Add(e.EventRecord.FormatDescription());
                     iList.ImageIndex = 0;
+                    listView1.BeginUpdate();
 
                     //listView1.Items.Add(iList);
                     DelegateIteamAdd __DelegateMethod = new DelegateIteamAdd(IlistItemAdd);
                     BeginInvoke(__DelegateMethod, iList);
+                    listView1.EndUpdate();
+
                 }
             }
         }
@@ -282,6 +322,55 @@ namespace ETWPM2Monitor
             toolStripStatusLabel2.ForeColor = Color.Red;
 
             toolStripStatusLabel2.Text = "| Filters: Select All EventID 3 [TCPIP Send]";
+        }
+
+        private void ListView1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+          
+        }
+
+        private void RichTextBox1_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                Task.Factory.StartNew(() =>
+                {
+                    if (t.Enabled)
+                    {
+                        try
+                        {
+                            richTextBox1.SelectionStart = richTextBox1.Text.Length;
+                            richTextBox1.ScrollToCaret();
+                        }
+                        catch (Exception)
+                        {
+
+                             
+                        }
+                     
+                    }
+                });
+            }
+            catch (Exception)
+            {
+
+
+            }
+
+        }
+
+        private void OnToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            t.Enabled = true;
+            onToolStripMenuItem.Text = "[on]";
+            offToolStripMenuItem.Text = "off";
+        }
+
+        private void OffToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            t.Enabled = false;
+            onToolStripMenuItem.Text = "on";
+            offToolStripMenuItem.Text = "[off]";
         }
 
         private void ClearAllToolStripMenuItem_Click(object sender, EventArgs e)

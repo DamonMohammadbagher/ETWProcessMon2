@@ -48,17 +48,20 @@
             this.startMonitorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.stoptMonitorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clearAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.filtersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.allEventsIDs123ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.eventID12ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.eventID13ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.eventID23InjectionTCPIPToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.eventID1ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.eventID2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.eventID3ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.autoScrollToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.onToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.offToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -76,6 +79,7 @@
             this.richTextBox1.Size = new System.Drawing.Size(990, 372);
             this.richTextBox1.TabIndex = 0;
             this.richTextBox1.Text = "";
+            this.richTextBox1.TextChanged += new System.EventHandler(this.RichTextBox1_TextChanged);
             // 
             // listView1
             // 
@@ -85,6 +89,7 @@
             this.listView1.Size = new System.Drawing.Size(990, 372);
             this.listView1.TabIndex = 1;
             this.listView1.UseCompatibleStateImageBehavior = false;
+            this.listView1.SelectedIndexChanged += new System.EventHandler(this.ListView1_SelectedIndexChanged);
             // 
             // tabControl1
             // 
@@ -189,6 +194,7 @@
             this.actionToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.startMonitorToolStripMenuItem,
             this.stoptMonitorToolStripMenuItem,
+            this.autoScrollToolStripMenuItem,
             this.clearAllToolStripMenuItem});
             this.actionToolStripMenuItem1.Name = "actionToolStripMenuItem1";
             this.actionToolStripMenuItem1.Size = new System.Drawing.Size(54, 20);
@@ -197,40 +203,23 @@
             // startMonitorToolStripMenuItem
             // 
             this.startMonitorToolStripMenuItem.Name = "startMonitorToolStripMenuItem";
-            this.startMonitorToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+            this.startMonitorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.startMonitorToolStripMenuItem.Text = "Start Monitor";
             this.startMonitorToolStripMenuItem.Click += new System.EventHandler(this.StartMonitorToolStripMenuItem_Click);
             // 
             // stoptMonitorToolStripMenuItem
             // 
             this.stoptMonitorToolStripMenuItem.Name = "stoptMonitorToolStripMenuItem";
-            this.stoptMonitorToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+            this.stoptMonitorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.stoptMonitorToolStripMenuItem.Text = "Stop Monitor";
             this.stoptMonitorToolStripMenuItem.Click += new System.EventHandler(this.StoptMonitorToolStripMenuItem_Click);
             // 
             // clearAllToolStripMenuItem
             // 
             this.clearAllToolStripMenuItem.Name = "clearAllToolStripMenuItem";
-            this.clearAllToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+            this.clearAllToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.clearAllToolStripMenuItem.Text = "Clear All";
             this.clearAllToolStripMenuItem.Click += new System.EventHandler(this.ClearAllToolStripMenuItem_Click);
-            // 
-            // statusStrip1
-            // 
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripStatusLabel1,
-            this.toolStripStatusLabel2});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 428);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(1004, 22);
-            this.statusStrip1.TabIndex = 7;
-            this.statusStrip1.Text = "statusStrip1";
-            // 
-            // toolStripStatusLabel1
-            // 
-            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(105, 17);
-            this.toolStripStatusLabel1.Text = "Monitor Status: on";
             // 
             // filtersToolStripMenuItem
             // 
@@ -249,7 +238,7 @@
             // allEventsIDs123ToolStripMenuItem
             // 
             this.allEventsIDs123ToolStripMenuItem.Name = "allEventsIDs123ToolStripMenuItem";
-            this.allEventsIDs123ToolStripMenuItem.Size = new System.Drawing.Size(267, 22);
+            this.allEventsIDs123ToolStripMenuItem.Size = new System.Drawing.Size(352, 22);
             this.allEventsIDs123ToolStripMenuItem.Text = "All EventIDs 1,2,3";
             this.allEventsIDs123ToolStripMenuItem.Click += new System.EventHandler(this.AllEventsIDs123ToolStripMenuItem_Click);
             // 
@@ -263,7 +252,7 @@
             // eventID13ToolStripMenuItem
             // 
             this.eventID13ToolStripMenuItem.Name = "eventID13ToolStripMenuItem";
-            this.eventID13ToolStripMenuItem.Size = new System.Drawing.Size(267, 22);
+            this.eventID13ToolStripMenuItem.Size = new System.Drawing.Size(352, 22);
             this.eventID13ToolStripMenuItem.Text = "EventID 1,3 [NewProcess + TCPIP]";
             this.eventID13ToolStripMenuItem.Click += new System.EventHandler(this.EventID13ToolStripMenuItem_Click);
             // 
@@ -273,12 +262,6 @@
             this.eventID23InjectionTCPIPToolStripMenuItem.Size = new System.Drawing.Size(352, 22);
             this.eventID23InjectionTCPIPToolStripMenuItem.Text = "EventID 2,3 [RemoteThreadInjection + TCPIP]";
             this.eventID23InjectionTCPIPToolStripMenuItem.Click += new System.EventHandler(this.EventID23InjectionTCPIPToolStripMenuItem_Click);
-            // 
-            // toolStripStatusLabel2
-            // 
-            this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
-            this.toolStripStatusLabel2.Size = new System.Drawing.Size(47, 17);
-            this.toolStripStatusLabel2.Text = "| Filters:";
             // 
             // eventID1ToolStripMenuItem
             // 
@@ -300,6 +283,52 @@
             this.eventID3ToolStripMenuItem.Size = new System.Drawing.Size(352, 22);
             this.eventID3ToolStripMenuItem.Text = "EventID 3 [TCPIP Send event]";
             this.eventID3ToolStripMenuItem.Click += new System.EventHandler(this.EventID3ToolStripMenuItem_Click);
+            // 
+            // statusStrip1
+            // 
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripStatusLabel1,
+            this.toolStripStatusLabel2});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 428);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(1004, 22);
+            this.statusStrip1.TabIndex = 7;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // toolStripStatusLabel1
+            // 
+            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(105, 17);
+            this.toolStripStatusLabel1.Text = "Monitor Status: on";
+            // 
+            // toolStripStatusLabel2
+            // 
+            this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
+            this.toolStripStatusLabel2.Size = new System.Drawing.Size(47, 17);
+            this.toolStripStatusLabel2.Text = "| Filters:";
+            // 
+            // autoScrollToolStripMenuItem
+            // 
+            this.autoScrollToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.onToolStripMenuItem,
+            this.offToolStripMenuItem});
+            this.autoScrollToolStripMenuItem.Name = "autoScrollToolStripMenuItem";
+            this.autoScrollToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.autoScrollToolStripMenuItem.Text = "Auto Scroll";
+            // 
+            // onToolStripMenuItem
+            // 
+            this.onToolStripMenuItem.Name = "onToolStripMenuItem";
+            this.onToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.onToolStripMenuItem.Text = "on";
+            this.onToolStripMenuItem.Click += new System.EventHandler(this.OnToolStripMenuItem_Click);
+            // 
+            // offToolStripMenuItem
+            // 
+            this.offToolStripMenuItem.Name = "offToolStripMenuItem";
+            this.offToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.offToolStripMenuItem.Text = "off";
+            this.offToolStripMenuItem.Click += new System.EventHandler(this.OffToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -357,6 +386,9 @@
         private System.Windows.Forms.ToolStripMenuItem eventID1ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem eventID2ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem eventID3ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem autoScrollToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem onToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem offToolStripMenuItem;
     }
 }
 
