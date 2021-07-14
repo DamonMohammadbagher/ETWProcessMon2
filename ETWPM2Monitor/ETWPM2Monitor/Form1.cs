@@ -331,31 +331,7 @@ namespace ETWPM2Monitor
 
         private void RichTextBox1_TextChanged(object sender, EventArgs e)
         {
-            try
-            {
-                Task.Factory.StartNew(() =>
-                {
-                    if (t.Enabled)
-                    {
-                        try
-                        {
-                            richTextBox1.SelectionStart = richTextBox1.Text.Length;
-                            richTextBox1.ScrollToCaret();
-                        }
-                        catch (Exception)
-                        {
-
-                             
-                        }
-                     
-                    }
-                });
-            }
-            catch (Exception)
-            {
-
-
-            }
+           
 
         }
 
