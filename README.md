@@ -48,6 +48,8 @@ Note: Filter [EventIDs 2,3] is good if you want to know, after which RemoteThrea
 
 Note: this ETWPM2Monitor is [test version] & this code need to test more & more ;)
 
+New Video ETWPM2Monitor v1.2 : https://www.linkedin.com/posts/damonmohammadbagher_new-video-in-this-video-you-can-see-as-defender-activity-6821891432748601344-BecI
+
  usage:  
     
     step1: [win, Run As Admin] ETWProcessMon2.exe > Save_all_outputs.txt
