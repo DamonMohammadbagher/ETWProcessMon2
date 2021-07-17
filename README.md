@@ -48,7 +48,11 @@ Note: Filter [EventIDs 2,3] is good if you want to know, after which RemoteThrea
 
 Note: this ETWPM2Monitor is [test version] & this code need to test more & more ;)
 
-New Video ETWPM2Monitor v1.2 : https://www.linkedin.com/posts/damonmohammadbagher_new-video-in-this-video-you-can-see-as-defender-activity-6821891432748601344-BecI
+New Video ETWPM2Monitor v1.2 : 
+
+Video link1: https://www.linkedin.com/posts/damonmohammadbagher_new-video-in-this-video-you-can-see-as-defender-activity-6821891432748601344-BecI
+
+Video link2: https://share.vidyard.com/watch/PjBybo5BNHbfCXazoLmN6f
 
  usage:  
     
