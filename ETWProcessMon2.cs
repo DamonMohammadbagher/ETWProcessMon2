@@ -129,21 +129,7 @@ namespace ETWProcessMon2
                 /// Important things in this code are VirtualAlloc + Threads + Process)
                 /// Only VirtualAlloc events + Thread Injections will save in log file 
                 /// Imageload,TCPIP Network Connection and New Processes Events are not in log file.
-                /// For better performance you can remove codes for these events (imageload,tcpip)... ;) 
 
-                //| KernelTraceEventParser.Keywords.Memory
-
-
-
-                ////KS.EnableKernelProvider(KernelTraceEventParser.Keywords.VirtualAlloc |
-                ////     KernelTraceEventParser.Keywords.Thread |
-                ////     KernelTraceEventParser.Keywords.AdvancedLocalProcedureCalls |
-                ////     KernelTraceEventParser.Keywords.Process | KernelTraceEventParser.Keywords.SystemCall 
-                ////     | KernelTraceEventParser.Keywords.Memory
-                ////     | KernelTraceEventParser.Keywords.NetworkTCPIP | KernelTraceEventParser.Keywords.DeferedProcedureCalls
-                ////     | KernelTraceEventParser.Keywords.All | KernelTraceEventParser.Keywords.OS
-                ////     | KernelTraceEventParser.Keywords.Interrupt | KernelTraceEventParser.Keywords.MemoryHardFaults 
-                ////     | KernelTraceEventParser.Keywords.ProcessCounters);
 
                 KS.Source.Kernel.ThreadStart += Kernel_ThreadStart;
                 KS.Source.Kernel.MemoryVirtualAllocDCStart += Kernel_MemoryVirtualAllocDCStart;
@@ -151,12 +137,7 @@ namespace ETWProcessMon2
                 KS.Source.Kernel.TcpIpSend += Kernel_TcpIpSend;
                 KS.Source.Kernel.ImageLoad += Kernel_ImageLoad;
                 KS.Source.Kernel.ProcessStart += Kernel_ProcessStart;
-
-                // KS.Source.Kernel.TcpIpConnect += Kernel_TcpIpConnect;
-
-                ////_arg = args[0];               
-                ////_arg1 = args[1];
-                ////_arg2 = args[2];
+                
 
                 /// DEBUG & TEST ONLY
                 /// arg 1 and 2 was for monitoring via filters for 2 proceesses only... but in this code i want to monitor all processes via ETW
@@ -208,7 +189,7 @@ namespace ETWProcessMon2
             
             GC.GetTotalMemory(true);
 
-            Console.WriteLine();
+            
             Console.ForegroundColor = ConsoleColor.DarkGray;
             Console.Write("[etw] ");
             Console.ForegroundColor = ConsoleColor.Red;
@@ -218,19 +199,16 @@ namespace ETWProcessMon2
 
             Console.ForegroundColor = ConsoleColor.Green;
             _v1 = 0;
+
             foreach (var item in obj.PayloadNames)
             {
 
-                if (item.Contains("File"))
-                    Console.WriteLine("[etw] [" + item + ": " + obj.PayloadValue(_v1).ToString() + "]");
-
-                if (_v1 == 0)
+                if (item.Contains("File") || item.Contains("BuildTime") || item.Contains("DefaultBase") || item.Contains("ImageBase"))
                     Console.WriteLine("[etw] [" + item + ": " + obj.PayloadValue(_v1).ToString() + "]");
 
                 _v1++;
             }
             Console.WriteLine();
-                   
         }
         private static void Kernel_TcpIpSend(Microsoft.Diagnostics.Tracing.Parsers.Kernel.TcpIpSendTraceData obj)
         {
@@ -299,7 +277,6 @@ namespace ETWProcessMon2
                + "\n[ParentID Path: " + getpathPID((Int32)obj.PayloadByName("ParentID")) + "]"
                + "\nEventTime = " + obj.TimeStamp.ToString()
                 , EventLogEntryType.Information, 1); 
-           
 
         }
         private static void Kernel_VirtualMemAlloc(Microsoft.Diagnostics.Tracing.Parsers.Kernel.VirtualAllocTraceData obj)
@@ -415,9 +392,10 @@ namespace ETWProcessMon2
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.Write("[ MEM ] ThreadStart ");
                 Console.ForegroundColor = ConsoleColor.DarkGray;
-                Console.WriteLine("Detected, in Process: " + obj.ProcessName + ":" + obj.ProcessID + "   TID(" + obj.ThreadID + ")" + " TaskName(" + obj.TaskName + ") " + obj.TimeStamp.ToString());
+                Console.WriteLine("Detected, in Prc: " + obj.ProcessName + ":" + obj.ProcessID + " TID(" + obj.ThreadID + ")" + " StartAddr(" + obj.PayloadStringByName("Win32StartAddr", null).ToString() + ") " + obj.TimeStamp.ToString());
 
                 Console.ForegroundColor = ConsoleColor.Green;
+
                 _v5 = 0;
                 if (obj.PayloadValue(obj.PayloadNames.Length - 1).ToString() != obj.ProcessID.ToString())
                 {
@@ -450,16 +428,19 @@ namespace ETWProcessMon2
 
                     foreach (var item in obj.PayloadNames)
                     {
-                        if (item.Contains("Parent") || item.Contains("Win"))
+                        if (item.Contains("Parent") || item.Contains("Win")) 
                         {
                             Console.WriteLine("[inj] [" + item + ": " + obj.PayloadValue(_v5).ToString() + "]");
                             tempETWdetails += ":" + obj.PayloadValue(_v5).ToString();
 
                         }
                         _v5++;
+
+
                     }
                     try
                     {
+
                         _t = logfilewrite("ETWProcessMonlog.txt", "[" + obj.TimeStamp.ToString() + "] PID:(" + obj.ProcessID + ")(" + obj.ProcessName + ") " + obj.ThreadID + ":" + tempETWdetails + "[Injected by " + prc + "]");
 
                         ETW2MON.WriteEntry("[ETW] \n" + "[MEM] Injected ThreadStart " + "Detected,\nTarget_Process: " + obj.ProcessName + ":" + obj.ProcessID + "   TID(" + obj.ThreadID + ")" + " Injected by " + getpathPID((Int32)obj.PayloadValue(obj.PayloadNames.Length - 1))
@@ -476,9 +457,9 @@ namespace ETWProcessMon2
                      
                     }
                 }
+
             }
 
-            // Process_Events_db.Add(new _ProcessInfo<String> { PPID = obj.ParentProcessID.ToString(), MemAPIName = "ThreadStart", PID = obj.ProcessID.ToString(), PIDPath = getpathPID(obj.ProcessID), ProcessName = obj.ProcessName, PTime = obj.TimeStamp.ToString(), TCPIPCon = "-", MemAllocInfo = "-" });
         }
 
         public static List<_ProcessInfo<String>> _Search_MemInfoPlusDateTime(string PPid)
