@@ -32,6 +32,9 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.listView1 = new System.Windows.Forms.ListView();
+            this.contextMenuStrip5 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.injectedTIDMemoryInfoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.eTWEventPropertiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
@@ -47,6 +50,9 @@
             this.actionToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.startMonitorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.stoptMonitorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.autoScrollToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.onToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.offToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clearAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.filtersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.allEventsIDs123ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -56,18 +62,24 @@
             this.eventID1ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.eventID2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.eventID3ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.memoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.injectedTIDMemoryInfoToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.eventsPropertiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.autoScrollToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.onToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.offToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenuStrip4 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.dumpTIDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenuStrip5.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.contextMenuStrip3.SuspendLayout();
             this.menuStrip3.SuspendLayout();
             this.statusStrip1.SuspendLayout();
+            this.contextMenuStrip4.SuspendLayout();
             this.SuspendLayout();
             // 
             // richTextBox1
@@ -79,10 +91,10 @@
             this.richTextBox1.Size = new System.Drawing.Size(990, 372);
             this.richTextBox1.TabIndex = 0;
             this.richTextBox1.Text = "";
-            this.richTextBox1.TextChanged += new System.EventHandler(this.RichTextBox1_TextChanged);
             // 
             // listView1
             // 
+            this.listView1.ContextMenuStrip = this.contextMenuStrip5;
             this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listView1.Location = new System.Drawing.Point(3, 3);
             this.listView1.Name = "listView1";
@@ -90,6 +102,28 @@
             this.listView1.TabIndex = 1;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.SelectedIndexChanged += new System.EventHandler(this.ListView1_SelectedIndexChanged);
+            // 
+            // contextMenuStrip5
+            // 
+            this.contextMenuStrip5.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.injectedTIDMemoryInfoToolStripMenuItem,
+            this.eTWEventPropertiesToolStripMenuItem});
+            this.contextMenuStrip5.Name = "contextMenuStrip5";
+            this.contextMenuStrip5.Size = new System.Drawing.Size(229, 48);
+            // 
+            // injectedTIDMemoryInfoToolStripMenuItem
+            // 
+            this.injectedTIDMemoryInfoToolStripMenuItem.Name = "injectedTIDMemoryInfoToolStripMenuItem";
+            this.injectedTIDMemoryInfoToolStripMenuItem.Size = new System.Drawing.Size(228, 22);
+            this.injectedTIDMemoryInfoToolStripMenuItem.Text = "Injected Thread Memory Info";
+            this.injectedTIDMemoryInfoToolStripMenuItem.Click += new System.EventHandler(this.InjectedTIDMemoryInfoToolStripMenuItem_Click);
+            // 
+            // eTWEventPropertiesToolStripMenuItem
+            // 
+            this.eTWEventPropertiesToolStripMenuItem.Name = "eTWEventPropertiesToolStripMenuItem";
+            this.eTWEventPropertiesToolStripMenuItem.Size = new System.Drawing.Size(228, 22);
+            this.eTWEventPropertiesToolStripMenuItem.Text = "ETW Event Properties";
+            this.eTWEventPropertiesToolStripMenuItem.Click += new System.EventHandler(this.ETWEventPropertiesToolStripMenuItem_Click);
             // 
             // tabControl1
             // 
@@ -159,7 +193,9 @@
             this.menuStrip3.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem2,
             this.actionToolStripMenuItem1,
-            this.filtersToolStripMenuItem});
+            this.filtersToolStripMenuItem,
+            this.memoryToolStripMenuItem,
+            this.aboutToolStripMenuItem});
             this.menuStrip3.Location = new System.Drawing.Point(0, 0);
             this.menuStrip3.Name = "menuStrip3";
             this.menuStrip3.Size = new System.Drawing.Size(1004, 24);
@@ -178,14 +214,14 @@
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.saveToolStripMenuItem.Text = "Save Text File";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.SaveToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItem_Click);
             // 
@@ -203,21 +239,44 @@
             // startMonitorToolStripMenuItem
             // 
             this.startMonitorToolStripMenuItem.Name = "startMonitorToolStripMenuItem";
-            this.startMonitorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.startMonitorToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
             this.startMonitorToolStripMenuItem.Text = "Start Monitor";
             this.startMonitorToolStripMenuItem.Click += new System.EventHandler(this.StartMonitorToolStripMenuItem_Click);
             // 
             // stoptMonitorToolStripMenuItem
             // 
             this.stoptMonitorToolStripMenuItem.Name = "stoptMonitorToolStripMenuItem";
-            this.stoptMonitorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.stoptMonitorToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
             this.stoptMonitorToolStripMenuItem.Text = "Stop Monitor";
             this.stoptMonitorToolStripMenuItem.Click += new System.EventHandler(this.StoptMonitorToolStripMenuItem_Click);
+            // 
+            // autoScrollToolStripMenuItem
+            // 
+            this.autoScrollToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.onToolStripMenuItem,
+            this.offToolStripMenuItem});
+            this.autoScrollToolStripMenuItem.Name = "autoScrollToolStripMenuItem";
+            this.autoScrollToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+            this.autoScrollToolStripMenuItem.Text = "Auto Scroll";
+            // 
+            // onToolStripMenuItem
+            // 
+            this.onToolStripMenuItem.Name = "onToolStripMenuItem";
+            this.onToolStripMenuItem.Size = new System.Drawing.Size(89, 22);
+            this.onToolStripMenuItem.Text = "on";
+            this.onToolStripMenuItem.Click += new System.EventHandler(this.OnToolStripMenuItem_Click);
+            // 
+            // offToolStripMenuItem
+            // 
+            this.offToolStripMenuItem.Name = "offToolStripMenuItem";
+            this.offToolStripMenuItem.Size = new System.Drawing.Size(89, 22);
+            this.offToolStripMenuItem.Text = "off";
+            this.offToolStripMenuItem.Click += new System.EventHandler(this.OffToolStripMenuItem_Click);
             // 
             // clearAllToolStripMenuItem
             // 
             this.clearAllToolStripMenuItem.Name = "clearAllToolStripMenuItem";
-            this.clearAllToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.clearAllToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
             this.clearAllToolStripMenuItem.Text = "Clear All";
             this.clearAllToolStripMenuItem.Click += new System.EventHandler(this.ClearAllToolStripMenuItem_Click);
             // 
@@ -284,6 +343,35 @@
             this.eventID3ToolStripMenuItem.Text = "EventID 3 [TCPIP Send event]";
             this.eventID3ToolStripMenuItem.Click += new System.EventHandler(this.EventID3ToolStripMenuItem_Click);
             // 
+            // memoryToolStripMenuItem
+            // 
+            this.memoryToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.injectedTIDMemoryInfoToolStripMenuItem1,
+            this.toolStripSeparator1,
+            this.eventsPropertiesToolStripMenuItem});
+            this.memoryToolStripMenuItem.Name = "memoryToolStripMenuItem";
+            this.memoryToolStripMenuItem.Size = new System.Drawing.Size(72, 20);
+            this.memoryToolStripMenuItem.Text = "Properties";
+            // 
+            // injectedTIDMemoryInfoToolStripMenuItem1
+            // 
+            this.injectedTIDMemoryInfoToolStripMenuItem1.Name = "injectedTIDMemoryInfoToolStripMenuItem1";
+            this.injectedTIDMemoryInfoToolStripMenuItem1.Size = new System.Drawing.Size(228, 22);
+            this.injectedTIDMemoryInfoToolStripMenuItem1.Text = "Injected Thread Memory info";
+            this.injectedTIDMemoryInfoToolStripMenuItem1.Click += new System.EventHandler(this.InjectedTIDMemoryInfoToolStripMenuItem1_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(225, 6);
+            // 
+            // eventsPropertiesToolStripMenuItem
+            // 
+            this.eventsPropertiesToolStripMenuItem.Name = "eventsPropertiesToolStripMenuItem";
+            this.eventsPropertiesToolStripMenuItem.Size = new System.Drawing.Size(228, 22);
+            this.eventsPropertiesToolStripMenuItem.Text = "ETW Events Properties";
+            this.eventsPropertiesToolStripMenuItem.Click += new System.EventHandler(this.EventsPropertiesToolStripMenuItem_Click);
+            // 
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -307,28 +395,25 @@
             this.toolStripStatusLabel2.Size = new System.Drawing.Size(47, 17);
             this.toolStripStatusLabel2.Text = "| Filters:";
             // 
-            // autoScrollToolStripMenuItem
+            // contextMenuStrip4
             // 
-            this.autoScrollToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.onToolStripMenuItem,
-            this.offToolStripMenuItem});
-            this.autoScrollToolStripMenuItem.Name = "autoScrollToolStripMenuItem";
-            this.autoScrollToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.autoScrollToolStripMenuItem.Text = "Auto Scroll";
+            this.contextMenuStrip4.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.dumpTIDToolStripMenuItem});
+            this.contextMenuStrip4.Name = "contextMenuStrip4";
+            this.contextMenuStrip4.Size = new System.Drawing.Size(210, 26);
             // 
-            // onToolStripMenuItem
+            // dumpTIDToolStripMenuItem
             // 
-            this.onToolStripMenuItem.Name = "onToolStripMenuItem";
-            this.onToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.onToolStripMenuItem.Text = "on";
-            this.onToolStripMenuItem.Click += new System.EventHandler(this.OnToolStripMenuItem_Click);
+            this.dumpTIDToolStripMenuItem.Name = "dumpTIDToolStripMenuItem";
+            this.dumpTIDToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
+            this.dumpTIDToolStripMenuItem.Text = "Injected TID Memory info";
             // 
-            // offToolStripMenuItem
+            // aboutToolStripMenuItem
             // 
-            this.offToolStripMenuItem.Name = "offToolStripMenuItem";
-            this.offToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.offToolStripMenuItem.Text = "off";
-            this.offToolStripMenuItem.Click += new System.EventHandler(this.OffToolStripMenuItem_Click);
+            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(52, 20);
+            this.aboutToolStripMenuItem.Text = "About";
+            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.AboutToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -342,6 +427,7 @@
             this.Text = "ETWPM2 Events Monitor";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.contextMenuStrip5.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
@@ -350,14 +436,13 @@
             this.menuStrip3.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
+            this.contextMenuStrip4.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.ListView listView1;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
@@ -389,6 +474,17 @@
         private System.Windows.Forms.ToolStripMenuItem autoScrollToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem onToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem offToolStripMenuItem;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip4;
+        private System.Windows.Forms.ToolStripMenuItem dumpTIDToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem memoryToolStripMenuItem;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip5;
+        private System.Windows.Forms.ToolStripMenuItem injectedTIDMemoryInfoToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem eTWEventPropertiesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem eventsPropertiesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem injectedTIDMemoryInfoToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        public System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
     }
 }
 

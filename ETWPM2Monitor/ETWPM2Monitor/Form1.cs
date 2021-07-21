@@ -7,6 +7,7 @@ using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -17,7 +18,7 @@ namespace ETWPM2Monitor
     public partial class Form1 : Form
     {
         /// <summary>
-        /// ETWPM2Monitor v1.1 [test version] Code Published by Damon Mohammadbagher , Jul 2021 
+        /// ETWPM2Monitor v1.2 [test version] Code Published by Damon Mohammadbagher , 20 Jul 2021 
         /// Console App for Realtime monitor ETW Events "ETWPM2" which made by ETWProcessMon2
         /// this app will monitor events in windows event log [logname = ETWPM2].
         /// NewProcess events + RemoteThreadInjection events + TCPIP Send events will monitor by ETWProcessMon2 with logname ETWPM2 which by this tool "ETWPM2Monitor" you can watch them "realtime"
@@ -31,7 +32,8 @@ namespace ETWPM2Monitor
         public static EventLogQuery ETWPM2Query;
         public ListViewItem iList = new ListViewItem();
         public static EventLogWatcher EvtWatcher = null;
-        public string tempMessage, tempMessage2 = "";
+        public string tempMessage, tempMessage2, EventMessage = "";
+        public static byte[] buf = new byte[90];
 
         public Form1()
         {
@@ -59,7 +61,7 @@ namespace ETWPM2Monitor
 
                 EvtWatcher = new EventLogWatcher(ETWPM2Query);
                 EvtWatcher.EventRecordWritten += Watcher_EventRecordWritten;
-
+                
                 listView1.SmallImageList = imageList1;
                 EvtWatcher.Enabled = true;
                 /// Set the view to show details.
@@ -75,14 +77,14 @@ namespace ETWPM2Monitor
                 /// Display grid lines.
                 listView1.GridLines = false;
                 /// Sort the items in the list in ascending order.
-
+                
                 t.Elapsed += T_Elapsed;
                 t.Enabled = true;
 
                 listView1.Columns.Add(" ", 20, HorizontalAlignment.Left);
                 listView1.Columns.Add("Time", 130, HorizontalAlignment.Left);
                 listView1.Columns.Add("EventID", 55, HorizontalAlignment.Left);
-                listView1.Columns.Add("EventMessage", 1000, HorizontalAlignment.Left);
+                listView1.Columns.Add("EventMessage", 1500, HorizontalAlignment.Left);
             }
             catch (EventLogReadingException err)
             {
@@ -134,73 +136,92 @@ namespace ETWPM2Monitor
 
         public void Watcher_EventRecordWritten(object sender, EventRecordWrittenEventArgs e)
         {
+           
             GC.Collect();
-
-            if (e.EventRecord.FormatDescription() != tempMessage2)
-                richTextBox1.Text += "[Time = " + e.EventRecord.TimeCreated + "] \n[EventID = " + e.EventRecord.Id.ToString() + "] \n[Message : " + e.EventRecord.FormatDescription() + "]\n_____________________\n";
-
-            tempMessage2 = e.EventRecord.FormatDescription();
-
-            if (e.EventRecord.Id == 1)
+            try
             {
-                if (e.EventRecord.FormatDescription() != string.Empty)
+
+                if (e.EventRecord.FormatDescription() != tempMessage2)
                 {
-                    iList = new ListViewItem();
-                    iList.Name = e.EventRecord.Id.ToString();
-                    iList.SubItems.Add(e.EventRecord.TimeCreated.ToString());
-                    iList.SubItems.Add(e.EventRecord.Id.ToString());
-                    iList.SubItems.Add(e.EventRecord.FormatDescription());
-                    iList.ImageIndex = 0;
-                    listView1.BeginUpdate();
-                    //listView1.Items.Add(iList);
-                    DelegateIteamAdd __DelegateMethod = new DelegateIteamAdd(IlistItemAdd);
-                    BeginInvoke(__DelegateMethod, iList);
-                    listView1.EndUpdate();
-                    Thread.Sleep(500);
-                   
+
+                    if (e.EventRecord.Id == 2)
+                    {
+                        InjectionMemoryInfoDetails_torichtectbox(e.EventRecord.FormatDescription(), e.EventRecord.RecordId.ToString());
+                    }
+                    else
+                    {
+                        richTextBox1.Text += "[Time = " + e.EventRecord.TimeCreated + "] \n[EventID = " + e.EventRecord.Id.ToString() + "] \n[Message : " + e.EventRecord.FormatDescription() + "]\n_____________________\n";
+                    }
+                    // richTextBox1.AppendText("[Time = " + e.EventRecord.TimeCreated + "] \n[EventID = " + e.EventRecord.Id.ToString() + "] \n[Message : " + e.EventRecord.FormatDescription() + "]\n_____________________\n");
+                }
+            
+
+            }
+            catch (Exception)
+            {
+
+            }
+
+            try
+            {
+                tempMessage2 = e.EventRecord.FormatDescription();
+
+                if (e.EventRecord.Id == 1)
+                {
+                    if (e.EventRecord.FormatDescription() != string.Empty)
+                    {
+                        iList = new ListViewItem();
+                        iList.Name = e.EventRecord.RecordId.ToString();
+                        iList.SubItems.Add(e.EventRecord.TimeCreated.ToString());
+                        iList.SubItems.Add(e.EventRecord.Id.ToString());
+                        iList.SubItems.Add(e.EventRecord.FormatDescription());
+                        iList.ImageIndex = 0;
+
+                        DelegateIteamAdd __DelegateMethod = new DelegateIteamAdd(IlistItemAdd);
+                        BeginInvoke(__DelegateMethod, iList);
+                        Thread.Sleep(500);
+
+                    }
+                }
+                if (e.EventRecord.Id == 2)
+                {
+                    if (e.EventRecord.FormatDescription() != string.Empty)
+                    {
+                       
+                        iList = new ListViewItem();
+                        iList.Name = e.EventRecord.RecordId.ToString();
+                        iList.SubItems.Add(e.EventRecord.TimeCreated.ToString());
+                        iList.SubItems.Add(e.EventRecord.Id.ToString());
+                        iList.SubItems.Add(e.EventRecord.FormatDescription());
+                        iList.ImageIndex = 1;
+
+                        DelegateIteamAdd __DelegateMethod = new DelegateIteamAdd(IlistItemAdd);
+                        BeginInvoke(__DelegateMethod, iList);
+                        Thread.Sleep(500);
+
+                    }
+                }
+                if ((e.EventRecord.Id == 3) && (e.EventRecord.FormatDescription() != tempMessage))
+                {
+                    if (e.EventRecord.FormatDescription() != string.Empty)
+                    {
+                        iList = new ListViewItem();
+                        tempMessage = e.EventRecord.FormatDescription();
+                        iList.Name = e.EventRecord.RecordId.ToString();
+                        iList.SubItems.Add(e.EventRecord.TimeCreated.ToString());
+                        iList.SubItems.Add(e.EventRecord.Id.ToString());
+                        iList.SubItems.Add(e.EventRecord.FormatDescription());
+                        iList.ImageIndex = 0;
+
+                        DelegateIteamAdd __DelegateMethod = new DelegateIteamAdd(IlistItemAdd);
+                        BeginInvoke(__DelegateMethod, iList);
+
+                    }
                 }
             }
-            if (e.EventRecord.Id == 2)
+            catch (Exception _e)
             {
-                if (e.EventRecord.FormatDescription() != string.Empty)
-                {
-
-                    iList = new ListViewItem();
-                    iList.Name = e.EventRecord.Id.ToString();
-                    iList.SubItems.Add(e.EventRecord.TimeCreated.ToString());
-                    iList.SubItems.Add(e.EventRecord.Id.ToString());
-                    iList.SubItems.Add(e.EventRecord.FormatDescription());
-                    iList.ImageIndex = 1;
-                    listView1.BeginUpdate();
-                    //listView1.Items.Add(iList);
-                    DelegateIteamAdd __DelegateMethod = new DelegateIteamAdd(IlistItemAdd);
-                    BeginInvoke(__DelegateMethod, iList);
-                    listView1.EndUpdate();
-                    Thread.Sleep(500);
-                   
-
-
-                }
-            }
-            if ((e.EventRecord.Id == 3) && (e.EventRecord.FormatDescription() != tempMessage))
-            {
-                if (e.EventRecord.FormatDescription() != string.Empty)
-                {
-                    iList = new ListViewItem();
-                    tempMessage = e.EventRecord.FormatDescription();
-                    iList.Name = e.EventRecord.Id.ToString();
-                    iList.SubItems.Add(e.EventRecord.TimeCreated.ToString());
-                    iList.SubItems.Add(e.EventRecord.Id.ToString());
-                    iList.SubItems.Add(e.EventRecord.FormatDescription());
-                    iList.ImageIndex = 0;
-                    listView1.BeginUpdate();
-
-                    //listView1.Items.Add(iList);
-                    DelegateIteamAdd __DelegateMethod = new DelegateIteamAdd(IlistItemAdd);
-                    BeginInvoke(__DelegateMethod, iList);
-                    listView1.EndUpdate();
-
-                }
+                MessageBox.Show(_e.Message);
             }
         }
 
@@ -215,10 +236,12 @@ namespace ETWPM2Monitor
             if (!EvtWatcher.Enabled)
                 EvtWatcher.Enabled = true;
             toolStripStatusLabel1.Text = "Monitor Status: on";
+            i6 = 0;
         }
 
         private void StoptMonitorToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            i6 = 0;
             if (EvtWatcher.Enabled)
             {
                 EvtWatcher.Enabled = false;
@@ -331,7 +354,7 @@ namespace ETWPM2Monitor
 
         private void RichTextBox1_TextChanged(object sender, EventArgs e)
         {
-           
+          
 
         }
 
@@ -340,6 +363,8 @@ namespace ETWPM2Monitor
             t.Enabled = true;
             onToolStripMenuItem.Text = "[on]";
             offToolStripMenuItem.Text = "off";
+            i6 = 0;
+
         }
 
         private void OffToolStripMenuItem_Click(object sender, EventArgs e)
@@ -347,6 +372,7 @@ namespace ETWPM2Monitor
             t.Enabled = false;
             onToolStripMenuItem.Text = "on";
             offToolStripMenuItem.Text = "[off]";
+            i6 = 0;
         }
 
         private void ClearAllToolStripMenuItem_Click(object sender, EventArgs e)
@@ -354,6 +380,221 @@ namespace ETWPM2Monitor
             listView1.Items.Clear();
             Thread.Sleep(50);
             richTextBox1.Clear();
+        }
+
+        private void InjectedTIDMemoryInfoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+          
+            try
+            {
+                ListViewItem listviewitems_wasselected_ihope = listView1.SelectedItems[0];
+                EventMessage = listviewitems_wasselected_ihope.SubItems[3].Text;
+                string EventMessageRecordId = listviewitems_wasselected_ihope.Name;
+                if (listviewitems_wasselected_ihope.SubItems[2].Text == "2") {
+                    UInt64 i32StartAddress = Convert.ToUInt64(EventMessage.Substring(EventMessage.IndexOf("::") + 2).Split(':')[0]);
+                    Int64 TID = Convert.ToInt64(EventMessage.Substring(EventMessage.IndexOf("::") - 8).Split(')', ':')[1]);
+                    Int32 prc = Convert.ToInt32(EventMessage.Substring(EventMessage.IndexOf("PID: (") + 6).Split(')')[0]);
+                   
+                    buf = new byte[90];
+                    IntPtr prch = System.Diagnostics.Process.GetProcessById(prc).Handle;
+                    string XStartAddress = Memoryinfo._Return_Threads_StartAddress((ulong)TID);
+                    bool MemoryBytes = Memoryinfo.ReadProcessMemory(prch, (UIntPtr)Convert.ToUInt64(i32StartAddress), buf, buf.Length, IntPtr.Zero);
+                    MessageBox.Show(EventMessage + "\n\n______________________________________________________________\n[Injected Thread Memory info]\nRemote-Thread-Injection Memory Information:\nTID: " + TID.ToString() + "\nTID StartAddress: " +
+                    XStartAddress.ToString() + "\nTID Win32StartAddress: " + i32StartAddress.ToString() + "\nTarget_Process PID: " + prc.ToString() +
+                    "\n\nInjected Memory Bytes: " + BitConverter.ToString(buf).ToString()
+                    , "EventID:" + listviewitems_wasselected_ihope.SubItems[2].Text + " EventRecord_ID: " + EventMessageRecordId, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+                else
+                {
+                    MessageBox.Show("Please Select Events with EventID 2 (only)");
+                }
+            }
+            catch (Exception eee)
+            {
+                MessageBox.Show(eee.Message);
+                
+            }
+           
+        }
+
+        private void InjectedTIDMemoryInfoToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                ListViewItem listviewitems_wasselected_ihope = listView1.SelectedItems[0];
+                EventMessage = listviewitems_wasselected_ihope.SubItems[3].Text;
+                string EventMessageRecordId = listviewitems_wasselected_ihope.Name;
+                if (listviewitems_wasselected_ihope.SubItems[2].Text == "2")
+                {
+                    UInt64 i32StartAddress = Convert.ToUInt64(EventMessage.Substring(EventMessage.IndexOf("::") + 2).Split(':')[0]);
+                    Int64 TID = Convert.ToInt64(EventMessage.Substring(EventMessage.IndexOf("::") - 8).Split(')', ':')[1]);
+                    Int32 prc = Convert.ToInt32(EventMessage.Substring(EventMessage.IndexOf("PID: (") + 6).Split(')')[0]);
+
+                    buf = new byte[90];
+                    IntPtr prch = System.Diagnostics.Process.GetProcessById(prc).Handle;
+                    string XStartAddress = Memoryinfo._Return_Threads_StartAddress((ulong)TID);
+                    bool MemoryBytes = Memoryinfo.ReadProcessMemory(prch, (UIntPtr)Convert.ToUInt64(i32StartAddress), buf, buf.Length, IntPtr.Zero);
+                    MessageBox.Show(EventMessage + "\n\n______________________________________________________________\n[Injected Thread Memory info]\nRemote-Thread-Injection Memory Information:\nTID: " + TID.ToString() + "\nTID StartAddress: " +
+                    XStartAddress.ToString() + "\nTID Win32StartAddress: " + i32StartAddress.ToString() + "\nTarget_Process PID: " + prc.ToString() +
+                    "\n\nInjected Memory Bytes: " + BitConverter.ToString(buf).ToString()
+                    , "EventID:" + listviewitems_wasselected_ihope.SubItems[2].Text + " EventRecord_ID: " + EventMessageRecordId, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+                else
+                {
+                    MessageBox.Show("Please Select Events with EventID 2 (only)");
+                }
+            }
+            catch (Exception eee)
+            {
+                MessageBox.Show(eee.Message);
+
+            }
+
+        }
+
+        private void EventsPropertiesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                ListViewItem listviewitems_wasselected_ihope = listView1.SelectedItems[0];
+                EventMessage = listviewitems_wasselected_ihope.SubItems[3].Text;
+                string EventMessageRecordId = listviewitems_wasselected_ihope.Name;
+                if (listviewitems_wasselected_ihope.SubItems[2].Text == "2")
+                {
+                    MessageBox.Show(EventMessage, "Properties for EventID:" + listviewitems_wasselected_ihope.SubItems[2].Text + " ,EventRecord_ID: " + EventMessageRecordId + " ,LogTime:[" + listviewitems_wasselected_ihope.SubItems[1].Text + "]", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+                else
+                {
+                    MessageBox.Show(EventMessage, "Properties for EventID:" + listviewitems_wasselected_ihope.SubItems[2].Text + " ,EventRecord_ID: " + EventMessageRecordId + " ,LogTime:[" + listviewitems_wasselected_ihope.SubItems[1].Text + "]", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                }
+            }
+            catch (Exception error)
+            {
+
+                MessageBox.Show("Please first Select one row/event in listview\n"+ error.Message);
+            }
+        }
+
+        private void ETWEventPropertiesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            
+            try
+            {
+
+
+                ListViewItem listviewitems_wasselected_ihope = listView1.SelectedItems[0];
+                EventMessage = listviewitems_wasselected_ihope.SubItems[3].Text;
+                string EventMessageRecordId = listviewitems_wasselected_ihope.Name;
+                if (listviewitems_wasselected_ihope.SubItems[2].Text == "2")
+                {
+                    MessageBox.Show(EventMessage, "Properties for EventID:" + listviewitems_wasselected_ihope.SubItems[2].Text + " ,EventRecord_ID: " + EventMessageRecordId + " ,LogTime:[" + listviewitems_wasselected_ihope.SubItems[1].Text + "]", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+                else
+                {
+                    MessageBox.Show(EventMessage, "Properties for EventID:" + listviewitems_wasselected_ihope.SubItems[2].Text + " ,EventRecord_ID: " + EventMessageRecordId + " ,LogTime:[" + listviewitems_wasselected_ihope.SubItems[1].Text + "]", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                }
+            }
+            catch (Exception error)
+            {
+
+                MessageBox.Show("Please first Select one row/event in listview\n" + error.Message);
+            }
+        }
+
+        private void AboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show(null,"ETWPM2Monitor v1.2 [test version]\nCode Published by Damon Mohammadbagher , Jul 2021", "About ETWPM2Monitor",MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        public void InjectionMemoryInfoDetails_torichtectbox(string etwEvtMessage, string _EventMessageRecordId)
+        {
+
+            try
+            {
+                string EventMessage = etwEvtMessage;
+                string EventMessageRecordId = _EventMessageRecordId;
+               
+                UInt64 i32StartAddress = Convert.ToUInt64(EventMessage.Substring(EventMessage.IndexOf("::") + 2).Split(':')[0]);
+                Int64 TID = Convert.ToInt64(EventMessage.Substring(EventMessage.IndexOf("::") - 8).Split(')', ':')[1]);
+                Int32 prc = Convert.ToInt32(EventMessage.Substring(EventMessage.IndexOf("PID: (") + 6).Split(')')[0]);
+
+                buf = new byte[200];
+                IntPtr prch = System.Diagnostics.Process.GetProcessById(prc).Handle;
+                string XStartAddress = Memoryinfo._Return_Threads_StartAddress((ulong)TID);
+                bool MemoryBytes = Memoryinfo.ReadProcessMemory(prch, (UIntPtr)Convert.ToUInt64(i32StartAddress), buf, buf.Length, IntPtr.Zero);
+                richTextBox1.Text += EventMessage + "\n\nEventID: " + "2" + "\nEventRecord_ID: " + EventMessageRecordId  +"\n\n[Remote-Thread-Injection Memory Information]\n\tTID: " + TID.ToString() + "\n\tTID StartAddress: " +
+                XStartAddress.ToString() + "\n\tTID Win32StartAddress: " + i32StartAddress.ToString() + "\n\tTarget_Process PID: " + prc.ToString() +
+                "\n\nInjected Memory Bytes: " + BitConverter.ToString(buf).ToString() + "\n_____________________\n";
+
+
+            }
+            catch (Exception ohwoOwwtfk)
+            {
+                richTextBox1.Text += etwEvtMessage + "\n\nEventID: " + "2" + "\n";
+
+                richTextBox1.Text += "EventID: 2, Read Target_Process Memory via API::ReadProcessMemory [ERROR] => " + ohwoOwwtfk.Message + "\n[Remote-Thread-Injection Memory Information]\n_____________________________error______________________________\n";
+            }
+        }
+
+        public static class Memoryinfo
+        {
+            public enum ThreadAccess : int
+            {
+                Terminate = 0x0001,
+                SuspendResume = 0x0002,
+                GetContext = 0x0008,
+                SetContext = 0x0010,
+                SetInformation = 0x0020,
+                QueryInformation = 0x0040,
+                SetThreadToken = 0x0080,
+                Impersonate = 0x0100,
+                DirectImpersonation = 0x0200
+            }
+            public enum ThreadInfoClass : int
+            {
+                ThreadQuerySetWin32StartAddress = 9
+            }
+
+
+            [DllImport("kernel32.dll", SetLastError = true)]
+            public static extern bool ReadProcessMemory(IntPtr hProcess, UIntPtr lpBaseAddress, [Out] byte[] lpBuffer, int dwSize, IntPtr lpNumberOfBytesRead);
+
+            [DllImport("kernel32.dll", SetLastError = true)]
+            static extern bool CloseHandle(UIntPtr hObject);
+
+            [DllImport("kernel32.dll", SetLastError = true)]
+            static extern UIntPtr OpenThread(ThreadAccess dwDesiredAccess, bool bInheritHandle, ulong dwThreadId);
+
+            [return: MarshalAs(UnmanagedType.Bool)]
+            [DllImport("kernel32.dll")]
+            private static extern bool SetProcessWorkingSetSize(IntPtr process, UIntPtr minimumWorkingSetSize, UIntPtr maximumWorkingSetSize);
+            [DllImport("ntdll.dll", SetLastError = true)]
+            public static extern int NtQueryInformationThread(UIntPtr threadHandle, ThreadInfoClass threadInformationClass, IntPtr threadInformation, int threadInformationLength, IntPtr returnLengthPtr);
+            public static string _Return_Threads_StartAddress(ulong tid)
+            {
+                return (string.Format("{0:X16}", (ulong)GetThreadStartAddress(tid)));
+            }
+            public static IntPtr GetThreadStartAddress(ulong threadId)
+            {
+                var hThread = OpenThread(ThreadAccess.QueryInformation, false, threadId);
+                var buf = Marshal.AllocHGlobal(IntPtr.Size);
+
+                try
+                {
+                    var result = NtQueryInformationThread(hThread, ThreadInfoClass.ThreadQuerySetWin32StartAddress, buf, IntPtr.Size, IntPtr.Zero);
+                    return Marshal.ReadIntPtr(buf);
+                }
+                finally
+                {
+                    CloseHandle(hThread);
+                    Marshal.FreeHGlobal(buf);
+                    GC.Collect(GC.MaxGeneration);
+                    GC.WaitForPendingFinalizers();
+                    SetProcessWorkingSetSize(Process.GetCurrentProcess().Handle, (UIntPtr)0xFFFFFFFF, (UIntPtr)0xFFFFFFFF);
+                }
+            }
         }
     }
 }
