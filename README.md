@@ -28,7 +28,7 @@ Video [3], [Video-3 of Chapter15-Part2]: (video is about C# + ETW vs Process Hol
 
 -----------------------------------------------------------    
 ### ETWPM2Monitor.exe
-"ETWPM2Monitor" v1.1 is simple C# code [test version] for Realtime Event Log Monitor, but this code only will work with logname "ETWPM2" which made by "ETWProcessMon2.exe".
+"ETWPM2Monitor" v1.2 is simple C# code [test version] for Realtime Event Log Monitor, but this code only will work with logname "ETWPM2" which made by "ETWProcessMon2.exe".
 with this Application you can watch [Realtime ETW Events] with "EventIDs 1,2 & 3" which made by "ETWProcessMon2"
     
     [Information] Event ID 1  => NewProcess event 
