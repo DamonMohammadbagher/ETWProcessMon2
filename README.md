@@ -15,7 +15,7 @@ ETW Events in event log [ETWPM2]:
     [Information] Event ID 3  => TCPIP Send event
 
 
-### Build Project Note: you should install this nuget in your project for ETWProcessMon2: 
+### Build Project Note: you should install this nuget in your project for ETWProcessMon2
             
     PM> Install-Package Microsoft.Diagnostics.Tracing.TraceEvent -Version 2.0.69            
     or
