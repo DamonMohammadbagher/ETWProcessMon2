@@ -15,5 +15,5 @@ if you have this error for Build this project you need to do these steps :
 if you have this error for Build+Run this project you need to do these steps :
 
     1.Open the Project & Build this project with (Solution Configurations: Debug)
-    2.After build Succeeded, Directly Run ETWPM2Monitor.exe without using VS.NET Play button  ¯\_(ツ)_/¯ 
+    2.After build Succeeded, Directly Run ETWPM2Monitor.exe without using VS.NET Play button  ¯\_(ツ)_/¯ (i will fix this)
     Note: First you need to run ETWProcessMon2.exe THEN you should run this ETWPM2Monitor.exe 
