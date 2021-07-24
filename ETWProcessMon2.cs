@@ -428,10 +428,15 @@ namespace ETWProcessMon2
 
                     foreach (var item in obj.PayloadNames)
                     {
-                        if (item.Contains("Parent") || item.Contains("Win")) 
+                        if (item.Contains("Parent") || item.Contains("Win"))
                         {
                             Console.WriteLine("[inj] [" + item + ": " + obj.PayloadValue(_v5).ToString() + "]");
-                            tempETWdetails += ":" + obj.PayloadValue(_v5).ToString();
+
+                            if (item.Contains("Win"))
+                                tempETWdetails += ":" + obj.PayloadStringByName("Win32StartAddr", null).ToString();
+
+                            if (item.Contains("Parent"))
+                                tempETWdetails += ":" + obj.PayloadValue(_v5).ToString();
 
                         }
                         _v5++;
