@@ -76,7 +76,6 @@ namespace ETWPM2Monitor
                 listView1.FullRowSelect = true;
                 /// Display grid lines.
                 listView1.GridLines = false;
-                /// Sort the items in the list in ascending order.
                 
                 t.Elapsed += T_Elapsed;
                 t.Enabled = true;
@@ -94,45 +93,47 @@ namespace ETWPM2Monitor
 
         private async void T_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
-            await Task.Factory.StartNew(() =>
+            //await Task.Factory.StartNew(() =>
+            //{
+            //  });
+
+            try
             {
-                try
+                if (i6 != listView1.Items.Count - 1)
                 {
-                    if (i6 != listView1.Items.Count - 1)
+                    try
                     {
-                        try
-                        {
-                            listView1.FocusedItem = listView1.Items[listView1.Items.Count - 1];
-                            listView1.BeginInvoke((MethodInvoker)delegate { listView1.FocusedItem.EnsureVisible(); });
-                            i6 = listView1.Items.Count - 1;
-                        }
-                        catch (Exception)
-                        {
+                        listView1.FocusedItem = listView1.Items[listView1.Items.Count - 1];
+                        listView1.BeginInvoke((MethodInvoker)delegate { listView1.FocusedItem.EnsureVisible(); });
+                        i6 = listView1.Items.Count - 1;
+                    }
+                    catch (Exception)
+                    {
 
 
-                        }
                     }
                 }
-                catch (Exception)
-                {
+            }
+            catch (Exception)
+            {
 
 
-                }
-            });
+            }
+          
         }
 
-        public async void IlistItemAdd(ListViewItem i)
-        {
+        //public async void IlistItemAdd(ListViewItem i)
+        //{
 
-            await Task.Factory.StartNew(() =>
-              {
-                  listView1.BeginUpdate();
-                  listView1.Items.Add(i);
-                  listView1.EndUpdate();
-                  listView1.Update();
-                  Thread.Sleep(1000);
-              });
-        }
+        //   await  Task.Factory.StartNew(() =>
+        //      {
+        //          listView1.BeginUpdate();
+        //          listView1.Items.Add(i);
+        //          listView1.EndUpdate();
+        //          listView1.Update();
+        //          Thread.Sleep(1000);
+        //      });
+        //}
 
         public void Watcher_EventRecordWritten(object sender, EventRecordWrittenEventArgs e)
         {
@@ -176,9 +177,17 @@ namespace ETWPM2Monitor
                         iList.SubItems.Add(e.EventRecord.Id.ToString());
                         iList.SubItems.Add(e.EventRecord.FormatDescription());
                         iList.ImageIndex = 0;
+                        Task.Factory.StartNew(() =>
+                        {
+                            listView1.BeginUpdate();
+                            listView1.Items.Add(iList);
+                            listView1.EndUpdate();
+                            listView1.Update();
+                            Thread.Sleep(1000);
+                        });
+                        // DelegateIteamAdd __DelegateMethod = new DelegateIteamAdd(IlistItemAdd);
 
-                        DelegateIteamAdd __DelegateMethod = new DelegateIteamAdd(IlistItemAdd);
-                        BeginInvoke(__DelegateMethod, iList);
+                        // BeginInvoke(__DelegateMethod, iList);
                         Thread.Sleep(500);
 
                     }
@@ -194,9 +203,16 @@ namespace ETWPM2Monitor
                         iList.SubItems.Add(e.EventRecord.Id.ToString());
                         iList.SubItems.Add(e.EventRecord.FormatDescription());
                         iList.ImageIndex = 1;
-
-                        DelegateIteamAdd __DelegateMethod = new DelegateIteamAdd(IlistItemAdd);
-                        BeginInvoke(__DelegateMethod, iList);
+                        Task.Factory.StartNew(() =>
+                        {
+                            listView1.BeginUpdate();
+                            listView1.Items.Add(iList);
+                            listView1.EndUpdate();
+                            listView1.Update();
+                            Thread.Sleep(1000);
+                        });
+                       // DelegateIteamAdd __DelegateMethod = new DelegateIteamAdd(IlistItemAdd);
+                      //  BeginInvoke(__DelegateMethod, iList);
                         Thread.Sleep(500);
 
                     }
@@ -212,10 +228,17 @@ namespace ETWPM2Monitor
                         iList.SubItems.Add(e.EventRecord.Id.ToString());
                         iList.SubItems.Add(e.EventRecord.FormatDescription());
                         iList.ImageIndex = 0;
-
-                        DelegateIteamAdd __DelegateMethod = new DelegateIteamAdd(IlistItemAdd);
-                        BeginInvoke(__DelegateMethod, iList);
-
+                        Task.Factory.StartNew(() =>
+                        {
+                            listView1.BeginUpdate();
+                            listView1.Items.Add(iList);
+                            listView1.EndUpdate();
+                            listView1.Update();
+                            Thread.Sleep(1000);
+                        });
+                        // DelegateIteamAdd __DelegateMethod = new DelegateIteamAdd(IlistItemAdd);
+                        // BeginInvoke(__DelegateMethod, iList);
+                        Thread.Sleep(500);
                     }
                 }
             }
@@ -391,14 +414,14 @@ namespace ETWPM2Monitor
                 EventMessage = listviewitems_wasselected_ihope.SubItems[3].Text;
                 string EventMessageRecordId = listviewitems_wasselected_ihope.Name;
                 if (listviewitems_wasselected_ihope.SubItems[2].Text == "2") {
-                    UInt64 i32StartAddress = Convert.ToUInt64(EventMessage.Substring(EventMessage.IndexOf("::") + 2).Split(':')[0]);
+                    ulong i32StartAddress = Convert.ToUInt64(EventMessage.Substring(EventMessage.IndexOf("::") + 2).Split(':')[0].Substring(2), 16);
                     Int64 TID = Convert.ToInt64(EventMessage.Substring(EventMessage.IndexOf("::") - 8).Split(')', ':')[1]);
                     Int32 prc = Convert.ToInt32(EventMessage.Substring(EventMessage.IndexOf("PID: (") + 6).Split(')')[0]);
                    
                     buf = new byte[90];
                     IntPtr prch = System.Diagnostics.Process.GetProcessById(prc).Handle;
-                    string XStartAddress = Memoryinfo._Return_Threads_StartAddress((ulong)TID);
-                    bool MemoryBytes = Memoryinfo.ReadProcessMemory(prch, (UIntPtr)Convert.ToUInt64(i32StartAddress), buf, buf.Length, IntPtr.Zero);
+                    string XStartAddress = EventMessage.Substring(EventMessage.IndexOf("::") + 2).Split(':')[0];
+                    bool MemoryBytes = Memoryinfo.ReadProcessMemory(prch, (UIntPtr)i32StartAddress, buf, buf.Length, IntPtr.Zero);
                     MessageBox.Show(EventMessage + "\n\n______________________________________________________________\n[Injected Thread Memory info]\nRemote-Thread-Injection Memory Information:\nTID: " + TID.ToString() + "\nTID StartAddress: " +
                     XStartAddress.ToString() + "\nTID Win32StartAddress: " + i32StartAddress.ToString() + "\nTarget_Process PID: " + prc.ToString() +
                     "\n\nInjected Memory Bytes: " + BitConverter.ToString(buf).ToString()
@@ -426,14 +449,16 @@ namespace ETWPM2Monitor
                 string EventMessageRecordId = listviewitems_wasselected_ihope.Name;
                 if (listviewitems_wasselected_ihope.SubItems[2].Text == "2")
                 {
-                    UInt64 i32StartAddress = Convert.ToUInt64(EventMessage.Substring(EventMessage.IndexOf("::") + 2).Split(':')[0]);
+                    ulong i32StartAddress = Convert.ToUInt64(EventMessage.Substring(EventMessage.IndexOf("::") + 2).Split(':')[0].Substring(2), 16);
+
                     Int64 TID = Convert.ToInt64(EventMessage.Substring(EventMessage.IndexOf("::") - 8).Split(')', ':')[1]);
                     Int32 prc = Convert.ToInt32(EventMessage.Substring(EventMessage.IndexOf("PID: (") + 6).Split(')')[0]);
 
                     buf = new byte[90];
                     IntPtr prch = System.Diagnostics.Process.GetProcessById(prc).Handle;
-                    string XStartAddress = Memoryinfo._Return_Threads_StartAddress((ulong)TID);
-                    bool MemoryBytes = Memoryinfo.ReadProcessMemory(prch, (UIntPtr)Convert.ToUInt64(i32StartAddress), buf, buf.Length, IntPtr.Zero);
+                    string XStartAddress = EventMessage.Substring(EventMessage.IndexOf("::") + 2).Split(':')[0];
+                    bool MemoryBytes = Memoryinfo.ReadProcessMemory(prch, (UIntPtr)i32StartAddress, buf, buf.Length, IntPtr.Zero);
+
                     MessageBox.Show(EventMessage + "\n\n______________________________________________________________\n[Injected Thread Memory info]\nRemote-Thread-Injection Memory Information:\nTID: " + TID.ToString() + "\nTID StartAddress: " +
                     XStartAddress.ToString() + "\nTID Win32StartAddress: " + i32StartAddress.ToString() + "\nTarget_Process PID: " + prc.ToString() +
                     "\n\nInjected Memory Bytes: " + BitConverter.ToString(buf).ToString()
@@ -505,7 +530,7 @@ namespace ETWPM2Monitor
 
         private void AboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(null,"ETWPM2Monitor v1.2 [test version]\nCode Published by Damon Mohammadbagher , Jul 2021", "About ETWPM2Monitor",MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show(null,"ETWPM2Monitor v1.2 [test version 1.2.0.15]\nCode Published by Damon Mohammadbagher , Jul 2021", "About ETWPM2Monitor",MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         public void InjectionMemoryInfoDetails_torichtectbox(string etwEvtMessage, string _EventMessageRecordId)
@@ -515,18 +540,16 @@ namespace ETWPM2Monitor
             {
                 string EventMessage = etwEvtMessage;
                 string EventMessageRecordId = _EventMessageRecordId;
-               
-                UInt64 i32StartAddress = Convert.ToUInt64(EventMessage.Substring(EventMessage.IndexOf("::") + 2).Split(':')[0]);
+                ulong i32StartAddress = Convert.ToUInt64(EventMessage.Substring(EventMessage.IndexOf("::") + 2).Split(':')[0].Substring(2), 16);
                 Int64 TID = Convert.ToInt64(EventMessage.Substring(EventMessage.IndexOf("::") - 8).Split(')', ':')[1]);
                 Int32 prc = Convert.ToInt32(EventMessage.Substring(EventMessage.IndexOf("PID: (") + 6).Split(')')[0]);
-
-                buf = new byte[200];
+                buf = new byte[208];
                 IntPtr prch = System.Diagnostics.Process.GetProcessById(prc).Handle;
-                string XStartAddress = Memoryinfo._Return_Threads_StartAddress((ulong)TID);
-                bool MemoryBytes = Memoryinfo.ReadProcessMemory(prch, (UIntPtr)Convert.ToUInt64(i32StartAddress), buf, buf.Length, IntPtr.Zero);
+                string XStartAddress = EventMessage.Substring(EventMessage.IndexOf("::") + 2).Split(':')[0];
+                bool MemoryBytes = Memoryinfo.ReadProcessMemory(prch,(UIntPtr)i32StartAddress, buf, buf.Length, IntPtr.Zero);
                 richTextBox1.Text += EventMessage + "\n\nEventID: " + "2" + "\nEventRecord_ID: " + EventMessageRecordId  +"\n\n[Remote-Thread-Injection Memory Information]\n\tTID: " + TID.ToString() + "\n\tTID StartAddress: " +
                 XStartAddress.ToString() + "\n\tTID Win32StartAddress: " + i32StartAddress.ToString() + "\n\tTarget_Process PID: " + prc.ToString() +
-                "\n\nInjected Memory Bytes: " + BitConverter.ToString(buf).ToString() + "\n_____________________\n";
+                "\n\nInjected Memory Bytes: " + BitConverter.ToString(buf).ToString() +"\n\n"+ Memoryinfo.HexDump(buf) + "\n_____________________\n";
 
 
             }
@@ -540,23 +563,72 @@ namespace ETWPM2Monitor
 
         public static class Memoryinfo
         {
-            public enum ThreadAccess : int
+            public static string HexDump(byte[] bytes, int bytesPerLine = 16)
             {
-                Terminate = 0x0001,
-                SuspendResume = 0x0002,
-                GetContext = 0x0008,
-                SetContext = 0x0010,
-                SetInformation = 0x0020,
-                QueryInformation = 0x0040,
-                SetThreadToken = 0x0080,
-                Impersonate = 0x0100,
-                DirectImpersonation = 0x0200
-            }
-            public enum ThreadInfoClass : int
-            {
-                ThreadQuerySetWin32StartAddress = 9
-            }
+                /// hexdump output ... 
+                ///00000000   48 83 EC 28 E8 2B FF FF  FF 48 83 C4 28 EB 15 90   Hì(è+ÿÿÿHÄ(ë·
+                ///00000010   90 90 90 90 90 90 90 90  90 90 90 90 90 90 90 90   
+                ///00000020   90 90 90 90 48 8B C4 48  89 58 08 48 89 78 10 4C   HÄHX·Hx·L
 
+                if (bytes == null) return "<null>";
+                int bytesLength = bytes.Length;
+
+                char[] HexChars = "0123456789ABCDEF".ToCharArray();
+
+                int firstHexColumn =
+                      8                   // 8 characters for the address
+                    + 3;                  // 3 spaces
+
+                int firstCharColumn = firstHexColumn
+                    + bytesPerLine * 3       // - 2 digit for the hexadecimal value and 1 space
+                    + (bytesPerLine - 1) / 8 // - 1 extra space every 8 characters from the 9th
+                    + 2;                  // 2 spaces 
+
+                int lineLength = firstCharColumn
+                    + bytesPerLine           // - characters to show the ascii value
+                    + Environment.NewLine.Length; // Carriage return and line feed (should normally be 2)
+
+                char[] line = (new String(' ', lineLength - Environment.NewLine.Length) + Environment.NewLine).ToCharArray();
+                int expectedLines = (bytesLength + bytesPerLine - 1) / bytesPerLine;
+                StringBuilder result = new StringBuilder(expectedLines * lineLength);
+
+                for (int i = 0; i < bytesLength; i += bytesPerLine)
+                {
+                    line[0] = HexChars[(i >> 28) & 0xF];
+                    line[1] = HexChars[(i >> 24) & 0xF];
+                    line[2] = HexChars[(i >> 20) & 0xF];
+                    line[3] = HexChars[(i >> 16) & 0xF];
+                    line[4] = HexChars[(i >> 12) & 0xF];
+                    line[5] = HexChars[(i >> 8) & 0xF];
+                    line[6] = HexChars[(i >> 4) & 0xF];
+                    line[7] = HexChars[(i >> 0) & 0xF];
+
+                    int hexColumn = firstHexColumn;
+                    int charColumn = firstCharColumn;
+
+                    for (int j = 0; j < bytesPerLine; j++)
+                    {
+                        if (j > 0 && (j & 7) == 0) hexColumn++;
+                        if (i + j >= bytesLength)
+                        {
+                            line[hexColumn] = ' ';
+                            line[hexColumn + 1] = ' ';
+                            line[charColumn] = ' ';
+                        }
+                        else
+                        {
+                            byte b = bytes[i + j];
+                            line[hexColumn] = HexChars[(b >> 4) & 0xF];
+                            line[hexColumn + 1] = HexChars[b & 0xF];
+                            line[charColumn] = (b < 32 ? '·' : (char)b);
+                        }
+                        hexColumn += 3;
+                        charColumn++;
+                    }
+                    result.Append(line);
+                }
+                return result.ToString();
+            }
 
             [DllImport("kernel32.dll", SetLastError = true)]
             public static extern bool ReadProcessMemory(IntPtr hProcess, UIntPtr lpBaseAddress, [Out] byte[] lpBuffer, int dwSize, IntPtr lpNumberOfBytesRead);
@@ -564,37 +636,66 @@ namespace ETWPM2Monitor
             [DllImport("kernel32.dll", SetLastError = true)]
             static extern bool CloseHandle(UIntPtr hObject);
 
-            [DllImport("kernel32.dll", SetLastError = true)]
-            static extern UIntPtr OpenThread(ThreadAccess dwDesiredAccess, bool bInheritHandle, ulong dwThreadId);
+            //public enum ThreadAccess : int
+            //{
+            //    Terminate = 0x0001,
+            //    SuspendResume = 0x0002,
+            //    GetContext = 0x0008,
+            //    SetContext = 0x0010,
+            //    SetInformation = 0x0020,
+            //    QueryInformation = 0x0040,
+            //    SetThreadToken = 0x0080,
+            //    Impersonate = 0x0100,
+            //    DirectImpersonation = 0x0200
+            //}
+            //public enum ThreadInfoClass : int
+            //{
+            //    ThreadQuerySetWin32StartAddress = 9
+            //}
 
-            [return: MarshalAs(UnmanagedType.Bool)]
-            [DllImport("kernel32.dll")]
-            private static extern bool SetProcessWorkingSetSize(IntPtr process, UIntPtr minimumWorkingSetSize, UIntPtr maximumWorkingSetSize);
-            [DllImport("ntdll.dll", SetLastError = true)]
-            public static extern int NtQueryInformationThread(UIntPtr threadHandle, ThreadInfoClass threadInformationClass, IntPtr threadInformation, int threadInformationLength, IntPtr returnLengthPtr);
-            public static string _Return_Threads_StartAddress(ulong tid)
-            {
-                return (string.Format("{0:X16}", (ulong)GetThreadStartAddress(tid)));
-            }
-            public static IntPtr GetThreadStartAddress(ulong threadId)
-            {
-                var hThread = OpenThread(ThreadAccess.QueryInformation, false, threadId);
-                var buf = Marshal.AllocHGlobal(IntPtr.Size);
+            /// ==============================================
+            /// some cross threads error was for here ;) , fixed
+            /// startAddress value now Directly comes from ETW events without using Native APIs (XStartAddress, i32StartAddress)
+            /// ==============================================
 
-                try
-                {
-                    var result = NtQueryInformationThread(hThread, ThreadInfoClass.ThreadQuerySetWin32StartAddress, buf, IntPtr.Size, IntPtr.Zero);
-                    return Marshal.ReadIntPtr(buf);
-                }
-                finally
-                {
-                    CloseHandle(hThread);
-                    Marshal.FreeHGlobal(buf);
-                    GC.Collect(GC.MaxGeneration);
-                    GC.WaitForPendingFinalizers();
-                    SetProcessWorkingSetSize(Process.GetCurrentProcess().Handle, (UIntPtr)0xFFFFFFFF, (UIntPtr)0xFFFFFFFF);
-                }
-            }
+            //[DllImport("kernel32.dll", SetLastError = true)]
+            //static extern UIntPtr OpenThread(ThreadAccess dwDesiredAccess, bool bInheritHandle, ulong dwThreadId);
+
+            //[return: MarshalAs(UnmanagedType.Bool)]
+            //[DllImport("kernel32.dll")]
+            //private static extern bool SetProcessWorkingSetSize(IntPtr process, UIntPtr minimumWorkingSetSize, UIntPtr maximumWorkingSetSize);
+            //[DllImport("ntdll.dll", SetLastError = true)]
+            //public static extern int NtQueryInformationThread(UIntPtr threadHandle, ThreadInfoClass threadInformationClass, IntPtr threadInformation, int threadInformationLength, IntPtr returnLengthPtr);
+
+            //public static string _Return_Threads_StartAddress(ulong tid)
+            //{
+            //    return (string.Format("{0:X16}", (ulong)GetThreadStartAddress(tid)));
+            //}
+
+            //public static IntPtr GetThreadStartAddress(ulong threadId)
+            //{
+            //    //var hThread = OpenThread(ThreadAccess.QueryInformation, false, threadId);
+            //    //var buf = Marshal.AllocHGlobal(IntPtr.Size);
+            //    UIntPtr hThread = UIntPtr.Zero;
+            //    IntPtr buf = IntPtr.Zero;
+            //    try
+            //    {
+
+            //            hThread = OpenThread(ThreadAccess.QueryInformation, false, threadId);
+            //            buf = Marshal.AllocHGlobal(IntPtr.Size);
+            //            var result = NtQueryInformationThread(hThread, ThreadInfoClass.ThreadQuerySetWin32StartAddress, buf, IntPtr.Size, IntPtr.Zero);
+            //            return Marshal.ReadIntPtr(buf);
+
+            //    }
+            //    finally
+            //    {
+            //        CloseHandle(hThread);
+            //        Marshal.FreeHGlobal(buf);
+            //        GC.Collect(GC.MaxGeneration);
+            //        GC.WaitForPendingFinalizers();
+            //        SetProcessWorkingSetSize(Process.GetCurrentProcess().Handle, (UIntPtr)0xFFFFFFFF, (UIntPtr)0xFFFFFFFF);
+            //    }
+            //}
         }
     }
 }
