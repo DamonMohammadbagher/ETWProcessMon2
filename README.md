@@ -67,10 +67,17 @@ Video link2: https://share.vidyard.com/watch/PjBybo5BNHbfCXazoLmN6f
     step1: [win, Run As Admin] ETWProcessMon2.exe > Save_all_outputs.txt
     step2: [win] ETWPM2Monitor.exe    
 
+### ETWPM2Monitor v1.1
+
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/Pics/ETWPM2Monitor0.png)
    
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/Pics/ETWPM2Monitor1.png)
 
+### ETWPM2Monitor v1.2
+
+   ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/Pics/v12-0.png)
+
+   ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/Pics/v12-1.png)
 
 
 -----------------------------------------------------------    
