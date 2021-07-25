@@ -83,6 +83,8 @@ namespace ETWPM2Monitor
                 listView1.Columns.Add(" ", 20, HorizontalAlignment.Left);
                 listView1.Columns.Add("Time", 130, HorizontalAlignment.Left);
                 listView1.Columns.Add("EventID", 55, HorizontalAlignment.Left);
+                listView1.Columns.Add("Process", 100, HorizontalAlignment.Left);
+                listView1.Columns.Add("Evt-Type", 55, HorizontalAlignment.Left);
                 listView1.Columns.Add("EventMessage", 1500, HorizontalAlignment.Left);
             }
             catch (EventLogReadingException err)
@@ -175,6 +177,8 @@ namespace ETWPM2Monitor
                         iList.Name = e.EventRecord.RecordId.ToString();
                         iList.SubItems.Add(e.EventRecord.TimeCreated.ToString());
                         iList.SubItems.Add(e.EventRecord.Id.ToString());
+                        iList.SubItems.Add(e.EventRecord.FormatDescription().Substring(e.EventRecord.FormatDescription().IndexOf("ProcessName = ") + 14).Split('[')[0]);
+                        iList.SubItems.Add("[NEW]");
                         iList.SubItems.Add(e.EventRecord.FormatDescription());
                         iList.ImageIndex = 0;
                         Task.Factory.StartNew(() =>
@@ -183,7 +187,7 @@ namespace ETWPM2Monitor
                             listView1.Items.Add(iList);
                             listView1.EndUpdate();
                             listView1.Update();
-                            Thread.Sleep(1000);
+                            Thread.Sleep(500);
                         });
                         // DelegateIteamAdd __DelegateMethod = new DelegateIteamAdd(IlistItemAdd);
 
@@ -201,6 +205,8 @@ namespace ETWPM2Monitor
                         iList.Name = e.EventRecord.RecordId.ToString();
                         iList.SubItems.Add(e.EventRecord.TimeCreated.ToString());
                         iList.SubItems.Add(e.EventRecord.Id.ToString());
+                        iList.SubItems.Add(e.EventRecord.FormatDescription().Substring(e.EventRecord.FormatDescription().IndexOf(":")).Split(' ')[1]);
+                        iList.SubItems.Add("[INJ]");
                         iList.SubItems.Add(e.EventRecord.FormatDescription());
                         iList.ImageIndex = 1;
                         Task.Factory.StartNew(() =>
@@ -209,7 +215,7 @@ namespace ETWPM2Monitor
                             listView1.Items.Add(iList);
                             listView1.EndUpdate();
                             listView1.Update();
-                            Thread.Sleep(1000);
+                            Thread.Sleep(500);
                         });
                        // DelegateIteamAdd __DelegateMethod = new DelegateIteamAdd(IlistItemAdd);
                       //  BeginInvoke(__DelegateMethod, iList);
@@ -226,6 +232,9 @@ namespace ETWPM2Monitor
                         iList.Name = e.EventRecord.RecordId.ToString();
                         iList.SubItems.Add(e.EventRecord.TimeCreated.ToString());
                         iList.SubItems.Add(e.EventRecord.Id.ToString());
+                        iList.SubItems.Add(e.EventRecord.FormatDescription().Substring(e.EventRecord.FormatDescription().IndexOf(":")).Split(' ')[1]);
+                        iList.SubItems.Add("[TCP]");
+
                         iList.SubItems.Add(e.EventRecord.FormatDescription());
                         iList.ImageIndex = 0;
                         Task.Factory.StartNew(() =>
@@ -234,7 +243,7 @@ namespace ETWPM2Monitor
                             listView1.Items.Add(iList);
                             listView1.EndUpdate();
                             listView1.Update();
-                            Thread.Sleep(1000);
+                            Thread.Sleep(500);
                         });
                         // DelegateIteamAdd __DelegateMethod = new DelegateIteamAdd(IlistItemAdd);
                         // BeginInvoke(__DelegateMethod, iList);
@@ -411,9 +420,10 @@ namespace ETWPM2Monitor
             try
             {
                 ListViewItem listviewitems_wasselected_ihope = listView1.SelectedItems[0];
-                EventMessage = listviewitems_wasselected_ihope.SubItems[3].Text;
+                EventMessage = listviewitems_wasselected_ihope.SubItems[5].Text;
                 string EventMessageRecordId = listviewitems_wasselected_ihope.Name;
-                if (listviewitems_wasselected_ihope.SubItems[2].Text == "2") {
+                if (listviewitems_wasselected_ihope.SubItems[2].Text == "2")
+                {
                     ulong i32StartAddress = Convert.ToUInt64(EventMessage.Substring(EventMessage.IndexOf("::") + 2).Split(':')[0].Substring(2), 16);
                     Int64 TID = Convert.ToInt64(EventMessage.Substring(EventMessage.IndexOf("::") - 8).Split(')', ':')[1]);
                     Int32 prc = Convert.ToInt32(EventMessage.Substring(EventMessage.IndexOf("PID: (") + 6).Split(')')[0]);
@@ -445,7 +455,7 @@ namespace ETWPM2Monitor
             try
             {
                 ListViewItem listviewitems_wasselected_ihope = listView1.SelectedItems[0];
-                EventMessage = listviewitems_wasselected_ihope.SubItems[3].Text;
+                EventMessage = listviewitems_wasselected_ihope.SubItems[5].Text;
                 string EventMessageRecordId = listviewitems_wasselected_ihope.Name;
                 if (listviewitems_wasselected_ihope.SubItems[2].Text == "2")
                 {
@@ -482,7 +492,7 @@ namespace ETWPM2Monitor
             try
             {
                 ListViewItem listviewitems_wasselected_ihope = listView1.SelectedItems[0];
-                EventMessage = listviewitems_wasselected_ihope.SubItems[3].Text;
+                EventMessage = listviewitems_wasselected_ihope.SubItems[5].Text;
                 string EventMessageRecordId = listviewitems_wasselected_ihope.Name;
                 if (listviewitems_wasselected_ihope.SubItems[2].Text == "2")
                 {
@@ -509,7 +519,7 @@ namespace ETWPM2Monitor
 
 
                 ListViewItem listviewitems_wasselected_ihope = listView1.SelectedItems[0];
-                EventMessage = listviewitems_wasselected_ihope.SubItems[3].Text;
+                EventMessage = listviewitems_wasselected_ihope.SubItems[5].Text;
                 string EventMessageRecordId = listviewitems_wasselected_ihope.Name;
                 if (listviewitems_wasselected_ihope.SubItems[2].Text == "2")
                 {
@@ -530,7 +540,7 @@ namespace ETWPM2Monitor
 
         private void AboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(null,"ETWPM2Monitor v1.2 [test version 1.2.0.15]\nCode Published by Damon Mohammadbagher , Jul 2021", "About ETWPM2Monitor",MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show(null,"ETWPM2Monitor v1.2 [test version 1.2.10.18]\nCode Published by Damon Mohammadbagher , Jul 2021", "About ETWPM2Monitor",MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         public void InjectionMemoryInfoDetails_torichtectbox(string etwEvtMessage, string _EventMessageRecordId)
