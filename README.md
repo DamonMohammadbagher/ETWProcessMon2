@@ -34,8 +34,9 @@ Video [3], [Video-3 of Chapter15-Part2]: (video is about C# + ETW vs Process Hol
 
 -----------------------------------------------------------    
 ### ETWPM2Monitor.exe
-"ETWPM2Monitor" v1.2 is simple C# code [test version 1.2.10.18] for Realtime Event Log Monitor, but this code only will work with logname "ETWPM2" which made by "ETWProcessMon2.exe".
-with this Application you can watch [Realtime ETW Events] with "EventIDs 1,2 & 3" which made by "ETWProcessMon2"
+"ETWPM2Monitor" v1.2 is simple C# code [test version 1.2.10.18] for Realtime Event Log Monitor, but this code only will work with logname "ETWPM2" which made by "ETWProcessMon2.exe", so you need run as Admin "ETWProcessMon2.exe" (step1) before use "ETWPM2Monitor.exe" (step2) for monitor windows event logs which made by "ETWProcessMon2exe".
+
+with this Application you can watch [Realtime ETW Events] with "EventIDs 1,2 & 3" which made by "ETWProcessMon2.exe"
     
     [Information] Event ID 1  => NewProcess event 
     [Warning]     Event ID 2  => Remote-Thread-Injection Detection event 
@@ -75,10 +76,19 @@ Video link2: https://share.vidyard.com/watch/PjBybo5BNHbfCXazoLmN6f
 
 ### ETWPM2Monitor v1.2 [test version 1.2.10.18]
 
+   1.ETWPM2Monitor v1.2 & Remote-Thread-Injection (classic)
+   
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/Pics/v12-0.png)
 
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/Pics/v12-1.png)
+   
+   2.ETWPM2Monitor v1.2 & Process Hollowing (C#)
+   
+   ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/Pics/v2_ProcessHollowing3.jpeg)
 
+   ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/Pics/v2_ProcessHollowing2.jpeg)
+
+   ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/Pics/v2_ProcessHollowing1.jpeg)
 
 -----------------------------------------------------------    
 
