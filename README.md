@@ -115,7 +115,7 @@ Video link2: https://share.vidyard.com/watch/PjBybo5BNHbfCXazoLmN6f
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/Pics/V2_2.png)
 
     Note: about Debug info => TID 228 Injected to Notepad:4060 by this process "NativePayload_TId.exe:3972"
-    Note: about Debug info => TID::TIDWin32StartAddress:ParentThreadID:ParentID
+    Note: about Debug info => TID::TIDWin32StartAddress:ParentThreadID:ParentID/Injector
 
 -----------------------------------------------------------   
 ### ETWProcessMon2.exe & Remote-Thread-Injection Detection by event log (ETWPM2 Events)
@@ -124,7 +124,11 @@ Video link2: https://share.vidyard.com/watch/PjBybo5BNHbfCXazoLmN6f
 -----------------------------------------------------------   
 ### ETWProcessMon2.exe & TCPIP Send events by event log (ETWPM2 Events)
 
-   ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/Pics/V2_3.png)
+   ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/Pics/V2_3.png)   
+-----------------------------------------------------------   
+### ETWProcessMon2.exe & VirtualMemAlloc Events in All Processes with "ETWProcessMonlog.txt" (Text log file + VirtualMemAlloc Events)
+Note: you can see in Callback API Function Techniques (CBT) we don't have Remote-Thread-Injection for execute payloads in target process but with VirtualMemAlloc Events made by ETW you can find Meterpreter Payload (Payload Detection) in Target Processes etc.
+   ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/Pics/PH-VirtualMemAlloc-Events.jpeg)
    
    
 <p><a href="https://hits.seeyoufarm.com"><img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https://github.com/DamonMohammadbagher/ETWProcessMon2"/></a></p>
