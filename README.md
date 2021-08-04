@@ -36,7 +36,7 @@ Video [3], [Video-3 of Chapter15-Part2]: (video is about C# + ETW vs Process Hol
 ### ETWPM2Monitor.exe
 "ETWPM2Monitor" v1.2 is simple C# code [test version 1.2.10.18] for Realtime Event Log Monitor, but this code only will work with logname "ETWPM2" which made by "ETWProcessMon2.exe", so you need run as Admin "ETWProcessMon2.exe" (step1) before use "ETWPM2Monitor.exe" (step2) for monitor windows event logs which made by "ETWProcessMon2exe".
 
-Note: i will publish "ETWPM2Monitor v2" code here soon...
+Note: i will publish "ETWPM2Monitor v2" code here soon... [in this version some Memory Scanner added to code like Hollows_Hunter/Pe-sieve & ...]
 
 Video for ETWPM2Monitor (version2) => https://www.linkedin.com/posts/damonmohammadbagher_etwprocessmon2-etwpm2monitor-v2-almost-activity-6828777557819752448-6dbv/
 
