@@ -44,6 +44,12 @@ Link1: https://www.linkedin.com/pulse/etwpm2monitor2-remote-thread-injection-det
 
 Link2: https://damonmohammadbagher.github.io/Posts/12aug2021x.html
 
+Related Video about (VirtualMemAllocMon.exe & ETWProcessMon2.exe) + VirtualMemAlloc ETW Events made by ETWProcessMon2: 
+
+Link1: https://www.linkedin.com/posts/damonmohammadbagher_new-video-etwprocessmon2-virtualmemallocmon-activity-6832801206688112640-yAWG/
+
+Link2: 
+
 Video for ETWPM2Monitor2 (ver 2) => https://www.linkedin.com/posts/damonmohammadbagher_etwprocessmon2-etwpm2monitor-v2-almost-activity-6828777557819752448-6dbv/
 
 with this Application you can watch [Realtime ETW Events] with "EventIDs 1,2 & 3" which made by "ETWProcessMon2.exe"
