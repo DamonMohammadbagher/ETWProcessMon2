@@ -38,7 +38,13 @@ Video [3], [Video-3 of Chapter15-Part2]: (video is about C# + ETW vs Process Hol
 
 Note: i will publish "ETWPM2Monitor v2" code here soon... [in this version some Memory Scanner added to code like Hollows_Hunter/Pe-sieve & ...]
 
-Video for ETWPM2Monitor (version2) => https://www.linkedin.com/posts/damonmohammadbagher_etwprocessmon2-etwpm2monitor-v2-almost-activity-6828777557819752448-6dbv/
+Related Article about (ETWPM2Monitor2.exe & ETWProcessMon2.exe) + VirtualMemAlloc ETW Events made by ETWProcessMon2: 
+
+Link1: https://www.linkedin.com/pulse/etwpm2monitor2-remote-thread-injection-detection-etw-mohammadbagher
+
+Link2: https://damonmohammadbagher.github.io/Posts/12aug2021x.html
+
+Video for ETWPM2Monitor2 (ver 2) => https://www.linkedin.com/posts/damonmohammadbagher_etwprocessmon2-etwpm2monitor-v2-almost-activity-6828777557819752448-6dbv/
 
 with this Application you can watch [Realtime ETW Events] with "EventIDs 1,2 & 3" which made by "ETWProcessMon2.exe"
     
