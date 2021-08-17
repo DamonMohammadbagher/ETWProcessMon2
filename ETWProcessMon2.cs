@@ -14,6 +14,7 @@ namespace ETWProcessMon2
     
     public struct _ProcessInfo<String>
     {
+
         public String PTime { get; set; }
         public String ProcessName { get; set; }
         public String PID { get; set; }
@@ -38,7 +39,7 @@ namespace ETWProcessMon2
         public static bool detected = false;
         public static bool initdotmemoalloc = false;
         public static bool exec_error = false;
-
+        public static bool __found = false;
         public static DateTime _ThreadStartEvent = DateTime.Now;
 
         public static string _FullstrPATH = string.Empty;
@@ -57,11 +58,12 @@ namespace ETWProcessMon2
         public static List<int> detectedPIDs = new List<int>();
         public static StringBuilder _BytesStr;
 
-
         public static System.Threading.Thread Bingo;
         public static Task _t;
-        public static EventLogEntry ETWEntry;
         public static EventLog ETW2MON;
+
+        public static event EventHandler _Event_VirtualMemAlloc_NewThreadInj_into_TxtLogFile;
+        public static event EventHandler _Event_Add_ETWEvent_to_WindowsEventLog_ETWPM2;
 
         public static string PPath(Process Process)
         {
@@ -115,6 +117,7 @@ namespace ETWProcessMon2
         }
         public static void ETWCoreI()
         {
+            //__NewEvent_VirtualMemAlloc += Program___NewEvent_VirtualMemAlloc;
             using (var KS = new TraceEventSession(KernelTraceEventParser.KernelSessionName))
             {
                 Console.CancelKeyPress += delegate (object s, ConsoleCancelEventArgs e) { KS.Dispose(); };
@@ -161,6 +164,9 @@ namespace ETWProcessMon2
             Console.WriteLine("ETWProcessMon tool is simple Monitoring for Processes/Threads/Memory/Network via ETW + C#");
             Console.WriteLine();
 
+            _Event_VirtualMemAlloc_NewThreadInj_into_TxtLogFile += Program__Event_VirtualMemAlloc_NewThreadInj_into_TxtLogFile;
+            _Event_Add_ETWEvent_to_WindowsEventLog_ETWPM2 += Program__Event_Add_ETWEvent_to_WindowsEventLog_ETWPM2;
+
             if (!EventLog.Exists("ETWPM2"))
             {
                 EventSourceCreationData ESCD = new EventSourceCreationData("ETW","ETWPM2");
@@ -180,6 +186,30 @@ namespace ETWProcessMon2
             Bingo.Start();
             GC.GetTotalMemory(true);
         }
+
+        private static void Program__Event_Add_ETWEvent_to_WindowsEventLog_ETWPM2(object sender, EventArgs e)
+        {
+            string _str_obj = sender.ToString();
+
+            if (_str_obj.ToString().Contains("\n[TCPIP] TcpIpSend Detected\n"))
+            { ETW2MON.WriteEntry(_str_obj, EventLogEntryType.Information, 3); }
+
+            if (_str_obj.ToString().Contains("[MEM] Injected ThreadStart Detected,\n"))
+            { ETW2MON.WriteEntry(_str_obj, EventLogEntryType.Warning, 2); }
+
+            if (_str_obj.ToString().Contains("\n[MEM] NewProcess Started \n"))
+            { ETW2MON.WriteEntry(_str_obj, EventLogEntryType.Information, 1); }
+
+            //ETW2MON.WriteEntry(_str_obj,e.ToString().Split('@')[0], e.ToString().Split('@')[0]
+            //    , EventLogEntryType.Information, 1);
+        }
+        private static void Program__Event_VirtualMemAlloc_NewThreadInj_into_TxtLogFile(object sender, EventArgs e)
+        {
+            string _str_obj = sender.ToString();
+
+            _t = logfilewrite("ETWProcessMonlog.txt", _str_obj);
+        }
+
 
         private static void Kernel_ImageLoad(Microsoft.Diagnostics.Tracing.Parsers.Kernel.ImageLoadTraceData obj)
         {
@@ -242,12 +272,14 @@ namespace ETWProcessMon2
 
                     _v2++;
                 }
-               // Console.ForegroundColor = ConsoleColor.Gray;
 
-               // Console.WriteLine();
-                ETW2MON.WriteEntry("[ETW] " + "\n[TCPIP] TcpIpSend Detected" + "\nTarget_Process: " + obj.ProcessName + ":" + obj.ProcessID + "  TID(" + obj.ThreadID + ")" + " TaskName(" + obj.TaskName + ") " + "\nPIDPath = "
-             + getpathPID(obj.ProcessID) + "\nEventTime = " + obj.TimeStamp.ToString() + "\n\n" + TemptcptipInfo
-              , EventLogEntryType.Information, 3) ;
+             //   ETW2MON.WriteEntry("[ETW] " + "\n[TCPIP] TcpIpSend Detected" + "\nTarget_Process: " + obj.ProcessName + ":" + obj.ProcessID + "  TID(" + obj.ThreadID + ")" + " TaskName(" + obj.TaskName + ") " + "\nPIDPath = "
+             //+ getpathPID(obj.ProcessID) + "\nEventTime = " + obj.TimeStamp.ToString() + "\n\n" + TemptcptipInfo
+             // , EventLogEntryType.Information, 3) ;
+                
+                
+                _Event_Add_ETWEvent_to_WindowsEventLog_ETWPM2.Invoke((object)("[ETW] " + "\n[TCPIP] TcpIpSend Detected" + "\nTarget_Process: " + obj.ProcessName + ":" + obj.ProcessID + "  TID(" + obj.ThreadID + ")" + " TaskName(" + obj.TaskName + ") " + "\nPIDPath = "
+             + getpathPID(obj.ProcessID) + "\nEventTime = " + obj.TimeStamp.ToString() + "\n\n" + TemptcptipInfo), null);
             }
 
         }
@@ -256,28 +288,47 @@ namespace ETWProcessMon2
             /// these ETW events will save to event log ETWPM2.
 
             _v0 = 0;
-            //Console.WriteLine();
-            //Console.ForegroundColor = ConsoleColor.DarkGray;
-            //Console.Write("[etw] ");
-            //Console.ForegroundColor = ConsoleColor.White;
-            //Console.Write("[PrcID] New Process ");
-            //Console.ForegroundColor = ConsoleColor.Gray;
-            //Console.Write("Detected, Process:PID");
-            PList.Add(obj.ImageFileName + ":" + obj.ProcessID.ToString());
+          
+            __found = false;
+            foreach (string item in PList)
+            {
+                if(item.Contains(":" + obj.ProcessID.ToString()))
+                {
+                     
+                    __found = true;
+                    break;
+                }
+               
+            }
 
-            //Console.Write(" " + obj.ProcessName + ":" + obj.ProcessID.ToString());
-            //Console.WriteLine(" Started! " + DateTime.Now.ToString());
-            //Console.WriteLine("[" + "ParetnID" + ": " + obj.PayloadByName("ParentID").ToString() + "]");
-            //Console.WriteLine("[" + "CommandLine" + ": " + obj.PayloadByName("CommandLine").ToString() + "]");
+            if (__found)
+            {
+               
+                    PList.RemoveAll(x => x.Contains(":" + obj.ProcessID.ToString()));
+                    PList.Add(obj.ImageFileName + ":" + obj.ProcessID.ToString());
+                
+            }
+            if (!__found)
+            {
+                PList.Add(obj.ImageFileName + ":" + obj.ProcessID.ToString());
+            }
 
-            ETW2MON.WriteEntry("[ETW] " + "\n[MEM] NewProcess Started \n" + "PID = " + obj.ProcessID.ToString() + "  PIDPath = "
+         
+
+            //ETW2MON.WriteEntry("[ETW] " + "\n[MEM] NewProcess Started \n" + "PID = " + obj.ProcessID.ToString() + "  PIDPath = "
+            //   + getpathPID(obj.ProcessID) + "\nProcessName = " + obj.ProcessName
+            //   + "\n[" + "CommandLine: " + obj.PayloadByName("CommandLine").ToString() + "]"
+            //   + "\n[" + "ParentID: " + obj.PayloadByName("ParentID").ToString() + "]"
+            //   + "\n[ParentID Path: " + getpathPID((Int32)obj.PayloadByName("ParentID")) + "]"
+            //   + "\nEventTime = " + obj.TimeStamp.ToString()
+            //    , EventLogEntryType.Information, 1);
+
+            _Event_Add_ETWEvent_to_WindowsEventLog_ETWPM2.Invoke((object)("[ETW] " + "\n[MEM] NewProcess Started \n" + "PID = " + obj.ProcessID.ToString() + "  PIDPath = "
                + getpathPID(obj.ProcessID) + "\nProcessName = " + obj.ProcessName
                + "\n[" + "CommandLine: " + obj.PayloadByName("CommandLine").ToString() + "]"
                + "\n[" + "ParentID: " + obj.PayloadByName("ParentID").ToString() + "]"
                + "\n[ParentID Path: " + getpathPID((Int32)obj.PayloadByName("ParentID")) + "]"
-               + "\nEventTime = " + obj.TimeStamp.ToString()
-                , EventLogEntryType.Information, 1); 
-
+               + "\nEventTime = " + obj.TimeStamp.ToString()), null);
         }
         private static void Kernel_VirtualMemAlloc(Microsoft.Diagnostics.Tracing.Parsers.Kernel.VirtualAllocTraceData obj)
         {
@@ -299,7 +350,7 @@ namespace ETWProcessMon2
                 }
                 else
                 {
-                   // _t = logfilewrite("ETWProcessMonlog.txt", "[etw][+MEM+] VirtualMemAlloc " + "Detected, Process: (" + obj.ProcessName + ":" + obj.ProcessID + ") TID(" + obj.ThreadID + ")" + " TaskName(" + obj.TaskName + ") " + DateTime.Now.ToString());
+
                 }
                 Console.ForegroundColor = ConsoleColor.Green;
                 _v3 = 0;
@@ -318,8 +369,11 @@ namespace ETWProcessMon2
                     tempPIDMemoAlloca = obj.ProcessID;
                     if (templastinfo != tempMemAllocInfo)
                     {
-                        _t = logfilewrite("ETWProcessMonlog.txt", "[" + obj.TimeStamp.ToString() + "] PID:(" + obj.ProcessID + ") TID(" + obj.ThreadID + ") " + tempETWdetails + " [VirtualMemAlloc]");
+                       //+// _t = logfilewrite("ETWProcessMonlog.txt", "[" + obj.TimeStamp.ToString() + "] PID:(" + obj.ProcessID + ") TID(" + obj.ThreadID + ") " + tempETWdetails + " [VirtualMemAlloc]");
                         templastinfo = tempMemAllocInfo;
+
+                        _Event_VirtualMemAlloc_NewThreadInj_into_TxtLogFile.Invoke((object)("[" + obj.TimeStamp.ToString() + "] PID:(" + obj.ProcessID +
+                            ") TID(" + obj.ThreadID + ") " + tempETWdetails + " [VirtualMemAlloc]"), null);
                     }
 
                     tempETWdetails = "";
@@ -369,8 +423,10 @@ namespace ETWProcessMon2
                     tempPIDMemoAlloca = obj.ProcessID;
                     if (templastinfo != tempMemAllocInfo)
                     {
-                        _t = logfilewrite("ETWProcessMonlog.txt", "[" + obj.TimeStamp.ToString() + "] PID:(" + obj.ProcessID + ") TID(" + obj.ThreadID + ") " + tempETWdetails + " [VirtualMemAlloc]");
+                        //+// _t = logfilewrite("ETWProcessMonlog.txt", "[" + obj.TimeStamp.ToString() + "] PID:(" + obj.ProcessID + ") TID(" + obj.ThreadID + ") " + tempETWdetails + " [VirtualMemAlloc]");
                         templastinfo = tempMemAllocInfo;
+                        _Event_VirtualMemAlloc_NewThreadInj_into_TxtLogFile.Invoke((object)("[" + obj.TimeStamp.ToString() + "] PID:(" + obj.ProcessID +
+                           ") TID(" + obj.ThreadID + ") " + tempETWdetails + " [VirtualMemAlloc]"), null);
                     }
 
                 }
@@ -446,12 +502,25 @@ namespace ETWProcessMon2
                     try
                     {
 
-                        _t = logfilewrite("ETWProcessMonlog.txt", "[" + obj.TimeStamp.ToString() + "] PID:(" + obj.ProcessID + ")(" + obj.ProcessName + ") " + obj.ThreadID + ":" + tempETWdetails + "[Injected by " + prc + "]");
+                        //+// _t = logfilewrite("ETWProcessMonlog.txt", "[" + obj.TimeStamp.ToString() + "] PID:(" + obj.ProcessID + ")(" + obj.ProcessName + ") " + obj.ThreadID + ":" + tempETWdetails + "[Injected by " + prc + "]");
 
-                        ETW2MON.WriteEntry("[ETW] \n" + "[MEM] Injected ThreadStart " + "Detected,\nTarget_Process: " + obj.ProcessName + ":" + obj.ProcessID + "   TID(" + obj.ThreadID + ")" + " Injected by " + getpathPID((Int32)obj.PayloadValue(obj.PayloadNames.Length - 1))
-                        + "\nTarget_ProcessPath: " + getpathPID(obj.ProcessID) + "\n\nDebug info:" + " [" + obj.TimeStamp.ToString() + "] PID: (" + obj.ProcessID + ")(" + obj.ProcessName + ") " + obj.ThreadID + ":" + tempETWdetails + "[Injected by " + prc + "]"
-                    , EventLogEntryType.Warning, 2);
+                        _Event_VirtualMemAlloc_NewThreadInj_into_TxtLogFile.Invoke((object)("[" + obj.TimeStamp.ToString() + "] PID:(" +
+                            obj.ProcessID + ")(" + obj.ProcessName + ") " + obj.ThreadID + ":" + tempETWdetails + "[Injected by " + prc + "]"), null);
+
+                    //    ETW2MON.WriteEntry("[ETW] \n" + "[MEM] Injected ThreadStart " + "Detected,\nTarget_Process: " + obj.ProcessName + ":" + obj.ProcessID + "   TID(" + obj.ThreadID + ")" + " Injected by " + getpathPID((Int32)obj.PayloadValue(obj.PayloadNames.Length - 1))
+                    //    + "\nTarget_ProcessPath: " + getpathPID(obj.ProcessID) + "\n\nDebug info:" + " [" + obj.TimeStamp.ToString() + "] PID: (" + obj.ProcessID + ")(" + obj.ProcessName + ") " + obj.ThreadID + ":" + tempETWdetails + "[Injected by " + prc + "]"
+                    //, EventLogEntryType.Warning, 2);
+
+
+                        _Event_Add_ETWEvent_to_WindowsEventLog_ETWPM2.Invoke((object)("[ETW] \n" + "[MEM] Injected ThreadStart " + "Detected,\nTarget_Process: " + obj.ProcessName + ":" + obj.ProcessID
+                            + "   TID(" + obj.ThreadID + ")" + " Injected by " + getpathPID((Int32)obj.PayloadValue(obj.PayloadNames.Length - 1))
+                        + "\nTarget_ProcessPath: " + getpathPID(obj.ProcessID) + "\n\nDebug info:"
+                        + " [" + obj.TimeStamp.ToString() + "] PID: (" + obj.ProcessID + ")(" + obj.ProcessName
+                        + ") " + obj.ThreadID + ":" + tempETWdetails + "[Injected by " + prc + "]"), null);
+
+
                         tempETWdetails = "";
+
 
                         /// show details about Injection [finding PPID info]
                         _WriteResult_Inj_Info(_Search_MemInfoPlusDateTime(obj.PayloadValue(obj.PayloadNames.Length - 1).ToString()));
