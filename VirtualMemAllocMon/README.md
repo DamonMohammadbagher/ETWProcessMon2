@@ -26,9 +26,9 @@ Article1:
 ### VirtualMemAllocMon.exe has error sometimes...
 if you have error like this "System.Runtime.InteropServicesCOMException:..." more often this was because of ProcessHacker/ProcessExplorer etc which Run as normal user or Run As Admin you can fix this problem with these steps:
 
-            step1: close all ProcessHacker/ProcessExplorer/ProcessMon etc Tools
-            step2: Run VirtualMemAllocMon.exe (Run As Admin)
-            step3: after 10 seconds, run ProcessHacker/ProcessExplorer etc Tools
+    step1: close all ProcessHacker/ProcessExplorer/ProcessMon etc Tools
+    step2: Run VirtualMemAllocMon.exe (Run As Admin)
+    step3: after 10 seconds, run ProcessHacker/ProcessExplorer etc Tools
 
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/VirtualMemAllocMon/Pics/err.png)
 
