@@ -34,7 +34,7 @@ if you have error like this "System.Runtime.InteropServicesCOMException:..." mor
 
 ------
 
-### VirtualMemAllocMon
+### VirtualMemAllocMon.exe
 
  usage:  
     
