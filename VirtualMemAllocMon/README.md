@@ -1,5 +1,6 @@
 # VirtualMemAllocMon
 VirtualMemAllocMon is for Monitoring VirtualMemAlloc Event via ETW, when some Native APIs like "VirtualAllocEx" called by your code this event will happen via ETW. (Payload Detection by VirtualMemAlloc Events [in-memory] for All Processes).
+Note : this code tested on Win7x64SP1 (only)
 
 ### VirtualMemAllocMon.exe
 "VirtualMemAllocMon" is simple tool for Monitor VirtualMemAlloc events in all Processes via ETW, with this code you can Monitor New VirtualMemAlloc Events for each Process, the goal is Payload Detection & my focus was on "Local Create Thread" & "Remote Thread Injection" + Meterpreter payload & Pe "MZ header" in-memory. this code will useful sometimes for Defenders & Blue Teamers but Pentesters/Red Teamers can use this too.
