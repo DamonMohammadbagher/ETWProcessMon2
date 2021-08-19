@@ -25,7 +25,6 @@ namespace VirtualMemAllocMon
         [DllImport("ntdll.dll", SetLastError = true)]
         static extern NtStatus NtReadVirtualMemory(IntPtr ProcessHandle, IntPtr BaseAddress, byte[] Buffer, UInt32 NumberOfBytesToRead, ref UInt32 NumberOfBytesRead);
 
-
         //[DllImport("kernelbase.dll")]
         //public static extern IntPtr VirtualAllocEx(IntPtr hProcess, IntPtr lpAddress, uint dwSize, AllocationType flAllocationType, MemoryProtection flProtect);
 
@@ -35,21 +34,19 @@ namespace VirtualMemAllocMon
         //[DllImport("kernel32.dll", SetLastError = true)]
         //public static extern bool ReadProcessMemory(IntPtr hProcess, IntPtr lpBaseAddress, [Out] byte[] lpBuffer, int dwSize, IntPtr lpNumberOfBytesRead);
 
-
-        public static string ETW_VAx_Event_RealtimeChangedStrings = string.Empty;
-        public static byte[] buf = new byte[208];
-        public static string[] Flag_to_detection_VAx = new string[5];
-        public static string[] Flag_to_detection_Bytes = new string[4];
         public static bool VaxFound, BytesFound = false;
-        public static System.Timers.Timer __t = new System.Timers.Timer(350);
-        public static System.Threading.Thread Bingo;
-        public static string tempMemAllocInfo, tempETWdetails, templastinfo = "";
-        public static Int32 tempPIDMemoAlloca,_v1;
         public static bool initdotmemoalloc = false;
-        public static event EventHandler _Event_VirtualMemAlloc_etw_evt;
-        public static string dumpmem = "";
+        public static string ETW_VAx_Event_RealtimeChangedStrings = string.Empty;
+        public static string dumpmem,tempMemAllocInfo, tempETWdetails, templastinfo = "";
+        public static Int32 tempPIDMemoAlloca,_v1;        
         public static int result = 0;
         public static UInt32 temp;
+        public static string[] Flag_to_detection_VAx = new string[5];
+        public static string[] Flag_to_detection_Bytes = new string[4];
+        public static byte[] buf = new byte[208];
+        public static event EventHandler _Event_VirtualMemAlloc_etw_evt;
+        public static System.Threading.Thread Bingo;
+
         public static bool _SearchVAxEvents(string input_to_search)
         {
 
@@ -81,43 +78,50 @@ namespace VirtualMemAllocMon
         }
         public static void _ShowDetailsBytes(string RealtimeChangedStrings)
         {
-            Flag_to_detection_Bytes[0] = "is program canno";
-            Flag_to_detection_Bytes[1] = "t be run in DOS";
-            Flag_to_detection_Bytes[2] = "00000000   4D 5A 41";
-            Flag_to_detection_Bytes[3] = "00000000   4D 5A";
-            Console.ForegroundColor = ConsoleColor.DarkGreen;
-            Console.WriteLine(RealtimeChangedStrings);
-
-            string _ProcessName = System.Diagnostics.Process.GetProcessById((int)Convert.ToInt32(RealtimeChangedStrings.Split('(')[1].Split(')')[0])).MainModule.FileName;
-            string __PID = RealtimeChangedStrings.Split('(')[1].Split(')')[0];
-
-            IntPtr ph = OpenProcess(ProcessAccessFlags.All, false, Convert.ToInt32(RealtimeChangedStrings.Split('(')[1].Split(')')[0]));
-
-            temp = 0;
-            NtReadVirtualMemory(ph, ((IntPtr)Convert.ToUInt64(RealtimeChangedStrings.Split(':')[4])), buf, (uint)buf.Length, ref temp);                     
-            
-            //ReadProcessMemory(ph, (uint)(Convert.ToInt32(RealtimeChangedStrings.Split(':')[4])), buf, buf.Length, IntPtr.Zero);          
-
-            Console.ForegroundColor = ConsoleColor.Gray;
-            Console.WriteLine("[{2}] Something Detected, VirtualMemAlloc Memory Address {0} in Process: {1} with PID: {3} ", RealtimeChangedStrings.Split(':')[4], _ProcessName, DateTime.Now, __PID);
-
-            dumpmem = HexDump(buf);
-
-            result = _SearchBytes(dumpmem);
-
-            if (result > 0)
+            try
             {
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("[!] Found {0} of 4", result.ToString());
-                Console.WriteLine(dumpmem);
+
+                Flag_to_detection_Bytes[0] = "is program canno";
+                Flag_to_detection_Bytes[1] = "t be run in DOS";
+                Flag_to_detection_Bytes[2] = "00000000   4D 5A 41";
+                Flag_to_detection_Bytes[3] = "00000000   4D 5A";
+                Console.ForegroundColor = ConsoleColor.DarkGreen;
+                Console.WriteLine(RealtimeChangedStrings);
+
+                string _ProcessName = System.Diagnostics.Process.GetProcessById((int)Convert.ToInt32(RealtimeChangedStrings.Split('(')[1].Split(')')[0])).MainModule.FileName;
+                string __PID = RealtimeChangedStrings.Split('(')[1].Split(')')[0];
+
+                IntPtr ph = OpenProcess(ProcessAccessFlags.All, false, Convert.ToInt32(RealtimeChangedStrings.Split('(')[1].Split(')')[0]));
+
+                temp = 0;
+                NtReadVirtualMemory(ph, ((IntPtr)Convert.ToUInt64(RealtimeChangedStrings.Split(':')[4])), buf, (uint)buf.Length, ref temp);
+
+                Console.ForegroundColor = ConsoleColor.Gray;
+                Console.WriteLine("[{2}] Something Detected, VirtualMemAlloc Memory Address {0} in Process: {1} with PID: {3} ", RealtimeChangedStrings.Split(':')[4], _ProcessName, DateTime.Now, __PID);
+
+                dumpmem = HexDump(buf);
+
+                result = _SearchBytes(dumpmem);
+
+                if (result > 0)
+                {
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("[!] Found {0} of 4", result.ToString());
+                    Console.WriteLine(dumpmem);
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkYellow;
+                    Console.WriteLine("[!] Found {0} of 4", result.ToString());
+                    Console.WriteLine(dumpmem);
+                }
+                CloseHandle(ph);
             }
-            else
+            catch (Exception error)
             {
-                Console.ForegroundColor = ConsoleColor.DarkYellow;
-                Console.WriteLine("[!] Found {0} of 4", result.ToString());
-                Console.WriteLine(dumpmem);
+                Console.WriteLine(error.Message);
+               
             }
-            CloseHandle(ph);
         }
         public static string HexDump(byte[] bytes, int bytesPerLine = 16)
         {
@@ -237,7 +241,6 @@ namespace VirtualMemAllocMon
             GC.Collect();
             tempMemAllocInfo = "";
             tempPIDMemoAlloca = 0;
-
 
                     if ((!initdotmemoalloc) && (tempPIDMemoAlloca != obj.ProcessID))
                     {
