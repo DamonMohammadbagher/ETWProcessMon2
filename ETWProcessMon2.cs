@@ -11,7 +11,7 @@ using System.Runtime.InteropServices;
 
 namespace ETWProcessMon2
 {
-    
+
     public struct _ProcessInfo<String>
     {
 
@@ -24,7 +24,7 @@ namespace ETWProcessMon2
         public String MemAllocInfo { get; set; }
         public String PPID { get; set; }
     }
-  
+
 
     class Program
     {
@@ -34,7 +34,6 @@ namespace ETWProcessMon2
         public static uint ch = 256;
         public static int tempPIDMemoAlloca = 0;
         public static Int32 tempsearch_4_all = 0;
-        private static int temptimer = 0;
         private static int _v0, _v1, _v2, _v3, _v4, _v5;
         public static bool detected = false;
         public static bool initdotmemoalloc = false;
@@ -104,7 +103,7 @@ namespace ETWProcessMon2
                 if (!System.Diagnostics.Process.GetProcessById(pid).HasExited)
                 {
                     temppath = PPath(Process.GetProcessById(pid));
-                    
+
                 }
             }
             catch (Exception e)
@@ -140,7 +139,7 @@ namespace ETWProcessMon2
                 KS.Source.Kernel.TcpIpSend += Kernel_TcpIpSend;
                 KS.Source.Kernel.ImageLoad += Kernel_ImageLoad;
                 KS.Source.Kernel.ProcessStart += Kernel_ProcessStart;
-                
+
 
                 /// DEBUG & TEST ONLY
                 /// arg 1 and 2 was for monitoring via filters for 2 proceesses only... but in this code i want to monitor all processes via ETW
@@ -169,16 +168,16 @@ namespace ETWProcessMon2
 
             if (!EventLog.Exists("ETWPM2"))
             {
-                EventSourceCreationData ESCD = new EventSourceCreationData("ETW","ETWPM2");
+                EventSourceCreationData ESCD = new EventSourceCreationData("ETW", "ETWPM2");
                 System.Diagnostics.EventLog.CreateEventSource(ESCD);
-                
+
             }
             ETW2MON = new EventLog("ETWPM2", ".", "ETW");
             ETW2MON.WriteEntry("ETWProcessMon2 Started", EventLogEntryType.Information, 1);
             ch = 256;
             _BytesStr = new StringBuilder((int)ch);
 
-            
+
             Bingo = new System.Threading.Thread(ETWCoreI)
             {
                 Priority = System.Threading.ThreadPriority.AboveNormal
@@ -199,9 +198,7 @@ namespace ETWProcessMon2
 
             if (_str_obj.ToString().Contains("\n[MEM] NewProcess Started \n"))
             { ETW2MON.WriteEntry(_str_obj, EventLogEntryType.Information, 1); }
-
-            //ETW2MON.WriteEntry(_str_obj,e.ToString().Split('@')[0], e.ToString().Split('@')[0]
-            //    , EventLogEntryType.Information, 1);
+           
         }
         private static void Program__Event_VirtualMemAlloc_NewThreadInj_into_TxtLogFile(object sender, EventArgs e)
         {
@@ -216,10 +213,7 @@ namespace ETWProcessMon2
             /// best way is using this syntax to dump logs about Imageload => ETWProcessMon2.exe > outputs.txt
             /// all imageload events will be save in this outputs.txt file ;)
             /// i think it is not good idea to save these ImageLoads ETW events to event logs ;)
-            
-            GC.GetTotalMemory(true);
 
-            
             Console.ForegroundColor = ConsoleColor.DarkGray;
             Console.Write("[etw] ");
             Console.ForegroundColor = ConsoleColor.Red;
@@ -243,7 +237,7 @@ namespace ETWProcessMon2
         private static void Kernel_TcpIpSend(Microsoft.Diagnostics.Tracing.Parsers.Kernel.TcpIpSendTraceData obj)
         {
             /// these ETW events will save to event log ETWPM2.
-
+          
             TemptcptipInfo = "";
 
             if (_arg == "MonAll")
@@ -273,11 +267,11 @@ namespace ETWProcessMon2
                     _v2++;
                 }
 
-             //   ETW2MON.WriteEntry("[ETW] " + "\n[TCPIP] TcpIpSend Detected" + "\nTarget_Process: " + obj.ProcessName + ":" + obj.ProcessID + "  TID(" + obj.ThreadID + ")" + " TaskName(" + obj.TaskName + ") " + "\nPIDPath = "
-             //+ getpathPID(obj.ProcessID) + "\nEventTime = " + obj.TimeStamp.ToString() + "\n\n" + TemptcptipInfo
-             // , EventLogEntryType.Information, 3) ;
-                
-                
+                //   ETW2MON.WriteEntry("[ETW] " + "\n[TCPIP] TcpIpSend Detected" + "\nTarget_Process: " + obj.ProcessName + ":" + obj.ProcessID + "  TID(" + obj.ThreadID + ")" + " TaskName(" + obj.TaskName + ") " + "\nPIDPath = "
+                //+ getpathPID(obj.ProcessID) + "\nEventTime = " + obj.TimeStamp.ToString() + "\n\n" + TemptcptipInfo
+                // , EventLogEntryType.Information, 3) ;
+
+
                 _Event_Add_ETWEvent_to_WindowsEventLog_ETWPM2.Invoke((object)("[ETW] " + "\n[TCPIP] TcpIpSend Detected" + "\nTarget_Process: " + obj.ProcessName + ":" + obj.ProcessID + "  TID(" + obj.ThreadID + ")" + " TaskName(" + obj.TaskName + ") " + "\nPIDPath = "
              + getpathPID(obj.ProcessID) + "\nEventTime = " + obj.TimeStamp.ToString() + "\n\n" + TemptcptipInfo), null);
             }
@@ -288,32 +282,32 @@ namespace ETWProcessMon2
             /// these ETW events will save to event log ETWPM2.
 
             _v0 = 0;
-          
+           
             __found = false;
             foreach (string item in PList)
             {
-                if(item.Contains(":" + obj.ProcessID.ToString()))
+                if (item.Contains(":" + obj.ProcessID.ToString()))
                 {
-                     
+
                     __found = true;
                     break;
                 }
-               
+
             }
 
             if (__found)
             {
-               
-                    PList.RemoveAll(x => x.Contains(":" + obj.ProcessID.ToString()));
-                    PList.Add(obj.ImageFileName + ":" + obj.ProcessID.ToString());
-                
+
+                PList.RemoveAll(x => x.Contains(":" + obj.ProcessID.ToString()));
+                PList.Add(obj.ImageFileName + ":" + obj.ProcessID.ToString());
+
             }
             if (!__found)
             {
                 PList.Add(obj.ImageFileName + ":" + obj.ProcessID.ToString());
             }
 
-         
+
 
             //ETW2MON.WriteEntry("[ETW] " + "\n[MEM] NewProcess Started \n" + "PID = " + obj.ProcessID.ToString() + "  PIDPath = "
             //   + getpathPID(obj.ProcessID) + "\nProcessName = " + obj.ProcessName
@@ -329,11 +323,13 @@ namespace ETWProcessMon2
                + "\n[" + "ParentID: " + obj.PayloadByName("ParentID").ToString() + "]"
                + "\n[ParentID Path: " + getpathPID((Int32)obj.PayloadByName("ParentID")) + "]"
                + "\nEventTime = " + obj.TimeStamp.ToString()), null);
+
+            GC.Collect();
         }
         private static void Kernel_VirtualMemAlloc(Microsoft.Diagnostics.Tracing.Parsers.Kernel.VirtualAllocTraceData obj)
         {
             /// these ETW events will save to text log file.
-            GC.Collect();
+            
             tempMemAllocInfo = "";
             tempPIDMemoAlloca = 0;
 
@@ -343,7 +339,7 @@ namespace ETWProcessMon2
                 {
                     if ((!initdotmemoalloc) && (tempPIDMemoAlloca != obj.ProcessID))
                     {
-                       
+
                         initdotmemoalloc = true;
                     }
 
@@ -369,7 +365,7 @@ namespace ETWProcessMon2
                     tempPIDMemoAlloca = obj.ProcessID;
                     if (templastinfo != tempMemAllocInfo)
                     {
-                       //+// _t = logfilewrite("ETWProcessMonlog.txt", "[" + obj.TimeStamp.ToString() + "] PID:(" + obj.ProcessID + ") TID(" + obj.ThreadID + ") " + tempETWdetails + " [VirtualMemAlloc]");
+                        //+// _t = logfilewrite("ETWProcessMonlog.txt", "[" + obj.TimeStamp.ToString() + "] PID:(" + obj.ProcessID + ") TID(" + obj.ThreadID + ") " + tempETWdetails + " [VirtualMemAlloc]");
                         templastinfo = tempMemAllocInfo;
 
                         _Event_VirtualMemAlloc_NewThreadInj_into_TxtLogFile.Invoke((object)("[" + obj.TimeStamp.ToString() + "] PID:(" + obj.ProcessID +
@@ -388,7 +384,6 @@ namespace ETWProcessMon2
         {
             /// these ETW events will save to text log file.
 
-            GC.Collect();
             tempMemAllocInfo = "";
             tempPIDMemoAlloca = 0;
             if (_arg == "MonAll")
@@ -397,7 +392,7 @@ namespace ETWProcessMon2
                 {
                     if ((!initdotmemoalloc) && (tempPIDMemoAlloca != obj.ProcessID))
                     {
-                      
+
                         initdotmemoalloc = true;
                     }
 
@@ -439,7 +434,6 @@ namespace ETWProcessMon2
         {
             /// these ETW events will save to event log ETWPM2.
 
-            GC.Collect();
             if (_arg == "MonAll")
             {
                 string prc = "Process Exited";
@@ -507,9 +501,9 @@ namespace ETWProcessMon2
                         _Event_VirtualMemAlloc_NewThreadInj_into_TxtLogFile.Invoke((object)("[" + obj.TimeStamp.ToString() + "] PID:(" +
                             obj.ProcessID + ")(" + obj.ProcessName + ") " + obj.ThreadID + ":" + tempETWdetails + "[Injected by " + prc + "]"), null);
 
-                    //    ETW2MON.WriteEntry("[ETW] \n" + "[MEM] Injected ThreadStart " + "Detected,\nTarget_Process: " + obj.ProcessName + ":" + obj.ProcessID + "   TID(" + obj.ThreadID + ")" + " Injected by " + getpathPID((Int32)obj.PayloadValue(obj.PayloadNames.Length - 1))
-                    //    + "\nTarget_ProcessPath: " + getpathPID(obj.ProcessID) + "\n\nDebug info:" + " [" + obj.TimeStamp.ToString() + "] PID: (" + obj.ProcessID + ")(" + obj.ProcessName + ") " + obj.ThreadID + ":" + tempETWdetails + "[Injected by " + prc + "]"
-                    //, EventLogEntryType.Warning, 2);
+                        //    ETW2MON.WriteEntry("[ETW] \n" + "[MEM] Injected ThreadStart " + "Detected,\nTarget_Process: " + obj.ProcessName + ":" + obj.ProcessID + "   TID(" + obj.ThreadID + ")" + " Injected by " + getpathPID((Int32)obj.PayloadValue(obj.PayloadNames.Length - 1))
+                        //    + "\nTarget_ProcessPath: " + getpathPID(obj.ProcessID) + "\n\nDebug info:" + " [" + obj.TimeStamp.ToString() + "] PID: (" + obj.ProcessID + ")(" + obj.ProcessName + ") " + obj.ThreadID + ":" + tempETWdetails + "[Injected by " + prc + "]"
+                        //, EventLogEntryType.Warning, 2);
 
 
                         _Event_Add_ETWEvent_to_WindowsEventLog_ETWPM2.Invoke((object)("[ETW] \n" + "[MEM] Injected ThreadStart " + "Detected,\nTarget_Process: " + obj.ProcessName + ":" + obj.ProcessID
@@ -521,38 +515,15 @@ namespace ETWProcessMon2
 
                         tempETWdetails = "";
 
-
-                        /// show details about Injection [finding PPID info]
-                        _WriteResult_Inj_Info(_Search_MemInfoPlusDateTime(obj.PayloadValue(obj.PayloadNames.Length - 1).ToString()));
-                        /// show details about Injection
                     }
                     catch (Exception ops)
                     {
-                     
+
                     }
                 }
 
             }
 
-        }
-
-        public static List<_ProcessInfo<String>> _Search_MemInfoPlusDateTime(string PPid)
-        {
-            List<_ProcessInfo<String>> Result = Process_Events_db.FindAll(Y => Y.PID == PPid);
-            return Result;
-        }
-        public static void _WriteResult_Inj_Info(List<_ProcessInfo<String>> search)
-        {
-            foreach (_ProcessInfo<String> item in search)
-            {
-                Console.WriteLine("\t {2} - for this Process this PPID Detected ==> PID:{0} PName:{1} ", item.PID, item.ProcessName, item.PTime);
-                if (temptimer >= 5)
-                {
-                    temptimer = 0;
-                    break;
-                }
-                temptimer++;
-            }
         }
     }
 }
