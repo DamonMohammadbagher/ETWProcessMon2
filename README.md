@@ -50,7 +50,7 @@ For more Information & Details with Picture about this Code => https://github.co
 ### ETWPM2Monitor.exe
 "ETWPM2Monitor" v1.2 is simple C# code [test version 1.2.10.18] for Realtime Event Log Monitor, but this code only will work with logname "ETWPM2" which made by "ETWProcessMon2.exe", so you need run as Admin "ETWProcessMon2.exe" (step1) before use "ETWPM2Monitor.exe" (step2) for monitor windows event logs which made by "ETWProcessMon2exe".
 
-Note: i will publish "ETWPM2Monitor v2" code here soon... [in this version some Memory Scanner added to code like Hollows_Hunter/Pe-sieve & ...]
+Note: "ETWPM2Monitor2 v2" code Published here => https://github.com/DamonMohammadbagher/ETWProcessMon2/tree/main/ETWPM2Monitor2
 
 Related Article about (ETWPM2Monitor2.exe & ETWProcessMon2.exe) + VirtualMemAlloc ETW Events made by ETWProcessMon2: 
 
