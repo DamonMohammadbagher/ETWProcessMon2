@@ -13,4 +13,6 @@ Note: the goal is talking/thinking about how can use ETW as Defender/Blue teamer
    
 ### ETWPM2Monitor2 & RemoteThreadInjection (Technique + Payload Detection) via ETW Events
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2/Pics/ETWPM2Monitor2-2.png)
-
+   
+   
+<p><a href="https://hits.seeyoufarm.com"><img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https://github.com/DamonMohammadbagher/ETWProcessMon2/ETWPM2Monitor2"/></a></p>
