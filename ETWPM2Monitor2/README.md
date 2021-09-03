@@ -12,9 +12,9 @@ Note: the goal is talking/thinking about how can use ETW as Defender/Blue teamer
 
 Usage Steps
 
-    Step1: Run as Admin ETWProcessMon2.exe
+    Step1: ETWProcessMon2.exe (Run as Admin)
 
-    Step2: Run as Admin ETWPM2Monitor2.exe
+    Step2: ETWPM2Monitor2.exe (Run as Admin)
 
 -------------------------
 ### ETWPM2Monitor2 & RemoteThreadInjection Detection via ETW Events
