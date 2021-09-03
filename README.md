@@ -52,6 +52,8 @@ For more Information & Details with Picture about this Code => https://github.co
 
 Note: "ETWPM2Monitor2 v2" code Published here => https://github.com/DamonMohammadbagher/ETWProcessMon2/tree/main/ETWPM2Monitor2
 
+Note: with "ETWPM2Monitor2 v2" code we have "Pe-sieve64.exe" & "Hollowshunter.exe" as Memory Scanner so to use you need to download these exe files & paste them in same folder with ETWPM2Monitor2.exe & i tested ETWPM2Monitor2 with Pe-sieve64.exe (ver 0.2.9.6) & Hollowshunter.exe (ver 0.2.9.6)
+
 Related Article about (ETWPM2Monitor2.exe & ETWProcessMon2.exe) + VirtualMemAlloc ETW Events made by ETWProcessMon2: 
 
 Link1: https://www.linkedin.com/pulse/etwpm2monitor2-remote-thread-injection-detection-etw-mohammadbagher
