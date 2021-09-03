@@ -16,6 +16,11 @@ Note: in this code we have "Pe-sieve64.exe" & "Hollowshunter.exe" so to use you 
     link1: https://github.com/hasherezade/pe-sieve
     link2: https://github.com/hasherezade/hollows_hunter
 
+md5 info
+
+    b913a0d66d-750478c5a8-1d557aad377d => ETWProcessMon2.exe
+    40d799fd84-a7dbb7a981-d3eebed3c7e5 => ETWPM2Monitor2.exe
+
 Usage Steps
 
     Step1: ETWProcessMon2.exe (Run as Admin)
