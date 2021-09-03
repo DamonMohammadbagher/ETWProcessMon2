@@ -21,6 +21,10 @@ ETW Events in event log [ETWPM2]:
     or
     PM> Install-Package Microsoft.Diagnostics.Tracing.TraceEvent -Version 2.0.70
 
+md5 info [ETWProcessMon2.exe], "exe files are not safe here in github so make your own exe files with C# source by yourself [i recommend]":
+
+    b913a0d66d-750478c5a8-1d557aad377d => ETWProcessMon2.exe
+
 ### Videos: 
 Note: i will make video for "ETWProcessMon2" soon.
 
@@ -52,6 +56,10 @@ For more Information & Details with Picture about this Code => https://github.co
 
 Note: "ETWPM2Monitor2 v2" code Published here => https://github.com/DamonMohammadbagher/ETWProcessMon2/tree/main/ETWPM2Monitor2
 
+md5 info [ETWPM2Monitor2.exe], "exe files are not safe here in github so make your own exe files with C# source by yourself [i recommend]":
+
+    40d799fd84-a7dbb7a981-d3eebed3c7e5 => ETWPM2Monitor2.exe
+
 Note: with "ETWPM2Monitor2 v2" code we have "Pe-sieve64.exe" & "Hollowshunter.exe" as Memory Scanner so to use you need to download these exe files & paste them in same folder with ETWPM2Monitor2.exe & i tested ETWPM2Monitor2 with Pe-sieve64.exe (ver 0.2.9.6) & Hollowshunter.exe (ver 0.2.9.6)
 
 Related Article about (ETWPM2Monitor2.exe & ETWProcessMon2.exe) + VirtualMemAlloc ETW Events made by ETWProcessMon2: 
@@ -65,6 +73,7 @@ Related Video about (VirtualMemAllocMon.exe & ETWProcessMon2.exe) + VirtualMemAl
 Video1: https://www.linkedin.com/posts/damonmohammadbagher_new-video-etwprocessmon2-virtualmemallocmon-activity-6832801206688112640-yAWG/
 
 Video2: 
+
 
 Video for ETWPM2Monitor2 (ver 2) => https://www.linkedin.com/posts/damonmohammadbagher_etwprocessmon2-etwpm2monitor-v2-almost-activity-6828777557819752448-6dbv/
 
