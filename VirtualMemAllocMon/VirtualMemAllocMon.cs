@@ -238,7 +238,7 @@ namespace VirtualMemAllocMon
 
         private static void Kernel_VirtualMemAlloc(Microsoft.Diagnostics.Tracing.Parsers.Kernel.VirtualAllocTraceData obj)
         {
-            GC.Collect();
+            // GC.Collect();
             tempMemAllocInfo = "";
             tempPIDMemoAlloca = 0;
 
@@ -277,7 +277,7 @@ namespace VirtualMemAllocMon
 
         private static void Kernel_MemoryVirtualAllocDCStart(Microsoft.Diagnostics.Tracing.EmptyTraceData obj)
         {
-            GC.Collect();
+            // GC.Collect();
             tempMemAllocInfo = "";
             tempPIDMemoAlloca = 0;
 
