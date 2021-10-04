@@ -6,6 +6,8 @@ Note : this code VirtualMemAllocMon (v1.1) tested on Win7x64SP1 & Win10 (only), 
 ### VirtualMemAllocMon.exe
 "VirtualMemAllocMon" is simple tool for Monitor VirtualMemAlloc events in all Processes via ETW, with this code you can Monitor New VirtualMemAlloc Events for each Process, the goal is Payload Detection & my focus was on "Local Create Thread" & "Remote Thread Injection" + Meterpreter payload & Pe "MZ header" in-memory. this code will useful sometimes for Defenders & Blue Teamers but Pentesters/Red Teamers can use this too.
 
+md5 info for "VirtualMemAllocMon.exe" => 00260f8805-7379d99a11-c83acf7e8ab0
+
 Note: this code tested for Meterpreter Payload + Remote Thread Injection Techniques , like Dinvoke/Process Hollowing/Classic RemoteThreadInjection & ... 
 
 Related Video about (VirtualMemAllocMon.exe without using ETWProcessMon2.exe)
