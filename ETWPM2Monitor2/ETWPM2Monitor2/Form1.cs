@@ -1497,7 +1497,7 @@ namespace ETWPM2Monitor2
         {
             listView1.Items.Clear();
             Thread.Sleep(50);
-            richTextBox1.Clear();
+            // richTextBox1.Clear();
         }
 
         private void InjectedTIDMemoryInfoToolStripMenuItem_Click(object sender, EventArgs e)
