@@ -36,7 +36,7 @@ Note: ProcessHollowing Still Not Detected by Sysmon events Correctly (ProcessHol
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/SysPM2Monitor2.7/Pic/dinvoke.png)    
       
    
-### All Junior Pentesters/RedTeamers & Some Senior Pentesters/RedTeamers after Meterpreter Session Established + All Defenders after your Established Session Closed by their Defensive Tools (every day)... ;)
+### All Pentesters/RedTeamers after Meterpreter Session Established + All Defenders after your Established Session Closed by their Defensive Tools (every day)... ;)
 https://user-images.githubusercontent.com/24144801/149812254-8ed792b0-abd1-4ad8-8f34-9822ac22b2e3.mp4
 
 
