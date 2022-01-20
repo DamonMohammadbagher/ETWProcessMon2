@@ -8,7 +8,13 @@ Note: i will publish this code soon but some codes should change before publish.
 in this code the goal is Monitoring Process for (RemoteThreadInjection Techniques) via Sysmon Events like EventID 1 [New Process], EventID 8 [CreateRemoteThread] & EventID 3 [Tcp/ip Connections] so background of code is exactly same with ETWPM2Monitor2.exe but in this case we use Sysmon Events instead ETW events which made by ETWProcessMon2.exe C# tool.
 
 ------------------
-
+   
+### SysPM2Monitor2.7 & ProcessHollowing Detection via Sysmon Events
+   ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/SysPM2Monitor2.7/Pic/25.png)
+   
+### SysPM2Monitor2.7 & ProcessHollowing Detection via Sysmon Events
+   ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/SysPM2Monitor2.7/Pic/25-1.png)
+   
 ### SysPM2Monitor2.7 & RemoteThreadInjection Detection via Sysmon Events
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/SysPM2Monitor2.7/Pic/v2.7-4.png)
    
