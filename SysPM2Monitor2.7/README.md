@@ -22,13 +22,6 @@ in this code the goal is Monitoring Process for (RemoteThreadInjection Technique
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/SysPM2Monitor2.7/Pic/v2.7-3.png)
    
 ---------------
-### SysPM2Monitor2.7 [Sysmon] vs ETWPM2Monitor2 [ETW]
-Note: ProcessHollowing Still Not Detected by Sysmon events Correctly (ProcessHollowing Detected by ETW)
-   ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/SysPM2Monitor2.7/Pic/8.png) 
-   
-   ### SysPM2Monitor2.7 [Sysmon] vs ETWPM2Monitor2 [ETW]
-Note: ProcessHollowing Still Not Detected by Sysmon events Correctly (ProcessHollowing Detected by ETW)
-   ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/SysPM2Monitor2.7/Pic/2.png) 
 
 ### SysPM2Monitor2.7 [Sysmon] vs ETWPM2Monitor2 [ETW]
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/SysPM2Monitor2.7/Pic/hijack.png) 
