@@ -7,7 +7,16 @@ Note: i will publish this code soon but some codes should change before publish.
 ### Technique Detection & Payload Detection via Sysmon events: 
 in this code the goal is Monitoring Process for (RemoteThreadInjection Techniques) via Sysmon Events like EventID 1 [New Process], EventID 8 [CreateRemoteThread] & EventID 3 [Tcp/ip Connections] so background of code is exactly same with ETWPM2Monitor2.exe but in this case we use Sysmon Events instead ETW events which made by ETWProcessMon2.exe C# tool.
 
-------------------   
+------------------
+### SysPM2Monitor2.7 & ThreadHijacking Not Detected by Sysmon Events
+   ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/SysPM2Monitor2.7/Pic/new3.png)
+   
+### SysPM2Monitor2.7 & ThreadHijacking Detected by ETW Events via VirtualMemAllocMon tool (ETW Memory Scanner)
+   ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/SysPM2Monitor2.7/Pic/new4.png)
+   
+### SysPM2Monitor2.7 & Payload Detection via ETW Events [Memory Scanner via ETW VirtualMemAllocate Events by VirtualMemAllocMon Scanner tool] 
+   ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/SysPM2Monitor2.7/Pic/new5.png)
+
 ### SysPM2Monitor2.7 & ProcessHollowing Detection via Sysmon Events
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/SysPM2Monitor2.7/Pic/25.png)
    
