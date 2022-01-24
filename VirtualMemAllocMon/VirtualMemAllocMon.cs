@@ -25,6 +25,7 @@ namespace VirtualMemAllocMon
         [DllImport("ntdll.dll", SetLastError = true)]
         static extern NtStatus NtReadVirtualMemory(IntPtr ProcessHandle, IntPtr BaseAddress, byte[] Buffer, UInt32 NumberOfBytesToRead, ref UInt32 NumberOfBytesRead);
 
+
         //[DllImport("kernelbase.dll")]
         //public static extern IntPtr VirtualAllocEx(IntPtr hProcess, IntPtr lpAddress, uint dwSize, AllocationType flAllocationType, MemoryProtection flProtect);
 
@@ -34,21 +35,27 @@ namespace VirtualMemAllocMon
         //[DllImport("kernel32.dll", SetLastError = true)]
         //public static extern bool ReadProcessMemory(IntPtr hProcess, IntPtr lpBaseAddress, [Out] byte[] lpBuffer, int dwSize, IntPtr lpNumberOfBytesRead);
 
-        public static bool VaxFound, BytesFound = false;
-        public static bool initdotmemoalloc = false;
+
         public static string ETW_VAx_Event_RealtimeChangedStrings = string.Empty;
-        public static string dumpmem,tempMemAllocInfo, tempETWdetails, templastinfo = "";
-        public static Int32 tempPIDMemoAlloca,_v1;        
-        public static int result = 0;
-        public static UInt32 temp;
+        public static byte[] buf = new byte[208];
         public static string[] Flag_to_detection_VAx = new string[5];
         public static string[] Flag_to_detection_Bytes = new string[4];
-        public static byte[] buf = new byte[208];
-        public static event EventHandler _Event_VirtualMemAlloc_etw_evt;
+        public static bool VaxFound, BytesFound = false;
+        public static System.Timers.Timer __t = new System.Timers.Timer(350);
         public static System.Threading.Thread Bingo;
-
+        public static string tempMemAllocInfo, tempETWdetails, templastinfo = "";
+        public static Int32 tempPIDMemoAlloca,_v1;
+        public static bool initdotmemoalloc = false;
+        public static event EventHandler _Event_VirtualMemAlloc_etw_evt;
+        public static string dumpmem = "";
+        public static int result = 0;
+        public static UInt32 temp;
         public static bool _SearchVAxEvents(string input_to_search)
         {
+            try
+            {
+
+           
 
             VaxFound = false;
             foreach (string item in Flag_to_detection_VAx)
@@ -59,11 +66,24 @@ namespace VirtualMemAllocMon
                     break;
                 }
             }
+          
+
+            }
+            catch (Exception)
+            {
+
+               // throw;
+            }
             return VaxFound;
         }
         public static int _SearchBytes(string input_to_search)
         {
             int count = 0;
+            try
+            {
+
+           
+           
             BytesFound = false;
             foreach (string item in Flag_to_detection_Bytes)
             {
@@ -74,12 +94,19 @@ namespace VirtualMemAllocMon
                     if (count >= 4) break;
                 }
             }
+            }
+            catch (Exception)
+            {
+
+                
+            }
             return count;
         }
         public static void _ShowDetailsBytes(string RealtimeChangedStrings)
         {
             try
             {
+
 
                 Flag_to_detection_Bytes[0] = "is program canno";
                 Flag_to_detection_Bytes[1] = "t be run in DOS";
@@ -95,6 +122,8 @@ namespace VirtualMemAllocMon
 
                 temp = 0;
                 NtReadVirtualMemory(ph, ((IntPtr)Convert.ToUInt64(RealtimeChangedStrings.Split(':')[4])), buf, (uint)buf.Length, ref temp);
+
+                //ReadProcessMemory(ph, (uint)(Convert.ToInt32(RealtimeChangedStrings.Split(':')[4])), buf, buf.Length, IntPtr.Zero);          
 
                 Console.ForegroundColor = ConsoleColor.Gray;
                 Console.WriteLine("[{2}] Something Detected, VirtualMemAlloc Memory Address {0} in Process: {1} with PID: {3} ", RealtimeChangedStrings.Split(':')[4], _ProcessName, DateTime.Now, __PID);
@@ -119,8 +148,8 @@ namespace VirtualMemAllocMon
             }
             catch (Exception error)
             {
-                Console.WriteLine(error.Message);
-               
+		 Console.WriteLine(error.Message);
+
             }
         }
         public static string HexDump(byte[] bytes, int bytesPerLine = 16)
@@ -195,24 +224,32 @@ namespace VirtualMemAllocMon
 
         private static void Program__Event_VirtualMemAlloc_etw_evt(object sender, EventArgs e)
         {
-
-            string ETW_VAx_Event_RealtimeChangedStrings = sender.ToString();
-
-            if (_SearchVAxEvents(ETW_VAx_Event_RealtimeChangedStrings))
+            try
             {
 
-                if (ETW_VAx_Event_RealtimeChangedStrings.Contains("[Injected by "))
-                { Console.ForegroundColor = ConsoleColor.DarkYellow; }
+
+                string ETW_VAx_Event_RealtimeChangedStrings = sender.ToString();
+
+                if (_SearchVAxEvents(ETW_VAx_Event_RealtimeChangedStrings))
+                {
+
+                    if (ETW_VAx_Event_RealtimeChangedStrings.Contains("[Injected by "))
+                    { Console.ForegroundColor = ConsoleColor.DarkYellow; }
+                    else
+                    { Console.ForegroundColor = ConsoleColor.Green; }
+
+                    _ShowDetailsBytes(ETW_VAx_Event_RealtimeChangedStrings);
+                }
                 else
-                { Console.ForegroundColor = ConsoleColor.Green; }
+                {
 
-                _ShowDetailsBytes(ETW_VAx_Event_RealtimeChangedStrings);
+                }
             }
-            else
+            catch (Exception)
             {
 
-            }
 
+            }
         }
 
         public static void ETWCoreI()
@@ -238,15 +275,20 @@ namespace VirtualMemAllocMon
 
         private static void Kernel_VirtualMemAlloc(Microsoft.Diagnostics.Tracing.Parsers.Kernel.VirtualAllocTraceData obj)
         {
-            // GC.Collect();
-            tempMemAllocInfo = "";
-            tempPIDMemoAlloca = 0;
+            try
+            {
 
-                    if ((!initdotmemoalloc) && (tempPIDMemoAlloca != obj.ProcessID))
-                    {
 
-                        initdotmemoalloc = true;
-                    }
+                //GC.Collect();
+                tempMemAllocInfo = "";
+                tempPIDMemoAlloca = 0;
+
+
+                if ((!initdotmemoalloc) && (tempPIDMemoAlloca != obj.ProcessID))
+                {
+
+                    initdotmemoalloc = true;
+                }
 
                 _v1 = 0;
                 if (obj.ProcessID != tempPIDMemoAlloca)
@@ -265,51 +307,67 @@ namespace VirtualMemAllocMon
                     {
                         templastinfo = tempMemAllocInfo;
 
-                    _Event_VirtualMemAlloc_etw_evt.Invoke((object)("[" + obj.TimeStamp.ToString() + "] PID:(" + obj.ProcessID +
-                            ") TID(" + obj.ThreadID + ") " + tempETWdetails + " [VirtualMemAlloc]"), null);
+                        _Event_VirtualMemAlloc_etw_evt.Invoke((object)("[" + obj.TimeStamp.ToString() + "] PID:(" + obj.ProcessID +
+                                ") TID(" + obj.ThreadID + ") " + tempETWdetails + " [VirtualMemAlloc]"), null);
                     }
 
                     tempETWdetails = "";
 
                 }
-   
+            }
+            catch (Exception)
+            {
+
+               
+            }
+
         }
 
         private static void Kernel_MemoryVirtualAllocDCStart(Microsoft.Diagnostics.Tracing.EmptyTraceData obj)
         {
-            // GC.Collect();
-            tempMemAllocInfo = "";
-            tempPIDMemoAlloca = 0;
-
-            if ((!initdotmemoalloc) && (tempPIDMemoAlloca != obj.ProcessID))
+            try
             {
-                initdotmemoalloc = true;
+
+
+               // GC.Collect();
+                tempMemAllocInfo = "";
+                tempPIDMemoAlloca = 0;
+
+                if ((!initdotmemoalloc) && (tempPIDMemoAlloca != obj.ProcessID))
+                {
+                    initdotmemoalloc = true;
+                }
+
+                _v1 = 0;
+                if (obj.ProcessID != tempPIDMemoAlloca)
+                {
+                    /////Console.WriteLine();
+                    initdotmemoalloc = false;
+                    foreach (var item in obj.PayloadNames)
+                    {
+
+                        tempMemAllocInfo += "[" + item + ": " + obj.PayloadValue(_v1).ToString() + "]";
+                        tempETWdetails += ":" + obj.PayloadValue(_v1).ToString();
+
+                        _v1++;
+                    }
+                    tempPIDMemoAlloca = obj.ProcessID;
+                    if (templastinfo != tempMemAllocInfo)
+                    {
+                        templastinfo = tempMemAllocInfo;
+
+                        _Event_VirtualMemAlloc_etw_evt.Invoke((object)("[" + obj.TimeStamp.ToString() + "] PID:(" + obj.ProcessID +
+                                ") TID(" + obj.ThreadID + ") " + tempETWdetails + " [VirtualMemAlloc]"), null);
+                    }
+
+                    tempETWdetails = "";
+
+                }
             }
-
-            _v1 = 0;
-            if (obj.ProcessID != tempPIDMemoAlloca)
+            catch (Exception)
             {
-                /////Console.WriteLine();
-                initdotmemoalloc = false;
-                foreach (var item in obj.PayloadNames)
-                {
 
-                    tempMemAllocInfo += "[" + item + ": " + obj.PayloadValue(_v1).ToString() + "]";
-                    tempETWdetails += ":" + obj.PayloadValue(_v1).ToString();
-
-                    _v1++;
-                }
-                tempPIDMemoAlloca = obj.ProcessID;
-                if (templastinfo != tempMemAllocInfo)
-                {
-                    templastinfo = tempMemAllocInfo;
-
-                    _Event_VirtualMemAlloc_etw_evt.Invoke((object)("[" + obj.TimeStamp.ToString() + "] PID:(" + obj.ProcessID +
-                            ") TID(" + obj.ThreadID + ") " + tempETWdetails + " [VirtualMemAlloc]"), null);
-                }
-
-                tempETWdetails = "";
-
+                
             }
         }
 
@@ -350,7 +408,7 @@ namespace VirtualMemAllocMon
             {
                 Bingo = new System.Threading.Thread(ETWCoreI)
                 {
-                    Priority = System.Threading.ThreadPriority.AboveNormal
+                    Priority = System.Threading.ThreadPriority.Highest
                 };
                 Bingo.Start();
                 Thread.Sleep(1000);
