@@ -14,6 +14,9 @@ in this code the goal is Monitoring Process for (RemoteThreadInjection Technique
 ### SysPM2Monitor2.7 & Detection Logs & Memory Scanners (as you can see Something detected in svchost by ETW VirtualMemAllocMon v1.1)
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/SysPM2Monitor2.7/Pic/svchost.png)
    
+### SysPM2Monitor2.7 & Detection Logs & Memory Scanners (Callback Function techniques detected by ETW VirtualMemAllocMon v1.1 very well)
+   ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/SysPM2Monitor2.7/Pic/cbt.png)   
+   
 ### SysPM2Monitor2.7 & ThreadHijacking Not Detected by Sysmon Events
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/SysPM2Monitor2.7/Pic/new3.png)
    
