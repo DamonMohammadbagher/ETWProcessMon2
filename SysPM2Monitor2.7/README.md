@@ -15,7 +15,7 @@ in this code the goal is Monitoring Process for (RemoteThreadInjection Technique
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/SysPM2Monitor2.7/Pic/AddressofEntryPoint-3.png)
 #### link for Technique [AddressofEntryPoint]: https://www.ired.team/offensive-security/code-injection-process-injection/addressofentrypoint-code-injection-without-virtualallocex-rwx
 -------------------------   
-### SysPM2Monitor2.7 & Detection Logs & Memory Scanners (afere shell execute, PE MZ bytes detected via ETW VirtualMemAllocMon v1.1)
+### SysPM2Monitor2.7 & Detection Logs & Memory Scanners (after shell execute, PE MZ bytes detected via ETW VirtualMemAllocMon v1.1)
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/SysPM2Monitor2.7/Pic/localshell_WithoutAPI.png)   
 #### link for Technique [local-shellcode-execution-without-windows-apis]: https://www.ired.team/offensive-security/code-injection-process-injection/local-shellcode-execution-without-windows-apis
 -------------------------      
