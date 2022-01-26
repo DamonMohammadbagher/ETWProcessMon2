@@ -13,7 +13,7 @@ in this code the goal is Monitoring Process for (RemoteThreadInjection Technique
 ------------------------- 
 ### SysPM2Monitor2.7 & Detection Logs & Memory Scanners (Module Stomping [Module Overloading or DLL Hollowing] Detected by Sysmon but it seems Shell not Detected by Memory Scanner PE-sieve [maybe need to reset scanner switches] also not Detected by ETW Events via ETW VirtualMemAllocMon v1.1)
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/SysPM2Monitor2.7/Pic/ModuleStomping-DLLHollowing.png)
-#### link for Technique [Module Overloading or DLL Hollowing]: https://www.ired.team/offensive-security/code-injection-process-injection/modulestomping-dll-hollowing-shellcode-injection
+#### link for Technique [Module Overloading/DLL Hollowing]: https://www.ired.team/offensive-security/code-injection-process-injection/modulestomping-dll-hollowing-shellcode-injection
 ------------------------- 
 ### SysPM2Monitor2.7 & Detection Logs & Memory Scanners (AddressofEntryPoint Technique not Detected by Sysmon Events but Detected via ETW & ETW VirtualMemAllocMon v1.1)
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/SysPM2Monitor2.7/Pic/AddressofEntryPoint-3.png)
