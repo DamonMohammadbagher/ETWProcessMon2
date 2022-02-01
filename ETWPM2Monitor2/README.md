@@ -28,7 +28,7 @@ Usage Steps
     Step2: ETWPM2Monitor2.exe (Run as Admin)
 
 -------------------------
-### ETWPM2Monitor2 v2.1 
+### ETWPM2Monitor2 v2.1 (New ver)
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2/Pics/v2.1.png)
    
    Note: for New Exe file, you can use/add this project [ETWPM2Monitor2 v2.1] in your vs.net 2017/2019 very simple (bugs fixed ;D)
