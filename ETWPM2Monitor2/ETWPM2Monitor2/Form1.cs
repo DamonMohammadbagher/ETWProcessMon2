@@ -1890,7 +1890,7 @@ namespace ETWPM2Monitor2
 
         private void AboutToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(null, "ETWPM2Monitor v2 [test version 2.0.78.6]\nCode Published by Damon Mohammadbagher , Jul 2021", "About ETWPM2Monitor v2", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show(null, "ETWPM2Monitor v2 [test version 2.1.0.87]\nCode Published by Damon Mohammadbagher , Jul 2021", "About ETWPM2Monitor v2", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
         }
 
