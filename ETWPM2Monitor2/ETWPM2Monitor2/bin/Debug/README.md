@@ -7,7 +7,7 @@ md5 info, "exe files are not safe here in github so make your own exe files with
 
     40d799fd84-a7dbb7a981-d3eebed3c7e5 => ETWPM2Monitor2.exe (v2.0)
     
-Note: for "ETWPM2Monitor2.exe" (V2.1) you should compile New source code by yourself ;)
+Note: for "ETWPM2Monitor2.exe" (v2.1) you should compile New source code by yourself ;)
 
 Usage Steps
 
