@@ -37,6 +37,8 @@
             this.eTWEventPropertiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.richTextBox6 = new System.Windows.Forms.RichTextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
@@ -56,6 +58,9 @@
             this.tabPage7 = new System.Windows.Forms.TabPage();
             this.panel1 = new System.Windows.Forms.Panel();
             this.groupBox11 = new System.Windows.Forms.GroupBox();
+            this.checkBox3 = new System.Windows.Forms.CheckBox();
+            this.checkBox2 = new System.Windows.Forms.CheckBox();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.listView3 = new System.Windows.Forms.ListView();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
             this.progressBar7 = new System.Windows.Forms.ProgressBar();
@@ -114,6 +119,8 @@
             this.eventID1ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.eventID2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.eventID3ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.excludeSYSTEM4EventsFromRealtimeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.includeSYSTEM4EventsFromRealtimeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.memoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.injectedTIDMemoryInfoToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -129,12 +136,13 @@
             this.toolStripStatusLabel4 = new System.Windows.Forms.ToolStripStatusLabel();
             this.contextMenuStrip4 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.dumpTIDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
-            this.checkBox3 = new System.Windows.Forms.CheckBox();
             this.contextMenuStrip5.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
+            this.splitContainer2.Panel1.SuspendLayout();
+            this.splitContainer2.Panel2.SuspendLayout();
+            this.splitContainer2.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.tabPage4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -180,9 +188,9 @@
             this.listView1.ContextMenuStrip = this.contextMenuStrip5;
             this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listView1.HideSelection = false;
-            this.listView1.Location = new System.Drawing.Point(3, 3);
+            this.listView1.Location = new System.Drawing.Point(0, 0);
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(1085, 378);
+            this.listView1.Size = new System.Drawing.Size(1085, 202);
             this.listView1.TabIndex = 1;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.SelectedIndexChanged += new System.EventHandler(this.ListView1_SelectedIndexChanged);
@@ -224,7 +232,7 @@
             // 
             // tabPage1
             // 
-            this.tabPage1.Controls.Add(this.listView1);
+            this.tabPage1.Controls.Add(this.splitContainer2);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
@@ -232,6 +240,36 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "ETWPM2 (Realtime events)";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // splitContainer2
+            // 
+            this.splitContainer2.BackColor = System.Drawing.Color.PaleGreen;
+            this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer2.Location = new System.Drawing.Point(3, 3);
+            this.splitContainer2.Name = "splitContainer2";
+            this.splitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer2.Panel1
+            // 
+            this.splitContainer2.Panel1.Controls.Add(this.listView1);
+            // 
+            // splitContainer2.Panel2
+            // 
+            this.splitContainer2.Panel2.Controls.Add(this.richTextBox6);
+            this.splitContainer2.Size = new System.Drawing.Size(1085, 378);
+            this.splitContainer2.SplitterDistance = 202;
+            this.splitContainer2.TabIndex = 2;
+            // 
+            // richTextBox6
+            // 
+            this.richTextBox6.BackColor = System.Drawing.Color.LightCyan;
+            this.richTextBox6.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.richTextBox6.Location = new System.Drawing.Point(0, 0);
+            this.richTextBox6.Name = "richTextBox6";
+            this.richTextBox6.ReadOnly = true;
+            this.richTextBox6.Size = new System.Drawing.Size(1085, 172);
+            this.richTextBox6.TabIndex = 0;
+            this.richTextBox6.Text = "";
             // 
             // tabPage2
             // 
@@ -376,6 +414,7 @@
             this.richTextBox5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.richTextBox5.Location = new System.Drawing.Point(3, 16);
             this.richTextBox5.Name = "richTextBox5";
+            this.richTextBox5.ReadOnly = true;
             this.richTextBox5.Size = new System.Drawing.Size(460, 72);
             this.richTextBox5.TabIndex = 1;
             this.richTextBox5.Text = "";
@@ -399,6 +438,7 @@
             this.richTextBox4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.richTextBox4.Location = new System.Drawing.Point(3, 16);
             this.richTextBox4.Name = "richTextBox4";
+            this.richTextBox4.ReadOnly = true;
             this.richTextBox4.Size = new System.Drawing.Size(460, 81);
             this.richTextBox4.TabIndex = 0;
             this.richTextBox4.Text = "";
@@ -411,6 +451,7 @@
             this.richTextBox3.ForeColor = System.Drawing.Color.Black;
             this.richTextBox3.Location = new System.Drawing.Point(3, 3);
             this.richTextBox3.Name = "richTextBox3";
+            this.richTextBox3.ReadOnly = true;
             this.richTextBox3.Size = new System.Drawing.Size(596, 193);
             this.richTextBox3.TabIndex = 0;
             this.richTextBox3.Text = "";
@@ -459,7 +500,43 @@
             this.groupBox11.Size = new System.Drawing.Size(485, 182);
             this.groupBox11.TabIndex = 5;
             this.groupBox11.TabStop = false;
-            this.groupBox11.Text = "ETW Events by Processes";
+            this.groupBox11.Text = "ETW Events by Processes (every 15 sec)";
+            // 
+            // checkBox3
+            // 
+            this.checkBox3.AutoSize = true;
+            this.checkBox3.Enabled = false;
+            this.checkBox3.Location = new System.Drawing.Point(268, 17);
+            this.checkBox3.Name = "checkBox3";
+            this.checkBox3.Size = new System.Drawing.Size(136, 17);
+            this.checkBox3.TabIndex = 5;
+            this.checkBox3.Text = "Sort by LastEvent-Time";
+            this.checkBox3.UseVisualStyleBackColor = true;
+            this.checkBox3.CheckedChanged += new System.EventHandler(this.CheckBox3_CheckedChanged);
+            // 
+            // checkBox2
+            // 
+            this.checkBox2.AutoSize = true;
+            this.checkBox2.Enabled = false;
+            this.checkBox2.Location = new System.Drawing.Point(151, 17);
+            this.checkBox2.Name = "checkBox2";
+            this.checkBox2.Size = new System.Drawing.Size(111, 17);
+            this.checkBox2.TabIndex = 4;
+            this.checkBox2.Text = "Sort by TCP Send";
+            this.checkBox2.UseVisualStyleBackColor = true;
+            this.checkBox2.CheckedChanged += new System.EventHandler(this.CheckBox2_CheckedChanged);
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Enabled = false;
+            this.checkBox1.Location = new System.Drawing.Point(6, 17);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(139, 17);
+            this.checkBox1.TabIndex = 3;
+            this.checkBox1.Text = "Sort by Thread-Injection";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.CheckBox1_CheckedChanged);
             // 
             // listView3
             // 
@@ -468,6 +545,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.listView3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.listView3.Enabled = false;
             this.listView3.FullRowSelect = true;
             this.listView3.HideSelection = false;
             this.listView3.Location = new System.Drawing.Point(6, 34);
@@ -894,7 +972,9 @@
             this.eventID23InjectionTCPIPToolStripMenuItem,
             this.eventID1ToolStripMenuItem,
             this.eventID2ToolStripMenuItem,
-            this.eventID3ToolStripMenuItem});
+            this.eventID3ToolStripMenuItem,
+            this.excludeSYSTEM4EventsFromRealtimeToolStripMenuItem,
+            this.includeSYSTEM4EventsFromRealtimeToolStripMenuItem});
             this.filtersToolStripMenuItem.Name = "filtersToolStripMenuItem";
             this.filtersToolStripMenuItem.Size = new System.Drawing.Size(50, 20);
             this.filtersToolStripMenuItem.Text = "Filters";
@@ -952,6 +1032,24 @@
             this.eventID3ToolStripMenuItem.Text = "EventID 3 [TCPIP Send event]";
             this.eventID3ToolStripMenuItem.ToolTipText = "Warning: Alarm by ETW \"Tab\", is \"disabled\" by selecting this Filter";
             this.eventID3ToolStripMenuItem.Click += new System.EventHandler(this.EventID3ToolStripMenuItem_Click);
+            // 
+            // excludeSYSTEM4EventsFromRealtimeToolStripMenuItem
+            // 
+            this.excludeSYSTEM4EventsFromRealtimeToolStripMenuItem.Checked = true;
+            this.excludeSYSTEM4EventsFromRealtimeToolStripMenuItem.CheckOnClick = true;
+            this.excludeSYSTEM4EventsFromRealtimeToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.excludeSYSTEM4EventsFromRealtimeToolStripMenuItem.Name = "excludeSYSTEM4EventsFromRealtimeToolStripMenuItem";
+            this.excludeSYSTEM4EventsFromRealtimeToolStripMenuItem.Size = new System.Drawing.Size(351, 22);
+            this.excludeSYSTEM4EventsFromRealtimeToolStripMenuItem.Text = "Exclude \"SYSTEM:4\" Events from Realtime";
+            this.excludeSYSTEM4EventsFromRealtimeToolStripMenuItem.Click += new System.EventHandler(this.ExcludeSYSTEM4EventsFromRealtimeToolStripMenuItem_Click);
+            // 
+            // includeSYSTEM4EventsFromRealtimeToolStripMenuItem
+            // 
+            this.includeSYSTEM4EventsFromRealtimeToolStripMenuItem.CheckOnClick = true;
+            this.includeSYSTEM4EventsFromRealtimeToolStripMenuItem.Name = "includeSYSTEM4EventsFromRealtimeToolStripMenuItem";
+            this.includeSYSTEM4EventsFromRealtimeToolStripMenuItem.Size = new System.Drawing.Size(351, 22);
+            this.includeSYSTEM4EventsFromRealtimeToolStripMenuItem.Text = "Include \"SYSTEM:4\" Events from Realtime";
+            this.includeSYSTEM4EventsFromRealtimeToolStripMenuItem.Click += new System.EventHandler(this.IncludeSYSTEM4EventsFromRealtimeToolStripMenuItem_Click);
             // 
             // memoryToolStripMenuItem
             // 
@@ -1063,39 +1161,6 @@
             this.dumpTIDToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
             this.dumpTIDToolStripMenuItem.Text = "Injected TID Memory info";
             // 
-            // checkBox1
-            // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(6, 17);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(139, 17);
-            this.checkBox1.TabIndex = 3;
-            this.checkBox1.Text = "Sort by Thread-Injection";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            this.checkBox1.CheckedChanged += new System.EventHandler(this.CheckBox1_CheckedChanged);
-            // 
-            // checkBox2
-            // 
-            this.checkBox2.AutoSize = true;
-            this.checkBox2.Location = new System.Drawing.Point(151, 17);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(111, 17);
-            this.checkBox2.TabIndex = 4;
-            this.checkBox2.Text = "Sort by TCP Send";
-            this.checkBox2.UseVisualStyleBackColor = true;
-            this.checkBox2.CheckedChanged += new System.EventHandler(this.CheckBox2_CheckedChanged);
-            // 
-            // checkBox3
-            // 
-            this.checkBox3.AutoSize = true;
-            this.checkBox3.Location = new System.Drawing.Point(268, 17);
-            this.checkBox3.Name = "checkBox3";
-            this.checkBox3.Size = new System.Drawing.Size(136, 17);
-            this.checkBox3.TabIndex = 5;
-            this.checkBox3.Text = "Sort by LastEvent-Time";
-            this.checkBox3.UseVisualStyleBackColor = true;
-            this.checkBox3.CheckedChanged += new System.EventHandler(this.CheckBox3_CheckedChanged);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1105,12 +1170,16 @@
             this.Controls.Add(this.menuStrip3);
             this.Controls.Add(this.statusStrip1);
             this.Name = "Form1";
-            this.Text = "ETWPM2 Events Monitor v2";
+            this.Text = "ETWPM2 Events Monitor v2.1";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.contextMenuStrip5.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
+            this.splitContainer2.Panel1.ResumeLayout(false);
+            this.splitContainer2.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
+            this.splitContainer2.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
             this.tabPage4.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
@@ -1249,6 +1318,10 @@
         private System.Windows.Forms.CheckBox checkBox3;
         private System.Windows.Forms.CheckBox checkBox2;
         private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.ToolStripMenuItem excludeSYSTEM4EventsFromRealtimeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem includeSYSTEM4EventsFromRealtimeToolStripMenuItem;
+        private System.Windows.Forms.SplitContainer splitContainer2;
+        private System.Windows.Forms.RichTextBox richTextBox6;
     }
 }
 
