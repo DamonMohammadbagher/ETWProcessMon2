@@ -18,7 +18,7 @@ namespace ETWPM2Monitor2
     public partial class Form1 : Form
     {
         /// <summary>
-        /// ETWPM2Monitor v2 [test version] Code Published by Damon Mohammadbagher , 31 Jul 2021 
+        /// ETWPM2Monitor v2.1 [test version] Code Published by Damon Mohammadbagher , 31 Jul 2021 
         /// Console App for Realtime monitor ETW Events "ETWPM2" which made by ETWProcessMon2
         /// this app will monitor events in windows event log [logname = ETWPM2].
         /// NewProcess events + RemoteThreadInjection events + TCPIP Send events will monitor by ETWProcessMon2 with logname ETWPM2 which by this tool "ETWPM2Monitor" you can watch them "realtime"
