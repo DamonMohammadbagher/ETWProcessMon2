@@ -1,12 +1,16 @@
-# ETWProcessMon2
+# ETWProcessMon2 `(v2.1)`
 ETWProcessMon2 (ver2) is for Monitoring Process/Thread/Memory/Imageloads/TCPIP via ETW + Detection for Remote-Thread-Injection & Payload Detection by VirtualMemAlloc Events (in-memory) etc.
+
+`Note: ETWProcessMon2.1 (v2.1) is new version of code, in this new version VirtualMemAlloc Events removed from source code & now Code Performance is very fast/good (this version ETWProcessMon2.1 will work with ETWPM2Monitor2 v2.1 very good for Technique/Payload Detection via ETW Events)`
 
 ### ETWProcessMon2.exe
 "ETWProcessMon" is simple tool for Monitor Processes/Threads/Memory/Imageloads/TCPIP Events via ETW, with this code you can Monitor New Processes also you can See New Threads (Thread Started event) + Technique Detection for Remote-Thread-Injection (Which Means Your New Thread Created into Target Process by Another Process), also with this code you can Monitor VirtualMemAllocation Events in Memory for All Processes (which sometimes is very useful for Payload Detection in-memory) also you can see ImageLoads for each Process & you can see TCPIP Send Events for each Process too. 
 
 Note: VirtualMemAlloc for (Payload-Detection) + ImageLoad & Remote-Thread-Injection Detection for (Technique-Detection) are useful for Blue Teams/Defenders, New Code "VirtualMemAllocMon.exe" created & in this code you can monitor all VirtualMemAlloc Events for ALL Process without using "ETWProcessMon2.exe" for more information => (https://github.com/DamonMohammadbagher/ETWProcessMon2/tree/main/VirtualMemAllocMon)
 
-Note: in (Version 2) NewProcess events + Remote-Thread-Injection Detecetion events + TCPIP send events all will save in Windows Event Log which with EventViewer you can watch them also VirtualMemAlloc events + Remote-thread-injection Detection Events will save in text "ETWProcessMonlog.txt" log file too (at the same time). so in this version2 we have two type of Events log files => 1."windows event logs [ETWPM2]" , 2."ETWProcessMonlog.txt" 
+Note: in ETWProcessMon2 (v2.0) NewProcess events + Remote-Thread-Injection Detecetion events + TCPIP send events all will save in Windows Event Log which with EventViewer you can watch them also VirtualMemAlloc events + Remote-thread-injection Detection Events will save in text "ETWProcessMonlog.txt" log file too (at the same time). so in this version2 we have two type of Events log files => 1."windows event logs [ETWPM2]" , 2."ETWProcessMonlog.txt" 
+
+Note: ETWProcessMon2.1 (v2.1) is new version of code, in this new version VirtualMemAlloc Events removed from source code that means now we don't have Text log file for VirtualMemAlloc Events & now Code Performance is very fast/good (this version ETWProcessMon2.1 will work with ETWPM2Monitor2 v2.1 very good for Technique/Payload Detection via ETW Events) but if you want VirtualMemAlloc Events by ETW you can use VirtualMemAllocMon.exe v1.1 C# Source code which is Memory scanner based on ETW VirtualMemAlloc events. 
 
 ETW Events in event log [ETWPM2]:
 
