@@ -27,7 +27,7 @@ namespace ETWPM2Monitor2
         /// </summary>
         public static bool is_system4_excluded = true;
         public Int64 i6 = 0;
-        public static System.Timers.Timer t = new System.Timers.Timer(1500);
+        public static System.Timers.Timer t = new System.Timers.Timer(10000);
         public static System.Timers.Timer t2 = new System.Timers.Timer(5000);
         public static System.Timers.Timer t3 = new System.Timers.Timer(5000);
         public static System.Timers.Timer t4 = new System.Timers.Timer(15000);
@@ -51,6 +51,7 @@ namespace ETWPM2Monitor2
         public delegate void __LogReader();
         public delegate void __Additem(object itemsOfListview1_2_5_6);
         public delegate void __AddTextTorichtexhbox1(object str);
+        public delegate void __core2(object str);
         public delegate void __Updatelistview1();
         public delegate void __Obj_Updater_to_WinForm();
 
@@ -274,14 +275,31 @@ namespace ETWPM2Monitor2
 
         public void StartQueries_Mon(string queries)
         {
-            string _Query = queries;
-            EvtWatcher.Dispose();
-            ETWPM2Query = new EventLogQuery("ETWPM2", PathType.LogName, _Query);
+            ThreadStart Core2 = new ThreadStart(delegate { BeginInvoke(new __core2(_Core2), queries); });
+            Thread _T1_Core2 = new Thread(Core2);
+            _T1_Core2.Priority = ThreadPriority.Highest;
+            _T1_Core2.Start();
 
-            EvtWatcher = new EventLogWatcher(ETWPM2Query);
-            EvtWatcher.EventRecordWritten += Watcher_EventRecordWritten;
-            EvtWatcher.Enabled = true;
-            toolStripStatusLabel1.Text = "Monitor Status: on";
+        }
+
+        public void _Core2(object queries)
+        {
+            try
+            {
+                string _Query = queries.ToString();
+                EvtWatcher.Dispose();
+                ETWPM2Query = new EventLogQuery("ETWPM2", PathType.LogName, _Query);
+
+                EvtWatcher = new EventLogWatcher(ETWPM2Query);
+                EvtWatcher.EventRecordWritten += Watcher_EventRecordWritten;
+                EvtWatcher.Enabled = true;
+                toolStripStatusLabel1.Text = "Monitor Status: on";
+            }
+            catch (Exception)
+            {
+
+          
+            }
         }
 
         public void _Core()
@@ -292,9 +310,9 @@ namespace ETWPM2Monitor2
             EvtWatcher = new EventLogWatcher(ETWPM2Query);
             EvtWatcher.EventRecordWritten += Watcher_EventRecordWritten;
 
-            //listView1.SmallImageList = imageList1;
             EvtWatcher.Enabled = true;
         }
+
         private void Form1_Load(object sender, EventArgs e)
         {
             try
@@ -336,9 +354,9 @@ namespace ETWPM2Monitor2
                 t.Enabled = true;
                 t2.Elapsed += T2_Elapsed;
                 t2.Enabled = true;
-                t3.Elapsed += T3_Elapsed;
-                t3.Enabled = true;
-                t3.Start();
+                //t3.Elapsed += T3_Elapsed;
+                //t3.Enabled = true;
+                //t3.Start();
                 t4.Elapsed += T4_Elapsed;
                 t4.Enabled = true;
                 t4.Start();
@@ -563,8 +581,7 @@ namespace ETWPM2Monitor2
 
         private void T3_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
-            GC.Collect();
-           
+           // GC.Collect();
 
         }
 
