@@ -42,6 +42,7 @@ Usage Steps
 
 ### ETWPM2Monitor2 v2.1 (Detecting Cmd.exe with Parent_Process_Path/ID, when cmd process has ParentPID which is not normal)
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2/Pics/v21-cmd2.png)
+   note: this simple detection added to source codez.
 -------------------------
 ### ETWPM2Monitor2 & RemoteThreadInjection Detection via ETW Events
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2/Pics/ETWPM2Monitor2-1.png)
