@@ -1,6 +1,8 @@
 # ETWPM2Monitor2 `(v2.1)`
 This tool [ETWPM2Monitor version2] is for Monitor ETW Event-Logs [log name: ETWPM2] which made by ETWProcessMon2.exe & the goal is Monitoring RemoteThreadInjection Techniques (Technique Detection & Payload Detection via ETW).
 
+`Note: ETWPM2Monitor2 v2.1 is new version of code & you can use this code with ETWProcessMon2.1 (v2.1), this version ETWPM2Monitor2 v2.1 will work with ETWProcessMon2.1 very fast for Technique/Payload Detection (Remote-Thread-injection) via ETW Events)`
+
 Note: I will Publish Article & Help Documents for this tool soon... 
 
 Related Article: https://www.linkedin.com/pulse/etwpm2monitor2-remote-thread-injection-detection-etw-mohammadbagher
