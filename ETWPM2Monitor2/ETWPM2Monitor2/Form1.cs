@@ -18,7 +18,7 @@ namespace ETWPM2Monitor2
     public partial class Form1 : Form
     {
         /// <summary>
-        /// ETWPM2Monitor v2.1 [test version] Code Published by Damon Mohammadbagher , 31 Jul 2021 
+        /// ETWPM2Monitor v2 [test version] Code Published by Damon Mohammadbagher , 31 Jul 2021 
         /// Console App for Realtime monitor ETW Events "ETWPM2" which made by ETWProcessMon2
         /// this app will monitor events in windows event log [logname = ETWPM2].
         /// NewProcess events + RemoteThreadInjection events + TCPIP Send events will monitor by ETWProcessMon2 with logname ETWPM2 which by this tool "ETWPM2Monitor" you can watch them "realtime"
@@ -221,15 +221,42 @@ namespace ETWPM2Monitor2
                 Thread.Sleep(1);
                 if (MyLviewItemsX1 != null)
                 {
-                    //if (MyLviewItemsX1.Name != evtstring)
-                    //{
-                       // listView1.BeginUpdate();
+                    /// just for test for better detection via events ;)
+                    /// simple example.
+                    if (MyLviewItemsX1.SubItems[5].Text.Split('\n')[1] == "[MEM] NewProcess Started ")
+                    {
+                        string commandline = MyLviewItemsX1.SubItems[5].Text.Split('\n')[4].ToLower();
+                        string parentid = MyLviewItemsX1.SubItems[5].Text.Split('\n')[6].ToLower();
+                        if (commandline.Contains("[commandline: c:\\windows\\system32\\cmd.exe") || commandline.Contains("[commandline: cmd"))
+
+                        {
+                            if (parentid != "[parentid path: c:\\windows\\explorer.exe]")
+                            {
+                                MyLviewItemsX1.BackColor = Color.Red;
+                                MyLviewItemsX1.ForeColor = Color.Black;
+                                MyLviewItemsX1.ImageIndex = 2;
+                                MyLviewItemsX1.SubItems[5].Text += "\n\nWarning Description: [ParentID Path] & [PPID] for this New Process is not Normal! (maybe Shell Activated?)";
+                                Thread.Sleep(10);
+                               
+
+                            }
+                        }
+                        else
+                        {
+                            MyLviewItemsX1.ForeColor = Color.Black;
+                            MyLviewItemsX1.ImageIndex = 0;
+                            Thread.Sleep(3);
+                           
+                        }
+
                         listView1.Items.Add(MyLviewItemsX1);
-                      //  listView1.Update();
-                      //  listView1.EndUpdate();
-                        evtstring = MyLviewItemsX1.Name;
-                        Thread.Sleep(5);
-                    //}
+
+                    }
+                    else { listView1.Items.Add(MyLviewItemsX1); }
+
+                    evtstring = MyLviewItemsX1.Name;
+                    Thread.Sleep(3);
+
                 }
             }
             catch (Exception ee)
@@ -249,10 +276,9 @@ namespace ETWPM2Monitor2
                 if (MyLviewItemsX2 != null)
                 {
 
-                   // listView2.BeginUpdate();
+                   
                     listView2.Items.Add(MyLviewItemsX2);
-                   // listView2.Update();
-                   // listView2.EndUpdate();
+                   
                     Thread.Sleep(5);
 
                 }
@@ -261,7 +287,7 @@ namespace ETWPM2Monitor2
             catch (Exception ee)
             {
 
-                // listView2.FocusedItem.EnsureVisible();
+                
             }
 
 
@@ -876,9 +902,18 @@ namespace ETWPM2Monitor2
                         Parallel.Invoke(() =>
                         {
                             _finalresult_Scanned_01 = executeutilities_01(item.PID.ToString(), item.ProcessName_Path, item.Injector_Path + ":" + item.Injector.ToString());
+
                         }, () =>
                         {
+                            /// thread wait(1000/2000) only for terminate action needed in this code 
+                            /// because before adding to list target process will terminate without adding to list of detection/logs 
+                            if (HollowHunterLevel == 2)
+                            {
+                                Thread.Sleep(2000);
+                            }
+
                             _finalresult_Scanned_02 = executeutilities_02(item.PID.ToString(), item.ProcessName_Path, item.Injector_Path + ":" + item.Injector.ToString());
+
                         });
 
                         /// pe-sieve64.exe scanner
@@ -2242,10 +2277,9 @@ namespace ETWPM2Monitor2
         {
             try
             {
-                Thread.Sleep(1);
+               
                 richTextBox1.Text += str.ToString();
-                Thread.Sleep(20);
-
+ 
             }
             catch (Exception)
             {
