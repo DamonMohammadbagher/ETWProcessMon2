@@ -235,7 +235,7 @@ namespace ETWPM2Monitor2
                                 MyLviewItemsX1.BackColor = Color.Red;
                                 MyLviewItemsX1.ForeColor = Color.Black;
                                 MyLviewItemsX1.ImageIndex = 2;
-                                MyLviewItemsX1.SubItems[5].Text += "\n\nWarning Description: [ParentID Path] & [PPID] for this New Process is not Normal! (maybe Shell Activated?)";
+                                MyLviewItemsX1.SubItems[5].Text += "\n\n#This Description Added by ETWPM2Monitor2 tool#\n##Warning Description: [ParentID Path] & [PPID] for this New Process is not Normal! (maybe Shell Activated?)##\n";
                                 Thread.Sleep(10);
                                
 
@@ -276,13 +276,18 @@ namespace ETWPM2Monitor2
                 if (MyLviewItemsX2 != null)
                 {
 
-                   
-                    listView2.Items.Add(MyLviewItemsX2);
-                   
-                    Thread.Sleep(5);
+                    if (MyLviewItemsX2.Name != evtstring2)
+                    {
+                        listView2.Items.Add(MyLviewItemsX2);
+
+                        Thread.Sleep(5);
+                        evtstring2 = MyLviewItemsX2.Name;
+                    }
 
                 }
                 tabPage4.Text = "Alarms by ETW " + "(" + listView2.Items.Count.ToString() + ")";
+
+              
             }
             catch (Exception ee)
             {
@@ -719,6 +724,8 @@ namespace ETWPM2Monitor2
 
         private void Form1_NewProcessAddedtolist_NewProcessEvt(object sender, EventArgs e)
         {
+            var evt_time = "";
+           
             try
             {
                 //[ETW]
@@ -731,6 +738,7 @@ namespace ETWPM2Monitor2
                 //EventTime = 8/11/2021 10:15:32 AM]
 
                 string[] all = sender.ToString().Split('\n');
+
                 NewProcess_Table.Add(new _TableofProcess_NewProcess_evt
                 {
                     ProcessName = all[3].Split('=')[1]
@@ -749,7 +757,7 @@ namespace ETWPM2Monitor2
 
                 string Procesname_path = all[2].Split('=')[2];
                 Int32 Pid = Convert.ToInt32(all[2].Split(' ')[2]);
-                string evt_time = all[7].Split('=')[2].ToString();
+                evt_time = all[7].Split('=')[1].ToString();
                 Temp_Table_structure = new _TableofProcess_ETW_Event_Counts();
                 Temp_Table_structure.PID = Pid;
                 Temp_Table_structure.lastEventtime = evt_time;
@@ -764,8 +772,7 @@ namespace ETWPM2Monitor2
             }
             catch (Exception)
             {
-
-                //throw;
+                
             }
 
         }
@@ -899,7 +906,8 @@ namespace ETWPM2Monitor2
                         _finalresult_Scanned_02[2] = "-+";
                         iList2 = new ListViewItem();
 
-                        Parallel.Invoke(() =>
+                        Parallel.Invoke(
+                           () =>
                         {
                             _finalresult_Scanned_01 = executeutilities_01(item.PID.ToString(), item.ProcessName_Path, item.Injector_Path + ":" + item.Injector.ToString());
 
@@ -916,13 +924,13 @@ namespace ETWPM2Monitor2
 
                         });
 
-                        /// pe-sieve64.exe scanner
+                        ///// pe-sieve64.exe scanner
                         //_finalresult_Scanned_01 = executeutilities_01(item.PID.ToString(), item.ProcessName_Path, item.Injector_Path + ":" + item.Injector.ToString());
 
                         //Thread.Sleep(100);
                         //_finalresult_Scanned_02[2] = "-+";
 
-                        /// hollowshunter.exe scanner
+                        ///// hollowshunter.exe scanner
                         //_finalresult_Scanned_02 = executeutilities_02(item.PID.ToString(), item.ProcessName_Path, item.Injector_Path + ":" + item.Injector.ToString());
 
                         iList2.Name = item.ProcessName + ":" + item.PID + ">\n" + _finalresult_Scanned_01[1] + _finalresult_Scanned_02[1]
@@ -1061,6 +1069,7 @@ namespace ETWPM2Monitor2
                             showitemsHash.Add(item.ProcessName + ":" + item.PID.ToString() + _des_address_port + _finalresult_Scanned_01[0] +
                            item.ProcessName_Path + " Injected by => " + item.Injector_Path + " (PID:" + item.Injector.ToString() + ") ");
                             Thread.Sleep(10);
+                            //BeginInvoke(new __core2(update_tabpage4), "Alarms by ETW " + "(" + listView2.Items.Count.ToString() + ")");
                             tabPage4.Text = "Alarms by ETW " + "(" + listView2.Items.Count.ToString() + ")";
                             Thread.Sleep(10);
                         }
@@ -1075,120 +1084,165 @@ namespace ETWPM2Monitor2
             }
         }
 
+        public void update_tabpage4(object str)
+        {
+            // tabPage4.Text = "Alarms by ETW " + "(" + listView2.Items.Count.ToString() + ")";
+           // tabPage4.Text = str.ToString();
+        }
+
         public string[] executeutilities_01(string pid, string InProcessName_Path, string _injectorPathPid)
         {
-            Init_to_runPEScanner_01 = false;          
-            strOutput = "";
-
-            if (isPEScanonoff)
+            try
             {
-                outputs = new System.Diagnostics.Process();
 
-                List<_TableofProcess_Scanned_01> resultPEScanned = Scanned_PIds.FindAll(PEScan => PEScan.PID == Convert.ToInt32(pid) && PEScan.ProcNameANDPath == InProcessName_Path && PEScan.injectorPathPID == _injectorPathPid);
+                Init_to_runPEScanner_01 = false;
+                strOutput = "";
 
-                if (resultPEScanned.Count == 0)
+                if (isPEScanonoff)
                 {
-                    /// new pe scan
-                    Init_to_runPEScanner_01 = true;
-                }
-                else if (resultPEScanned.Count == 1)
-                {
-                    /// check time of last scan >= 10mins or > 1hour + remove + add
-                    /// breaking loop for Scanning all PE everytimes ;) not really good code is here but is better than nothing lol
-                    int _now_min = DateTime.Now.Minute;
-                    int _now_Hour = DateTime.Now.Hour;
-                    if (_now_min - resultPEScanned[0].time_min >= 10 || _now_Hour - resultPEScanned[0].time_Hour != 0)
+                    outputs = new System.Diagnostics.Process();
+
+                    List<_TableofProcess_Scanned_01> resultPEScanned = Scanned_PIds.FindAll(PEScan => PEScan.PID == Convert.ToInt32(pid) && PEScan.ProcNameANDPath == InProcessName_Path && PEScan.injectorPathPID == _injectorPathPid);
+
+                    if (resultPEScanned.Count == 0)
                     {
+                        /// new pe scan
                         Init_to_runPEScanner_01 = true;
-                        Scanned_PIds.Remove(new _TableofProcess_Scanned_01 { PID = Convert.ToInt32(pid) });
                     }
-                    else if (_now_min - resultPEScanned[0].time_min < 10 || _now_Hour - resultPEScanned[0].time_Hour == 0)
+                    else if (resultPEScanned.Count == 1)
                     {
-                        Init_to_runPEScanner_01 = false;
-                    }
-                }
-                else if (resultPEScanned.Count >= 2)
-                {
-                    /// remove both for sure make new pe scan
-                    foreach (_TableofProcess_Scanned_01 item in resultPEScanned)
-                    {
-                        Scanned_PIds.Remove(new _TableofProcess_Scanned_01 { PID = item.PID });
-                    }
-                    Init_to_runPEScanner_01 = true;
-                }
-
-                string result1 = "";
-                if (Init_to_runPEScanner_01)
-                {
-                    if (File.Exists("pe-sieve64.exe"))
-                    {
-                        outputs.StartInfo.FileName = "pe-sieve64.exe";
-                        outputs.StartInfo.Arguments = "/shellc /iat 2 /pid " + pid;
-
-                        if (pe_sieve_DumpSwitches == 0) { outputs.StartInfo.Arguments = "/shellc /iat 2 /pid " + pid;}
-                        else if (pe_sieve_DumpSwitches == 1) { outputs.StartInfo.Arguments = "/ofilter 1 /shellc /iat 2 /pid " + pid; }
-                        else if (pe_sieve_DumpSwitches == 2) { outputs.StartInfo.Arguments = "/ofilter 2 /shellc /iat 2 /pid " + pid; }
-
-                        //else if (pe_sieve_DumpSwitches == 1) { outputs.StartInfo.Arguments = "/ofilter 1 /data 3 /shellc /iat 2 /pid " + pid; }
-                        //else if (pe_sieve_DumpSwitches == 2) { outputs.StartInfo.Arguments = "/ofilter 2 /data 3 /shellc /iat 2 /pid " + pid; }
-
-                        outputs.StartInfo.CreateNoWindow = true;
-                        outputs.StartInfo.UseShellExecute = false;
-                        outputs.StartInfo.RedirectStandardOutput = true;
-                        outputs.StartInfo.RedirectStandardInput = true;
-                        outputs.StartInfo.RedirectStandardError = true;
-
-                        outputs.Start();
-
-                        strOutput = outputs.StandardOutput.ReadToEnd();
-
-                        result1 = "[" + strOutput.Substring(strOutput.IndexOf("Implanted PE:")).Split('\n')[0] + "][" +
-                            strOutput.Substring(strOutput.IndexOf("Implanted shc:")).Split('\n')[0]
-                              + "][" + strOutput.Substring(strOutput.IndexOf("Replaced:")).Split('\n')[0] + "]";
-
-                        //return string.Join("::", result1.Where(Char.IsNumber));
-
-                        string result2 = "";
-                        foreach (char item in result1)
+                        /// check time of last scan >= 10mins or > 1hour + remove + add
+                        /// breaking loop for Scanning all PE everytimes ;) not really good code is here but is better than nothing lol
+                        int _now_min = DateTime.Now.Minute;
+                        int _now_Hour = DateTime.Now.Hour;
+                        if (_now_min - resultPEScanned[0].time_min >= 10 || _now_Hour - resultPEScanned[0].time_Hour != 0)
                         {
-                            if (item != ' ')
-                                result2 += item;
+                            Init_to_runPEScanner_01 = true;
+                            Scanned_PIds.Remove(new _TableofProcess_Scanned_01 { PID = Convert.ToInt32(pid) });
+                        }
+                        else if (_now_min - resultPEScanned[0].time_min < 10 || _now_Hour - resultPEScanned[0].time_Hour == 0)
+                        {
+                            Init_to_runPEScanner_01 = false;
+                        }
+                    }
+                    else if (resultPEScanned.Count >= 2)
+                    {
+                        /// remove both for sure make new pe scan
+                        foreach (_TableofProcess_Scanned_01 item in resultPEScanned)
+                        {
+                            Scanned_PIds.Remove(new _TableofProcess_Scanned_01 { PID = item.PID });
+                        }
+                        Init_to_runPEScanner_01 = true;
+                    }
+
+                    string result1 = "";
+                    if (Init_to_runPEScanner_01)
+                    {
+                        if (File.Exists("pe-sieve64.exe"))
+                        {
+                            try
+                            {
+                                if (!Process.GetProcessById(Convert.ToInt32(pid)).HasExited)
+                                {
+                                    outputs.StartInfo.FileName = "pe-sieve64.exe";
+                                    outputs.StartInfo.Arguments = "/shellc /iat 2 /pid " + pid;
+
+                                    if (pe_sieve_DumpSwitches == 0) { outputs.StartInfo.Arguments = "/shellc /iat 2 /pid " + pid; }
+                                    else if (pe_sieve_DumpSwitches == 1) { outputs.StartInfo.Arguments = "/ofilter 1 /shellc /iat 2 /pid " + pid; }
+                                    else if (pe_sieve_DumpSwitches == 2) { outputs.StartInfo.Arguments = "/ofilter 2 /shellc /iat 2 /pid " + pid; }
+
+                                    //else if (pe_sieve_DumpSwitches == 1) { outputs.StartInfo.Arguments = "/ofilter 1 /data 3 /shellc /iat 2 /pid " + pid; }
+                                    //else if (pe_sieve_DumpSwitches == 2) { outputs.StartInfo.Arguments = "/ofilter 2 /data 3 /shellc /iat 2 /pid " + pid; }
+
+                                    outputs.StartInfo.CreateNoWindow = true;
+                                    outputs.StartInfo.UseShellExecute = false;
+                                    outputs.StartInfo.RedirectStandardOutput = true;
+                                    outputs.StartInfo.RedirectStandardInput = true;
+                                    outputs.StartInfo.RedirectStandardError = true;
+
+                                    outputs.Start();
+
+                                    strOutput = outputs.StandardOutput.ReadToEnd();
+                                    string temp1, temp2, temp3 = "";
+                                    try
+                                    {
+                                        temp1 = strOutput.Substring(strOutput.IndexOf("Implanted PE:")).Split('\n')[0];
+                                        temp2 = strOutput.Substring(strOutput.IndexOf("Implanted shc:")).Split('\n')[0];
+                                        temp3 = strOutput.Substring(strOutput.IndexOf("Replaced:")).Split('\n')[0];
+                                    }
+                                    catch (Exception)
+                                    {
+
+                                        temp1 = strOutput.Substring(strOutput.IndexOf("Implanted:")).Split('\n')[0];
+                                        temp2 = "";
+                                        temp3 = strOutput.Substring(strOutput.IndexOf("Replaced:")).Split('\n')[0];
+                                    }
+
+                                    result1 = "[" + temp1 + "][" + temp2 + "][" + temp3 + "]";
+
+                                    //result1 = "[" + strOutput.Substring(strOutput.IndexOf("Implanted PE:")).Split('\n')[0] + "][" +
+                                    //    strOutput.Substring(strOutput.IndexOf("Implanted shc:")).Split('\n')[0]
+                                    //      + "][" + strOutput.Substring(strOutput.IndexOf("Replaced:")).Split('\n')[0] + "]";
+
+
+                                    string result2 = "";
+                                    foreach (char item in result1)
+                                    {
+                                        if (item != ' ')
+                                            result2 += item;
+                                    }
+
+                                    finalresult_Scanned_01[0] = result2;
+                                    finalresult_Scanned_01[1] = strOutput;
+                                }
+                                else
+                                {
+                                    finalresult_Scanned_01[0] = "[error not found Target Process[not scanned:0]";
+                                    finalresult_Scanned_01[1] = "[error not found Target Process[not scanned:0]";
+                                }
+                            }
+                            catch (Exception error)
+                            {
+
+                               
+                            }
+                        }
+                        else
+                        {
+                            finalresult_Scanned_01[0] = "[error not found pe-sieve64.exe[not scanned:0]";
+                            finalresult_Scanned_01[1] = "[error not found pe-sieve64.exe[not scanned:0]";
                         }
 
-                        finalresult_Scanned_01[0] = result2;
-                        finalresult_Scanned_01[1] = strOutput;
+                        Scanned_PIds.Add(new _TableofProcess_Scanned_01
+                        {
+                            time_Hour = DateTime.Now.Hour,
+                            time_min = DateTime.Now.Minute,
+                            PID = Convert.ToInt32(pid),
+                            ProcNameANDPath = InProcessName_Path,
+                            injectorPathPID = _injectorPathPid
+                        });
+
+                        return finalresult_Scanned_01;
                     }
                     else
                     {
-                        finalresult_Scanned_01[0] = "[error not found pe-sieve64.exe[not scanned:0]";
-                        finalresult_Scanned_01[1] = "[error not found pe-sieve64.exe[not scanned:0]";
+                        finalresult_Scanned_01[0] = "[not scanned:0]";
+                        finalresult_Scanned_01[1] = "[not scanned:0]";
+                        return finalresult_Scanned_01;
                     }
-
-                    Scanned_PIds.Add(new _TableofProcess_Scanned_01
-                    {
-                        time_Hour = DateTime.Now.Hour,
-                        time_min = DateTime.Now.Minute,
-                        PID = Convert.ToInt32(pid),
-                        ProcNameANDPath = InProcessName_Path,
-                        injectorPathPID = _injectorPathPid
-                    });
-
-                    return finalresult_Scanned_01;
                 }
                 else
                 {
-                    finalresult_Scanned_01[0] = "[not scanned:0]";
-                    finalresult_Scanned_01[1] = "[not scanned:0]";
+                    finalresult_Scanned_01[0] = "PEScanner-is-off";
+                    finalresult_Scanned_01[1] = strOutput;
                     return finalresult_Scanned_01;
                 }
             }
-            else
+            catch (Exception)
             {
-                finalresult_Scanned_01[0] = "PEScanner-is-off";
-                finalresult_Scanned_01[1] = strOutput;
                 return finalresult_Scanned_01;
-            }
 
+            }
         }
 
         public string[] executeutilities_02(string pid, string InProcessName_Path, string _injectorPathPid)
@@ -1238,84 +1292,105 @@ namespace ETWPM2Monitor2
                 {
                     if (File.Exists("hollows_hunter64.exe"))
                     {
-                        outputs2.StartInfo.FileName = "hollows_hunter64.exe";
-                        if (HollowHunterLevel == 0)
-                        {
-                            outputs2.StartInfo.Arguments = "/pid " + pid;
-                            finalresult_Scanned_02[2] = "Scanned";
-
-                        }
-                        else if (HollowHunterLevel == 1)
-                        {
-                            outputs2.StartInfo.Arguments = "/suspend /pid " + pid;
-                            finalresult_Scanned_02[2] = "Scanned";
-                        }
-                        else if (HollowHunterLevel == 2)
-                        {
-                            outputs2.StartInfo.Arguments = "/kill /pid " + pid;
-                            finalresult_Scanned_02[2] = "Scanned";
-                        }
-
-                        if (hollowshunter_DumpSwitches == 1)
-                        { outputs2.StartInfo.Arguments = "/ofilter 1 " + outputs2.StartInfo.Arguments; }
-                        else if (hollowshunter_DumpSwitches == 2)
-                        { outputs2.StartInfo.Arguments = "/ofilter 2 " + outputs2.StartInfo.Arguments; }
-
-                        outputs2.StartInfo.CreateNoWindow = true;
-                        outputs2.StartInfo.UseShellExecute = false;
-                        outputs2.StartInfo.RedirectStandardOutput = true;
-                        outputs2.StartInfo.RedirectStandardInput = true;
-                        outputs2.StartInfo.RedirectStandardError = true;
-
-                        outputs2.Start();
-
-                        strOutput2 = outputs2.StandardOutput.ReadToEnd();
-
-                        /// check detection via Hollow_Hunter.exe result ...
-                        if (strOutput2.Contains(">> Detected:"))
+                        try
                         {
 
-                            result1 = "[" + strOutput2.Substring(strOutput2.IndexOf("suspicious")).Split('\n')[0] + " ," +
-                                strOutput2.Substring(strOutput2.IndexOf(">> Detected:")).Split('\n')[0]
-                                  + " [" + strOutput2.Substring(strOutput2.IndexOf("Finished scan in:") + 8).Split('\n')[0] + "]";
 
-                            if (strOutput2.ToString().Contains(">> Detected:"))
+                            if (!Process.GetProcessById(Convert.ToInt32(pid)).HasExited)
                             {
-                                if (HollowHunterLevel == 2)
+                                outputs2.StartInfo.FileName = "hollows_hunter64.exe";
+                                if (HollowHunterLevel == 0)
                                 {
-                                    Chart_Terminate++;
-                                    finalresult_Scanned_02[2] = "Terminated";
+                                    outputs2.StartInfo.Arguments = "/pid " + pid;
+                                    finalresult_Scanned_02[2] = "Scanned";
+
                                 }
                                 else if (HollowHunterLevel == 1)
                                 {
-                                    Chart_suspend++;
-                                    finalresult_Scanned_02[2] = "Suspended";
-
+                                    outputs2.StartInfo.Arguments = "/suspend /pid " + pid;
+                                    finalresult_Scanned_02[2] = "Scanned";
                                 }
-                                else if (HollowHunterLevel == 0)
+                                else if (HollowHunterLevel == 2)
                                 {
-                                    finalresult_Scanned_02[0] = "";
-                                    finalresult_Scanned_02[1] = "";
-                                    finalresult_Scanned_02[2] = "Scanned & Found!";
+                                    outputs2.StartInfo.Arguments = "/kill /pid " + pid;
+                                    finalresult_Scanned_02[2] = "Scanned";
                                 }
+
+                                if (hollowshunter_DumpSwitches == 1)
+                                { outputs2.StartInfo.Arguments = "/ofilter 1 " + outputs2.StartInfo.Arguments; }
+                                else if (hollowshunter_DumpSwitches == 2)
+                                { outputs2.StartInfo.Arguments = "/ofilter 2 " + outputs2.StartInfo.Arguments; }
+
+                                outputs2.StartInfo.CreateNoWindow = true;
+                                outputs2.StartInfo.UseShellExecute = false;
+                                outputs2.StartInfo.RedirectStandardOutput = true;
+                                outputs2.StartInfo.RedirectStandardInput = true;
+                                outputs2.StartInfo.RedirectStandardError = true;
+
+                                outputs2.Start();
+
+                                strOutput2 = outputs2.StandardOutput.ReadToEnd();
+
+                                /// check detection via Hollow_Hunter.exe result ...
+                                if (strOutput2.Contains(">> Detected:"))
+                                {
+
+                                    result1 = "[" + strOutput2.Substring(strOutput2.IndexOf("suspicious")).Split('\n')[0] + " ," +
+                                        strOutput2.Substring(strOutput2.IndexOf(">> Detected:")).Split('\n')[0]
+                                          + " [" + strOutput2.Substring(strOutput2.IndexOf("Finished scan in:") + 8).Split('\n')[0] + "]";
+
+                                    if (strOutput2.ToString().Contains(">> Detected:"))
+                                    {
+                                        if (HollowHunterLevel == 2)
+                                        {
+                                            Chart_Terminate++;
+                                            finalresult_Scanned_02[2] = "Terminated";
+                                        }
+                                        else if (HollowHunterLevel == 1)
+                                        {
+                                            Chart_suspend++;
+                                            finalresult_Scanned_02[2] = "Suspended";
+
+                                        }
+                                        else if (HollowHunterLevel == 0)
+                                        {
+                                            finalresult_Scanned_02[0] = "";
+                                            finalresult_Scanned_02[1] = "";
+                                            finalresult_Scanned_02[2] = "Scanned & Found!";
+                                        }
+                                    }
+                                }
+                                else if (!strOutput2.Contains(">> Detected:"))
+                                {
+                                    result1 = "[" + strOutput2.Substring(strOutput2.IndexOf("suspicious")).Split('\n')[0] + " ," +
+                                      ">> Not Detected:" + pid.ToString()
+                                         + " [" + strOutput2.Substring(strOutput2.IndexOf("Finished scan in:") + 8).Split('\n')[0] + "]";
+                                }
+
+                                string result2 = "";
+                                foreach (char item in result1)
+                                {
+                                    if (item != ' ')
+                                        result2 += item;
+                                }
+
+                                finalresult_Scanned_02[0] = result2;
+                                finalresult_Scanned_02[1] = strOutput2;
+                            }
+                            else
+                            {
+                                finalresult_Scanned_02[0] = "[error not found Targer Process[not scanned:0]";
+                                finalresult_Scanned_02[1] = "[error not found Targer Process[not scanned:0]";
+                                finalresult_Scanned_02[2] = "error";
                             }
                         }
-                        else if (!strOutput2.Contains(">> Detected:"))
+                        catch (Exception err)
                         {
-                            result1 = "[" + strOutput2.Substring(strOutput2.IndexOf("suspicious")).Split('\n')[0] + " ," +
-                              ">> Not Detected:" + pid.ToString()
-                                 + " [" + strOutput2.Substring(strOutput2.IndexOf("Finished scan in:") + 8).Split('\n')[0] + "]";
+                            
+                            finalresult_Scanned_02[0] = "[error not found Targer Process[not scanned:0]";
+                            finalresult_Scanned_02[1] = "[error not found Targer Process[not scanned:0]";
+                            finalresult_Scanned_02[2] = "error";
                         }
-
-                        string result2 = "";
-                        foreach (char item in result1)
-                        {
-                            if (item != ' ')
-                                result2 += item;
-                        }
-
-                        finalresult_Scanned_02[0] = result2;
-                        finalresult_Scanned_02[1] = strOutput2;
                     }
                     else
                     {
