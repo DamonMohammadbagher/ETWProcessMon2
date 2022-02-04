@@ -56,20 +56,17 @@ namespace ETWPM2Monitor2
         public delegate void __Obj_Updater_to_WinForm();
 
 
-        //public struct _TableofProcess
-        //{
-        //    private Int64 Virtualmemalloc_count;
-        //    private Int64 ImageLoad;
-        //    private Int64 ThreadStart;
-        //    private Int64 RemoteThreadInjection;
-        //    public Int64 _ThreadStart { get { return ThreadStart; } set { ThreadStart = value; } }
-        //    public Int64 _RemoteThreadInjection { get { return RemoteThreadInjection; } set { RemoteThreadInjection = value; } }
-        //    public Int64 _ImageLoad { get { return ImageLoad; } set { ImageLoad = value; } }
-        //    public Int64 _Virtualmemalloc_count { get { return Virtualmemalloc_count; } set { Virtualmemalloc_count = value; } }
-        //    public string lastEventtime { set; get; }
-        //    public string ProcNameANDPath { set; get; }
-        //    public int PID { set; get; }
-        //}
+        public struct _InjectedThreadDetails_bytes
+        {
+
+            public string _ThreadStartAddress { set; get; }
+            public Int32 _RemoteThreadID { set; get; }
+            public Int32 _TargetPID { set; get; }
+            public Int32 _InjectorPID { set; get; }
+            public string Injected_Memory_Bytes { set; get; }
+            public string Injected_Memory_Bytes_Hex { set; get; }
+
+        }
 
         public struct _TableofProcess_NewProcess_evt
         {
@@ -78,7 +75,7 @@ namespace ETWPM2Monitor2
             public string CommandLine;
             public int PID;
             public int PPID;
-            public string PPID_Path;            
+            public string PPID_Path;
         }
         public struct _TableofProcess
         {
@@ -95,6 +92,8 @@ namespace ETWPM2Monitor2
         public static List<_TableofProcess_NewProcess_evt> NewProcess_Table = new List<_TableofProcess_NewProcess_evt>();
         public static List<string> showitemsHash = new List<string>();
         public static List<_TableofProcess> Process_Table = new List<_TableofProcess>();
+        public static List<_InjectedThreadDetails_bytes> _InjectedTIDList = new List<_InjectedThreadDetails_bytes>();
+
         public string Tempops, Injectortmp = "";
         public string[] finalresult_Scanned_01 = new string[2];
         public string[] _finalresult_Scanned_01 = new string[2];
@@ -139,8 +138,8 @@ namespace ETWPM2Monitor2
         /// Adding Process which had RemoteThreadInjection to the list for monitoring their TCP Connections etc...
         /// </summary>
         public event EventHandler RemoteThreadInjectionDetection_ProcessLists;
-        
-        
+
+
         /// <summary>
         /// event for Injection Detection + TCP Send event & Adding Target Process info to the list + details/debug info... [Event ID 2]
         /// when this event invoked? after any tcp connection via those process which had RemoteThreadInjection.
@@ -181,7 +180,7 @@ namespace ETWPM2Monitor2
         /// hollowshunter_DumpSwitches =  /ofilter  & => 0 dump all , 1 dump some files , 2 Dont Dump any Process to disk (if detected something)
         /// </summary>
         public static int hollowshunter_DumpSwitches = 0;
-        public int _1, _2, _3, _4, _5, _6, _7, _8 ,time4t= 0;
+        public int _1, _2, _3, _4, _5, _6, _7, _8, time4t = 0;
         public static string subitemX = "";
 
         /// <summary>
@@ -217,13 +216,41 @@ namespace ETWPM2Monitor2
 
             try
             {
+
                 ListViewItem MyLviewItemsX1 = (ListViewItem)obj;
                 Thread.Sleep(1);
                 if (MyLviewItemsX1 != null)
                 {
                     /// just for test for better detection via events ;)
                     /// simple example.
-                    if (MyLviewItemsX1.SubItems[5].Text.Split('\n')[1] == "[MEM] NewProcess Started ")
+
+                    /// EventID 3 = TCP Send Event
+                    if (MyLviewItemsX1.SubItems[2].Text == "3")
+                    {
+                        /// size 160 , 192 was about Meterpreter traffic wich will send send for each 1 min [sleep(1000) default] 
+                        /// also 192 will send before every command packets  meterpreter backdoor
+                        /// that was my test ;)
+                        if ((MyLviewItemsX1.SubItems[5].Text.Split('\n')[6].Contains("[size:160]")) || (MyLviewItemsX1.SubItems[5].Text.Split('\n')[6].Contains("[size:192]")))
+                        {
+                            MyLviewItemsX1.BackColor = Color.LightGray;
+
+                            if (MyLviewItemsX1.SubItems[5].Text.Split('\n')[6].Contains("[dport:4444]"))
+                            {
+                                MyLviewItemsX1.BackColor = Color.Gray;
+                            }
+
+                            MyLviewItemsX1.SubItems[5].Text += "\n\n#This Description Added by ETWPM2Monitor2 tool#\n##Warning Description: Packet with [size:160] maybe was for Meterpreter Session which will send every 1 min between Client/Server##\n" +
+                            "##Warning Description: Packet with [size:192] is for meterpreter session which will send before every command excution from server##\n" +
+                            "##Warning Description: DestinationPort [dport:4444] is Default port for Meterpreter session##";
+                        }
+
+
+
+                        listView1.Items.Add(MyLviewItemsX1);
+                    }
+
+                    /// EventID 1 = Create New Process
+                    if (MyLviewItemsX1.SubItems[2].Text == "1")
                     {
                         string commandline = MyLviewItemsX1.SubItems[5].Text.Split('\n')[4].ToLower();
                         string parentid = MyLviewItemsX1.SubItems[5].Text.Split('\n')[6].ToLower();
@@ -236,28 +263,27 @@ namespace ETWPM2Monitor2
                                 MyLviewItemsX1.ForeColor = Color.Black;
                                 MyLviewItemsX1.ImageIndex = 2;
                                 MyLviewItemsX1.SubItems[5].Text += "\n\n#This Description Added by ETWPM2Monitor2 tool#\n##Warning Description: [ParentID Path] & [PPID] for this New Process is not Normal! (maybe Shell Activated?)##\n";
-                                Thread.Sleep(10);
-                               
-
                             }
                         }
                         else
                         {
                             MyLviewItemsX1.ForeColor = Color.Black;
                             MyLviewItemsX1.ImageIndex = 0;
-                            Thread.Sleep(3);
-                           
                         }
 
                         listView1.Items.Add(MyLviewItemsX1);
 
                     }
-                    else { listView1.Items.Add(MyLviewItemsX1); }
+                    /// EventID 2 = Injection
+                    if (MyLviewItemsX1.SubItems[2].Text == "2")
+                    {
+                        listView1.Items.Add(MyLviewItemsX1);
+                    }
 
                     evtstring = MyLviewItemsX1.Name;
-                    Thread.Sleep(3);
 
                 }
+
             }
             catch (Exception ee)
             {
@@ -265,39 +291,49 @@ namespace ETWPM2Monitor2
 
             }
         }
-
+        public static List<string> List_ofProcess_inListview2 = new List<string>();
         public void _Additems_toListview2(object obj)
         {
             ListViewItem MyLviewItemsX2 = (ListViewItem)obj;
             try
             {
-
                 Thread.Sleep(1);
+                bool found = false;
                 if (MyLviewItemsX2 != null)
                 {
 
                     if (MyLviewItemsX2.Name != evtstring2)
                     {
-                        listView2.Items.Add(MyLviewItemsX2);
-
-                        Thread.Sleep(5);
-                        evtstring2 = MyLviewItemsX2.Name;
+                        foreach (string item in List_ofProcess_inListview2)
+                        {
+                            if (item == MyLviewItemsX2.Name.Split(':')[0] + ":" + MyLviewItemsX2.Name.Split(':')[1].Split('>')[0])
+                            {
+                                found = true;
+                            }
+                        }
+                        if (!found)
+                        {
+                            listView2.Items.Add(MyLviewItemsX2);
+                            InjectionMemoryInfoDetails_torichtectbox(MyLviewItemsX2.SubItems[9].Text);
+                            Thread.Sleep(5);
+                            List_ofProcess_inListview2.Add(MyLviewItemsX2.Name.Split(':')[0] + ":" + MyLviewItemsX2.Name.Split(':')[1].Split('>')[0]);
+                            evtstring2 = MyLviewItemsX2.Name;
+                        }
                     }
 
                 }
                 tabPage4.Text = "Alarms by ETW " + "(" + listView2.Items.Count.ToString() + ")";
 
-              
+
             }
             catch (Exception ee)
             {
 
-                
+
             }
 
 
         }
-      
 
         public Form1()
         {
@@ -329,7 +365,7 @@ namespace ETWPM2Monitor2
             catch (Exception)
             {
 
-          
+
             }
         }
 
@@ -360,13 +396,13 @@ namespace ETWPM2Monitor2
                 //EvtWatcher.Enabled = true;
 
                 listView1.SmallImageList = imageList1;
-               
+
 
                 listView2.HeaderStyle = ColumnHeaderStyle.Nonclickable;
                 listView2.BorderStyle = BorderStyle.FixedSingle;
                 listView1.HeaderStyle = ColumnHeaderStyle.Nonclickable;
                 listView1.BorderStyle = BorderStyle.FixedSingle;
-                
+
 
                 /// Set the view to show details.
                 listView1.View = View.Details;
@@ -394,7 +430,7 @@ namespace ETWPM2Monitor2
                 listView1.Columns.Add(" ", 20, HorizontalAlignment.Left);
                 listView1.Columns.Add("Time", 130, HorizontalAlignment.Left);
                 listView1.Columns.Add("EventID", 55, HorizontalAlignment.Left);
-                listView1.Columns.Add("Process", 100, HorizontalAlignment.Left);
+                listView1.Columns.Add("Process", 170, HorizontalAlignment.Left);
                 listView1.Columns.Add("Evt-Type", 55, HorizontalAlignment.Left);
                 listView1.Columns.Add("EventMessage", 1500, HorizontalAlignment.Left);
 
@@ -415,11 +451,11 @@ namespace ETWPM2Monitor2
                 listView2.Sorting = SortOrder.Ascending;
 
                 listView2.Columns.Add(" ", 20, HorizontalAlignment.Left);
-                listView2.Columns.Add("LocalTime", 100, HorizontalAlignment.Left);
-                listView2.Columns.Add("Process", 100, HorizontalAlignment.Left);
+                listView2.Columns.Add("LocalTime", 130, HorizontalAlignment.Left);
+                listView2.Columns.Add("Process", 140, HorizontalAlignment.Left);
                 listView2.Columns.Add("Injection-Type", 100, HorizontalAlignment.Left);
-                listView2.Columns.Add("Tcp Sends", 100, HorizontalAlignment.Left);
-                listView2.Columns.Add("Status", 80, HorizontalAlignment.Left);
+                listView2.Columns.Add("Tcp Sends", 120, HorizontalAlignment.Left);
+                listView2.Columns.Add("Status", 100, HorizontalAlignment.Left);
                 listView2.Columns.Add("PE-Sieve Pe:Shell:Replaced", 250, HorizontalAlignment.Left);
                 listView2.Columns.Add("HollowsHunter Pe:", 250, HorizontalAlignment.Left);
                 listView2.Columns.Add("Description", 250, HorizontalAlignment.Left);
@@ -431,20 +467,20 @@ namespace ETWPM2Monitor2
 
                 /// event for add Process to list of New Process
                 NewProcessAddedtolist_NewProcessEvt += Form1_NewProcessAddedtolist_NewProcessEvt;
-                
+
                 /// event for add target Process to list of Injected Process which had RemoteThreadInjection
                 RemoteThreadInjectionDetection_ProcessLists += Form1_RemoteThreadInjectionDetection_ProcessLists;
 
                 /// event for refresing listviw real-time events
-                NewEventFrom_EventLogsCome += Form1_NewEventFrom_EventLogsCome;               
-               
+                NewEventFrom_EventLogsCome += Form1_NewEventFrom_EventLogsCome;
+
                 groupBox1.Text = "New Processes events: " + Chart_NewProcess;
                 groupBox2.Text = "Injection events: " + chart_Inj;
                 groupBox3.Text = "TCP Send events: " + Chart_Tcp;
                 groupBox4.Text = "Detection High: " + Chart_Redflag;
                 groupBox5.Text = "Detection Medium: " + Chart_Orange;
-                groupBox6.Text= "Suspended Processes: " + Chart_suspend;
-                groupBox7.Text =  "Terminated Processes: " + Chart_Terminate;
+                groupBox6.Text = "Suspended Processes: " + Chart_suspend;
+                groupBox7.Text = "Terminated Processes: " + Chart_Terminate;
                 groupBox8.Text = "All Real-time events: " + Chart_Counts;
 
 
@@ -470,8 +506,8 @@ namespace ETWPM2Monitor2
                 listView3.Columns.Add("TCPSend-Count", 50, HorizontalAlignment.Left);
                 listView3.Columns.Add("LastTCP-Details", 250, HorizontalAlignment.Left);
 
-               
-                
+
+
             }
             catch (EventLogReadingException err)
             {
@@ -600,19 +636,19 @@ namespace ETWPM2Monitor2
             //catch (Exception)
             //{
 
-               
+
             //}
         }
 
         private void T4_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
-           // BeginInvoke(new __Obj_Updater_to_WinForm(Update_ETW_Counts_info));
+            // BeginInvoke(new __Obj_Updater_to_WinForm(Update_ETW_Counts_info));
 
         }
 
         private void T3_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
-           // GC.Collect();
+            // GC.Collect();
 
         }
 
@@ -626,16 +662,14 @@ namespace ETWPM2Monitor2
                 {
                     if (MyLviewItemsX.SubItems[3].Text.ToString().ToUpper() != "SYSTEM:4")
                     {
-                        ThreadStart __T1_info_for_additems_to_Listview1 = new ThreadStart(delegate { BeginInvoke(new __Additem(_Additems_toListview1), MyLviewItemsX); });
-                        Thread _T1_for_additems_to_Listview1 = new Thread(__T1_info_for_additems_to_Listview1);
-                        _T1_for_additems_to_Listview1.Start();
+                        BeginInvoke(new __Additem(_Additems_toListview1), MyLviewItemsX);
+
                     }
                 }
                 else
                 {
-                    ThreadStart __T1_info_for_additems_to_Listview1 = new ThreadStart(delegate { BeginInvoke(new __Additem(_Additems_toListview1), MyLviewItemsX); });
-                    Thread _T1_for_additems_to_Listview1 = new Thread(__T1_info_for_additems_to_Listview1);
-                    _T1_for_additems_to_Listview1.Start();
+                    BeginInvoke(new __Additem(_Additems_toListview1), MyLviewItemsX);
+
                 }
             }
             catch (Exception ee)
@@ -651,6 +685,7 @@ namespace ETWPM2Monitor2
             {
                 string EventMessage = sender.ToString().Split('@')[1];
                 string PName_PID = sender.ToString().Split('@')[0];
+
 
                 Injectortmp = "";
                 Tempops = "";
@@ -725,7 +760,7 @@ namespace ETWPM2Monitor2
         private void Form1_NewProcessAddedtolist_NewProcessEvt(object sender, EventArgs e)
         {
             var evt_time = "";
-           
+
             try
             {
                 //[ETW]
@@ -772,7 +807,7 @@ namespace ETWPM2Monitor2
             }
             catch (Exception)
             {
-                
+
             }
 
         }
@@ -832,23 +867,23 @@ namespace ETWPM2Monitor2
             catch (Exception)
             {
 
-               
+
             }
         }
 
         private void T2_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
-            
-                try
-                {
-                    BeginInvoke(new __Obj_Updater_to_WinForm(Update_Charts_info));
-                }
-                catch (Exception err)
-                {
+
+            try
+            {
+                BeginInvoke(new __Obj_Updater_to_WinForm(Update_Charts_info));
+            }
+            catch (Exception err)
+            {
 
 
-                }
- 
+            }
+
         }
 
         private void Form1_NewProcessAddedtolist1(object sender, EventArgs e)
@@ -1069,8 +1104,11 @@ namespace ETWPM2Monitor2
                             showitemsHash.Add(item.ProcessName + ":" + item.PID.ToString() + _des_address_port + _finalresult_Scanned_01[0] +
                            item.ProcessName_Path + " Injected by => " + item.Injector_Path + " (PID:" + item.Injector.ToString() + ") ");
                             Thread.Sleep(10);
+
                             //BeginInvoke(new __core2(update_tabpage4), "Alarms by ETW " + "(" + listView2.Items.Count.ToString() + ")");
-                            tabPage4.Text = "Alarms by ETW " + "(" + listView2.Items.Count.ToString() + ")";
+
+                            // tabPage4.Text = "Alarms by ETW " + "(" + listView2.Items.Count.ToString() + ")";
+
                             Thread.Sleep(10);
                         }
 
@@ -1087,7 +1125,7 @@ namespace ETWPM2Monitor2
         public void update_tabpage4(object str)
         {
             // tabPage4.Text = "Alarms by ETW " + "(" + listView2.Items.Count.ToString() + ")";
-           // tabPage4.Text = str.ToString();
+            // tabPage4.Text = str.ToString();
         }
 
         public string[] executeutilities_01(string pid, string InProcessName_Path, string _injectorPathPid)
@@ -1204,7 +1242,7 @@ namespace ETWPM2Monitor2
                             catch (Exception error)
                             {
 
-                               
+
                             }
                         }
                         else
@@ -1386,7 +1424,7 @@ namespace ETWPM2Monitor2
                         }
                         catch (Exception err)
                         {
-                            
+
                             finalresult_Scanned_02[0] = "[error not found Targer Process[not scanned:0]";
                             finalresult_Scanned_02[1] = "[error not found Targer Process[not scanned:0]";
                             finalresult_Scanned_02[2] = "error";
@@ -1425,7 +1463,7 @@ namespace ETWPM2Monitor2
                 finalresult_Scanned_02[0] = "hollowhunter-is-off";
                 finalresult_Scanned_02[1] = strOutput2;
                 finalresult_Scanned_02[2] = "--";
-                
+
                 return finalresult_Scanned_02;
             }
 
@@ -1468,30 +1506,26 @@ namespace ETWPM2Monitor2
         public void Watcher_EventRecordWritten(object sender, EventRecordWrittenEventArgs e)
         {
 
-           
+
             try
             {
 
                 if (e.EventRecord.FormatDescription() != tempMessage2)
                 {
 
-                    if (e.EventRecord.Id == 2)
-                    {
-                        InjectionMemoryInfoDetails_torichtectbox(e.EventRecord.FormatDescription(), e.EventRecord.RecordId.ToString());
-                    }
-                    else
-                    {
-                        ThreadStart __T5_info_for_additems_to_Richtextbox1 = new ThreadStart(delegate
-                        {
-                            BeginInvoke(new __Additem(_Additems_str_toRichtextbox1),
-                             "[Time = " + e.EventRecord.TimeCreated + "] \n[EventID = " + e.EventRecord.Id.ToString() + "] \n[Message : " + e.EventRecord.FormatDescription() + "]\n_____________________\n");
-                        });
 
-                        Thread _T5_for_additems_to_Richtextbox1 = new Thread(__T5_info_for_additems_to_Richtextbox1);
-                        _T5_for_additems_to_Richtextbox1.Start();
+                    //ThreadStart __T5_info_for_additems_to_Richtextbox1 = new ThreadStart(delegate
+                    //{
+                    //BeginInvoke(new __Additem(_Additems_str_toRichtextbox1),
+                    // "[Time = " + e.EventRecord.TimeCreated + "] \n[EventID = " + e.EventRecord.Id.ToString() + "] \n[Message : " + e.EventRecord.FormatDescription() + "]\n_____________________\n");
+                    //});
+                    //Thread _T5_for_additems_to_Richtextbox1 = new Thread(__T5_info_for_additems_to_Richtextbox1);
+                    //_T5_for_additems_to_Richtextbox1.Start();
 
-                       // richTextBox1.Text += "[Time = " + e.EventRecord.TimeCreated + "] \n[EventID = " + e.EventRecord.Id.ToString() + "] \n[Message : " + e.EventRecord.FormatDescription() + "]\n_____________________\n";
-                    }
+
+                    BeginInvoke(new __Additem(_Additems_str_toRichtextbox1),
+                               "[Time = " + e.EventRecord.TimeCreated + "] \n[EventID = " + e.EventRecord.Id.ToString() + "] \nMessage : " + e.EventRecord.FormatDescription() + "\n_____________________\n");
+
                 }
 
 
@@ -1519,7 +1553,7 @@ namespace ETWPM2Monitor2
                         iList.SubItems.Add(e.EventRecord.FormatDescription());
                         iList.ImageIndex = 0;
                         LviewItemsX = iList;
-                                               
+
                         Thread.Sleep(10);
 
                         NewProcessAddedtolist_NewProcessEvt.Invoke((object)e.EventRecord.FormatDescription(), null);
@@ -1547,8 +1581,6 @@ namespace ETWPM2Monitor2
                         LviewItemsX = iList;
                         Thread.Sleep(25);
                         chart_Inj++;
-
-                        //_AddProcesstoTable(e.EventRecord.FormatDescription().Substring(e.EventRecord.FormatDescription().IndexOf(":")).Split(' ')[1], e.EventRecord.FormatDescription());
 
                         RemoteThreadInjectionDetection_ProcessLists.Invoke((object)(e.EventRecord.FormatDescription().Substring(e.EventRecord.FormatDescription().IndexOf(":")).Split(' ')[1]
                         + "@" + e.EventRecord.FormatDescription()), null);
@@ -1588,9 +1620,6 @@ namespace ETWPM2Monitor2
                         objX = obj[0] + "@" + obj[1];
                         NewProcessAddedtolist.Invoke(objX, null);
 
-                        //_CheckTCPProcessinTable(e.EventRecord.FormatDescription().Substring(e.EventRecord.FormatDescription().IndexOf(":")).Split(' ')[1]
-                        //, e.EventRecord.FormatDescription());
-
                         Thread.Sleep(10);
 
                         NewEventFrom_EventLogsCome.Invoke((object)LviewItemsX, null);
@@ -1606,7 +1635,7 @@ namespace ETWPM2Monitor2
             }
 
 
-           
+
         }
 
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
@@ -1641,7 +1670,7 @@ namespace ETWPM2Monitor2
                 string fn = "ETWPM2_RealtimeEvents_" + DateTime.Now.Hour.ToString() + "-" + DateTime.Now.Minute.ToString() + "-" + DateTime.Now.Second.ToString() + ".txt";
                 Task.Factory.StartNew(() =>
                 {
-                   
+
                     using (StreamWriter _file = new StreamWriter(fn, false))
                     {
                         _file.WriteLine(richTextBox1.Text);
@@ -1667,7 +1696,7 @@ namespace ETWPM2Monitor2
             {
                 MessageBox.Show("Error: " + err.Message);
             }
-           
+
         }
 
         private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1807,7 +1836,7 @@ namespace ETWPM2Monitor2
         {
             listView1.Items.Clear();
             Thread.Sleep(50);
-          
+
         }
 
         private void InjectedTIDMemoryInfoToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1860,7 +1889,7 @@ namespace ETWPM2Monitor2
                 if (listviewitems_wasselected_ihope.SubItems[2].Text == "2")
                 {
                     ulong i32StartAddress = Convert.ToUInt64(EventMessage.Substring(EventMessage.IndexOf("::") + 2).Split(':')[0].Substring(2), 16);
-                    
+
                     Int64 TID = Convert.ToInt64(EventMessage.Substring(EventMessage.IndexOf("::") - 8).Split(')', ':')[1]);
                     Int32 prc = Convert.ToInt32(EventMessage.Substring(EventMessage.IndexOf("PID: (") + 6).Split(')')[0]);
 
@@ -1920,8 +1949,8 @@ namespace ETWPM2Monitor2
                 string __result01 = "";
                 foreach (char item in listviewitems_wasselected_ihope.SubItems[6].Text)
                 {
-                    if(item!='\r')
-                    __result01 += item;
+                    if (item != '\r')
+                        __result01 += item;
                 }
                 string __result02 = "";
                 foreach (char item in listviewitems_wasselected_ihope.SubItems[7].Text)
@@ -1936,7 +1965,7 @@ namespace ETWPM2Monitor2
                                               + "Injection-Type: " + listviewitems_wasselected_ihope.SubItems[3].Text + "\n"
                                                  + "TCPSend: " + listviewitems_wasselected_ihope.SubItems[4].Text + "\n"
                                                     + "Status: " + listviewitems_wasselected_ihope.SubItems[5].Text + " (by hollowshunter)" + "\n"
-                                                    +"__________________________________________________________\n"
+                                                    + "__________________________________________________________\n"
                                                        + "MemoryScanner PE-sieve Result: " + __result01 + "\n\n"
                                                        + "MemoryScanner HollowsHunter Result: " + __result02 + "\n\n"
                                                           + "Description: " + listviewitems_wasselected_ihope.SubItems[8].Text + "\n"
@@ -1954,7 +1983,7 @@ namespace ETWPM2Monitor2
                                            + "Process: " + listviewitems_wasselected_ihope.SubItems[2].Text + "\n"
                                               + "Injection-Type: " + listviewitems_wasselected_ihope.SubItems[3].Text + "\n"
                                                  + "TCPSend: " + listviewitems_wasselected_ihope.SubItems[4].Text + "\n"
-                                                    + "Status: " + listviewitems_wasselected_ihope.SubItems[5].Text + " (by hollowshunter)" +"\n"
+                                                    + "Status: " + listviewitems_wasselected_ihope.SubItems[5].Text + " (by hollowshunter)" + "\n"
                                                     + "__________________________________________________________\n"
                                                         + "MemoryScanner PE-sieve Result: " + __result01 + "\n\n"
                                                        + "MemoryScanner HollowsHunter Result: " + __result02 + "\n\n"
@@ -1963,8 +1992,8 @@ namespace ETWPM2Monitor2
                                                           + "ETW Event Message: " + listviewitems_wasselected_ihope.SubItems[9].Text + "\n"
 
                                , "Properties => " +
-                                           listviewitems_wasselected_ihope.SubItems[2].Text + " [" + listviewitems_wasselected_ihope.SubItems[3].Text +"] " +
-                                           " "+
+                                           listviewitems_wasselected_ihope.SubItems[2].Text + " [" + listviewitems_wasselected_ihope.SubItems[3].Text + "] " +
+                                           " " +
                                            ",LogTime:[" + listviewitems_wasselected_ihope.SubItems[1].Text + "]", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
@@ -2054,7 +2083,7 @@ namespace ETWPM2Monitor2
             if (tabControl1.SelectedIndex != 0) { eventsPropertiesToolStripMenuItem.Enabled = false; injectedTIDMemoryInfoToolStripMenuItem1.Enabled = false; } else { injectedTIDMemoryInfoToolStripMenuItem1.Enabled = true; eventsPropertiesToolStripMenuItem.Enabled = true; }
             if (tabControl1.SelectedIndex != 2) { alarmsEventsPropertiesToolStripMenuItem.Enabled = false; } else { alarmsEventsPropertiesToolStripMenuItem.Enabled = true; }
         }
-     
+
         private void ETWEventPropertiesToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
@@ -2084,7 +2113,7 @@ namespace ETWPM2Monitor2
 
         private void Button1_Click(object sender, EventArgs e)
         {
-           
+
         }
 
         private void CheckBox1_CheckedChanged(object sender, EventArgs e)
@@ -2191,7 +2220,7 @@ namespace ETWPM2Monitor2
             dontDumpPEOfilterToolStripMenuItem.Text = "don't dump the modified PEs, but save the report [off]";
             hollowshunter_DumpSwitches = 0;
         }
-      
+
         private void Pesieve64exeOffToolStripMenuItem_Click(object sender, EventArgs e)
         {
             toolStripStatusLabel3.Text = "| pe-sieve is off";
@@ -2205,6 +2234,11 @@ namespace ETWPM2Monitor2
 
         private void ListView2_SelectedIndexChanged(object sender, EventArgs e)
         {
+            BeginInvoke(new __Obj_Updater_to_WinForm(Changedindexof_listview_2));
+        }
+
+        public void Changedindexof_listview_2()
+        {
             try
             {
                 richTextBox2.Text = listView2.SelectedItems[0].Name;
@@ -2214,12 +2248,11 @@ namespace ETWPM2Monitor2
                 string PID = listView2.SelectedItems[0].Name.Split('>')[0].Split(':')[1];
                 string dumpinfotext = richTextBox1.Text;
                 StringBuilder lines = new StringBuilder(dumpinfotext);
-                richTextBox3.Text = "";                
+                richTextBox3.Text = "";
                 richTextBox3.Text += "TargetProcess [" + PIDName + ":" + PID + "] Injection History with Debug info:\n";
                 richTextBox3.Text += "\n-------------------------------------------------------\n";
                 int counter = 0;
-                int showtime = 1;
-                bool showshowtime = false;
+                 
                 richTextBox3.Text += "Alarm Description & Injector Details:\n";
                 /// injection description
                 richTextBox3.Text += listView2.SelectedItems[0].SubItems[8].Text + "\n";
@@ -2242,24 +2275,50 @@ namespace ETWPM2Monitor2
                             richTextBox3.Text += "[" + counter.ToString() + "] " + item + "\n";
                             richTextBox3.Text += "[" + counter.ToString() + "] " + "Injection by " + item.Substring(item.IndexOf("Injected by ")).Split(']')[0].Split(' ')[2] + "===>==TID:" +
                            item.Substring(item.IndexOf("::") - 5, 5) + "==>==Injected into====>" + PIDName + ":" + PID + "\n\n";
-                            //counter++;
-                            showshowtime = true;
-                            richTextBox3.Text += "ETW Event & Injection Details:\n";
+
+                            try
+                            {
+                                //"Debug info: [2/4/2022 5:58:26 PM] PID: (6592)(notepad) 10336::0x7ff7878c3db0:12408:3652[Injected by dotnet.exe:3652]"
+
+                                var _injector = 0;
+                                var __tid = Convert.ToInt32(item.Substring(item.IndexOf("::") - 5, 5));
+                                string _System = item.Substring(item.IndexOf("::")).Split(':')[2];
+
+                                try
+                                {
+                                    _injector = Convert.ToInt32(item.Split('[')[1].Split(':')[7]);
+                                }
+                                catch (Exception)
+                                {
+
+                                    _injector = Convert.ToInt32(item.Substring(item.IndexOf("Injected by ")).Split(']')[0].Split(' ')[2].Split(':')[1]);
+                                }
+
+                                richTextBox3.Text += "ETW Event & Injection Details:\n";
+
+                                try
+                                {
+                                    _InjectedThreadDetails_bytes details = _InjectedTIDList.Find(_x => _x._RemoteThreadID == __tid && _x._TargetPID == Convert.ToInt32(PID) && _x._InjectorPID == _injector);
+
+                                    richTextBox3.Text += "\nInjectorPID: " + details._InjectorPID.ToString() +
+                                        "\nTargetPID: " + details._TargetPID.ToString() + "\nInjectedTID: " + details._RemoteThreadID.ToString() +
+                                        "\nStartAddress: " + details._ThreadStartAddress + "\n\nInjectedBytes[HEX]:\n" + details.Injected_Memory_Bytes_Hex + "\n";
+                                }
+                                catch (Exception)
+                                {
+
+
+                                }
+
+                            }
+                            catch (Exception)
+                            {
+
+
+                            }
                         }
                     }
-                    if (showshowtime)
-                    {
-                        if (showtime <= 27)
-                        {
-                            richTextBox3.Text += item + "\n";
-                            showtime++;
-                        }
-                        if (showtime == 29 || item.Contains("ReadProcessMemory [ERROR]"))
-                        {
-                            showshowtime = false;
-                            showtime = 1;
-                        }
-                    }
+
                 }
                 richTextBox3.Text += "\n-------------------------------------------------------\n\n";
 
@@ -2352,9 +2411,9 @@ namespace ETWPM2Monitor2
         {
             try
             {
-               
-                richTextBox1.Text += str.ToString();
- 
+              
+                    richTextBox1.Text += str.ToString();
+                
             }
             catch (Exception)
             {
@@ -2362,14 +2421,18 @@ namespace ETWPM2Monitor2
 
             }
         }
-       
-        public void InjectionMemoryInfoDetails_torichtectbox(string etwEvtMessage, string _EventMessageRecordId)
+
+        public void InjectionMemoryInfoDetails_torichtectbox(object etwEvtMessage)
         {
 
             try
             {
-                string EventMessage = etwEvtMessage;
-                string EventMessageRecordId = _EventMessageRecordId;
+
+                //324324323[ETW] 
+                //[MEM] Injected ThreadStart Detected,
+
+                string EventMessage = etwEvtMessage.ToString();
+                string EventMessageRecordId = "0";
 
                 ulong i32StartAddress = Convert.ToUInt64(EventMessage.Substring(EventMessage.IndexOf("::") + 2).Split(':')[0].Substring(2), 16);
 
@@ -2377,27 +2440,44 @@ namespace ETWPM2Monitor2
                 Int32 prc = Convert.ToInt32(EventMessage.Substring(EventMessage.IndexOf("PID: (") + 6).Split(')')[0]);
                 buf = new byte[208];
                 buf = new byte[208];
-                IntPtr prch = System.Diagnostics.Process.GetProcessById(prc).Handle;
-                string XStartAddress = EventMessage.Substring(EventMessage.IndexOf("::") + 2).Split(':')[0];
-                bool MemoryBytes = Memoryinfo.ReadProcessMemory(prch, (UIntPtr)i32StartAddress, buf, buf.Length, IntPtr.Zero);
+                try
+                {
+                    IntPtr prch = System.Diagnostics.Process.GetProcessById(prc).Handle;
+                    string XStartAddress = EventMessage.Substring(EventMessage.IndexOf("::") + 2).Split(':')[0];
+                    string _injector = EventMessage.Substring(EventMessage.IndexOf("::") + 2).Split(':')[2].Split('[')[0];
+                    bool MemoryBytes = Memoryinfo.ReadProcessMemory(prch, (UIntPtr)i32StartAddress, buf, buf.Length, IntPtr.Zero);
+                    string _buf = Memoryinfo.HexDump(buf);
+                    string _bytes = BitConverter.ToString(buf).ToString();
+                    /// added
+                    ThreadStart __T5_info_for_additems_to_Richtextbox1 = new ThreadStart(delegate
+                    {
+                        BeginInvoke(new __Additem(_Additems_str_toRichtextbox1),
+                        EventMessage + "\n\nEventID: " + "2" + "\nEventRecord_ID: " + EventMessageRecordId + "\n\n[Remote-Thread-Injection Memory Information]\n\tTID: " + TID.ToString() + "\n\tTID StartAddress: " +
+                         XStartAddress.ToString() + "\n\tTID Win32StartAddress: " + i32StartAddress.ToString() + "\n\tTarget_Process PID: " + prc.ToString() +
+                         "\n\nInjected Memory Bytes: " + _bytes  + "\n\n" + _buf + "\n_____________________\n");
+                    });
 
-                /// added
-                ThreadStart __T5_info_for_additems_to_Richtextbox1 = new ThreadStart(delegate
+                    Thread _T5_for_additems_to_Richtextbox1 = new Thread(__T5_info_for_additems_to_Richtextbox1);
+                    _T5_for_additems_to_Richtextbox1.Start();
+
+                    _InjectedTIDList.Add(new _InjectedThreadDetails_bytes
+                    {
+                        _TargetPID = prc,
+                        _ThreadStartAddress = XStartAddress.ToString(),
+                        _RemoteThreadID = Convert.ToInt32(TID),
+                        Injected_Memory_Bytes = _bytes,
+                        Injected_Memory_Bytes_Hex = _buf,
+                        _InjectorPID = Convert.ToInt32(_injector)
+
+                    });
+                   
+                }
+                catch (Exception)
                 {
                     BeginInvoke(new __Additem(_Additems_str_toRichtextbox1),
-                    EventMessage + "\n\nEventID: " + "2" + "\nEventRecord_ID: " + EventMessageRecordId + "\n\n[Remote-Thread-Injection Memory Information]\n\tTID: " + TID.ToString() + "\n\tTID StartAddress: " +
-                     XStartAddress.ToString() + "\n\tTID Win32StartAddress: " + i32StartAddress.ToString() + "\n\tTarget_Process PID: " + prc.ToString() +
-                     "\n\nInjected Memory Bytes: " + BitConverter.ToString(buf).ToString() + "\n\n" + Memoryinfo.HexDump(buf) + "\n_____________________\n");
-                });
+                   EventMessage + "\n\nEventID: " + "2" + "\n" + "EventID: 2, Read Target_Process Memory via API::ReadProcessMemory [ERROR] => " + "Access Error or Process Exited" + "\n[Remote-Thread-Injection Memory Information]\n_____________________________error______________________________\n");
 
-                Thread _T5_for_additems_to_Richtextbox1 = new Thread(__T5_info_for_additems_to_Richtextbox1);
-                _T5_for_additems_to_Richtextbox1.Start();
-
-                /// removed
-                //richTextBox1.Text += EventMessage + "\n\nEventID: " + "2" + "\nEventRecord_ID: " + EventMessageRecordId + "\n\n[Remote-Thread-Injection Memory Information]\n\tTID: " + TID.ToString() + "\n\tTID StartAddress: " +
-                //XStartAddress.ToString() + "\n\tTID Win32StartAddress: " + i32StartAddress.ToString() + "\n\tTarget_Process PID: " + prc.ToString() +
-                //"\n\nInjected Memory Bytes: " + BitConverter.ToString(buf).ToString() + "\n\n" + Memoryinfo.HexDump(buf) + "\n_____________________\n";
-
+                }
 
             }
             catch (Exception ohwoOwwtfk)
@@ -2405,15 +2485,13 @@ namespace ETWPM2Monitor2
                 ThreadStart __T6_info_for_additems_to_Richtextbox1 = new ThreadStart(delegate
                 {
                     BeginInvoke(new __Additem(_Additems_str_toRichtextbox1),
-                   etwEvtMessage + "\n\nEventID: " + "2" + "\n" + "EventID: 2, Read Target_Process Memory via API::ReadProcessMemory [ERROR] => " + ohwoOwwtfk.Message + "\n[Remote-Thread-Injection Memory Information]\n_____________________________error______________________________\n");
+                   EventMessage + "\n\nEventID: " + "2" + "\n" + "EventID: 2, Read Target_Process Memory via API::ReadProcessMemory [ERROR] => " + ohwoOwwtfk.Message + "\n[Remote-Thread-Injection Memory Information]\n_____________________________error______________________________\n");
                 });
 
                 Thread _T6_for_additems_to_Richtextbox1 = new Thread(__T6_info_for_additems_to_Richtextbox1);
                 _T6_for_additems_to_Richtextbox1.Start();
 
-                //richTextBox1.Text += etwEvtMessage + "\n\nEventID: " + "2" + "\n";
-
-                //  richTextBox1.Text += "EventID: 2, Read Target_Process Memory via API::ReadProcessMemory [ERROR] => " + ohwoOwwtfk.Message + "\n[Remote-Thread-Injection Memory Information]\n_____________________________error______________________________\n";
+              
             }
         }
 
