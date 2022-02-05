@@ -40,7 +40,7 @@ Usage Steps
 ### ETWPM2Monitor2 v2.1 (Detecting Cmd.exe for shell via [EventID 1] & Meterpreter Traffic Packets via [EventID 3])
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2/Pics/tcp.png)
    
-#### note: this traffic detection via EventID 3 will add to source code ;)
+#### note: this traffic detection via EventID 3 added to source code ;)
 
 ### ETWPM2Monitor2 v2.1 (Detecting Cmd.exe with Parent_Process_Path/ID, when cmd process has ParentPID which is not normal)
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2/Pics/v21-cmd.png)
@@ -48,7 +48,7 @@ Usage Steps
 ### ETWPM2Monitor2 v2.1 (Detecting Cmd.exe with Parent_Process_Path/ID, when cmd process has ParentPID which is not normal)
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2/Pics/v21-cmd2.png)
    
-#### note: this simple detection added to source code.
+#### note: this simple shell detection added to source code.
 -------------------------
 ### ETWPM2Monitor2 & RemoteThreadInjection Detection via ETW Events
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2/Pics/ETWPM2Monitor2-1.png)
