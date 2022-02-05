@@ -1523,8 +1523,8 @@ namespace ETWPM2Monitor2
                     //_T5_for_additems_to_Richtextbox1.Start();
 
 
-                    BeginInvoke(new __Additem(_Additems_str_toRichtextbox1),
-                               "[Time = " + e.EventRecord.TimeCreated + "] \n[EventID = " + e.EventRecord.Id.ToString() + "] \nMessage : " + e.EventRecord.FormatDescription() + "\n_____________________\n");
+                   //  BeginInvoke(new __Additem(_Additems_str_toRichtextbox1),
+                   //            "[Time = " + e.EventRecord.TimeCreated + "] \n[EventID = " + e.EventRecord.Id.ToString() + "] \nMessage : " + e.EventRecord.FormatDescription() + "\n_____________________\n");
 
                 }
 
