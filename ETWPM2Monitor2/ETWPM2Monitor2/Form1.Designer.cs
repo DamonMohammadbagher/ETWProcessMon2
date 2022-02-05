@@ -410,7 +410,7 @@
             // 
             // richTextBox5
             // 
-            this.richTextBox5.BackColor = System.Drawing.SystemColors.Control;
+            this.richTextBox5.BackColor = System.Drawing.Color.LightCyan;
             this.richTextBox5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.richTextBox5.Location = new System.Drawing.Point(3, 16);
             this.richTextBox5.Name = "richTextBox5";
@@ -434,7 +434,7 @@
             // 
             // richTextBox4
             // 
-            this.richTextBox4.BackColor = System.Drawing.SystemColors.Control;
+            this.richTextBox4.BackColor = System.Drawing.Color.LightCyan;
             this.richTextBox4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.richTextBox4.Location = new System.Drawing.Point(3, 16);
             this.richTextBox4.Name = "richTextBox4";
@@ -447,7 +447,7 @@
             // 
             this.richTextBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-            this.richTextBox3.BackColor = System.Drawing.SystemColors.Control;
+            this.richTextBox3.BackColor = System.Drawing.Color.LightCyan;
             this.richTextBox3.ForeColor = System.Drawing.Color.Black;
             this.richTextBox3.Location = new System.Drawing.Point(3, 3);
             this.richTextBox3.Name = "richTextBox3";
@@ -866,7 +866,7 @@
             // pesieve64exeOffToolStripMenuItem
             // 
             this.pesieve64exeOffToolStripMenuItem.Name = "pesieve64exeOffToolStripMenuItem";
-            this.pesieve64exeOffToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
+            this.pesieve64exeOffToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
             this.pesieve64exeOffToolStripMenuItem.Text = "pe-sieve64.exe off";
             this.pesieve64exeOffToolStripMenuItem.Click += new System.EventHandler(this.Pesieve64exeOffToolStripMenuItem_Click);
             // 
@@ -877,7 +877,7 @@
             this.dontDumpTheModifiedPEsButSaveTheReportoffToolStripMenuItem,
             this.dontDumpAnyFilesToolStripMenuItem1});
             this.pesieve64exeonToolStripMenuItem.Name = "pesieve64exeonToolStripMenuItem";
-            this.pesieve64exeonToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
+            this.pesieve64exeonToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
             this.pesieve64exeonToolStripMenuItem.Text = "pe-sieve64.exe on";
             // 
             // defaultDumpAllToolStripMenuItem
@@ -911,7 +911,7 @@
             this.dontDumpAnyFilesToolStripMenuItem,
             this.dumpAllProcessToolStripMenuItem});
             this.hollowHunterexeOnToolStripMenuItem.Name = "hollowHunterexeOnToolStripMenuItem";
-            this.hollowHunterexeOnToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
+            this.hollowHunterexeOnToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
             this.hollowHunterexeOnToolStripMenuItem.Text = "HollowsHunter.exe on";
             // 
             // scanOnlyModeToolStripMenuItem
@@ -959,8 +959,8 @@
             // hollowHunterexeoffToolStripMenuItem
             // 
             this.hollowHunterexeoffToolStripMenuItem.Name = "hollowHunterexeoffToolStripMenuItem";
-            this.hollowHunterexeoffToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
-            this.hollowHunterexeoffToolStripMenuItem.Text = "HollowsHunter.exe [off]";
+            this.hollowHunterexeoffToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
+            this.hollowHunterexeoffToolStripMenuItem.Text = "HollowsHunter.exe off";
             this.hollowHunterexeoffToolStripMenuItem.Click += new System.EventHandler(this.HollowHunterexeoffToolStripMenuItem_Click);
             // 
             // filtersToolStripMenuItem

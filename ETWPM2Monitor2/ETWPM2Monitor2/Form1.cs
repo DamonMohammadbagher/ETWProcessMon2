@@ -218,7 +218,7 @@ namespace ETWPM2Monitor2
             {
 
                 ListViewItem MyLviewItemsX1 = (ListViewItem)obj;
-                Thread.Sleep(1);
+                Thread.Sleep(5);
                 if (MyLviewItemsX1 != null)
                 {
                     /// just for test for better detection via events ;)
@@ -384,16 +384,16 @@ namespace ETWPM2Monitor2
         {
             try
             {
+                /// very important  
+                Form.CheckForIllegalCrossThreadCalls = false;
+
+                GC.TryStartNoGCRegion(250000);
+
                 ThreadStart Core = new ThreadStart(delegate { BeginInvoke(new __Obj_Updater_to_WinForm(_Core)); });
                 Thread _T1_Core1 = new Thread(Core);
                 _T1_Core1.Priority = ThreadPriority.Highest;
                 _T1_Core1.Start();
-                //string Query = "*";
-                //ETWPM2Query = new EventLogQuery("ETWPM2", PathType.LogName);
-
-                //EvtWatcher = new EventLogWatcher(ETWPM2Query);
-                //EvtWatcher.EventRecordWritten += Watcher_EventRecordWritten;
-                //EvtWatcher.Enabled = true;
+                
 
                 listView1.SmallImageList = imageList1;
 
@@ -2069,7 +2069,7 @@ namespace ETWPM2Monitor2
 
         private void AboutToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(null, "ETWPM2Monitor v2 [test version 2.1.0.87]\nCode Published by Damon Mohammadbagher , Jul 2021", "About ETWPM2Monitor v2", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show(null, "ETWPM2Monitor v2 [test version 2.1.10.87]\nCode Published by Damon Mohammadbagher , Jul 2021", "About ETWPM2Monitor v2", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
         }
 
@@ -2281,7 +2281,8 @@ namespace ETWPM2Monitor2
                                 //"Debug info: [2/4/2022 5:58:26 PM] PID: (6592)(notepad) 10336::0x7ff7878c3db0:12408:3652[Injected by dotnet.exe:3652]"
 
                                 var _injector = 0;
-                                var __tid = Convert.ToInt32(item.Substring(item.IndexOf("::") - 5, 5));
+                            //    MessageBox.Show(item.Split(')')[2].Split(':')[0]);
+                                var __tid = Convert.ToInt32(item.Split(')')[2].Split(':')[0]);
                                 string _System = item.Substring(item.IndexOf("::")).Split(':')[2];
 
                                 try
@@ -2519,46 +2520,50 @@ namespace ETWPM2Monitor2
                 string PIDName = xitem.SubItems[2].Text.Split(':')[0];
                 string PID = xitem.SubItems[2].Text.Split(':')[1];
                 int counter = 0;
-                int showtime = 1;
-                bool showshowtime = false;
+                //int showtime = 1;
+                //bool showshowtime = false;
                 foreach (string item in lines.ToString().Split('\n'))
                 {
                     if (item.Contains("Target_Process: " + PIDName + ":" + PID))
                     {
                         if (!item.Contains("TaskName(TcpIp)"))
                         {
-                            st.AppendLine("[" + counter.ToString() + "] " + item + "\n");
+                            st.AppendLine("[" + counter.ToString() + "] " + item);
                             counter++;
                         }
                     }
                     if ((item.Contains("Debug info:") && item.Contains("PID: (" + PID + ")(" + PIDName + ")")) && (!item.Contains("TaskName(TcpIp)")))
                     {
+                        //"Debug info: [2/4/2022 5:58:26 PM] PID: (6592)(notepad) 10336::0x7ff7878c3db0:12408:3652[Injected by dotnet.exe:3652]"
 
                         if (!item.Contains("TaskName(TcpIp)"))
                         {
-                            st.AppendLine("[" + counter.ToString() + "] " + item + "\n");
+                            st.AppendLine("[" + counter.ToString() + "] " + item);
                             st.AppendLine("[" + counter.ToString() + "] " + "Injection by " + item.Substring(item.IndexOf("Injected by ")).Split(']')[0].Split(' ')[2] + "===>==TID:" +
-                           item.Substring(item.IndexOf("::") - 5, 5) + "==>==Injected into====>" + PIDName + ":" + PID + "\n\n");
-                            //counter++;
-                            showshowtime = true;
+                           item.Split(')')[2].Split(':')[0] + "==>==Injected into====>" + PIDName + ":" + PID + "\n\n");
+                            
                             st.AppendLine("ETW Event & Injection Details:\n");
+                            try
+                            {
+                                var __tid = Convert.ToInt32(item.Split(')')[2].Split(':')[0]);
+                                var _injector = Convert.ToInt32(item.Split('[')[1].Split(':')[7]);
+                                _InjectedThreadDetails_bytes details = _InjectedTIDList.Find(_x => _x._RemoteThreadID == __tid && _x._TargetPID == Convert.ToInt32(PID) && _x._InjectorPID == _injector);
+
+                                st.AppendLine("\nInjectorPID: " + details._InjectorPID.ToString() +
+                                    "\nTargetPID: " + details._TargetPID.ToString() + "\nInjectedTID: " + details._RemoteThreadID.ToString() +
+                                    "\nStartAddress: " + details._ThreadStartAddress + "\n\nInjectedBytes[HEX]:\n" + details.Injected_Memory_Bytes_Hex + "\n");
+                            }
+                            catch (Exception)
+                            {
+
+
+                            }
                         }
                     }
-                    if (showshowtime)
-                    {
-                        if (showtime <= 27)
-                        {
-                            st.AppendLine(item + "\n");
-                            showtime++;
-                        }
-                        if (showtime == 29 || item.Contains("ReadProcessMemory [ERROR]"))
-                        {
-                            showshowtime = false;
-                            showtime = 1;
-                        }
-                    }
+                   
+
                 }
-                st.AppendLine(" ");
+                st.AppendLine("\nMemory Scanner Result:\n");
                 st.AppendLine(xitem.Name);
                 st.AppendLine("-------------------------------------------------------------------------");
                 st.AppendLine(" ");
