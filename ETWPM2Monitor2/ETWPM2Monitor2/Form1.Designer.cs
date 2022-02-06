@@ -58,10 +58,6 @@
             this.tabPage7 = new System.Windows.Forms.TabPage();
             this.panel1 = new System.Windows.Forms.Panel();
             this.groupBox11 = new System.Windows.Forms.GroupBox();
-            this.checkBox3 = new System.Windows.Forms.CheckBox();
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.listView3 = new System.Windows.Forms.ListView();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
             this.progressBar7 = new System.Windows.Forms.ProgressBar();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
@@ -136,6 +132,7 @@
             this.toolStripStatusLabel4 = new System.Windows.Forms.ToolStripStatusLabel();
             this.contextMenuStrip4 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.dumpTIDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.listBox1 = new System.Windows.Forms.ListBox();
             this.contextMenuStrip5.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -490,70 +487,14 @@
             this.groupBox11.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox11.Controls.Add(this.checkBox3);
-            this.groupBox11.Controls.Add(this.checkBox2);
-            this.groupBox11.Controls.Add(this.checkBox1);
-            this.groupBox11.Controls.Add(this.listView3);
+            this.groupBox11.Controls.Add(this.listBox1);
             this.groupBox11.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.groupBox11.Location = new System.Drawing.Point(583, 8);
             this.groupBox11.Name = "groupBox11";
             this.groupBox11.Size = new System.Drawing.Size(485, 182);
             this.groupBox11.TabIndex = 5;
             this.groupBox11.TabStop = false;
-            this.groupBox11.Text = "ETW Events by Processes (every 15 sec)";
-            // 
-            // checkBox3
-            // 
-            this.checkBox3.AutoSize = true;
-            this.checkBox3.Enabled = false;
-            this.checkBox3.Location = new System.Drawing.Point(268, 17);
-            this.checkBox3.Name = "checkBox3";
-            this.checkBox3.Size = new System.Drawing.Size(136, 17);
-            this.checkBox3.TabIndex = 5;
-            this.checkBox3.Text = "Sort by LastEvent-Time";
-            this.checkBox3.UseVisualStyleBackColor = true;
-            this.checkBox3.CheckedChanged += new System.EventHandler(this.CheckBox3_CheckedChanged);
-            // 
-            // checkBox2
-            // 
-            this.checkBox2.AutoSize = true;
-            this.checkBox2.Enabled = false;
-            this.checkBox2.Location = new System.Drawing.Point(151, 17);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(111, 17);
-            this.checkBox2.TabIndex = 4;
-            this.checkBox2.Text = "Sort by TCP Send";
-            this.checkBox2.UseVisualStyleBackColor = true;
-            this.checkBox2.CheckedChanged += new System.EventHandler(this.CheckBox2_CheckedChanged);
-            // 
-            // checkBox1
-            // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Enabled = false;
-            this.checkBox1.Location = new System.Drawing.Point(6, 17);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(139, 17);
-            this.checkBox1.TabIndex = 3;
-            this.checkBox1.Text = "Sort by Thread-Injection";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            this.checkBox1.CheckedChanged += new System.EventHandler(this.CheckBox1_CheckedChanged);
-            // 
-            // listView3
-            // 
-            this.listView3.AllowColumnReorder = true;
-            this.listView3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.listView3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.listView3.Enabled = false;
-            this.listView3.FullRowSelect = true;
-            this.listView3.HideSelection = false;
-            this.listView3.Location = new System.Drawing.Point(6, 34);
-            this.listView3.MultiSelect = false;
-            this.listView3.Name = "listView3";
-            this.listView3.Size = new System.Drawing.Size(473, 142);
-            this.listView3.TabIndex = 0;
-            this.listView3.UseCompatibleStateImageBehavior = false;
+            this.groupBox11.Text = "Memory Scanners Logs";
             // 
             // groupBox7
             // 
@@ -1161,6 +1102,17 @@
             this.dumpTIDToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
             this.dumpTIDToolStripMenuItem.Text = "Injected TID Memory info";
             // 
+            // listBox1
+            // 
+            this.listBox1.BackColor = System.Drawing.Color.LightCyan;
+            this.listBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listBox1.FormattingEnabled = true;
+            this.listBox1.HorizontalScrollbar = true;
+            this.listBox1.Location = new System.Drawing.Point(3, 16);
+            this.listBox1.Name = "listBox1";
+            this.listBox1.Size = new System.Drawing.Size(479, 163);
+            this.listBox1.TabIndex = 1;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1195,7 +1147,6 @@
             this.tabPage7.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.groupBox11.ResumeLayout(false);
-            this.groupBox11.PerformLayout();
             this.groupBox7.ResumeLayout(false);
             this.groupBox4.ResumeLayout(false);
             this.groupBox8.ResumeLayout(false);
@@ -1314,14 +1265,11 @@
         private System.Windows.Forms.ToolStripMenuItem saveAllAlarmEventsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveAllAlarmEventsToolStripMenuItem1;
         private System.Windows.Forms.GroupBox groupBox11;
-        private System.Windows.Forms.ListView listView3;
-        private System.Windows.Forms.CheckBox checkBox3;
-        private System.Windows.Forms.CheckBox checkBox2;
-        private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.ToolStripMenuItem excludeSYSTEM4EventsFromRealtimeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem includeSYSTEM4EventsFromRealtimeToolStripMenuItem;
         private System.Windows.Forms.SplitContainer splitContainer2;
         private System.Windows.Forms.RichTextBox richTextBox6;
+        private System.Windows.Forms.ListBox listBox1;
     }
 }
 
