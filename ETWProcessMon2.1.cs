@@ -69,6 +69,7 @@ namespace ETWProcessMon2
 
         //public static event EventHandler _Event_VirtualMemAlloc_NewThreadInj_into_TxtLogFile;
         //public static event EventHandler _Event_Add_ETWEvent_to_WindowsEventLog_ETWPM2;
+
         public delegate void __core(object str);
 
         public static string PPath(Process Process)
@@ -574,14 +575,16 @@ namespace ETWProcessMon2
                     try
                     {
  
-                        //_Event_VirtualMemAlloc_NewThreadInj_into_TxtLogFile.Invoke((object)("[" + obj.TimeStamp.ToString() + "] PID:(" +
-                        //    obj.ProcessID + ")(" + obj.ProcessName + ") " + obj.ThreadID + ":" + tempETWdetails + "[Injected by " + prc + "]"), null);
- 
-                        //_Event_Add_ETWEvent_to_WindowsEventLog_ETWPM2.Invoke((object)("[ETW] \n" + "[MEM] Injected ThreadStart " + "Detected,\nTarget_Process: " + obj.ProcessName + ":" + obj.ProcessID
+                       
+
+                        //Thread T1_evt2 = new Thread(_additems2);
+                        //T1_evt2.Priority = ThreadPriority.Highest;
+                        //T1_evt2.Start((object)("[ETW] \n" + "[MEM] Injected ThreadStart " + "Detected,\nTarget_Process: " + obj.ProcessName + ":" + obj.ProcessID
                         //    + "   TID(" + obj.ThreadID + ")" + " Injected by " + getpathPID((Int32)obj.PayloadValue(obj.PayloadNames.Length - 1))
                         //+ "\nTarget_ProcessPath: " + getpathPID(obj.ProcessID) + "\n\nDebug info:"
                         //+ " [" + obj.TimeStamp.ToString() + "] PID: (" + obj.ProcessID + ")(" + obj.ProcessName
-                        //+ ") " + obj.ThreadID + ":" + tempETWdetails + "[Injected by " + prc + "]"), null);
+                        //+ ") " + obj.ThreadID + ":" + tempETWdetails + "[Injected by " + prc + "]"));
+
 
                         Thread T1_evt2 = new Thread(_additems2);
                         T1_evt2.Priority = ThreadPriority.Highest;
@@ -589,8 +592,21 @@ namespace ETWProcessMon2
                             + "   TID(" + obj.ThreadID + ")" + " Injected by " + getpathPID((Int32)obj.PayloadValue(obj.PayloadNames.Length - 1))
                         + "\nTarget_ProcessPath: " + getpathPID(obj.ProcessID) + "\n\nDebug info:"
                         + " [" + obj.TimeStamp.ToString() + "] PID: (" + obj.ProcessID + ")(" + obj.ProcessName
-                        + ") " + obj.ThreadID + ":" + tempETWdetails + "[Injected by " + prc + "]"));
- 
+                        + ") " + obj.ThreadID + ":" + tempETWdetails + "[Injected by " + prc + "]")
+                        +"\n---------------------------------------------\n"
+                        + "Debug Integers : TargetProcessPID,InjectedTID:StartAddress:ParentThreadID:InjectorPID\n"
+                        + "TPID > " + obj.ProcessID + "\n" + "InjectedTID > " + obj.ThreadID + "\n"  + "StartAddress > " + tempETWdetails.Split(':')[1]
+                        +  "\n" + "PTID > " + tempETWdetails.Split(':')[2] + "\n" + "InjectorPID > " + tempETWdetails.Split(':')[3]
+                        + "\n---------------------------------------------\n"
+                        + "Debug Process_Names : TargetProcessName,InjectorProcessName\n"
+                        + "TargetProcessName > " + obj.ProcessName + "\n"
+                        + "InjectorProcessName > " + getpathPID((Int32)obj.PayloadValue(obj.PayloadNames.Length - 1)) + "\n"
+                        + "EventTime > " + obj.TimeStamp.ToString()
+                        );
+
+
+
+
                         tempETWdetails = "";
                     }
                     catch (Exception ops)
