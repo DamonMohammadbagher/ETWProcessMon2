@@ -113,6 +113,9 @@ Video link2: https://share.vidyard.com/watch/PjBybo5BNHbfCXazoLmN6f
     step1: [win, Run As Admin] ETWProcessMon2.exe > Save_all_outputs.txt
     step2: [win] ETWPM2Monitor.exe 
 
+### ETWPM2Monitor2 v2.1 (Detecting Cmd.exe for shell via [EventID 1] & Meterpreter Traffic Packets via [EventID 3])
+   ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2/Pics/tcp.png)
+
 ### ETWPM2Monitor2 & Integrating with Memory Scanners Pe-sieve64.exe (ProcessHollowing Technique Detection) via ETW Events
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2/Pics/ETWPM2Monitor2-3.png)
 
