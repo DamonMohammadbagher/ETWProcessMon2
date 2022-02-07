@@ -50,10 +50,10 @@
             this.tabPage5 = new System.Windows.Forms.TabPage();
             this.richTextBox2 = new System.Windows.Forms.RichTextBox();
             this.tabPage6 = new System.Windows.Forms.TabPage();
-            this.groupBox10 = new System.Windows.Forms.GroupBox();
-            this.richTextBox5 = new System.Windows.Forms.RichTextBox();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
             this.richTextBox4 = new System.Windows.Forms.RichTextBox();
+            this.groupBox10 = new System.Windows.Forms.GroupBox();
+            this.richTextBox5 = new System.Windows.Forms.RichTextBox();
             this.richTextBox3 = new System.Windows.Forms.RichTextBox();
             this.tabPage7 = new System.Windows.Forms.TabPage();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -155,8 +155,8 @@
             this.tabControl2.SuspendLayout();
             this.tabPage5.SuspendLayout();
             this.tabPage6.SuspendLayout();
-            this.groupBox10.SuspendLayout();
             this.groupBox9.SuspendLayout();
+            this.groupBox10.SuspendLayout();
             this.tabPage7.SuspendLayout();
             this.panel1.SuspendLayout();
             this.groupBox11.SuspendLayout();
@@ -397,29 +397,6 @@
             this.tabPage6.Text = "Details & Injection Information by ETW";
             this.tabPage6.UseVisualStyleBackColor = true;
             // 
-            // groupBox10
-            // 
-            this.groupBox10.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox10.Controls.Add(this.richTextBox5);
-            this.groupBox10.Location = new System.Drawing.Point(605, 115);
-            this.groupBox10.Name = "groupBox10";
-            this.groupBox10.Size = new System.Drawing.Size(466, 81);
-            this.groupBox10.TabIndex = 2;
-            this.groupBox10.TabStop = false;
-            this.groupBox10.Text = "Description";
-            // 
-            // richTextBox5
-            // 
-            this.richTextBox5.BackColor = System.Drawing.Color.LightCyan;
-            this.richTextBox5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.richTextBox5.Location = new System.Drawing.Point(3, 16);
-            this.richTextBox5.Name = "richTextBox5";
-            this.richTextBox5.ReadOnly = true;
-            this.richTextBox5.Size = new System.Drawing.Size(460, 62);
-            this.richTextBox5.TabIndex = 1;
-            this.richTextBox5.Text = "";
-            // 
             // groupBox9
             // 
             this.groupBox9.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -443,6 +420,29 @@
             this.richTextBox4.Size = new System.Drawing.Size(460, 87);
             this.richTextBox4.TabIndex = 0;
             this.richTextBox4.Text = "";
+            // 
+            // groupBox10
+            // 
+            this.groupBox10.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox10.Controls.Add(this.richTextBox5);
+            this.groupBox10.Location = new System.Drawing.Point(605, 115);
+            this.groupBox10.Name = "groupBox10";
+            this.groupBox10.Size = new System.Drawing.Size(466, 81);
+            this.groupBox10.TabIndex = 2;
+            this.groupBox10.TabStop = false;
+            this.groupBox10.Text = "Description";
+            // 
+            // richTextBox5
+            // 
+            this.richTextBox5.BackColor = System.Drawing.Color.LightCyan;
+            this.richTextBox5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.richTextBox5.Location = new System.Drawing.Point(3, 16);
+            this.richTextBox5.Name = "richTextBox5";
+            this.richTextBox5.ReadOnly = true;
+            this.richTextBox5.Size = new System.Drawing.Size(460, 62);
+            this.richTextBox5.TabIndex = 1;
+            this.richTextBox5.Text = "";
             // 
             // richTextBox3
             // 
@@ -767,14 +767,14 @@
             // startMonitorToolStripMenuItem
             // 
             this.startMonitorToolStripMenuItem.Name = "startMonitorToolStripMenuItem";
-            this.startMonitorToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+            this.startMonitorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.startMonitorToolStripMenuItem.Text = "Start Monitor";
             this.startMonitorToolStripMenuItem.Click += new System.EventHandler(this.StartMonitorToolStripMenuItem_Click);
             // 
             // stoptMonitorToolStripMenuItem
             // 
             this.stoptMonitorToolStripMenuItem.Name = "stoptMonitorToolStripMenuItem";
-            this.stoptMonitorToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+            this.stoptMonitorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.stoptMonitorToolStripMenuItem.Text = "Stop Monitor";
             this.stoptMonitorToolStripMenuItem.Click += new System.EventHandler(this.StoptMonitorToolStripMenuItem_Click);
             // 
@@ -784,7 +784,7 @@
             this.onToolStripMenuItem,
             this.offToolStripMenuItem});
             this.autoScrollToolStripMenuItem.Name = "autoScrollToolStripMenuItem";
-            this.autoScrollToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+            this.autoScrollToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.autoScrollToolStripMenuItem.Text = "Auto Scroll";
             // 
             // onToolStripMenuItem
@@ -804,7 +804,7 @@
             // clearAllToolStripMenuItem
             // 
             this.clearAllToolStripMenuItem.Name = "clearAllToolStripMenuItem";
-            this.clearAllToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+            this.clearAllToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.clearAllToolStripMenuItem.Text = "Clear All";
             this.clearAllToolStripMenuItem.Click += new System.EventHandler(this.ClearAllToolStripMenuItem_Click);
             // 
@@ -816,11 +816,12 @@
             this.hollowHunterexeOnToolStripMenuItem,
             this.hollowHunterexeoffToolStripMenuItem});
             this.scannersToolStripMenuItem.Name = "scannersToolStripMenuItem";
-            this.scannersToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+            this.scannersToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.scannersToolStripMenuItem.Text = "Scanners";
             // 
             // pesieve64exeOffToolStripMenuItem
             // 
+            this.pesieve64exeOffToolStripMenuItem.Enabled = false;
             this.pesieve64exeOffToolStripMenuItem.Name = "pesieve64exeOffToolStripMenuItem";
             this.pesieve64exeOffToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
             this.pesieve64exeOffToolStripMenuItem.Text = "pe-sieve64.exe off";
@@ -1191,8 +1192,8 @@
             this.tabControl2.ResumeLayout(false);
             this.tabPage5.ResumeLayout(false);
             this.tabPage6.ResumeLayout(false);
-            this.groupBox10.ResumeLayout(false);
             this.groupBox9.ResumeLayout(false);
+            this.groupBox10.ResumeLayout(false);
             this.tabPage7.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.groupBox11.ResumeLayout(false);
