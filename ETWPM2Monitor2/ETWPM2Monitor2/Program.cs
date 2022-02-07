@@ -26,7 +26,7 @@ namespace ETWPM2Monitor2
             catch (Exception ee)
             {
 
-                MessageBox.Show(ee.Message);
+             //  MessageBox.Show(ee.Message);
             }
             //Application.EnableVisualStyles();
             //Application.SetCompatibleTextRenderingDefault(false);

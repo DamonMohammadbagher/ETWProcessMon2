@@ -58,6 +58,7 @@
             this.tabPage7 = new System.Windows.Forms.TabPage();
             this.panel1 = new System.Windows.Forms.Panel();
             this.groupBox11 = new System.Windows.Forms.GroupBox();
+            this.listBox1 = new System.Windows.Forms.ListBox();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
             this.progressBar7 = new System.Windows.Forms.ProgressBar();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
@@ -117,6 +118,11 @@
             this.eventID3ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.excludeSYSTEM4EventsFromRealtimeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.includeSYSTEM4EventsFromRealtimeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.removeRealtimeRecordsAfter500RecordsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.removeRealtimeRecordsAfter1000RecordsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.removeRealtimeRecordsAfter2000RecordsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.removeRealtimeRecordsAfter3000RecordsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.removeRealtimeRecordsAfter5000RecordsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.memoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.injectedTIDMemoryInfoToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -132,7 +138,6 @@
             this.toolStripStatusLabel4 = new System.Windows.Forms.ToolStripStatusLabel();
             this.contextMenuStrip4 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.dumpTIDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.listBox1 = new System.Windows.Forms.ListBox();
             this.contextMenuStrip5.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -381,8 +386,8 @@
             // 
             // tabPage6
             // 
-            this.tabPage6.Controls.Add(this.groupBox10);
             this.tabPage6.Controls.Add(this.groupBox9);
+            this.tabPage6.Controls.Add(this.groupBox10);
             this.tabPage6.Controls.Add(this.richTextBox3);
             this.tabPage6.Location = new System.Drawing.Point(4, 22);
             this.tabPage6.Name = "tabPage6";
@@ -394,13 +399,12 @@
             // 
             // groupBox10
             // 
-            this.groupBox10.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.groupBox10.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox10.Controls.Add(this.richTextBox5);
-            this.groupBox10.Location = new System.Drawing.Point(605, 105);
+            this.groupBox10.Location = new System.Drawing.Point(605, 115);
             this.groupBox10.Name = "groupBox10";
-            this.groupBox10.Size = new System.Drawing.Size(466, 91);
+            this.groupBox10.Size = new System.Drawing.Size(466, 81);
             this.groupBox10.TabIndex = 2;
             this.groupBox10.TabStop = false;
             this.groupBox10.Text = "Description";
@@ -412,7 +416,7 @@
             this.richTextBox5.Location = new System.Drawing.Point(3, 16);
             this.richTextBox5.Name = "richTextBox5";
             this.richTextBox5.ReadOnly = true;
-            this.richTextBox5.Size = new System.Drawing.Size(460, 72);
+            this.richTextBox5.Size = new System.Drawing.Size(460, 62);
             this.richTextBox5.TabIndex = 1;
             this.richTextBox5.Text = "";
             // 
@@ -424,7 +428,7 @@
             this.groupBox9.Controls.Add(this.richTextBox4);
             this.groupBox9.Location = new System.Drawing.Point(605, 6);
             this.groupBox9.Name = "groupBox9";
-            this.groupBox9.Size = new System.Drawing.Size(466, 100);
+            this.groupBox9.Size = new System.Drawing.Size(466, 106);
             this.groupBox9.TabIndex = 1;
             this.groupBox9.TabStop = false;
             this.groupBox9.Text = "Event Message";
@@ -436,7 +440,7 @@
             this.richTextBox4.Location = new System.Drawing.Point(3, 16);
             this.richTextBox4.Name = "richTextBox4";
             this.richTextBox4.ReadOnly = true;
-            this.richTextBox4.Size = new System.Drawing.Size(460, 81);
+            this.richTextBox4.Size = new System.Drawing.Size(460, 87);
             this.richTextBox4.TabIndex = 0;
             this.richTextBox4.Text = "";
             // 
@@ -495,6 +499,17 @@
             this.groupBox11.TabIndex = 5;
             this.groupBox11.TabStop = false;
             this.groupBox11.Text = "Memory Scanners Logs";
+            // 
+            // listBox1
+            // 
+            this.listBox1.BackColor = System.Drawing.Color.LightCyan;
+            this.listBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listBox1.FormattingEnabled = true;
+            this.listBox1.HorizontalScrollbar = true;
+            this.listBox1.Location = new System.Drawing.Point(3, 16);
+            this.listBox1.Name = "listBox1";
+            this.listBox1.Size = new System.Drawing.Size(479, 163);
+            this.listBox1.TabIndex = 1;
             // 
             // groupBox7
             // 
@@ -915,7 +930,12 @@
             this.eventID2ToolStripMenuItem,
             this.eventID3ToolStripMenuItem,
             this.excludeSYSTEM4EventsFromRealtimeToolStripMenuItem,
-            this.includeSYSTEM4EventsFromRealtimeToolStripMenuItem});
+            this.includeSYSTEM4EventsFromRealtimeToolStripMenuItem,
+            this.removeRealtimeRecordsAfter500RecordsToolStripMenuItem,
+            this.removeRealtimeRecordsAfter1000RecordsToolStripMenuItem,
+            this.removeRealtimeRecordsAfter2000RecordsToolStripMenuItem,
+            this.removeRealtimeRecordsAfter3000RecordsToolStripMenuItem,
+            this.removeRealtimeRecordsAfter5000RecordsToolStripMenuItem});
             this.filtersToolStripMenuItem.Name = "filtersToolStripMenuItem";
             this.filtersToolStripMenuItem.Size = new System.Drawing.Size(50, 20);
             this.filtersToolStripMenuItem.Text = "Filters";
@@ -991,6 +1011,46 @@
             this.includeSYSTEM4EventsFromRealtimeToolStripMenuItem.Size = new System.Drawing.Size(351, 22);
             this.includeSYSTEM4EventsFromRealtimeToolStripMenuItem.Text = "Include \"SYSTEM:4\" Events from Realtime";
             this.includeSYSTEM4EventsFromRealtimeToolStripMenuItem.Click += new System.EventHandler(this.IncludeSYSTEM4EventsFromRealtimeToolStripMenuItem_Click);
+            // 
+            // removeRealtimeRecordsAfter500RecordsToolStripMenuItem
+            // 
+            this.removeRealtimeRecordsAfter500RecordsToolStripMenuItem.CheckOnClick = true;
+            this.removeRealtimeRecordsAfter500RecordsToolStripMenuItem.Name = "removeRealtimeRecordsAfter500RecordsToolStripMenuItem";
+            this.removeRealtimeRecordsAfter500RecordsToolStripMenuItem.Size = new System.Drawing.Size(351, 22);
+            this.removeRealtimeRecordsAfter500RecordsToolStripMenuItem.Text = "Remove Realtime Records after (500 records)";
+            this.removeRealtimeRecordsAfter500RecordsToolStripMenuItem.Click += new System.EventHandler(this.RemoveRealtimeRecordsAfter500RecordsToolStripMenuItem_Click);
+            // 
+            // removeRealtimeRecordsAfter1000RecordsToolStripMenuItem
+            // 
+            this.removeRealtimeRecordsAfter1000RecordsToolStripMenuItem.CheckOnClick = true;
+            this.removeRealtimeRecordsAfter1000RecordsToolStripMenuItem.Name = "removeRealtimeRecordsAfter1000RecordsToolStripMenuItem";
+            this.removeRealtimeRecordsAfter1000RecordsToolStripMenuItem.Size = new System.Drawing.Size(351, 22);
+            this.removeRealtimeRecordsAfter1000RecordsToolStripMenuItem.Text = "Remove Realtime Records after (1000 records)";
+            this.removeRealtimeRecordsAfter1000RecordsToolStripMenuItem.Click += new System.EventHandler(this.RemoveRealtimeRecordsAfter1000RecordsToolStripMenuItem_Click);
+            // 
+            // removeRealtimeRecordsAfter2000RecordsToolStripMenuItem
+            // 
+            this.removeRealtimeRecordsAfter2000RecordsToolStripMenuItem.CheckOnClick = true;
+            this.removeRealtimeRecordsAfter2000RecordsToolStripMenuItem.Name = "removeRealtimeRecordsAfter2000RecordsToolStripMenuItem";
+            this.removeRealtimeRecordsAfter2000RecordsToolStripMenuItem.Size = new System.Drawing.Size(351, 22);
+            this.removeRealtimeRecordsAfter2000RecordsToolStripMenuItem.Text = "Remove Realtime Records after (2000 records)";
+            this.removeRealtimeRecordsAfter2000RecordsToolStripMenuItem.Click += new System.EventHandler(this.RemoveRealtimeRecordsAfter2000RecordsToolStripMenuItem_Click);
+            // 
+            // removeRealtimeRecordsAfter3000RecordsToolStripMenuItem
+            // 
+            this.removeRealtimeRecordsAfter3000RecordsToolStripMenuItem.CheckOnClick = true;
+            this.removeRealtimeRecordsAfter3000RecordsToolStripMenuItem.Name = "removeRealtimeRecordsAfter3000RecordsToolStripMenuItem";
+            this.removeRealtimeRecordsAfter3000RecordsToolStripMenuItem.Size = new System.Drawing.Size(351, 22);
+            this.removeRealtimeRecordsAfter3000RecordsToolStripMenuItem.Text = "Remove Realtime Records after (3000 records)";
+            this.removeRealtimeRecordsAfter3000RecordsToolStripMenuItem.Click += new System.EventHandler(this.RemoveRealtimeRecordsAfter3000RecordsToolStripMenuItem_Click);
+            // 
+            // removeRealtimeRecordsAfter5000RecordsToolStripMenuItem
+            // 
+            this.removeRealtimeRecordsAfter5000RecordsToolStripMenuItem.CheckOnClick = true;
+            this.removeRealtimeRecordsAfter5000RecordsToolStripMenuItem.Name = "removeRealtimeRecordsAfter5000RecordsToolStripMenuItem";
+            this.removeRealtimeRecordsAfter5000RecordsToolStripMenuItem.Size = new System.Drawing.Size(351, 22);
+            this.removeRealtimeRecordsAfter5000RecordsToolStripMenuItem.Text = "Remove Realtime Records after (5000 records)";
+            this.removeRealtimeRecordsAfter5000RecordsToolStripMenuItem.Click += new System.EventHandler(this.RemoveRealtimeRecordsAfter5000RecordsToolStripMenuItem_Click);
             // 
             // memoryToolStripMenuItem
             // 
@@ -1101,17 +1161,6 @@
             this.dumpTIDToolStripMenuItem.Name = "dumpTIDToolStripMenuItem";
             this.dumpTIDToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
             this.dumpTIDToolStripMenuItem.Text = "Injected TID Memory info";
-            // 
-            // listBox1
-            // 
-            this.listBox1.BackColor = System.Drawing.Color.LightCyan;
-            this.listBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.HorizontalScrollbar = true;
-            this.listBox1.Location = new System.Drawing.Point(3, 16);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(479, 163);
-            this.listBox1.TabIndex = 1;
             // 
             // Form1
             // 
@@ -1270,6 +1319,11 @@
         private System.Windows.Forms.SplitContainer splitContainer2;
         private System.Windows.Forms.RichTextBox richTextBox6;
         private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.ToolStripMenuItem removeRealtimeRecordsAfter500RecordsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem removeRealtimeRecordsAfter1000RecordsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem removeRealtimeRecordsAfter2000RecordsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem removeRealtimeRecordsAfter3000RecordsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem removeRealtimeRecordsAfter5000RecordsToolStripMenuItem;
     }
 }
 
