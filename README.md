@@ -31,6 +31,7 @@ ETW Events in event log [ETWPM2]:
 md5 info [ETWProcessMon2.exe], "exe files are not safe here in github so make your own exe files with C# source by yourself [i recommend]":
 
     b913a0d66d-750478c5a8-1d557aad377d => ETWProcessMon2.exe
+    1351cc2d-568aae91f-9b206aa-526e1f1d => ETWProcessMon2.exe (v2.1)
 
 ### Videos: 
 Note: i will make video for "ETWProcessMon2" soon.
@@ -66,7 +67,7 @@ Note: "ETWPM2Monitor2 v2" code Published here => https://github.com/DamonMohamma
 md5 info [ETWPM2Monitor2.exe], "exe files are not safe here in github so make your own exe files with C# source by yourself [i recommend]":
 
     40d799fd84-a7dbb7a981-d3eebed3c7e5 => ETWPM2Monitor2.exe
-    1351cc2d-568aae91f-9b206aa-526e1f1d => ETWProcessMon2.exe (v2.1)
+    c7f71102-6f9f39ddd-7257a68-66aaf935 => ETWPM2Monitor2.exe (v2.1)
 
 Note: with "ETWPM2Monitor2 v2" code we have "Pe-sieve64.exe" & "Hollowshunter.exe" as Memory Scanner so to use you need to download these exe files & paste them in same folder with ETWPM2Monitor2.exe & i tested ETWPM2Monitor2 with Pe-sieve64.exe (ver 0.2.9.6) & Hollowshunter.exe (ver 0.2.9.6)
 
