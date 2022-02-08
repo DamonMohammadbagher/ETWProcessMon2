@@ -227,6 +227,12 @@ namespace ETWPM2Monitor2
         public static Int32 ListiveItemCount = 1000;
         public static Int32 counter_for_tcp_packets_filter = 0;
         public static bool show_tcp_packets_filter = false;
+        public static bool _StopLoopingScan_Exec_01 = false;
+        public static bool _StopLoopingScan_Exec_02 = false;
+        public static bool ScannerMixedMode_Pesieve = false;
+        public static bool ScannerEvery10minMode_Pesieve = false;
+        public static bool ScannerMixedMode_Hollowh = false;
+        public static bool ScannerEvery10minMode_Hollowh = false;
 
         public static int _percent(int count, int total)
         {
@@ -496,7 +502,7 @@ namespace ETWPM2Monitor2
                 /// very important  
                 Form.CheckForIllegalCrossThreadCalls = false;
 
-                GC.TryStartNoGCRegion(250000);
+                //GC.TryStartNoGCRegion(250000);
 
                 ThreadStart Core = new ThreadStart(delegate { BeginInvoke(new __Obj_Updater_to_WinForm(_Core)); });
                 Thread _T1_Core1 = new Thread(Core);
@@ -889,7 +895,7 @@ namespace ETWPM2Monitor2
             }
 
         }
- 
+       
         private void Form1_NewProcessAddedtolist1(object sender, EventArgs e)
         {
 
@@ -904,7 +910,7 @@ namespace ETWPM2Monitor2
             string ProcessName = PName_PID.Split(':')[0];
             string _des_address_port = tcpdetails.Substring(tcpdetails.IndexOf("daddr:") + 6).Split(']')[0] + ":" + tcpdetails.Substring(tcpdetails.IndexOf("dport:") + 6).Split(']')[0];
 
-
+          
             string Procesname_path = ProcessName;
             Int32 Pid = PID;
             string evt_time = DateTime.Now.ToString();
@@ -936,13 +942,18 @@ namespace ETWPM2Monitor2
 
             if (Process_Table.Find(x => x.PID == PID && x.ProcessName == ProcessName).TCPDetails == "null")
             {
+                //List<_TableofProcess> _Table = Process_Table.Distinct().ToList().FindAll(x => x.PID == PID && x.ProcessName == ProcessName);
+
                 List<_TableofProcess> _Table = Process_Table.FindAll(x => x.PID == PID && x.ProcessName == ProcessName);
+
+                _StopLoopingScan_Exec_01 = false;
+                _StopLoopingScan_Exec_02 = false;
 
                 foreach (_TableofProcess item in _Table)
                 {
                     if (item.ProcessName + ":" + item.PID + item.ProcessName_Path + item.Injector_Path + item.Injector.ToString() != tmplasttcpevent)
                     {
-                        _finalresult_Scanned_02[2] = "-+";
+                        _finalresult_Scanned_02[2] = "--";
                         iList2 = new ListViewItem();
 
                         ////Parallel.Invoke(
@@ -963,42 +974,56 @@ namespace ETWPM2Monitor2
 
                         ////});
 
-
-                        /// pe-sieve64.exe scanner
-                        _finalresult_Scanned_01 = executeutilities_01(item.PID.ToString(), item.ProcessName_Path, item.Injector_Path + ":" + item.Injector.ToString());
+                        if (!_StopLoopingScan_Exec_01)
+                        {
+                            /// pe-sieve64.exe scanner
+                            _finalresult_Scanned_01 = executeutilities_01(item.PID.ToString(), item.ProcessName_Path, item.Injector_Path + ":" + item.Injector.ToString());
+                        }
 
                         Thread.Sleep(100);
-                        _finalresult_Scanned_02[2] = "-+";
+                        //_finalresult_Scanned_02[2] = "-+";
 
-                        /// hollowshunter.exe scanner
-                        _finalresult_Scanned_02 = executeutilities_02(item.PID.ToString(), item.ProcessName_Path, item.Injector_Path + ":" + item.Injector.ToString());
-
+                        if (!_StopLoopingScan_Exec_02)
+                        {
+                            /// hollowshunter.exe scanner
+                            _finalresult_Scanned_02 = executeutilities_02(item.PID.ToString(), item.ProcessName_Path, item.Injector_Path + ":" + item.Injector.ToString());
+                        }
                      
                         iList2.Name = item.ProcessName + ":" + item.PID + ">\n" + _finalresult_Scanned_01[1] + _finalresult_Scanned_02[1]
                             + "\n-------------------\nScanner Result/Status: " + _finalresult_Scanned_02[2];
                         iList2.SubItems.Add(DateTime.Now.ToString());
                         iList2.SubItems.Add(item.ProcessName + ":" + item.PID.ToString());
-                        int num = 0;
-                        int zero = 0;
+                        int ResultNumbers_of__finalresult_Scanned_01 = 0;                        
+
                         if (isPEScanonoff != false)
                         {
 
                             try
                             {
 
-                                foreach (char charitem in _finalresult_Scanned_01[0])
+                                ResultNumbers_of__finalresult_Scanned_01 = Convert.ToInt32(
+                                    string.Join("", ("0" + _finalresult_Scanned_01[0]).ToCharArray().Where(char.IsDigit)).ToString());
+
+                                if (ResultNumbers_of__finalresult_Scanned_01 > 0)
                                 {
-                                    if ((int)charitem == 48)
-                                    {
-                                        zero++;
-                                    }
-                                    if ((int)charitem > 48 && (int)charitem <= 57)
-                                    {
-                                        var vv = charitem;
-                                        num++;
-                                    }
+                                    /// break loops for scanning target process again (if detected in first scan)
+                                    _StopLoopingScan_Exec_01 = true;
 
                                 }
+
+                                //foreach (char charitem in _finalresult_Scanned_01[0])
+                                //{
+                                //    if ((int)charitem == 48)
+                                //    {
+                                //        zero++;
+                                //    }
+                                //    if ((int)charitem > 48 && (int)charitem <= 57)
+                                //    {
+                                //        var vv = charitem;
+                                //        num++;
+                                //    }
+
+                                //}
 
                             }
                             catch (Exception)
@@ -1042,9 +1067,9 @@ namespace ETWPM2Monitor2
                         if (isHollowHunteronoff)
                         {
 
-                            if (_finalresult_Scanned_02[0].Contains("Detected:"))
+                            if (_finalresult_Scanned_02[0].Contains(">>Detected:"))
                             {
-
+                                _StopLoopingScan_Exec_02 = true;
                                 subitemX = "Injection";
                                 iList2.ImageIndex = 2;
                                 if (isPEScanonoff && (!_finalresult_Scanned_01[0].Contains("Replaced:0")) && (!_finalresult_Scanned_01[0].Contains("not scanned:0")))
@@ -1092,7 +1117,7 @@ namespace ETWPM2Monitor2
                         }
 
                         /// ico detection base on memory scanners result
-                        if (num > 0)
+                        if (ResultNumbers_of__finalresult_Scanned_01 > 0)
                         {
                             iList2.ImageIndex = 2;
                         }
@@ -1101,7 +1126,7 @@ namespace ETWPM2Monitor2
                             iList2.ImageIndex = 1;
                             if (_finalresult_Scanned_02[0].Contains(">>Detected:"))
                             {
-                                //subitemX = "Injection";
+                                
                                 iList2.ImageIndex = 2;
 
                             }
@@ -1230,8 +1255,10 @@ namespace ETWPM2Monitor2
                         /// new pe scan
                         Init_to_runPEScanner_01 = true;
                     }
-                    else if (resultPEScanned.Count == 1)
+
+                    if (ScannerEvery10minMode_Pesieve)
                     {
+                       
                         /// check time of last scan >= 10mins or > 1hour + remove + add
                         /// breaking loop for Scanning all PE everytimes ;) not really good code is here but is better than nothing lol
                         int _now_min = DateTime.Now.Minute;
@@ -1246,7 +1273,8 @@ namespace ETWPM2Monitor2
                             Init_to_runPEScanner_01 = false;
                         }
                     }
-                    else if (resultPEScanned.Count >= 2)
+
+                    if (ScannerMixedMode_Pesieve)
                     {
                         /// remove both for sure make new pe scan
                         foreach (_TableofProcess_Scanned_01 item in resultPEScanned)
@@ -1387,7 +1415,8 @@ namespace ETWPM2Monitor2
                     /// new pe scan
                     Init_to_runPEScanner_02 = true;
                 }
-                else if (resultPEScanned.Count == 1)
+
+                if (ScannerEvery10minMode_Hollowh)
                 {
                     /// check time of last scan >= 10mins or > 1hour + remove + add
                     /// breaking loop for Scanning all PE via HollowHunter.exe everytimes ;) not really good code is here but is better than nothing lol
@@ -1403,7 +1432,8 @@ namespace ETWPM2Monitor2
                         Init_to_runPEScanner_02 = false;
                     }
                 }
-                else if (resultPEScanned.Count >= 2)
+
+                if (ScannerMixedMode_Hollowh)
                 {
                     /// remove both for sure make new pe scan
                     foreach (_TableofProcess_Scanned_02 item in resultPEScanned)
@@ -2312,6 +2342,65 @@ namespace ETWPM2Monitor2
             removeRealtimeRecordsAfter2000RecordsToolStripMenuItem.Checked = false;
             removeRealtimeRecordsAfter3000RecordsToolStripMenuItem.Checked = false;
             removeRealtimeRecordsAfter500RecordsToolStripMenuItem.Checked = false;
+        }
+      
+        private void MixedModeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ScannerMixedMode_Pesieve = true;
+            ScannerEvery10minMode_Pesieve = false;
+            mixedModeToolStripMenuItem.Checked = true;
+            scanningTargetProcessEvery10mininBackgroundToolStripMenuItem.Checked = false;
+            disableAllModesToolStripMenuItem.Checked = false;
+        }
+
+        private void ScanningTargetProcessEvery10mininBackgroundToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            mixedModeToolStripMenuItem.Checked = false;
+            scanningTargetProcessEvery10mininBackgroundToolStripMenuItem.Checked = true;
+            disableAllModesToolStripMenuItem.Checked = false;
+            ScannerEvery10minMode_Pesieve = true;
+            ScannerMixedMode_Pesieve = false;
+
+        }
+
+        private void DisableAllModesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ScannerMixedMode_Pesieve = false;
+            ScannerEvery10minMode_Pesieve = false;
+            disableAllModesToolStripMenuItem.Checked = true;
+            
+            scanningTargetProcessEvery10mininBackgroundToolStripMenuItem.Checked = false;
+            mixedModeToolStripMenuItem.Checked = false;
+
+        }
+
+        private void ScanningTargetProcessEvery10mininBackgroundToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            ScannerMixedMode_Hollowh = false;
+            ScannerEvery10minMode_Hollowh = true;
+            scanningTargetProcessEvery10mininBackgroundToolStripMenuItem1.Checked = true;
+            mixedModeToolStripMenuItem1.Checked = false;
+            disableBothToolStripMenuItem.Checked = false;
+
+        }
+
+        private void MixedModeToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            ScannerMixedMode_Hollowh = true;
+            ScannerEvery10minMode_Hollowh = false;
+            mixedModeToolStripMenuItem1.Checked = true;
+            scanningTargetProcessEvery10mininBackgroundToolStripMenuItem1.Checked = false;
+            disableBothToolStripMenuItem.Checked = false;
+        }
+
+        private void DisableBothToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ScannerMixedMode_Hollowh = false;
+            ScannerEvery10minMode_Hollowh = false;
+            disableBothToolStripMenuItem.Checked = true;
+
+            mixedModeToolStripMenuItem1.Checked = false;
+            scanningTargetProcessEvery10mininBackgroundToolStripMenuItem1.Checked = false;
         }
 
         private void DontDumpTheModifiedPEsButSaveTheReportoffToolStripMenuItem_Click(object sender, EventArgs e)

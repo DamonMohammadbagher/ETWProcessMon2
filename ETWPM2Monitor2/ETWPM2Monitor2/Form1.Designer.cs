@@ -94,6 +94,7 @@
             this.onToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.offToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clearAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.scannersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pesieve64exeOffToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pesieve64exeonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -108,6 +109,16 @@
             this.dontDumpAnyFilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dumpAllProcessToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hollowHunterexeoffToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.scanningConfigurationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pesieveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.scanningTargetProcessEvery10mininBackgroundToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mixedModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.disableAllModesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.hollowshunterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.scanningTargetProcessEvery10mininBackgroundToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.mixedModeToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.disableBothToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.filtersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.allEventsIDs123ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.eventID12ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -138,6 +149,8 @@
             this.toolStripStatusLabel4 = new System.Windows.Forms.ToolStripStatusLabel();
             this.contextMenuStrip4 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.dumpTIDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.contextMenuStrip5.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -759,6 +772,7 @@
             this.stoptMonitorToolStripMenuItem,
             this.autoScrollToolStripMenuItem,
             this.clearAllToolStripMenuItem,
+            this.toolStripSeparator3,
             this.scannersToolStripMenuItem});
             this.actionToolStripMenuItem1.Name = "actionToolStripMenuItem1";
             this.actionToolStripMenuItem1.Size = new System.Drawing.Size(59, 20);
@@ -808,13 +822,20 @@
             this.clearAllToolStripMenuItem.Text = "Clear All";
             this.clearAllToolStripMenuItem.Click += new System.EventHandler(this.ClearAllToolStripMenuItem_Click);
             // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(177, 6);
+            // 
             // scannersToolStripMenuItem
             // 
             this.scannersToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.pesieve64exeOffToolStripMenuItem,
             this.pesieve64exeonToolStripMenuItem,
             this.hollowHunterexeOnToolStripMenuItem,
-            this.hollowHunterexeoffToolStripMenuItem});
+            this.hollowHunterexeoffToolStripMenuItem,
+            this.toolStripSeparator2,
+            this.scanningConfigurationToolStripMenuItem});
             this.scannersToolStripMenuItem.Name = "scannersToolStripMenuItem";
             this.scannersToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.scannersToolStripMenuItem.Text = "Scanners";
@@ -824,7 +845,7 @@
             this.pesieve64exeOffToolStripMenuItem.Enabled = false;
             this.pesieve64exeOffToolStripMenuItem.Name = "pesieve64exeOffToolStripMenuItem";
             this.pesieve64exeOffToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
-            this.pesieve64exeOffToolStripMenuItem.Text = "pe-sieve64.exe off";
+            this.pesieve64exeOffToolStripMenuItem.Text = "Pe-sieve.exe off";
             this.pesieve64exeOffToolStripMenuItem.Click += new System.EventHandler(this.Pesieve64exeOffToolStripMenuItem_Click);
             // 
             // pesieve64exeonToolStripMenuItem
@@ -835,7 +856,7 @@
             this.dontDumpAnyFilesToolStripMenuItem1});
             this.pesieve64exeonToolStripMenuItem.Name = "pesieve64exeonToolStripMenuItem";
             this.pesieve64exeonToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
-            this.pesieve64exeonToolStripMenuItem.Text = "pe-sieve64.exe on";
+            this.pesieve64exeonToolStripMenuItem.Text = "Pe-sieve.exe on";
             // 
             // defaultDumpAllToolStripMenuItem
             // 
@@ -920,6 +941,82 @@
             this.hollowHunterexeoffToolStripMenuItem.Text = "HollowsHunter.exe off";
             this.hollowHunterexeoffToolStripMenuItem.Click += new System.EventHandler(this.HollowHunterexeoffToolStripMenuItem_Click);
             // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(190, 6);
+            // 
+            // scanningConfigurationToolStripMenuItem
+            // 
+            this.scanningConfigurationToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.pesieveToolStripMenuItem,
+            this.hollowshunterToolStripMenuItem});
+            this.scanningConfigurationToolStripMenuItem.Name = "scanningConfigurationToolStripMenuItem";
+            this.scanningConfigurationToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
+            this.scanningConfigurationToolStripMenuItem.Text = "Scan Configuration";
+            // 
+            // pesieveToolStripMenuItem
+            // 
+            this.pesieveToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.scanningTargetProcessEvery10mininBackgroundToolStripMenuItem,
+            this.mixedModeToolStripMenuItem,
+            this.disableAllModesToolStripMenuItem});
+            this.pesieveToolStripMenuItem.Name = "pesieveToolStripMenuItem";
+            this.pesieveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.pesieveToolStripMenuItem.Text = "Pe-sieve";
+            // 
+            // scanningTargetProcessEvery10mininBackgroundToolStripMenuItem
+            // 
+            this.scanningTargetProcessEvery10mininBackgroundToolStripMenuItem.Name = "scanningTargetProcessEvery10mininBackgroundToolStripMenuItem";
+            this.scanningTargetProcessEvery10mininBackgroundToolStripMenuItem.Size = new System.Drawing.Size(356, 22);
+            this.scanningTargetProcessEvery10mininBackgroundToolStripMenuItem.Text = "Scanning Target Process Every 10min (in background)";
+            this.scanningTargetProcessEvery10mininBackgroundToolStripMenuItem.Click += new System.EventHandler(this.ScanningTargetProcessEvery10mininBackgroundToolStripMenuItem_Click);
+            // 
+            // mixedModeToolStripMenuItem
+            // 
+            this.mixedModeToolStripMenuItem.Name = "mixedModeToolStripMenuItem";
+            this.mixedModeToolStripMenuItem.Size = new System.Drawing.Size(356, 22);
+            this.mixedModeToolStripMenuItem.Text = "Mixed Mode";
+            this.mixedModeToolStripMenuItem.Click += new System.EventHandler(this.MixedModeToolStripMenuItem_Click);
+            // 
+            // disableAllModesToolStripMenuItem
+            // 
+            this.disableAllModesToolStripMenuItem.Name = "disableAllModesToolStripMenuItem";
+            this.disableAllModesToolStripMenuItem.Size = new System.Drawing.Size(356, 22);
+            this.disableAllModesToolStripMenuItem.Text = "Disable Both";
+            this.disableAllModesToolStripMenuItem.Click += new System.EventHandler(this.DisableAllModesToolStripMenuItem_Click);
+            // 
+            // hollowshunterToolStripMenuItem
+            // 
+            this.hollowshunterToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.scanningTargetProcessEvery10mininBackgroundToolStripMenuItem1,
+            this.mixedModeToolStripMenuItem1,
+            this.disableBothToolStripMenuItem});
+            this.hollowshunterToolStripMenuItem.Name = "hollowshunterToolStripMenuItem";
+            this.hollowshunterToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.hollowshunterToolStripMenuItem.Text = "Hollowshunter";
+            // 
+            // scanningTargetProcessEvery10mininBackgroundToolStripMenuItem1
+            // 
+            this.scanningTargetProcessEvery10mininBackgroundToolStripMenuItem1.Name = "scanningTargetProcessEvery10mininBackgroundToolStripMenuItem1";
+            this.scanningTargetProcessEvery10mininBackgroundToolStripMenuItem1.Size = new System.Drawing.Size(356, 22);
+            this.scanningTargetProcessEvery10mininBackgroundToolStripMenuItem1.Text = "Scanning Target Process Every 10min (in background)";
+            this.scanningTargetProcessEvery10mininBackgroundToolStripMenuItem1.Click += new System.EventHandler(this.ScanningTargetProcessEvery10mininBackgroundToolStripMenuItem1_Click);
+            // 
+            // mixedModeToolStripMenuItem1
+            // 
+            this.mixedModeToolStripMenuItem1.Name = "mixedModeToolStripMenuItem1";
+            this.mixedModeToolStripMenuItem1.Size = new System.Drawing.Size(356, 22);
+            this.mixedModeToolStripMenuItem1.Text = "Mixed Mode";
+            this.mixedModeToolStripMenuItem1.Click += new System.EventHandler(this.MixedModeToolStripMenuItem1_Click);
+            // 
+            // disableBothToolStripMenuItem
+            // 
+            this.disableBothToolStripMenuItem.Name = "disableBothToolStripMenuItem";
+            this.disableBothToolStripMenuItem.Size = new System.Drawing.Size(356, 22);
+            this.disableBothToolStripMenuItem.Text = "Disable Both";
+            this.disableBothToolStripMenuItem.Click += new System.EventHandler(this.DisableBothToolStripMenuItem_Click);
+            // 
             // filtersToolStripMenuItem
             // 
             this.filtersToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -930,8 +1027,10 @@
             this.eventID1ToolStripMenuItem,
             this.eventID2ToolStripMenuItem,
             this.eventID3ToolStripMenuItem,
+            this.toolStripSeparator4,
             this.excludeSYSTEM4EventsFromRealtimeToolStripMenuItem,
             this.includeSYSTEM4EventsFromRealtimeToolStripMenuItem,
+            this.toolStripSeparator5,
             this.removeRealtimeRecordsAfter500RecordsToolStripMenuItem,
             this.removeRealtimeRecordsAfter1000RecordsToolStripMenuItem,
             this.removeRealtimeRecordsAfter2000RecordsToolStripMenuItem,
@@ -1163,6 +1262,16 @@
             this.dumpTIDToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
             this.dumpTIDToolStripMenuItem.Text = "Injected TID Memory info";
             // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(348, 6);
+            // 
+            // toolStripSeparator5
+            // 
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            this.toolStripSeparator5.Size = new System.Drawing.Size(348, 6);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1325,6 +1434,19 @@
         private System.Windows.Forms.ToolStripMenuItem removeRealtimeRecordsAfter2000RecordsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem removeRealtimeRecordsAfter3000RecordsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem removeRealtimeRecordsAfter5000RecordsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripMenuItem scanningConfigurationToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem pesieveToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem scanningTargetProcessEvery10mininBackgroundToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem mixedModeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem hollowshunterToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem scanningTargetProcessEvery10mininBackgroundToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem mixedModeToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem disableAllModesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem disableBothToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
     }
 }
 
