@@ -8,7 +8,7 @@ md5 info, "exe files are not safe here in github so make your own exe files with
     c7f71102-6f9f39ddd-7257a68-66aaf935 => ETWPM2Monitor2.exe (v2.1)
     
     
-Note: for "ETWPM2Monitor2.exe" (v2.1) you should use "ETWProcessMon2.exe (v2.1)" tool also yfor execute exe file you need ".NET Framework 4.5.2" ;) 
+Note: for "ETWPM2Monitor2.exe" (v2.1) you should use "ETWProcessMon2.exe (v2.1)" tool also for execute exe file you need ".NET Framework 4.5.2" ;) 
 
 Usage Steps
 
