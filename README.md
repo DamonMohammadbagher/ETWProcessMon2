@@ -12,6 +12,9 @@ Note: in ETWProcessMon2 (v2.0) NewProcess events + Remote-Thread-Injection Detec
 
 Note: ETWProcessMon2.1 (v2.1) is new version of code, in this new version VirtualMemAlloc Events removed from source code that means now we don't have Text log file for VirtualMemAlloc Events & now Code Performance is very fast/good (this version ETWProcessMon2.1 will work with ETWPM2Monitor2 v2.1 very good for Technique/Payload Detection via ETW Events) but if you want VirtualMemAlloc Events by ETW you can use VirtualMemAllocMon.exe v1.1 C# Source code which is Memory scanner based on ETW VirtualMemAlloc events. 
 
+Note: ETWProcessMon2.exe (v2.1) & ETWPM2Monitor2.exe (v2.1) published in "bin" directory. (8 Feb, 2022)
+
+
 ETW Events in event log [ETWPM2]:
 
     [Information] Event ID 1  => NewProcess event 
