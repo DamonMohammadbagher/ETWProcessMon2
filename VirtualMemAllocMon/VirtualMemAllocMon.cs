@@ -146,9 +146,9 @@ namespace VirtualMemAllocMon
                 }
                 CloseHandle(ph);
             }
-            catch (Exception error)
+            catch (Exception)
             {
-		 Console.WriteLine(error.Message);
+
 
             }
         }
@@ -318,7 +318,7 @@ namespace VirtualMemAllocMon
             catch (Exception)
             {
 
-               
+               // throw;
             }
 
         }
