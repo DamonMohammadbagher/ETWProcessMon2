@@ -127,8 +127,10 @@
             this.eventID1ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.eventID2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.eventID3ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.excludeSYSTEM4EventsFromRealtimeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.includeSYSTEM4EventsFromRealtimeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.removeRealtimeRecordsAfter500RecordsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.removeRealtimeRecordsAfter1000RecordsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.removeRealtimeRecordsAfter2000RecordsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -149,8 +151,10 @@
             this.toolStripStatusLabel4 = new System.Windows.Forms.ToolStripStatusLabel();
             this.contextMenuStrip4 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.dumpTIDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+            this.splitContainer3 = new System.Windows.Forms.SplitContainer();
+            this.MemoryAddresses_tabControl3 = new System.Windows.Forms.TabControl();
+            this.tabPage8 = new System.Windows.Forms.TabPage();
+            this.richTextBox7 = new System.Windows.Forms.RichTextBox();
             this.contextMenuStrip5.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -185,6 +189,12 @@
             this.menuStrip3.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.contextMenuStrip4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).BeginInit();
+            this.splitContainer3.Panel1.SuspendLayout();
+            this.splitContainer3.Panel2.SuspendLayout();
+            this.splitContainer3.SuspendLayout();
+            this.MemoryAddresses_tabControl3.SuspendLayout();
+            this.tabPage8.SuspendLayout();
             this.SuspendLayout();
             // 
             // richTextBox1
@@ -376,7 +386,7 @@
             // 
             // tabPage5
             // 
-            this.tabPage5.Controls.Add(this.richTextBox2);
+            this.tabPage5.Controls.Add(this.splitContainer3);
             this.tabPage5.Location = new System.Drawing.Point(4, 22);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
@@ -390,10 +400,10 @@
             this.richTextBox2.BackColor = System.Drawing.SystemColors.MenuText;
             this.richTextBox2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.richTextBox2.ForeColor = System.Drawing.SystemColors.InactiveCaption;
-            this.richTextBox2.Location = new System.Drawing.Point(3, 3);
+            this.richTextBox2.Location = new System.Drawing.Point(0, 0);
             this.richTextBox2.Name = "richTextBox2";
             this.richTextBox2.ReadOnly = true;
-            this.richTextBox2.Size = new System.Drawing.Size(1071, 193);
+            this.richTextBox2.Size = new System.Drawing.Size(461, 193);
             this.richTextBox2.TabIndex = 0;
             this.richTextBox2.Text = "";
             // 
@@ -781,14 +791,14 @@
             // startMonitorToolStripMenuItem
             // 
             this.startMonitorToolStripMenuItem.Name = "startMonitorToolStripMenuItem";
-            this.startMonitorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.startMonitorToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
             this.startMonitorToolStripMenuItem.Text = "Start Monitor";
             this.startMonitorToolStripMenuItem.Click += new System.EventHandler(this.StartMonitorToolStripMenuItem_Click);
             // 
             // stoptMonitorToolStripMenuItem
             // 
             this.stoptMonitorToolStripMenuItem.Name = "stoptMonitorToolStripMenuItem";
-            this.stoptMonitorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.stoptMonitorToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
             this.stoptMonitorToolStripMenuItem.Text = "Stop Monitor";
             this.stoptMonitorToolStripMenuItem.Click += new System.EventHandler(this.StoptMonitorToolStripMenuItem_Click);
             // 
@@ -798,7 +808,7 @@
             this.onToolStripMenuItem,
             this.offToolStripMenuItem});
             this.autoScrollToolStripMenuItem.Name = "autoScrollToolStripMenuItem";
-            this.autoScrollToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.autoScrollToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
             this.autoScrollToolStripMenuItem.Text = "Auto Scroll";
             // 
             // onToolStripMenuItem
@@ -818,14 +828,14 @@
             // clearAllToolStripMenuItem
             // 
             this.clearAllToolStripMenuItem.Name = "clearAllToolStripMenuItem";
-            this.clearAllToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.clearAllToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
             this.clearAllToolStripMenuItem.Text = "Clear All";
             this.clearAllToolStripMenuItem.Click += new System.EventHandler(this.ClearAllToolStripMenuItem_Click);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(141, 6);
             // 
             // scannersToolStripMenuItem
             // 
@@ -862,7 +872,7 @@
             // 
             this.defaultDumpAllToolStripMenuItem.Name = "defaultDumpAllToolStripMenuItem";
             this.defaultDumpAllToolStripMenuItem.Size = new System.Drawing.Size(360, 22);
-            this.defaultDumpAllToolStripMenuItem.Text = "Default dump all [off]";
+            this.defaultDumpAllToolStripMenuItem.Text = "Default dump all [on]";
             this.defaultDumpAllToolStripMenuItem.Click += new System.EventHandler(this.DefaultDumpAllToolStripMenuItem_Click);
             // 
             // dontDumpTheModifiedPEsButSaveTheReportoffToolStripMenuItem
@@ -876,7 +886,7 @@
             // 
             this.dontDumpAnyFilesToolStripMenuItem1.Name = "dontDumpAnyFilesToolStripMenuItem1";
             this.dontDumpAnyFilesToolStripMenuItem1.Size = new System.Drawing.Size(360, 22);
-            this.dontDumpAnyFilesToolStripMenuItem1.Text = "don\'t dump any files [on]";
+            this.dontDumpAnyFilesToolStripMenuItem1.Text = "don\'t dump any files [off]";
             this.dontDumpAnyFilesToolStripMenuItem1.Click += new System.EventHandler(this.DontDumpAnyFilesToolStripMenuItem1_Click);
             // 
             // hollowHunterexeOnToolStripMenuItem
@@ -962,7 +972,7 @@
             this.mixedModeToolStripMenuItem,
             this.disableAllModesToolStripMenuItem});
             this.pesieveToolStripMenuItem.Name = "pesieveToolStripMenuItem";
-            this.pesieveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.pesieveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.pesieveToolStripMenuItem.Text = "Pe-sieve";
             // 
             // scanningTargetProcessEvery10mininBackgroundToolStripMenuItem
@@ -993,7 +1003,7 @@
             this.mixedModeToolStripMenuItem1,
             this.disableBothToolStripMenuItem});
             this.hollowshunterToolStripMenuItem.Name = "hollowshunterToolStripMenuItem";
-            this.hollowshunterToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.hollowshunterToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.hollowshunterToolStripMenuItem.Text = "Hollowshunter";
             // 
             // scanningTargetProcessEvery10mininBackgroundToolStripMenuItem1
@@ -1094,6 +1104,11 @@
             this.eventID3ToolStripMenuItem.ToolTipText = "Warning: Alarm by ETW \"Tab\", is \"disabled\" by selecting this Filter";
             this.eventID3ToolStripMenuItem.Click += new System.EventHandler(this.EventID3ToolStripMenuItem_Click);
             // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(348, 6);
+            // 
             // excludeSYSTEM4EventsFromRealtimeToolStripMenuItem
             // 
             this.excludeSYSTEM4EventsFromRealtimeToolStripMenuItem.Checked = true;
@@ -1111,6 +1126,11 @@
             this.includeSYSTEM4EventsFromRealtimeToolStripMenuItem.Size = new System.Drawing.Size(351, 22);
             this.includeSYSTEM4EventsFromRealtimeToolStripMenuItem.Text = "Include \"SYSTEM:4\" Events from Realtime";
             this.includeSYSTEM4EventsFromRealtimeToolStripMenuItem.Click += new System.EventHandler(this.IncludeSYSTEM4EventsFromRealtimeToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator5
+            // 
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            this.toolStripSeparator5.Size = new System.Drawing.Size(348, 6);
             // 
             // removeRealtimeRecordsAfter500RecordsToolStripMenuItem
             // 
@@ -1262,15 +1282,54 @@
             this.dumpTIDToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
             this.dumpTIDToolStripMenuItem.Text = "Injected TID Memory info";
             // 
-            // toolStripSeparator4
+            // splitContainer3
             // 
-            this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(348, 6);
+            this.splitContainer3.BackColor = System.Drawing.Color.DarkGray;
+            this.splitContainer3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer3.Location = new System.Drawing.Point(3, 3);
+            this.splitContainer3.Name = "splitContainer3";
             // 
-            // toolStripSeparator5
+            // splitContainer3.Panel1
             // 
-            this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(348, 6);
+            this.splitContainer3.Panel1.Controls.Add(this.richTextBox2);
+            // 
+            // splitContainer3.Panel2
+            // 
+            this.splitContainer3.Panel2.Controls.Add(this.MemoryAddresses_tabControl3);
+            this.splitContainer3.Size = new System.Drawing.Size(1071, 193);
+            this.splitContainer3.SplitterDistance = 461;
+            this.splitContainer3.TabIndex = 1;
+            // 
+            // MemoryAddresses_tabControl3
+            // 
+            this.MemoryAddresses_tabControl3.Controls.Add(this.tabPage8);
+            this.MemoryAddresses_tabControl3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.MemoryAddresses_tabControl3.Location = new System.Drawing.Point(0, 0);
+            this.MemoryAddresses_tabControl3.Name = "MemoryAddresses_tabControl3";
+            this.MemoryAddresses_tabControl3.SelectedIndex = 0;
+            this.MemoryAddresses_tabControl3.Size = new System.Drawing.Size(606, 193);
+            this.MemoryAddresses_tabControl3.TabIndex = 0;
+            // 
+            // tabPage8
+            // 
+            this.tabPage8.Controls.Add(this.richTextBox7);
+            this.tabPage8.Location = new System.Drawing.Point(4, 22);
+            this.tabPage8.Name = "tabPage8";
+            this.tabPage8.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage8.Size = new System.Drawing.Size(598, 167);
+            this.tabPage8.TabIndex = 1;
+            this.tabPage8.Text = "Detected Memory Addresses (Pe-sieve, Default dump all should be [on] for this)";
+            this.tabPage8.UseVisualStyleBackColor = true;
+            // 
+            // richTextBox7
+            // 
+            this.richTextBox7.BackColor = System.Drawing.Color.LightCyan;
+            this.richTextBox7.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.richTextBox7.Location = new System.Drawing.Point(3, 3);
+            this.richTextBox7.Name = "richTextBox7";
+            this.richTextBox7.Size = new System.Drawing.Size(592, 161);
+            this.richTextBox7.TabIndex = 0;
+            this.richTextBox7.Text = "";
             // 
             // Form1
             // 
@@ -1320,6 +1379,12 @@
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.contextMenuStrip4.ResumeLayout(false);
+            this.splitContainer3.Panel1.ResumeLayout(false);
+            this.splitContainer3.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
+            this.splitContainer3.ResumeLayout(false);
+            this.MemoryAddresses_tabControl3.ResumeLayout(false);
+            this.tabPage8.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1447,6 +1512,10 @@
         private System.Windows.Forms.ToolStripMenuItem disableBothToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
+        private System.Windows.Forms.SplitContainer splitContainer3;
+        private System.Windows.Forms.TabControl MemoryAddresses_tabControl3;
+        private System.Windows.Forms.TabPage tabPage8;
+        private System.Windows.Forms.RichTextBox richTextBox7;
     }
 }
 

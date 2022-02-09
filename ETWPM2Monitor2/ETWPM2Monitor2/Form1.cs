@@ -193,7 +193,7 @@ namespace ETWPM2Monitor2
         ///  pe_sieve_DumpSwitches = 1 
         ///  pe_sieve_DumpSwitches = 2 Dont Dump any Process to disk
         /// </summary>
-        public static int pe_sieve_DumpSwitches = 2;
+        public static int pe_sieve_DumpSwitches = 0;
         /// <summary>
         /// hollowshunter_DumpSwitches =  /ofilter  & => 0 dump all , 1 dump some files , 2 Dont Dump any Process to disk (if detected something)
         /// </summary>
@@ -1295,7 +1295,7 @@ namespace ETWPM2Monitor2
                                 {
                                     outputs.StartInfo.FileName = "pe-sieve64.exe";
                                     outputs.StartInfo.Arguments = "/shellc /iat 2 /pid " + pid;
-                                    BeginInvoke(new __AddTextTorichtexhbox1(Update_listbox1_scanner_logs), "[pe-sieve64.exe], Start Scanning => PID:" + pid.ToString()); ;
+                                    BeginInvoke(new __AddTextTorichtexhbox1(Update_listbox1_scanner_logs), "[pe-sieve64.exe], Start Scanning => PID:" + pid.ToString()); 
 
                                     if (pe_sieve_DumpSwitches == 0) { outputs.StartInfo.Arguments = "/shellc /iat 2 /pid " + pid; }
                                     else if (pe_sieve_DumpSwitches == 1) { outputs.StartInfo.Arguments = "/ofilter 1 /shellc /iat 2 /pid " + pid; }
@@ -1530,7 +1530,9 @@ namespace ETWPM2Monitor2
                                     if (item != ' ')
                                         result2 += item;
                                 }
+
                                 BeginInvoke(new __AddTextTorichtexhbox1(Update_listbox1_scanner_logs), "[hollows_hunter64.exe], Scanner output [ProcessId " + pid.ToString() + "]=> " + result2.Split('\r')[0] + result2.Split('\r')[1] + result2.Split('\r')[2]);
+
                                 if (strOutput2.Contains(">> Detected:") && HollowHunterLevel != 0)
                                 {
                                     if (HollowHunterLevel == 1) BeginInvoke(new __AddTextTorichtexhbox1(Update_listbox1_scanner_logs),
@@ -2485,7 +2487,7 @@ namespace ETWPM2Monitor2
         {
             BeginInvoke(new __Obj_Updater_to_WinForm(Changedindexof_listview_2));
         }
-
+        bool init_savedumpinfo = false;
         public void Changedindexof_listview_2()
         {
 
@@ -2501,31 +2503,31 @@ namespace ETWPM2Monitor2
                 richTextBox3.Text += "\n-------------------------------------------------------\n";
                 int counter = 0;
                 richTextBox3.Text += "Target Process & Injector Details:\n";
-               
+
                 foreach (_InjectedThreadDetails_bytes item in _InjectedTIDList.FindAll(y => y._TargetPID == Convert.ToInt32(PID)))
                 {
                     try
                     {
- 
+
                         if (!temptids.Exists(___t => ___t == item._RemoteThreadID))
                         {
                             temptids.Add(item._RemoteThreadID);
-                            
+
                             counter++;
                             richTextBox3.Text += "[" + counter.ToString() + "] " + "Remote Thread Injection Detected!" + "\n";
                             richTextBox3.Text += "[" + counter.ToString() + "] " + "Injection by InjectorPID:" + item._InjectorPID.ToString() + "===>==TID:" +
                            item._RemoteThreadID.ToString() + "==>==Injected into====>" + PIDName + ":" + PID
-                           
+
                            + "\nInjector More Details:"
                            + "\nInjector CommandLine:" + NewProcess_Table.Find(_w => _w.PID == item._InjectorPID).CommandLine
                            + "\nInjector Path:" + NewProcess_Table.Find(_w => _w.PID == item._InjectorPID).ProcessName_Path
-                           + "\nInjector PPID:" + NewProcess_Table.Find(_w => _w.PID == item._InjectorPID).PPID_Path                           
+                           + "\nInjector PPID:" + NewProcess_Table.Find(_w => _w.PID == item._InjectorPID).PPID_Path
                            + "\nTarget Process More Details:"
                            + "\nTarget Process Path:" + NewProcess_Table.Find(_w => _w.ProcessName.Substring(1) == item._TargetPIDName && _w.PID == item._TargetPID).ProcessName_Path
                            + "\n"
                            + "Injected Bytes: \n" + item.Injected_Memory_Bytes_Hex + "\n";
                         }
-                         
+
                     }
                     catch (Exception)
                     {
@@ -2534,6 +2536,91 @@ namespace ETWPM2Monitor2
                 }
 
                 temptids.Clear();
+
+                try
+                {
+                    if (pe_sieve_DumpSwitches == 0)
+                    {
+
+                        richTextBox7.Text = "";
+                        string module = "";
+                        Int32 module_size = 0;
+                        string filename = "";
+                        
+                        string dump = "";
+                        foreach (string item in File.ReadAllLines(@".\process_" + PID + @"\" + @"dump_report.json"))
+                        {
+                            if (item.Contains("\"module\" :") || item.Contains("\"module_size\" :") || item.Contains("\"dump_file\" :")
+                                || item.Contains("\"dump_mode\" :") || item.Contains("\"is_shellcode\" :"))
+                            {
+                                if (item.Contains("\"module\" :"))
+                                {
+                                    module = item.Split(':')[1];
+                                    module = module.Replace("\"", "");
+                                    module = module.Replace(" ", "");
+                                    module = module.Replace(",", "");
+
+                                }
+                                if (item.Contains("module_size"))
+                                {
+                                    module_size = Convert.ToInt32(string.Join("", (item).ToCharArray().Where(char.IsDigit)).ToString());
+
+                                }
+                                if (item.Contains("dump_file"))
+                                {
+                                    filename = item.Split(':')[1].Substring(2);
+                                    filename = filename.Replace("\",", "");
+
+                                }
+
+                                richTextBox7.Text += item + "\n";
+
+                                if (item.Contains("is_shellcode"))
+                                {
+                                    try
+                                    {
+
+                                        if (module + ".dll" == filename)
+                                        {
+                                            buf = new byte[200];
+                                            buf = File.ReadAllBytes(@".\process_" + PID + @"\" + module + ".dll");
+                                            dump = Memoryinfo.HexDump2(buf) + "\n--------------------------------------------------------------------------------------------------------------------------\n";
+                                            if (dump != null)
+                                            {
+                                                richTextBox7.Text += dump;
+                                            }
+                                        }
+                                        else if (module + ".shc" == filename)
+                                        {
+                                            buf = new byte[200];
+                                            buf = File.ReadAllBytes(@".\process_" + PID + @"\" + module + ".shc");
+                                            dump = Memoryinfo.HexDump2(buf) + "\n--------------------------------------------------------------------------------------------------------------------------\n";
+                                            if (dump != null)
+                                            {
+                                                richTextBox7.Text += dump;
+                                            }
+                                        }
+                                    }
+                                    catch (Exception)
+                                    {
+
+
+                                    }
+                                }
+
+                            }
+
+                        }
+
+                    }
+
+                }
+                catch (Exception rr)
+                {
+
+
+                }
+
             }
             catch (Exception)
             {
@@ -2541,7 +2628,6 @@ namespace ETWPM2Monitor2
 
             }
 
-            
         }
 
         private void HollowHunterexeoffToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2867,7 +2953,72 @@ namespace ETWPM2Monitor2
                 }
                 return result.ToString();
             }
+            public static string HexDump2(byte[] bytes, int bytesPerLine = 16)
+            {
+                /// hexdump output ... 
+                ///00000000   48 83 EC 28 E8 2B FF FF  FF 48 83 C4 28 EB 15 90   Hì(è+ÿÿÿHÄ(ë·
+                ///00000010   90 90 90 90 90 90 90 90  90 90 90 90 90 90 90 90   
+                ///00000020   90 90 90 90 48 8B C4 48  89 58 08 48 89 78 10 4C   HÄHX·Hx·L
 
+                if (bytes == null) return "<null>";
+                int bytesLength = 560;
+
+                char[] HexChars = "0123456789ABCDEF".ToCharArray();
+
+                int firstHexColumn =
+                      8                   // 8 characters for the address
+                    + 3;                  // 3 spaces
+
+                int firstCharColumn = firstHexColumn
+                    + bytesPerLine * 3       // - 2 digit for the hexadecimal value and 1 space
+                    + (bytesPerLine - 1) / 8 // - 1 extra space every 8 characters from the 9th
+                    + 2;                  // 2 spaces 
+
+                int lineLength = firstCharColumn
+                    + bytesPerLine           // - characters to show the ascii value
+                    + Environment.NewLine.Length; // Carriage return and line feed (should normally be 2)
+
+                char[] line = (new String(' ', lineLength - Environment.NewLine.Length) + Environment.NewLine).ToCharArray();
+                int expectedLines = (bytesLength + bytesPerLine - 1) / bytesPerLine;
+                StringBuilder result = new StringBuilder(expectedLines * lineLength);
+
+                for (int i = 0; i < bytesLength; i += bytesPerLine)
+                {
+                    line[0] = HexChars[(i >> 28) & 0xF];
+                    line[1] = HexChars[(i >> 24) & 0xF];
+                    line[2] = HexChars[(i >> 20) & 0xF];
+                    line[3] = HexChars[(i >> 16) & 0xF];
+                    line[4] = HexChars[(i >> 12) & 0xF];
+                    line[5] = HexChars[(i >> 8) & 0xF];
+                    line[6] = HexChars[(i >> 4) & 0xF];
+                    line[7] = HexChars[(i >> 0) & 0xF];
+
+                    int hexColumn = firstHexColumn;
+                    int charColumn = firstCharColumn;
+
+                    for (int j = 0; j < bytesPerLine; j++)
+                    {
+                        if (j > 0 && (j & 7) == 0) hexColumn++;
+                        if (i + j >= bytesLength)
+                        {
+                            line[hexColumn] = ' ';
+                            line[hexColumn + 1] = ' ';
+                            line[charColumn] = ' ';
+                        }
+                        else
+                        {
+                            byte b = bytes[i + j];
+                            line[hexColumn] = HexChars[(b >> 4) & 0xF];
+                            line[hexColumn + 1] = HexChars[b & 0xF];
+                            line[charColumn] = (b < 32 ? '·' : (char)b);
+                        }
+                        hexColumn += 3;
+                        charColumn++;
+                    }
+                    result.Append(line);
+                }
+                return result.ToString();
+            }
             [DllImport("kernel32.dll", SetLastError = true)]
             public static extern bool ReadProcessMemory(IntPtr hProcess, UIntPtr lpBaseAddress, [Out] byte[] lpBuffer, int dwSize, IntPtr lpNumberOfBytesRead);
 
