@@ -3,7 +3,7 @@ This tool [ETWPM2Monitor version2] is for Monitor ETW Event-Logs [log name: ETWP
 
 `Note: ETWPM2Monitor2 v2.1 is new version of code & you can use this code with ETWProcessMon2.1 (v2.1), this version ETWPM2Monitor2 v2.1 will work with ETWProcessMon2.1 very fast for (Remote-Thread-Injection) Technique/Payload Detection via ETW Events)`
 
-Note: if you want new v2.1 you should Re-compile this project with new Source code [compile with .NETFramework v4.6 or v4.7.2] ;), woow i had a lot bugs in code v2.0 , now fixed in v2.1, compiler says (not me), `code performance now is good and "a lot bugs" [like tcp events flooding] fixed with last source update(4) v2.1.11.35 [Feb 7, 2022]...` 
+Note: if you want new v2.1 you should Re-compile this project with new Source code [compile with .NETFramework v4.6 or v4.7.2] ;), woow i had a lot bugs in code v2.0 , now fixed in v2.1, compiler says (not me), `code performance now is good and "a lot bugs" [like tcp events flooding] fixed with last source update(4) v2.1.11.35 [Feb 8, 2022]...` 
 
 Note: I will Publish Article & Help Documents for this tool soon... 
 
@@ -23,7 +23,8 @@ Note: in this code we have "Pe-sieve64.exe" & "Hollowshunter.exe" so to use you 
 md5 info, "exe files are not safe here in github so make your own exe files with C# source by yourself [i recommend]":
 
     b913a0d66d-750478c5a8-1d557aad377d => ETWProcessMon2.exe
-    c7f71102-6f9f39ddd-7257a68-66aaf935 => ETWPM2Monitor2.exe
+    1351cc2d56-8aae91f9b2-06aa526e1f1d => ETWProcessMon2.exe (v2.1)
+    c7f711026f-9f39ddd725-7a6866aaf935 => ETWPM2Monitor2.exe (v2.1)
 
 Usage Steps
 
