@@ -31,7 +31,7 @@ ETW Events in event log [ETWPM2]:
 md5 info [ETWProcessMon2.exe], "exe files are not safe here in github so make your own exe files with C# source by yourself [i recommend]":
 
     b913a0d66d-750478c5a8-1d557aad377d => ETWProcessMon2.exe
-    1351cc2d-568aae91f-9b206aa-526e1f1d => ETWProcessMon2.exe (v2.1)
+    1351cc2d56-8aae91f9b2-06aa526e1f1d => ETWProcessMon2.exe (v2.1)
 
 ### Videos: 
 Note: i will make video for "ETWProcessMon2" soon.
