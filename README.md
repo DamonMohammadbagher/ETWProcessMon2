@@ -66,7 +66,6 @@ Note: "ETWPM2Monitor2 v2" code Published here => https://github.com/DamonMohamma
 
 md5 info [ETWPM2Monitor2.exe], "exe files are not safe here in github so make your own exe files with C# source by yourself [i recommend]":
 
-    40d799fd84-a7dbb7a981-d3eebed3c7e5 => ETWPM2Monitor2.exe
     c7f711026f-9f39ddd725-7a6866aaf935 => ETWPM2Monitor2.exe (v2.1)
 
 Note: with "ETWPM2Monitor2 v2" code we have "Pe-sieve64.exe" & "Hollowshunter.exe" as Memory Scanner so to use you need to download these exe files & paste them in same folder with ETWPM2Monitor2.exe & i tested ETWPM2Monitor2 with Pe-sieve64.exe (ver 0.2.9.6) & Hollowshunter.exe (ver 0.2.9.6)
