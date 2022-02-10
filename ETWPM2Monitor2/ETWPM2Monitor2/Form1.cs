@@ -45,6 +45,8 @@ namespace ETWPM2Monitor2
         public static string evtstring, tmplasttcpevent = "";
         public static bool isPEScanonoff = true;
         public static bool isHollowHunteronoff = false;
+        public static bool init_savedumpinfo = false;
+
 
         public delegate void __MyDelegate_LogFileReader_Method();
         public delegate void __MyDelegate_showdatagrid();
@@ -201,7 +203,7 @@ namespace ETWPM2Monitor2
         public int _1, _2, _3, _4, _5, _6, _7, _8, time4t = 0;
         public static string subitemX = "";
         public static string[] temp_str = null;
-
+        public static string tmpitemListview2 = "";
         /// <summary>
         /// event for refresh/update events in listView1 for (real-time events)
         /// </summary>
@@ -336,30 +338,38 @@ namespace ETWPM2Monitor2
                 if (MyLviewItemsX2 != null)
                 {
 
-
+                   
                     if (MyLviewItemsX2.SubItems[9].Text == "")
                     {
                         if (MyLviewItemsX2.SubItems[5].Text.Contains("Terminated") || MyLviewItemsX2.SubItems[5].Text.Contains("Suspended"))
                         {
+                            if(MyLviewItemsX2.Name!= tmpitemListview2)
                             listView2.Items.Add(MyLviewItemsX2);
+
                             if (MyLviewItemsX2.ImageIndex == 1) { Chart_Orange++; }
                             else if (MyLviewItemsX2.ImageIndex == 2) { Chart_Redflag++; }
 
                             if (MyLviewItemsX2.SubItems[5].Text.Contains("Terminated")) Chart_Terminate++;
 
                             if (MyLviewItemsX2.SubItems[5].Text.Contains("Suspended")) Chart_suspend++;
+
+                            tmpitemListview2 = MyLviewItemsX2.Name;
                         }
 
                     }
                     else
                     {
-                        listView2.Items.Add(MyLviewItemsX2);
+                        if (MyLviewItemsX2.Name != tmpitemListview2)
+                            listView2.Items.Add(MyLviewItemsX2);
+
                         if (MyLviewItemsX2.ImageIndex == 1) { Chart_Orange++; }
                         else if (MyLviewItemsX2.ImageIndex == 2) { Chart_Redflag++; }
 
                         if (MyLviewItemsX2.SubItems[5].Text.Contains("Terminated")) Chart_Terminate++;
 
                         if (MyLviewItemsX2.SubItems[5].Text.Contains("Suspended")) Chart_suspend++;
+
+                        tmpitemListview2 = MyLviewItemsX2.Name;
                     }
 
                     if (MyLviewItemsX2.SubItems[9].Text != "")
@@ -386,9 +396,10 @@ namespace ETWPM2Monitor2
 
                     }
 
+                    tabPage4.Text = "Alarms by ETW " + "(" + listView2.Items.Count.ToString() + ")";
                 }
 
-                tabPage4.Text = "Alarms by ETW " + "(" + listView2.Items.Count.ToString() + ")";
+               
 
             }
             catch (Exception ee)
@@ -2485,20 +2496,32 @@ namespace ETWPM2Monitor2
 
         private void ListView2_SelectedIndexChanged(object sender, EventArgs e)
         {
-            BeginInvoke(new __Obj_Updater_to_WinForm(Changedindexof_listview_2));
+            BeginInvoke(new __Obj_Updater_to_WinForm(_Run_Async_Changedindexof_listview_2));
+           
         }
-        bool init_savedumpinfo = false;
-        public void Changedindexof_listview_2()
+
+        public async void _Run_Async_Changedindexof_listview_2()
+        {
+            await _Changedindexof_listview_2();
+
+        }
+
+        public async Task _Changedindexof_listview_2()
         {
 
             try
             {
+
                 richTextBox2.Text = listView2.SelectedItems[0].Name;
                 richTextBox4.Text = listView2.SelectedItems[0].SubItems[9].Text;
                 richTextBox5.Text = listView2.SelectedItems[0].SubItems[8].Text;
                 richTextBox3.Text = "";
+
                 string PIDName = listView2.SelectedItems[0].Name.Split('>')[0].Split(':')[0];
-                string PID = listView2.SelectedItems[0].Name.Split('>')[0].Split(':')[1];
+                string PID = listView2.SelectedItems[0].Name.Split('>')[0].Split(':')[1];     
+                
+                BeginInvoke(new __core2(_MemoryScanner_Pesieve_ShowObjects), (object)PID);
+
                 richTextBox3.Text += "TargetProcess [" + PIDName + ":" + PID + "] Injection History with Debug info:\n";
                 richTextBox3.Text += "\n-------------------------------------------------------\n";
                 int counter = 0;
@@ -2536,90 +2559,90 @@ namespace ETWPM2Monitor2
                 }
 
                 temptids.Clear();
+                 
+                //try
+                //{
+                //    if (pe_sieve_DumpSwitches == 0)
+                //    {
 
-                try
-                {
-                    if (pe_sieve_DumpSwitches == 0)
-                    {
+                //        richTextBox7.Text = "";
+                //        string module = "";
+                //        Int32 module_size = 0;
+                //        string filename = "";
 
-                        richTextBox7.Text = "";
-                        string module = "";
-                        Int32 module_size = 0;
-                        string filename = "";
-                        
-                        string dump = "";
-                        foreach (string item in File.ReadAllLines(@".\process_" + PID + @"\" + @"dump_report.json"))
-                        {
-                            if (item.Contains("\"module\" :") || item.Contains("\"module_size\" :") || item.Contains("\"dump_file\" :")
-                                || item.Contains("\"dump_mode\" :") || item.Contains("\"is_shellcode\" :"))
-                            {
-                                if (item.Contains("\"module\" :"))
-                                {
-                                    module = item.Split(':')[1];
-                                    module = module.Replace("\"", "");
-                                    module = module.Replace(" ", "");
-                                    module = module.Replace(",", "");
+                //        string dump = "";
+                //        foreach (string item in File.ReadAllLines(@".\process_" + PID + @"\" + @"dump_report.json"))
+                //        {
+                //            if (item.Contains("\"module\" :") || item.Contains("\"module_size\" :") || item.Contains("\"dump_file\" :")
+                //                || item.Contains("\"dump_mode\" :") || item.Contains("\"is_shellcode\" :"))
+                //            {
+                //                if (item.Contains("\"module\" :"))
+                //                {
+                //                    module = item.Split(':')[1];
+                //                    module = module.Replace("\"", "");
+                //                    module = module.Replace(" ", "");
+                //                    module = module.Replace(",", "");
 
-                                }
-                                if (item.Contains("module_size"))
-                                {
-                                    module_size = Convert.ToInt32(string.Join("", (item).ToCharArray().Where(char.IsDigit)).ToString());
+                //                }
+                //                if (item.Contains("module_size"))
+                //                {
+                //                    module_size = Convert.ToInt32(string.Join("", (item).ToCharArray().Where(char.IsDigit)).ToString());
 
-                                }
-                                if (item.Contains("dump_file"))
-                                {
-                                    filename = item.Split(':')[1].Substring(2);
-                                    filename = filename.Replace("\",", "");
+                //                }
+                //                if (item.Contains("dump_file"))
+                //                {
+                //                    filename = item.Split(':')[1].Substring(2);
+                //                    filename = filename.Replace("\",", "");
 
-                                }
+                //                }
 
-                                richTextBox7.Text += item + "\n";
+                //                richTextBox7.Text += item + "\n";
 
-                                if (item.Contains("is_shellcode"))
-                                {
-                                    try
-                                    {
+                //                if (item.Contains("is_shellcode"))
+                //                {
+                //                    try
+                //                    {
 
-                                        if (module + ".dll" == filename)
-                                        {
-                                            buf = new byte[200];
-                                            buf = File.ReadAllBytes(@".\process_" + PID + @"\" + module + ".dll");
-                                            dump = Memoryinfo.HexDump2(buf) + "\n--------------------------------------------------------------------------------------------------------------------------\n";
-                                            if (dump != null)
-                                            {
-                                                richTextBox7.Text += dump;
-                                            }
-                                        }
-                                        else if (module + ".shc" == filename)
-                                        {
-                                            buf = new byte[200];
-                                            buf = File.ReadAllBytes(@".\process_" + PID + @"\" + module + ".shc");
-                                            dump = Memoryinfo.HexDump2(buf) + "\n--------------------------------------------------------------------------------------------------------------------------\n";
-                                            if (dump != null)
-                                            {
-                                                richTextBox7.Text += dump;
-                                            }
-                                        }
-                                    }
-                                    catch (Exception)
-                                    {
-
-
-                                    }
-                                }
-
-                            }
-
-                        }
-
-                    }
-
-                }
-                catch (Exception rr)
-                {
+                //                        if (module + ".dll" == filename)
+                //                        {
+                //                            buf = new byte[200];
+                //                            buf = File.ReadAllBytes(@".\process_" + PID + @"\" + module + ".dll");
+                //                            dump = Memoryinfo.HexDump2(buf) + "\n--------------------------------------------------------------------------------------------------------------------------\n";
+                //                            if (dump != null)
+                //                            {
+                //                                richTextBox7.Text += dump;
+                //                            }
+                //                        }
+                //                        else if (module + ".shc" == filename)
+                //                        {
+                //                            buf = new byte[200];
+                //                            buf = File.ReadAllBytes(@".\process_" + PID + @"\" + module + ".shc");
+                //                            dump = Memoryinfo.HexDump2(buf) + "\n--------------------------------------------------------------------------------------------------------------------------\n";
+                //                            if (dump != null)
+                //                            {
+                //                                richTextBox7.Text += dump;
+                //                            }
+                //                        }
+                //                    }
+                //                    catch (Exception)
+                //                    {
 
 
-                }
+                //                    }
+                //                }
+
+                //            }
+
+                //        }
+
+                //    }
+
+                //}
+                //catch (Exception rr)
+                //{
+
+
+                //}
 
             }
             catch (Exception)
@@ -2628,6 +2651,100 @@ namespace ETWPM2Monitor2
 
             }
 
+
+        }
+
+        public void _MemoryScanner_Pesieve_ShowObjects(object _PID)
+        {
+            try
+            {
+                int PID = Convert.ToInt32(_PID);
+                
+                richTextBox7.Text = "";
+                string module = "";
+                Int32 module_size = 0;
+                string filename = "";
+
+                string dump = "";
+                if (File.Exists(@".\process_" + PID + @"\" + @"dump_report.json"))
+                {
+
+                    foreach (string item in File.ReadAllLines(@".\process_" + PID + @"\" + @"dump_report.json"))
+                    {
+                        if (item.Contains("\"module\" :") || item.Contains("\"module_size\" :") || item.Contains("\"dump_file\" :")
+                            || item.Contains("\"dump_mode\" :") || item.Contains("\"is_shellcode\" :"))
+                        {
+                            if (item.Contains("\"module\" :"))
+                            {
+                                module = item.Split(':')[1];
+                                module = module.Replace("\"", "");
+                                module = module.Replace(" ", "");
+                                module = module.Replace(",", "");
+
+                            }
+                            if (item.Contains("module_size"))
+                            {
+                                module_size = Convert.ToInt32(string.Join("", (item).ToCharArray().Where(char.IsDigit)).ToString());
+
+                            }
+                            if (item.Contains("dump_file"))
+                            {
+                                filename = item.Split(':')[1].Substring(2);
+                                filename = filename.Replace("\",", "");
+
+                            }
+
+                            richTextBox7.Text += item + "\n";
+
+                            if (item.Contains("is_shellcode"))
+                            {
+                                try
+                                {
+
+                                    if (module + ".dll" == filename)
+                                    {
+                                        buf = new byte[200];
+                                        buf = File.ReadAllBytes(@".\process_" + PID + @"\" + module + ".dll");
+                                        dump = Memoryinfo.HexDump2(buf) + "\n--------------------------------------------------------------------------------------------------------------------------\n";
+                                        if (dump != null)
+                                        {
+                                            richTextBox7.Text += dump;
+                                        }
+                                    }
+                                    else if (module + ".shc" == filename)
+                                    {
+                                        buf = new byte[200];
+                                        buf = File.ReadAllBytes(@".\process_" + PID + @"\" + module + ".shc");
+                                        dump = Memoryinfo.HexDump2(buf) + "\n--------------------------------------------------------------------------------------------------------------------------\n";
+                                        if (dump != null)
+                                        {
+                                            richTextBox7.Text += dump;
+                                        }
+                                    }
+                                }
+                                catch (Exception)
+                                {
+
+
+                                }
+                            }
+
+                        }
+
+                    }
+                }
+                else
+                {
+                    richTextBox7.Text = "";
+                }
+                 
+
+            }
+            catch (Exception rr)
+            {
+
+
+            }
         }
 
         private void HollowHunterexeoffToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2961,7 +3078,7 @@ namespace ETWPM2Monitor2
                 ///00000020   90 90 90 90 48 8B C4 48  89 58 08 48 89 78 10 4C   HÄHX·Hx·L
 
                 if (bytes == null) return "<null>";
-                int bytesLength = 560;
+                int bytesLength = 208;
 
                 char[] HexChars = "0123456789ABCDEF".ToCharArray();
 

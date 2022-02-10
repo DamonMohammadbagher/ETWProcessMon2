@@ -48,7 +48,11 @@
             this.saveAllAlarmEventsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl2 = new System.Windows.Forms.TabControl();
             this.tabPage5 = new System.Windows.Forms.TabPage();
+            this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.richTextBox2 = new System.Windows.Forms.RichTextBox();
+            this.MemoryAddresses_tabControl3 = new System.Windows.Forms.TabControl();
+            this.tabPage8 = new System.Windows.Forms.TabPage();
+            this.richTextBox7 = new System.Windows.Forms.RichTextBox();
             this.tabPage6 = new System.Windows.Forms.TabPage();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
             this.richTextBox4 = new System.Windows.Forms.RichTextBox();
@@ -151,10 +155,6 @@
             this.toolStripStatusLabel4 = new System.Windows.Forms.ToolStripStatusLabel();
             this.contextMenuStrip4 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.dumpTIDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.splitContainer3 = new System.Windows.Forms.SplitContainer();
-            this.MemoryAddresses_tabControl3 = new System.Windows.Forms.TabControl();
-            this.tabPage8 = new System.Windows.Forms.TabPage();
-            this.richTextBox7 = new System.Windows.Forms.RichTextBox();
             this.contextMenuStrip5.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -171,6 +171,12 @@
             this.contextMenuStrip6.SuspendLayout();
             this.tabControl2.SuspendLayout();
             this.tabPage5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).BeginInit();
+            this.splitContainer3.Panel1.SuspendLayout();
+            this.splitContainer3.Panel2.SuspendLayout();
+            this.splitContainer3.SuspendLayout();
+            this.MemoryAddresses_tabControl3.SuspendLayout();
+            this.tabPage8.SuspendLayout();
             this.tabPage6.SuspendLayout();
             this.groupBox9.SuspendLayout();
             this.groupBox10.SuspendLayout();
@@ -189,12 +195,6 @@
             this.menuStrip3.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.contextMenuStrip4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).BeginInit();
-            this.splitContainer3.Panel1.SuspendLayout();
-            this.splitContainer3.Panel2.SuspendLayout();
-            this.splitContainer3.SuspendLayout();
-            this.MemoryAddresses_tabControl3.SuspendLayout();
-            this.tabPage8.SuspendLayout();
             this.SuspendLayout();
             // 
             // richTextBox1
@@ -395,6 +395,24 @@
             this.tabPage5.Text = "Memory Scanner Result";
             this.tabPage5.UseVisualStyleBackColor = true;
             // 
+            // splitContainer3
+            // 
+            this.splitContainer3.BackColor = System.Drawing.Color.DarkGray;
+            this.splitContainer3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer3.Location = new System.Drawing.Point(3, 3);
+            this.splitContainer3.Name = "splitContainer3";
+            // 
+            // splitContainer3.Panel1
+            // 
+            this.splitContainer3.Panel1.Controls.Add(this.richTextBox2);
+            // 
+            // splitContainer3.Panel2
+            // 
+            this.splitContainer3.Panel2.Controls.Add(this.MemoryAddresses_tabControl3);
+            this.splitContainer3.Size = new System.Drawing.Size(1071, 193);
+            this.splitContainer3.SplitterDistance = 461;
+            this.splitContainer3.TabIndex = 1;
+            // 
             // richTextBox2
             // 
             this.richTextBox2.BackColor = System.Drawing.SystemColors.MenuText;
@@ -406,6 +424,37 @@
             this.richTextBox2.Size = new System.Drawing.Size(461, 193);
             this.richTextBox2.TabIndex = 0;
             this.richTextBox2.Text = "";
+            // 
+            // MemoryAddresses_tabControl3
+            // 
+            this.MemoryAddresses_tabControl3.Controls.Add(this.tabPage8);
+            this.MemoryAddresses_tabControl3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.MemoryAddresses_tabControl3.Location = new System.Drawing.Point(0, 0);
+            this.MemoryAddresses_tabControl3.Name = "MemoryAddresses_tabControl3";
+            this.MemoryAddresses_tabControl3.SelectedIndex = 0;
+            this.MemoryAddresses_tabControl3.Size = new System.Drawing.Size(606, 193);
+            this.MemoryAddresses_tabControl3.TabIndex = 0;
+            // 
+            // tabPage8
+            // 
+            this.tabPage8.Controls.Add(this.richTextBox7);
+            this.tabPage8.Location = new System.Drawing.Point(4, 22);
+            this.tabPage8.Name = "tabPage8";
+            this.tabPage8.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage8.Size = new System.Drawing.Size(598, 167);
+            this.tabPage8.TabIndex = 1;
+            this.tabPage8.Text = "Detected Memory Addresses (Pe-sieve, Default dump all should be [on] for this)";
+            this.tabPage8.UseVisualStyleBackColor = true;
+            // 
+            // richTextBox7
+            // 
+            this.richTextBox7.BackColor = System.Drawing.Color.LightCyan;
+            this.richTextBox7.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.richTextBox7.Location = new System.Drawing.Point(3, 3);
+            this.richTextBox7.Name = "richTextBox7";
+            this.richTextBox7.Size = new System.Drawing.Size(592, 161);
+            this.richTextBox7.TabIndex = 0;
+            this.richTextBox7.Text = "";
             // 
             // tabPage6
             // 
@@ -847,7 +896,7 @@
             this.toolStripSeparator2,
             this.scanningConfigurationToolStripMenuItem});
             this.scannersToolStripMenuItem.Name = "scannersToolStripMenuItem";
-            this.scannersToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.scannersToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
             this.scannersToolStripMenuItem.Text = "Scanners";
             // 
             // pesieve64exeOffToolStripMenuItem
@@ -1282,55 +1331,6 @@
             this.dumpTIDToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
             this.dumpTIDToolStripMenuItem.Text = "Injected TID Memory info";
             // 
-            // splitContainer3
-            // 
-            this.splitContainer3.BackColor = System.Drawing.Color.DarkGray;
-            this.splitContainer3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer3.Location = new System.Drawing.Point(3, 3);
-            this.splitContainer3.Name = "splitContainer3";
-            // 
-            // splitContainer3.Panel1
-            // 
-            this.splitContainer3.Panel1.Controls.Add(this.richTextBox2);
-            // 
-            // splitContainer3.Panel2
-            // 
-            this.splitContainer3.Panel2.Controls.Add(this.MemoryAddresses_tabControl3);
-            this.splitContainer3.Size = new System.Drawing.Size(1071, 193);
-            this.splitContainer3.SplitterDistance = 461;
-            this.splitContainer3.TabIndex = 1;
-            // 
-            // MemoryAddresses_tabControl3
-            // 
-            this.MemoryAddresses_tabControl3.Controls.Add(this.tabPage8);
-            this.MemoryAddresses_tabControl3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.MemoryAddresses_tabControl3.Location = new System.Drawing.Point(0, 0);
-            this.MemoryAddresses_tabControl3.Name = "MemoryAddresses_tabControl3";
-            this.MemoryAddresses_tabControl3.SelectedIndex = 0;
-            this.MemoryAddresses_tabControl3.Size = new System.Drawing.Size(606, 193);
-            this.MemoryAddresses_tabControl3.TabIndex = 0;
-            // 
-            // tabPage8
-            // 
-            this.tabPage8.Controls.Add(this.richTextBox7);
-            this.tabPage8.Location = new System.Drawing.Point(4, 22);
-            this.tabPage8.Name = "tabPage8";
-            this.tabPage8.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage8.Size = new System.Drawing.Size(598, 167);
-            this.tabPage8.TabIndex = 1;
-            this.tabPage8.Text = "Detected Memory Addresses (Pe-sieve, Default dump all should be [on] for this)";
-            this.tabPage8.UseVisualStyleBackColor = true;
-            // 
-            // richTextBox7
-            // 
-            this.richTextBox7.BackColor = System.Drawing.Color.LightCyan;
-            this.richTextBox7.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.richTextBox7.Location = new System.Drawing.Point(3, 3);
-            this.richTextBox7.Name = "richTextBox7";
-            this.richTextBox7.Size = new System.Drawing.Size(592, 161);
-            this.richTextBox7.TabIndex = 0;
-            this.richTextBox7.Text = "";
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1359,6 +1359,12 @@
             this.contextMenuStrip6.ResumeLayout(false);
             this.tabControl2.ResumeLayout(false);
             this.tabPage5.ResumeLayout(false);
+            this.splitContainer3.Panel1.ResumeLayout(false);
+            this.splitContainer3.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
+            this.splitContainer3.ResumeLayout(false);
+            this.MemoryAddresses_tabControl3.ResumeLayout(false);
+            this.tabPage8.ResumeLayout(false);
             this.tabPage6.ResumeLayout(false);
             this.groupBox9.ResumeLayout(false);
             this.groupBox10.ResumeLayout(false);
@@ -1379,12 +1385,6 @@
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.contextMenuStrip4.ResumeLayout(false);
-            this.splitContainer3.Panel1.ResumeLayout(false);
-            this.splitContainer3.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
-            this.splitContainer3.ResumeLayout(false);
-            this.MemoryAddresses_tabControl3.ResumeLayout(false);
-            this.tabPage8.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
