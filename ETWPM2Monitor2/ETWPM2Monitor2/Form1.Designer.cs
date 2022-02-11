@@ -452,6 +452,7 @@
             this.richTextBox7.Dock = System.Windows.Forms.DockStyle.Fill;
             this.richTextBox7.Location = new System.Drawing.Point(3, 3);
             this.richTextBox7.Name = "richTextBox7";
+            this.richTextBox7.ReadOnly = true;
             this.richTextBox7.Size = new System.Drawing.Size(592, 161);
             this.richTextBox7.TabIndex = 0;
             this.richTextBox7.Text = "";

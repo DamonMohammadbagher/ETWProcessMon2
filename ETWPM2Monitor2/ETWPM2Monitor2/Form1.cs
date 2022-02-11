@@ -32,7 +32,7 @@ namespace ETWPM2Monitor2
         public static System.Timers.Timer t3 = new System.Timers.Timer(5000);
         public static System.Timers.Timer t4 = new System.Timers.Timer(15000);
         public static uint NTReadTmpRef = 0;
-        public EventLog ETW2MON;
+        public static EventLog ETW2MON;
         public static EventLogQuery ETWPM2Query;
         public ListViewItem iList = new ListViewItem();
         public ListViewItem iList2 = new ListViewItem();
@@ -241,6 +241,50 @@ namespace ETWPM2Monitor2
             return (count * 100) / total;
         }
 
+        public static void _SaveNewETW_Alarms_to_WinEventLog(object AlarmObjects)
+        {
+            ETW2MON = new EventLog("ETWPM2Monitor2", ".", "ETWPM2Monitor2.1");
+            ListViewItem __AlarmObject = (ListViewItem)AlarmObjects;
+
+            StringBuilder st = new StringBuilder();
+
+            ListViewItem xitem = __AlarmObject;
+
+            st.AppendLine("[#] Time: " + xitem.SubItems[1].Text + ", Process: " + xitem.SubItems[2].Text
+                + ", Injection-Type: " + xitem.SubItems[3].Text + ", TCP-Send: " + xitem.SubItems[4].Text +
+                ", Status: " + xitem.SubItems[5].Text);
+            st.AppendLine("Memory Scanner Results:");
+            st.AppendLine("Pe-sieve: " + xitem.SubItems[6].Text.Replace('\r',' '));
+            st.AppendLine("Hollows_Hunter: " + xitem.SubItems[7].Text.Replace('\r', ' '));
+            st.AppendLine("Description:");
+            st.AppendLine(xitem.SubItems[8].Text);
+            st.AppendLine("ETW Event Message:");
+            st.AppendLine(xitem.SubItems[9].Text);
+            st.AppendLine(" ");
+             
+            st.AppendLine(" ");
+
+
+            if (__AlarmObject.SubItems[5].Text.Contains("Terminated") ||
+                __AlarmObject.SubItems[5].Text.Contains("Suspended") ||
+                __AlarmObject.SubItems[5].Text.Contains("Scanned & Found") ||
+                 __AlarmObject.SubItems[7].Text.Contains(">>Detected") ||
+                Convert.ToInt32(string.Join("", ("0" + __AlarmObject.SubItems[6].Text).Where(char.IsDigit)).ToString()) > 0)
+            {
+
+
+                string simpledescription = "[#] Time: " + xitem.SubItems[1].Text + "\nProcess: " + xitem.SubItems[2].Text + " Detected by ETWPM2Monitor2 (Detection High level)!\n"
+                    +"------------------------------------------------------------\n";
+                ETW2MON.WriteEntry(simpledescription + st.ToString(), EventLogEntryType.Warning, 2);
+            }
+            else
+            {
+                string simpledescription = "[#] Time: " + xitem.SubItems[1].Text + "\nProcess: " + xitem.SubItems[2].Text + " Detected by ETWPM2Monitor2 (Detection Medium level)!\n"
+                  + "------------------------------------------------------------\n";
+                ETW2MON.WriteEntry(simpledescription + st.ToString(), EventLogEntryType.Information, 1);
+            }
+        }
+
         public void _Additems_toListview1(object obj)
         {
 
@@ -343,8 +387,14 @@ namespace ETWPM2Monitor2
                     {
                         if (MyLviewItemsX2.SubItems[5].Text.Contains("Terminated") || MyLviewItemsX2.SubItems[5].Text.Contains("Suspended"))
                         {
-                            if(MyLviewItemsX2.Name!= tmpitemListview2)
-                            listView2.Items.Add(MyLviewItemsX2);
+                            if (MyLviewItemsX2.Name != tmpitemListview2)
+                            {
+                                listView2.Items.Add(MyLviewItemsX2);
+                                BeginInvoke(new __core2(_SaveNewETW_Alarms_to_WinEventLog), MyLviewItemsX2);
+                                
+                                //_SaveNewETW_Alarms_to_WinEventLog(MyLviewItemsX2);
+
+                            }
 
                             if (MyLviewItemsX2.ImageIndex == 1) { Chart_Orange++; }
                             else if (MyLviewItemsX2.ImageIndex == 2) { Chart_Redflag++; }
@@ -360,8 +410,13 @@ namespace ETWPM2Monitor2
                     else
                     {
                         if (MyLviewItemsX2.Name != tmpitemListview2)
+                        {
                             listView2.Items.Add(MyLviewItemsX2);
+                            BeginInvoke(new __core2(_SaveNewETW_Alarms_to_WinEventLog), MyLviewItemsX2);
 
+                            //_SaveNewETW_Alarms_to_WinEventLog(MyLviewItemsX2);
+
+                        }
                         if (MyLviewItemsX2.ImageIndex == 1) { Chart_Orange++; }
                         else if (MyLviewItemsX2.ImageIndex == 2) { Chart_Redflag++; }
 
@@ -519,7 +574,23 @@ namespace ETWPM2Monitor2
                 Thread _T1_Core1 = new Thread(Core);
                 _T1_Core1.Priority = ThreadPriority.Highest;
                 _T1_Core1.Start();
-                
+                try
+                {
+                    /// added in v2.1 => All Alarms will save to Windows EventLog "ETWPM2Monitor2" (run as admin)
+                    if (!EventLog.Exists("ETWPM2Monitor2"))
+                    {
+                        EventSourceCreationData ESCD = new EventSourceCreationData("ETWPM2Monitor2.1", "ETWPM2Monitor2");
+                        System.Diagnostics.EventLog.CreateEventSource(ESCD);
+
+                    }
+                    ETW2MON = new EventLog("ETWPM2Monitor2", ".", "ETWPM2Monitor2.1");
+                    ETW2MON.WriteEntry("ETWPM2Monitor2 v2.1 Started", EventLogEntryType.Information, 1);
+                }
+                catch (Exception)
+                {
+
+
+                }
 
                 listView1.SmallImageList = imageList1;
 
@@ -2923,8 +2994,8 @@ namespace ETWPM2Monitor2
                     + ", Injection-Type: " + xitem.SubItems[3].Text + ", TCP-Send: " + xitem.SubItems[4].Text +
                     ", Status: " + xitem.SubItems[5].Text);
                 st.AppendLine("Memory Scanner Results:");
-                st.AppendLine(xitem.SubItems[6].Text);
-                st.AppendLine(xitem.SubItems[7].Text);
+                st.AppendLine("Pe-sieve: " + xitem.SubItems[6].Text.Replace('\r', ' '));
+                st.AppendLine("Hollows_Hunter: " + xitem.SubItems[7].Text.Replace('\r', ' '));
                 st.AppendLine("Description:");
                 st.AppendLine(xitem.SubItems[8].Text);
                 st.AppendLine("ETW Event Message:");
@@ -2934,8 +3005,7 @@ namespace ETWPM2Monitor2
                 string PIDName = xitem.SubItems[2].Text.Split(':')[0];
                 string PID = xitem.SubItems[2].Text.Split(':')[1];
                 int counter = 0;
-                //int showtime = 1;
-                //bool showshowtime = false;
+                
                 foreach (string item in lines.ToString().Split('\n'))
                 {
                     if (item.Contains("Target_Process: " + PIDName + ":" + PID))
