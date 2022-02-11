@@ -17,6 +17,8 @@ Note: the goal is talking/thinking about how can use ETW as Defender/Blue teamer
 
 Note: in this code we have "Pe-sieve64.exe" & "Hollowshunter.exe" so to use you need to download these exe files & paste them in same folder with ETWPM2Monitor2.exe & i tested ETWPM2Monitor2 with Pe-sieve64.exe (ver 0.2.9.6) & Hollowshunter.exe (ver 0.2.9.6)
 
+Note: all alarms (Those Processes which Detected by ETWPM2Monitor2 v2.1) will save in windows eventlog name "ETWPM2Monitor2".  
+
     link1: https://github.com/hasherezade/pe-sieve
     link2: https://github.com/hasherezade/hollows_hunter
 
