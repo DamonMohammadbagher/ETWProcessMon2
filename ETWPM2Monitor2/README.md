@@ -41,15 +41,20 @@ Usage Steps
 ### ETWPM2Monitor2 v2.1 (Detecting Cmd.exe for shell via [EventID 1] & Meterpreter Traffic Packets via [EventID 3])
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2/Pics/tcp.png)
    
-#### note: this traffic detection via EventID 3 added to source code ;)
+#### note: this traffic detection via EventID 3 added to source code ;)  [08 feb 2022]
 
 ### ETWPM2Monitor2 v2.1 (Memory Scanners Logs added to code, now you can see what happened in background when something Detected or not by [Memory Scanners & events])
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2/Pics/v21_11.35_scannerlogs.png)
 
+### ETWPM2Monitor2 v2.1 (all Alarms Now will save in windows Eventlog "ETWPM2Monitor2")
+   ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2/Pics/EVT.png)
+   
+#### note: this simple important code added to source code ;) [11 feb 2022]
+
 ### ETWPM2Monitor2 v2.1 (Memory Scanner Dump files details/hex file added to source code for better report result)
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2/Pics/reportresult.png)
    
-#### note: this simple tab for Memory Scanner Report added to source code ;)
+#### note: this simple tab for Memory Scanner Report added to source code ;)  [10 feb 2022]
 
 ### ETWPM2Monitor2 v2.1 (Detecting Cmd.exe with Parent_Process_Path/ID, when cmd process has ParentPID which is not normal)
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2/Pics/v21-cmd.png)
