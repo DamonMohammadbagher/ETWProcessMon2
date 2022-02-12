@@ -35,15 +35,16 @@ Usage Steps
     Step2: ETWPM2Monitor2.exe (Run as Admin)
 
 -------------------------
-### ETWPM2Monitor2 v2.1 (New ver)
-   ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2/Pics/v2.1.png)
-   
-#### Note: for New Exe file, you can use/add this project [ETWPM2Monitor2 v2.1] in your vs.net 2017/2019 very simple. (compiler says => bugs fixed ;D)
 
 ### ETWPM2Monitor2 v2.1 (Detecting Cmd.exe for shell via [EventID 1] & Meterpreter Traffic Packets via [EventID 3])
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2/Pics/tcp.png)
    
 #### note: this traffic detection via EventID 3 added to source code ;)  [08 feb 2022]
+
+### ETWPM2Monitor2 v2.1 (System/Detection Logs)
+   ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2/Pics/detection_logs.png)
+   
+#### note: System/Detection Logs added to the source code ;)  [12 feb 2022]
 
 ### ETWPM2Monitor2 v2.1 (Memory Scanners Logs added to code, now you can see what happened in background when something Detected or not by [Memory Scanners & events])
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2/Pics/v21_11.35_scannerlogs.png)
