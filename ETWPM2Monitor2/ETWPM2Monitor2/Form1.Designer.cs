@@ -155,6 +155,11 @@
             this.toolStripStatusLabel4 = new System.Windows.Forms.ToolStripStatusLabel();
             this.contextMenuStrip4 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.dumpTIDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.splitContainer4 = new System.Windows.Forms.SplitContainer();
+            this.richTextBox8 = new System.Windows.Forms.RichTextBox();
+            this.listView3 = new System.Windows.Forms.ListView();
             this.contextMenuStrip5.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -195,6 +200,11 @@
             this.menuStrip3.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.contextMenuStrip4.SuspendLayout();
+            this.tabPage3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).BeginInit();
+            this.splitContainer4.Panel1.SuspendLayout();
+            this.splitContainer4.Panel2.SuspendLayout();
+            this.splitContainer4.SuspendLayout();
             this.SuspendLayout();
             // 
             // richTextBox1
@@ -247,6 +257,7 @@
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tabPage4);
+            this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 24);
             this.tabControl1.Name = "tabControl1";
@@ -784,6 +795,7 @@
             this.saveToolStripMenuItem,
             this.saveAllAlarmEventsToolStripMenuItem1,
             this.themeToolStripMenuItem,
+            this.toolStripSeparator6,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem2.Name = "fileToolStripMenuItem2";
             this.fileToolStripMenuItem2.Size = new System.Drawing.Size(37, 20);
@@ -841,14 +853,14 @@
             // startMonitorToolStripMenuItem
             // 
             this.startMonitorToolStripMenuItem.Name = "startMonitorToolStripMenuItem";
-            this.startMonitorToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+            this.startMonitorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.startMonitorToolStripMenuItem.Text = "Start Monitor";
             this.startMonitorToolStripMenuItem.Click += new System.EventHandler(this.StartMonitorToolStripMenuItem_Click);
             // 
             // stoptMonitorToolStripMenuItem
             // 
             this.stoptMonitorToolStripMenuItem.Name = "stoptMonitorToolStripMenuItem";
-            this.stoptMonitorToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+            this.stoptMonitorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.stoptMonitorToolStripMenuItem.Text = "Stop Monitor";
             this.stoptMonitorToolStripMenuItem.Click += new System.EventHandler(this.StoptMonitorToolStripMenuItem_Click);
             // 
@@ -858,7 +870,7 @@
             this.onToolStripMenuItem,
             this.offToolStripMenuItem});
             this.autoScrollToolStripMenuItem.Name = "autoScrollToolStripMenuItem";
-            this.autoScrollToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+            this.autoScrollToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.autoScrollToolStripMenuItem.Text = "Auto Scroll";
             // 
             // onToolStripMenuItem
@@ -878,14 +890,14 @@
             // clearAllToolStripMenuItem
             // 
             this.clearAllToolStripMenuItem.Name = "clearAllToolStripMenuItem";
-            this.clearAllToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+            this.clearAllToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.clearAllToolStripMenuItem.Text = "Clear All";
             this.clearAllToolStripMenuItem.Click += new System.EventHandler(this.ClearAllToolStripMenuItem_Click);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(141, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(177, 6);
             // 
             // scannersToolStripMenuItem
             // 
@@ -897,7 +909,7 @@
             this.toolStripSeparator2,
             this.scanningConfigurationToolStripMenuItem});
             this.scannersToolStripMenuItem.Name = "scannersToolStripMenuItem";
-            this.scannersToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+            this.scannersToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.scannersToolStripMenuItem.Text = "Scanners";
             // 
             // pesieve64exeOffToolStripMenuItem
@@ -1272,13 +1284,13 @@
             // 
             this.helpToolStripMenuItem.Enabled = false;
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.helpToolStripMenuItem.Text = "Help";
             // 
             // aboutToolStripMenuItem1
             // 
             this.aboutToolStripMenuItem1.Name = "aboutToolStripMenuItem1";
-            this.aboutToolStripMenuItem1.Size = new System.Drawing.Size(107, 22);
+            this.aboutToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.aboutToolStripMenuItem1.Text = "About";
             this.aboutToolStripMenuItem1.Click += new System.EventHandler(this.AboutToolStripMenuItem1_Click);
             // 
@@ -1331,6 +1343,62 @@
             this.dumpTIDToolStripMenuItem.Name = "dumpTIDToolStripMenuItem";
             this.dumpTIDToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
             this.dumpTIDToolStripMenuItem.Text = "Injected TID Memory info";
+            // 
+            // toolStripSeparator6
+            // 
+            this.toolStripSeparator6.Name = "toolStripSeparator6";
+            this.toolStripSeparator6.Size = new System.Drawing.Size(184, 6);
+            // 
+            // tabPage3
+            // 
+            this.tabPage3.Controls.Add(this.splitContainer4);
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Size = new System.Drawing.Size(1091, 384);
+            this.tabPage3.TabIndex = 4;
+            this.tabPage3.Text = "System/Detection Logs";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // splitContainer4
+            // 
+            this.splitContainer4.BackColor = System.Drawing.Color.PaleGreen;
+            this.splitContainer4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer4.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer4.Name = "splitContainer4";
+            this.splitContainer4.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer4.Panel1
+            // 
+            this.splitContainer4.Panel1.Controls.Add(this.listView3);
+            // 
+            // splitContainer4.Panel2
+            // 
+            this.splitContainer4.Panel2.Controls.Add(this.richTextBox8);
+            this.splitContainer4.Size = new System.Drawing.Size(1091, 384);
+            this.splitContainer4.SplitterDistance = 180;
+            this.splitContainer4.TabIndex = 0;
+            // 
+            // richTextBox8
+            // 
+            this.richTextBox8.BackColor = System.Drawing.Color.LightCyan;
+            this.richTextBox8.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.richTextBox8.Location = new System.Drawing.Point(0, 0);
+            this.richTextBox8.Name = "richTextBox8";
+            this.richTextBox8.ReadOnly = true;
+            this.richTextBox8.Size = new System.Drawing.Size(1091, 200);
+            this.richTextBox8.TabIndex = 0;
+            this.richTextBox8.Text = "";
+            // 
+            // listView3
+            // 
+            this.listView3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listView3.HideSelection = false;
+            this.listView3.Location = new System.Drawing.Point(0, 0);
+            this.listView3.Name = "listView3";
+            this.listView3.Size = new System.Drawing.Size(1091, 180);
+            this.listView3.TabIndex = 0;
+            this.listView3.UseCompatibleStateImageBehavior = false;
+            this.listView3.SelectedIndexChanged += new System.EventHandler(this.ListView3_SelectedIndexChanged);
             // 
             // Form1
             // 
@@ -1386,6 +1454,11 @@
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.contextMenuStrip4.ResumeLayout(false);
+            this.tabPage3.ResumeLayout(false);
+            this.splitContainer4.Panel1.ResumeLayout(false);
+            this.splitContainer4.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).EndInit();
+            this.splitContainer4.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1517,6 +1590,11 @@
         private System.Windows.Forms.TabControl MemoryAddresses_tabControl3;
         private System.Windows.Forms.TabPage tabPage8;
         private System.Windows.Forms.RichTextBox richTextBox7;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
+        private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.SplitContainer splitContainer4;
+        private System.Windows.Forms.ListView listView3;
+        private System.Windows.Forms.RichTextBox richTextBox8;
     }
 }
 

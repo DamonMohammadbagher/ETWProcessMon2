@@ -209,6 +209,11 @@ namespace ETWPM2Monitor2
         /// </summary>
         public event EventHandler NewEventFrom_EventLogsCome;
 
+        /// event for add all detection events to System_Detection_logs Tab
+        public event EventHandler System_Detection_Log_events;
+        /// event for add tcp/new events which was for Shell or Meterpreter Session detection events to System_Detection_logs Tab
+        public event EventHandler System_Detection_Log_events2;
+
         public struct _TableofProcess_ETW_Event_Counts
         {
             private string LastTCP_Details;
@@ -235,10 +240,40 @@ namespace ETWPM2Monitor2
         public static bool ScannerEvery10minMode_Pesieve = false;
         public static bool ScannerMixedMode_Hollowh = false;
         public static bool ScannerEvery10minMode_Hollowh = false;
-
+        public static string eventstring_tmp3 = "";
         public static int _percent(int count, int total)
         {
             return (count * 100) / total;
+        }
+
+        public static void _Memory_Modules_Scanner(int PID)
+        {
+            Process myProcess = new Process();
+            
+            //Get all the modules associated with 'myProcess".
+            ProcessModuleCollection myProcessModuleCollection = Process.GetProcessById(PID).Modules;
+            foreach (ProcessModuleCollection item in myProcessModuleCollection)
+            {
+
+            }
+            //Console.WriteLine("Properties of the modules associated with 'notepad' are:");
+            //Display the properties of each of the modules
+            //for (int i = 0; i < myProcessModuleCollection.Count; i++)
+            //{
+            //    myProcessModule = myProcessModuleCollection[i];
+            //    Console.WriteLine("The moduleName is " + myProcessModule.ModuleName);
+            //    Console.WriteLine("The " + myProcessModule.ModuleName + "'s File Name is: " + myProcessModule.FileName);
+            //    Console.WriteLine("The " + myProcessModule.ModuleName + "'s base address is: " + myProcessModule.BaseAddress);
+            //    Console.WriteLine("For " + myProcessModule.ModuleName + " Entry point address is: " + myProcessModule.EntryPointAddress);
+            //}
+            ////Get the Main module associate with 'myProcess'
+            //myProcessModule = myProcess.MainModule;
+            //Console.WriteLine("The Main Module associated");
+            //Console.WriteLine("The process's main modulename is " + myProcessModule.ModuleName);
+            //Console.WriteLine("The process's main modulename  File Name is: " + myProcessModule.FileName);
+            //Console.WriteLine("The process's main modulename base address is: " + myProcessModule.BaseAddress);
+            //Console.WriteLine("The process's main modulename Entry point address is: " + myProcessModule.EntryPointAddress);
+            //myProcess.CloseMainWindow();
         }
 
         public static void _SaveNewETW_Alarms_to_WinEventLog(object AlarmObjects)
@@ -318,12 +353,15 @@ namespace ETWPM2Monitor2
                             "##Warning Description: Packet with [size:192] is for meterpreter session which will send before every command excution from server##\n" +
                             "##Warning Description: DestinationPort [dport:4444] is Default port for Meterpreter session##";
 
+                            System_Detection_Log_events2.Invoke((object)MyLviewItemsX1, null);
+
                         } else if (MyLviewItemsX1.SubItems[5].Text.Split('\n')[6].Contains("[dport:4444]"))
                         {
                             MyLviewItemsX1.BackColor = Color.LightSlateGray;
                             MyLviewItemsX1.SubItems[5].Text += "\n\n#This Description Added by ETWPM2Monitor2 tool#\n##Warning Description: Packet with [size:160] maybe was for Meterpreter Session which will send every 1 min between Client/Server##\n" +
                                "##Warning Description: Packet with [size:192] is for meterpreter session which will send before every command excution from server##\n" +
                                "##Warning Description: DestinationPort [dport:4444] is Default port for Meterpreter session##";
+                            System_Detection_Log_events2.Invoke((object)MyLviewItemsX1, null);
                         }
 
                         listView1.Items.Add(MyLviewItemsX1);
@@ -343,6 +381,7 @@ namespace ETWPM2Monitor2
                                 MyLviewItemsX1.ForeColor = Color.Black;
                                 MyLviewItemsX1.ImageIndex = 2;
                                 MyLviewItemsX1.SubItems[5].Text += "\n\n#This Description Added by ETWPM2Monitor2 tool#\n##Warning Description: [ParentID Path] & [PPID] for this New Process is not Normal! (maybe Shell Activated?)##\n";
+                                System_Detection_Log_events2.Invoke((object)MyLviewItemsX1, null);
                             }
                         }
                         else
@@ -458,6 +497,50 @@ namespace ETWPM2Monitor2
 
             }
             catch (Exception ee)
+            {
+
+
+            }
+
+        }
+
+        public void _Additems_toListview3(object obj)
+        {
+            ListViewItem MyLviewItemsX6 = (ListViewItem)obj;
+            try
+            {
+
+                Thread.Sleep(10);
+                if (MyLviewItemsX6 != null)
+                {
+                    if (MyLviewItemsX6.Name != evtstring3)
+                    {
+
+                        listView3.BeginUpdate();
+                        listView3.Items.Add(MyLviewItemsX6);
+                        listView3.Update();
+                        listView3.EndUpdate();
+                        evtstring3 = MyLviewItemsX6.Name;
+                        Thread.Sleep(50);
+                    }
+                }
+                tabPage3.Text = "System/Detection Logs " + "(" + listView3.Items.Count.ToString() + ")";
+
+            }
+            catch (Exception ee)
+            {
+
+            }
+
+        }
+
+        public void Update_Richtexbox8_SystemDetection_ETW_AllDetails_info()
+        {
+            try
+            {
+                richTextBox8.Text = listView3.SelectedItems[0].Name;
+            }
+            catch (Exception)
             {
 
 
@@ -599,6 +682,8 @@ namespace ETWPM2Monitor2
                 listView2.BorderStyle = BorderStyle.FixedSingle;
                 listView1.HeaderStyle = ColumnHeaderStyle.Nonclickable;
                 listView1.BorderStyle = BorderStyle.FixedSingle;
+                listView3.HeaderStyle = ColumnHeaderStyle.Nonclickable;
+                listView3.BorderStyle = BorderStyle.FixedSingle;
 
 
                 /// Set the view to show details.
@@ -657,19 +742,48 @@ namespace ETWPM2Monitor2
                 listView2.Columns.Add("HollowsHunter Pe:", 250, HorizontalAlignment.Left);
                 listView2.Columns.Add("Description", 250, HorizontalAlignment.Left);
                 listView2.Columns.Add("EventMessage", 1000, HorizontalAlignment.Left);
+ 
+
+                listView3.SmallImageList = imageList1;
+                /// Set the view to show details.
+                listView3.View = View.Details;
+                /// Allow the user to edit item text.
+                listView3.LabelEdit = false;
+                /// Allow the user to rearrange columns.
+                listView3.AllowColumnReorder = true;
+                /// Display check boxes.
+                listView3.CheckBoxes = false;
+                /// Select the item and subitems when selection is made.
+                listView3.FullRowSelect = true;
+                /// Display grid lines.
+                listView3.GridLines = false;
+                listView3.Sorting = SortOrder.Ascending;
+                listView3.Columns.Add(" ", 20, HorizontalAlignment.Left);
+                listView3.Columns.Add("Time", 130, HorizontalAlignment.Left);
+                listView3.Columns.Add("Process", 150, HorizontalAlignment.Left);
+                listView3.Columns.Add("Status", 180, HorizontalAlignment.Left);
+                listView3.Columns.Add("Detection by ETW Events Inj:New:Tcp", 200, HorizontalAlignment.Left);
+                listView3.Columns.Add("Actions Scanned:Suspended:Terminated", 220, HorizontalAlignment.Left);
+                listView3.Columns.Add("Memory Scanner", 200, HorizontalAlignment.Left);
 
                 /// event for add Process to Alarm-Tab by ETW & Scanning Target Process by Memory Scanners
                 /// event is ready ...
                 NewProcessAddedtolist += Form1_NewProcessAddedtolist1;
 
                 /// event for add Process to list of New Process
-                NewProcessAddedtolist_NewProcessEvt += Form1_NewProcessAddedtolist_NewProcessEvt;
+                NewProcessAddedtolist_NewProcessEvt += Form1_NewProcessAddedtolist_NewProcessEvt;   
 
                 /// event for add target Process to list of Injected Process which had RemoteThreadInjection
                 RemoteThreadInjectionDetection_ProcessLists += Form1_RemoteThreadInjectionDetection_ProcessLists;
 
                 /// event for refresing listviw real-time events
                 NewEventFrom_EventLogsCome += Form1_NewEventFrom_EventLogsCome;
+
+                /// event for add all detection events to System_Detection_logs Tab
+                System_Detection_Log_events += Form1_System_Detection_Log_events;
+
+                /// event for add all detection events to System_Detection_logs Tab
+                System_Detection_Log_events2 += Form1_System_Detection_Log_events2;
 
                 groupBox1.Text = "New Processes events: " + Chart_NewProcess;
                 groupBox2.Text = "Injection events: " + chart_Inj;
@@ -687,6 +801,204 @@ namespace ETWPM2Monitor2
             }
             catch (EventLogReadingException err)
             {
+
+            }
+        }
+
+        private void Form1_System_Detection_Log_events2(object sender, EventArgs e)
+        {
+            ListViewItem tmp2 = (ListViewItem)sender;
+            if (tmp2.SubItems[2].Text == "3")
+            {
+                if ((tmp2.SubItems[5].Text.Split('\n')[6].Contains("[size:160]")) || (tmp2.SubItems[5].Text.Split('\n')[6].Contains("[size:192]")))
+                {
+
+
+
+
+                    //tmp2.SubItems[5].Text += "\n\n#This Description Added by ETWPM2Monitor2 tool#\n##Warning Description: Packet with [size:160] maybe was for Meterpreter Session which will send every 1 min between Client/Server##\n" +
+                    //"##Warning Description: Packet with [size:192] is for meterpreter session which will send before every command excution from server##\n" +
+                    //"##Warning Description: DestinationPort [dport:4444] is Default port for Meterpreter session##";
+
+                    
+                    iList3 = new ListViewItem();
+                    /// add event message to name value
+                    iList3.Name = tmp2.SubItems[5].Text;
+                    iList3.SubItems.Add(tmp2.SubItems[1].Text);
+                    iList3.SubItems.Add(tmp2.SubItems[3].Text);
+
+                    iList3.SubItems.Add("[!] Suspicious Traffic [Meterpreter!]");
+                    iList3.SubItems.Add("ETW [Tcp] event");
+                    iList3.SubItems.Add("Event Detected!");
+
+
+                    iList3.SubItems.Add("--");
+                    iList3.ImageIndex = 1;
+                    if (tmp2.Name != eventstring_tmp3)
+                    {
+                        bool found = false;
+                        for (int i = 0; i < listView3.Items.Count; i++)
+                        {
+                            if (listView3.Items[i].SubItems[2].Text == tmp2.SubItems[3].Text) 
+                            {
+                                found = true;
+                            }
+                        }
+                        if (!found)
+                        {
+                            BeginInvoke(new __Additem(_Additems_toListview3), iList3);
+                            eventstring_tmp3 = tmp2.Name;
+                        }
+                    }
+
+                }
+                else if (tmp2.SubItems[5].Text.Split('\n')[6].Contains("[dport:4444]"))
+                {
+
+                    //tmp2.SubItems[5].Text += "\n\n#This Description Added by ETWPM2Monitor2 tool#\n##Warning Description: Packet with [size:160] maybe was for Meterpreter Session which will send every 1 min between Client/Server##\n" +
+                    //   "##Warning Description: Packet with [size:192] is for meterpreter session which will send before every command excution from server##\n" +
+                    //   "##Warning Description: DestinationPort [dport:4444] is Default port for Meterpreter session##";
+                    iList3 = new ListViewItem();
+                    iList3.Name = tmp2.SubItems[5].Text;
+                    iList3.SubItems.Add(tmp2.SubItems[1].Text);
+                    iList3.SubItems.Add(tmp2.SubItems[3].Text);
+
+                    iList3.SubItems.Add("[!] Suspicious Traffic [Meterpreter!]");
+                    iList3.SubItems.Add("ETW [Tcp] event");
+                    iList3.SubItems.Add("Event Detected!");
+
+
+                    iList3.SubItems.Add("--");
+                    iList3.ImageIndex = 1;
+                    if (tmp2.Name != eventstring_tmp3)
+                    {
+                        bool found = false;
+                        for (int i = 0; i < listView3.Items.Count; i++)
+                        {
+                            if (listView3.Items[i].SubItems[2].Text == tmp2.SubItems[3].Text)
+                            {
+                                found = true;
+                            }
+                        }
+                        if (!found)
+                        {
+                            BeginInvoke(new __Additem(_Additems_toListview3), iList3);
+                            eventstring_tmp3 = tmp2.Name;
+                        }
+                    }
+                }
+            }
+
+            if (tmp2.SubItems[2].Text == "1")
+            {
+                string commandline = tmp2.SubItems[5].Text.Split('\n')[4].ToLower();
+                string parentid = tmp2.SubItems[5].Text.Split('\n')[5].ToLower();
+                if (commandline.Contains("[commandline: c:\\windows\\system32\\cmd.exe") || commandline.Contains("[commandline: cmd"))
+
+                {
+                    if (parentid != "[parentid path: c:\\windows\\explorer.exe]")
+                    {
+                        iList3 = new ListViewItem();
+                        iList3.Name = tmp2.SubItems[5].Text;
+                        iList3.SubItems.Add(tmp2.SubItems[1].Text);
+                        iList3.SubItems.Add(tmp2.SubItems[3].Text +" (with " + parentid + ")");
+
+                        iList3.SubItems.Add("[!] Found Shell");
+                        iList3.SubItems.Add("ETW [New] event");
+                        iList3.SubItems.Add("Event Detected!");
+
+
+                        iList3.SubItems.Add("--");
+                        iList3.ImageIndex = 2;
+                        if (tmp2.Name != eventstring_tmp3)
+                        {
+                            bool found = false;
+                            for (int i = 0; i < listView3.Items.Count; i++)
+                            {
+                                if ((listView3.Items[i].SubItems[2].Text  + listView3.Items[i].SubItems[3].Text) == (tmp2.SubItems[3].Text + "[!] Found Shell"))
+                                {
+                                    found = true;
+                                }
+                            }
+                            if (!found)
+                            {
+                                BeginInvoke(new __Additem(_Additems_toListview3), iList3);
+                                eventstring_tmp3 = tmp2.Name;
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    
+                }
+
+                //listView1.Items.Add(tmp2);
+            }
+        }
+
+        private void Form1_System_Detection_Log_events(object sender, EventArgs e)
+        {
+            try
+            {
+
+                ListViewItem tmp = (ListViewItem)sender;
+
+                if (tmp.SubItems[3].Text.ToString() == "Injection" || tmp.SubItems[3].Text.ToString() == "Process-Hollowing")
+                {
+                    Thread.Sleep(100);
+                    ///  detecting etw event
+                    iList3 = new ListViewItem();
+                    iList3.Name = tmp.Name;
+                    iList3.SubItems.Add(tmp.SubItems[1].Text);
+                    iList3.SubItems.Add(tmp.SubItems[2].Text);
+                    if (tmp.SubItems[5].Text == "--")
+                    {
+                        iList3.SubItems.Add("[!] Found Suspicious");
+                        iList3.SubItems.Add("ETW [Inj] event");
+                        iList3.SubItems.Add("Scanned & Found!");
+                    }
+                    else
+                    {
+                        iList3.SubItems.Add("[!] " + tmp.SubItems[5].Text);
+                        iList3.SubItems.Add("ETW [Inj] event");
+                        iList3.SubItems.Add(tmp.SubItems[5].Text);
+                    }
+
+                    iList3.SubItems.Add("PESieve & HollowsHunter.exe");
+                    iList3.ImageIndex = tmp.ImageIndex;
+                    if (tmp.Name != eventstring_tmp3 )
+                    {
+                        bool found = false;
+                        for (int i = 0; i < listView3.Items.Count; i++)
+                        {
+                            if (listView3.Items[i].SubItems[2].Text + listView3.Items[i].SubItems[4].Text == tmp.SubItems[2].Text + "ETW [Inj] event")
+                            {
+                                found = true;
+                            }
+                        }
+                        if (!found)
+                        {
+                            BeginInvoke(new __Additem(_Additems_toListview3), iList3);
+                            eventstring_tmp3 = tmp.Name;
+                        }
+
+                        if (tmp.SubItems[5].Text=="Terminated" || tmp.SubItems[5].Text == "Suspended")
+                        {
+                            BeginInvoke(new __Additem(_Additems_toListview3), iList3);
+                            eventstring_tmp3 = tmp.Name;
+                        }
+ 
+                    }
+                    
+                    Thread.Sleep(100);
+                }
+                
+
+            }
+            catch (Exception)
+            {
+
 
             }
         }
@@ -1256,6 +1568,8 @@ namespace ETWPM2Monitor2
                             if (Init_to_runPEScanner_01 || Init_to_runPEScanner_02)
                             {
                                 BeginInvoke(new __Additem(_Additems_toListview2), iList2);
+
+                                System_Detection_Log_events.Invoke((object)iList2, null);
 
                             }
                             bool found_obj = false;
@@ -2510,6 +2824,20 @@ namespace ETWPM2Monitor2
             dontDumpAnyFilesToolStripMenuItem1.Text = "don't dump any files [on]";
             isPEScanonoff = true;
             pe_sieve_DumpSwitches = 2;
+        }
+
+        private void ListView3_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                BeginInvoke(new __Obj_Updater_to_WinForm(Update_Richtexbox8_SystemDetection_ETW_AllDetails_info));
+
+            }
+            catch (Exception)
+            {
+
+
+            }
         }
 
         private void DontDumpPEOfilterToolStripMenuItem_Click(object sender, EventArgs e)
