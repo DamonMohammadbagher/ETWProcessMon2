@@ -243,7 +243,23 @@ namespace ETWPM2Monitor2
         public static string eventstring_tmp3 = "";
         public static int _percent(int count, int total)
         {
-            return (count * 100) / total;
+            if (total != 0)
+            {
+                try
+                {
+                    return (count * 100) / total;
+                }
+                catch (Exception)
+                {
+                    return (count * 100) / total;
+
+                }
+            }
+            else
+            {
+                return 0;
+            }
+           
         }
 
         public static void _Memory_Modules_Scanner(int PID)
@@ -839,7 +855,7 @@ namespace ETWPM2Monitor2
                         bool found = false;
                         for (int i = 0; i < listView3.Items.Count; i++)
                         {
-                            if (listView3.Items[i].SubItems[2].Text == tmp2.SubItems[3].Text) 
+                            if (listView3.Items[i].SubItems[2].Text + listView3.Items[i].SubItems[3].Text == tmp2.SubItems[3].Text + "[!] Suspicious Traffic [Meterpreter!]")
                             {
                                 found = true;
                             }
@@ -875,7 +891,7 @@ namespace ETWPM2Monitor2
                         bool found = false;
                         for (int i = 0; i < listView3.Items.Count; i++)
                         {
-                            if (listView3.Items[i].SubItems[2].Text == tmp2.SubItems[3].Text)
+                            if (listView3.Items[i].SubItems[2].Text + listView3.Items[i].SubItems[3].Text == tmp2.SubItems[3].Text + "[!] Suspicious Traffic [Meterpreter!]")
                             {
                                 found = true;
                             }
@@ -954,9 +970,20 @@ namespace ETWPM2Monitor2
                     iList3.SubItems.Add(tmp.SubItems[2].Text);
                     if (tmp.SubItems[5].Text == "--")
                     {
-                        iList3.SubItems.Add("[!] Found Suspicious");
-                        iList3.SubItems.Add("ETW [Inj] event");
-                        iList3.SubItems.Add("Scanned & Found!");
+                        if (Convert.ToInt32(string.Join("", ("0" + tmp.SubItems[6].Text).ToCharArray().Where(char.IsDigit)).ToString()) > 0 
+                            || tmp.SubItems[7].Text.Contains(">>Detected"))
+                        {
+                            iList3.SubItems.Add("[!] Found Suspicious");
+                            iList3.SubItems.Add("ETW [Inj] event");
+                            iList3.SubItems.Add("Scanned & Found!");
+                        }
+                        else
+                        {
+                            iList3.SubItems.Add("[!] Found Suspicious");
+                            iList3.SubItems.Add("ETW [Inj] event");
+                            iList3.SubItems.Add("Scanned");
+                        }
+                           
                     }
                     else
                     {
