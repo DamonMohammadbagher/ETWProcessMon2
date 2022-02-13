@@ -446,8 +446,10 @@ namespace ETWPM2Monitor2
                             {
                                 listView2.Items.Add(MyLviewItemsX2);
                                 BeginInvoke(new __core2(_SaveNewETW_Alarms_to_WinEventLog), MyLviewItemsX2);
-                                
+
                                 //_SaveNewETW_Alarms_to_WinEventLog(MyLviewItemsX2);
+                                Thread.Sleep(10);
+                                tabPage4.Text = "Alarms by ETW " + "(" + listView2.Items.Count.ToString() + ")";
 
                             }
 
@@ -470,7 +472,8 @@ namespace ETWPM2Monitor2
                             BeginInvoke(new __core2(_SaveNewETW_Alarms_to_WinEventLog), MyLviewItemsX2);
 
                             //_SaveNewETW_Alarms_to_WinEventLog(MyLviewItemsX2);
-
+                            Thread.Sleep(10);
+                            tabPage4.Text = "Alarms by ETW " + "(" + listView2.Items.Count.ToString() + ")";
                         }
                         if (MyLviewItemsX2.ImageIndex == 1) { Chart_Orange++; }
                         else if (MyLviewItemsX2.ImageIndex == 2) { Chart_Redflag++; }
@@ -506,10 +509,11 @@ namespace ETWPM2Monitor2
 
                     }
 
-                    tabPage4.Text = "Alarms by ETW " + "(" + listView2.Items.Count.ToString() + ")";
+                   // tabPage4.Text = "Alarms by ETW " + "(" + listView2.Items.Count.ToString() + ")";
+
                 }
 
-               
+
 
             }
             catch (Exception ee)
@@ -776,7 +780,7 @@ namespace ETWPM2Monitor2
                 listView3.Sorting = SortOrder.Ascending;
                 listView3.Columns.Add(" ", 20, HorizontalAlignment.Left);
                 listView3.Columns.Add("Time", 130, HorizontalAlignment.Left);
-                listView3.Columns.Add("Process", 150, HorizontalAlignment.Left);
+                listView3.Columns.Add("Process", 180, HorizontalAlignment.Left);
                 listView3.Columns.Add("Status", 180, HorizontalAlignment.Left);
                 listView3.Columns.Add("Detection by ETW Events Inj:New:Tcp", 200, HorizontalAlignment.Left);
                 listView3.Columns.Add("Actions Scanned:Suspended:Terminated", 220, HorizontalAlignment.Left);
@@ -909,6 +913,7 @@ namespace ETWPM2Monitor2
             {
                 string commandline = tmp2.SubItems[5].Text.Split('\n')[4].ToLower();
                 string parentid = tmp2.SubItems[5].Text.Split('\n')[5].ToLower();
+                string Shell_Pid = tmp2.SubItems[5].Text.Split('\n')[2].Substring(6).Split(' ')[0];
                 if (commandline.Contains("[commandline: c:\\windows\\system32\\cmd.exe") || commandline.Contains("[commandline: cmd"))
 
                 {
@@ -917,7 +922,7 @@ namespace ETWPM2Monitor2
                         iList3 = new ListViewItem();
                         iList3.Name = tmp2.SubItems[5].Text;
                         iList3.SubItems.Add(tmp2.SubItems[1].Text);
-                        iList3.SubItems.Add(tmp2.SubItems[3].Text +" (with " + parentid + ")");
+                        iList3.SubItems.Add(tmp2.SubItems[3].Text+":" + Shell_Pid + " (with " + parentid + ")");
 
                         iList3.SubItems.Add("[!] Found Shell");
                         iList3.SubItems.Add("ETW [New] event");
@@ -2937,10 +2942,43 @@ namespace ETWPM2Monitor2
 
             try
             {
+                int temp_get_InjectorPID_from_eventmessage = 0;
+                string temp_get_InjectorPN_from_description = "";
 
-                richTextBox2.Text = listView2.SelectedItems[0].Name;
-                richTextBox4.Text = listView2.SelectedItems[0].SubItems[9].Text;
-                richTextBox5.Text = listView2.SelectedItems[0].SubItems[8].Text;
+                try
+                {
+
+
+                    richTextBox2.Text = listView2.SelectedItems[0].Name;
+                    richTextBox4.Text = listView2.SelectedItems[0].SubItems[9].Text;
+                    richTextBox5.Text = listView2.SelectedItems[0].SubItems[8].Text;
+                    temp_get_InjectorPID_from_eventmessage = Convert.ToInt32(listView2.SelectedItems[0].SubItems[9].Text.Split('\n')[12].Split('>')[1]);
+                }
+                catch (Exception)
+                {
+
+                }
+
+                
+                try
+                {
+                    temp_get_InjectorPN_from_description = listView2.SelectedItems[0].SubItems[8].Text
+                 .Split('>')[1].Split('[')[1].Split(']')[0].Split(':')[0].Substring(1);
+                }
+                catch (Exception)
+                {
+
+                    temp_get_InjectorPN_from_description = listView2.SelectedItems[0].SubItems[8].Text
+                   .Split('>')[1].Substring(listView2.SelectedItems[0].SubItems[8].Text
+                   .Split('>')[1].IndexOf("Injector-CommandLine:")).Substring(21);
+                    if(temp_get_InjectorPN_from_description==" ")
+                    {
+                        temp_get_InjectorPN_from_description = "";
+                    }
+                    
+                }
+              
+
                 richTextBox3.Text = "";
 
                 string PIDName = listView2.SelectedItems[0].Name.Split('>')[0].Split(':')[0];
@@ -2952,8 +2990,8 @@ namespace ETWPM2Monitor2
                 richTextBox3.Text += "\n-------------------------------------------------------\n";
                 int counter = 0;
                 richTextBox3.Text += "Target Process & Injector Details:\n";
-
-                foreach (_InjectedThreadDetails_bytes item in _InjectedTIDList.FindAll(y => y._TargetPID == Convert.ToInt32(PID)))
+                string last_tid = "";
+                foreach (_InjectedThreadDetails_bytes item in _InjectedTIDList.FindAll(y => y._TargetPID == Convert.ToInt32(PID) && y._InjectorPID == temp_get_InjectorPID_from_eventmessage))
                 {
                     try
                     {
@@ -2961,21 +2999,26 @@ namespace ETWPM2Monitor2
                         if (!temptids.Exists(___t => ___t == item._RemoteThreadID))
                         {
                             temptids.Add(item._RemoteThreadID);
-
+                        }
+                        Thread.Sleep(1);
+                        if (item._RemoteThreadID.ToString() != last_tid)
+                        {
                             counter++;
                             richTextBox3.Text += "[" + counter.ToString() + "] " + "Remote Thread Injection Detected!" + "\n";
                             richTextBox3.Text += "[" + counter.ToString() + "] " + "Injection by InjectorPID:" + item._InjectorPID.ToString() + "===>==TID:" +
                            item._RemoteThreadID.ToString() + "==>==Injected into====>" + PIDName + ":" + PID
 
                            + "\nInjector More Details:"
-                           + "\nInjector CommandLine:" + NewProcess_Table.Find(_w => _w.PID == item._InjectorPID).CommandLine
+                           + "\nInjector CommandLine:" + NewProcess_Table.Find(_w => (_w.PID == item._InjectorPID && _w.CommandLine.Contains(temp_get_InjectorPN_from_description))).CommandLine.Substring(13)
                            + "\nInjector Path:" + NewProcess_Table.Find(_w => _w.PID == item._InjectorPID).ProcessName_Path
                            + "\nInjector PPID:" + NewProcess_Table.Find(_w => _w.PID == item._InjectorPID).PPID_Path
                            + "\nTarget Process More Details:"
                            + "\nTarget Process Path:" + NewProcess_Table.Find(_w => _w.ProcessName.Substring(1) == item._TargetPIDName && _w.PID == item._TargetPID).ProcessName_Path
                            + "\n"
                            + "Injected Bytes: \n" + item.Injected_Memory_Bytes_Hex + "\n";
+                            last_tid = item._RemoteThreadID.ToString();
                         }
+                        
 
                     }
                     catch (Exception)
