@@ -262,77 +262,92 @@ namespace ETWPM2Monitor2
            
         }
 
-        public static void _Memory_Modules_Scanner(int PID)
+        public static void _Save_New_DetectionLogs_TCP_Shell_Events_to_WinEventLog(object Obj)
         {
-            Process myProcess = new Process();
-            
-            //Get all the modules associated with 'myProcess".
-            ProcessModuleCollection myProcessModuleCollection = Process.GetProcessById(PID).Modules;
-            foreach (ProcessModuleCollection item in myProcessModuleCollection)
+            try
             {
 
+                ListViewItem _items_Objects = (ListViewItem)Obj;
+
+                ETW2MON = new EventLog("ETWPM2Monitor2", ".", "ETWPM2Monitor2.1");
+
+                StringBuilder st = new StringBuilder();
+
+                st.AppendLine("[#] Time: " + _items_Objects.SubItems[1].Text + ", Process: " + _items_Objects.SubItems[2].Text.Replace('\r', ' ').Replace('\n', ' ')
+                    + ", Status: " + _items_Objects.SubItems[3].Text + "\nETW Event Type: " + _items_Objects.SubItems[4].Text +
+                    " , Actions: " + _items_Objects.SubItems[5].Text + "\n\nEvent Message: " + "\n" + _items_Objects.Name);
+
+                if (_items_Objects.SubItems[3].Text.Contains("Found Shell"))
+                {
+                    string simpledescription = "[#] Time: " + _items_Objects.SubItems[1].Text + "\n" + _items_Objects.SubItems[3].Text + " via Process: "
+                        + _items_Objects.SubItems[2].Text.Replace('\r', ' ').Replace('\n', ' ') + " Detected by ETWPM2Monitor2 (Detection High level)!\n"
+                     + "------------------------------------------------------------\n";
+                    ETW2MON.WriteEntry(simpledescription + st.ToString(), EventLogEntryType.Warning, 4);
+                }
+
+                if (_items_Objects.SubItems[3].Text.Contains("Suspicious Traffic [Meterpreter!]"))
+                {
+                    string simpledescription = "[#] Time: " + _items_Objects.SubItems[1].Text + "\n" + _items_Objects.SubItems[3].Text + " via Process: "
+                        + _items_Objects.SubItems[2].Text.Replace('\r', ' ').Replace('\n', ' ') + " Detected by ETWPM2Monitor2 (Detection Medium level)!\n"
+                     + "------------------------------------------------------------\n";
+                    ETW2MON.WriteEntry(simpledescription + st.ToString(), EventLogEntryType.Information, 3);
+                }
             }
-            //Console.WriteLine("Properties of the modules associated with 'notepad' are:");
-            //Display the properties of each of the modules
-            //for (int i = 0; i < myProcessModuleCollection.Count; i++)
-            //{
-            //    myProcessModule = myProcessModuleCollection[i];
-            //    Console.WriteLine("The moduleName is " + myProcessModule.ModuleName);
-            //    Console.WriteLine("The " + myProcessModule.ModuleName + "'s File Name is: " + myProcessModule.FileName);
-            //    Console.WriteLine("The " + myProcessModule.ModuleName + "'s base address is: " + myProcessModule.BaseAddress);
-            //    Console.WriteLine("For " + myProcessModule.ModuleName + " Entry point address is: " + myProcessModule.EntryPointAddress);
-            //}
-            ////Get the Main module associate with 'myProcess'
-            //myProcessModule = myProcess.MainModule;
-            //Console.WriteLine("The Main Module associated");
-            //Console.WriteLine("The process's main modulename is " + myProcessModule.ModuleName);
-            //Console.WriteLine("The process's main modulename  File Name is: " + myProcessModule.FileName);
-            //Console.WriteLine("The process's main modulename base address is: " + myProcessModule.BaseAddress);
-            //Console.WriteLine("The process's main modulename Entry point address is: " + myProcessModule.EntryPointAddress);
-            //myProcess.CloseMainWindow();
+            catch (Exception)
+            {
+
+
+            }
         }
 
         public static void _SaveNewETW_Alarms_to_WinEventLog(object AlarmObjects)
         {
-            ETW2MON = new EventLog("ETWPM2Monitor2", ".", "ETWPM2Monitor2.1");
-            ListViewItem __AlarmObject = (ListViewItem)AlarmObjects;
-
-            StringBuilder st = new StringBuilder();
-
-            ListViewItem xitem = __AlarmObject;
-
-            st.AppendLine("[#] Time: " + xitem.SubItems[1].Text + ", Process: " + xitem.SubItems[2].Text
-                + ", Injection-Type: " + xitem.SubItems[3].Text + ", TCP-Send: " + xitem.SubItems[4].Text +
-                ", Status: " + xitem.SubItems[5].Text);
-            st.AppendLine("Memory Scanner Results:");
-            st.AppendLine("Pe-sieve: " + xitem.SubItems[6].Text.Replace('\r',' '));
-            st.AppendLine("Hollows_Hunter: " + xitem.SubItems[7].Text.Replace('\r', ' '));
-            st.AppendLine("Description:");
-            st.AppendLine(xitem.SubItems[8].Text);
-            st.AppendLine("ETW Event Message:");
-            st.AppendLine(xitem.SubItems[9].Text);
-            st.AppendLine(" ");
-             
-            st.AppendLine(" ");
-
-
-            if (__AlarmObject.SubItems[5].Text.Contains("Terminated") ||
-                __AlarmObject.SubItems[5].Text.Contains("Suspended") ||
-                __AlarmObject.SubItems[5].Text.Contains("Scanned & Found") ||
-                 __AlarmObject.SubItems[7].Text.Contains(">>Detected") ||
-                Convert.ToInt32(string.Join("", ("0" + __AlarmObject.SubItems[6].Text).Where(char.IsDigit)).ToString()) > 0)
+            try
             {
 
+                ETW2MON = new EventLog("ETWPM2Monitor2", ".", "ETWPM2Monitor2.1");
+                ListViewItem __AlarmObject = (ListViewItem)AlarmObjects;
 
-                string simpledescription = "[#] Time: " + xitem.SubItems[1].Text + "\nProcess: " + xitem.SubItems[2].Text + " Detected by ETWPM2Monitor2 (Detection High level)!\n"
-                    +"------------------------------------------------------------\n";
-                ETW2MON.WriteEntry(simpledescription + st.ToString(), EventLogEntryType.Warning, 2);
+                StringBuilder st = new StringBuilder();
+
+                ListViewItem xitem = __AlarmObject;
+
+                st.AppendLine("[#] Time: " + xitem.SubItems[1].Text + ", Process: " + xitem.SubItems[2].Text
+                    + ", Injection-Type: " + xitem.SubItems[3].Text + ", TCP-Send: " + xitem.SubItems[4].Text +
+                    ", Status: " + xitem.SubItems[5].Text);
+                st.AppendLine("Memory Scanner Results:");
+                st.AppendLine("Pe-sieve: " + xitem.SubItems[6].Text.Replace('\r', ' '));
+                st.AppendLine("Hollows_Hunter: " + xitem.SubItems[7].Text.Replace('\r', ' '));
+                st.AppendLine("Description:");
+                st.AppendLine(xitem.SubItems[8].Text);
+                st.AppendLine("ETW Event Message:");
+                st.AppendLine(xitem.SubItems[9].Text);
+                st.AppendLine(" ");
+
+                st.AppendLine(" ");
+
+
+                if (__AlarmObject.SubItems[5].Text.Contains("Terminated") ||
+                    __AlarmObject.SubItems[5].Text.Contains("Suspended") ||
+                    __AlarmObject.SubItems[5].Text.Contains("Scanned & Found") ||
+                     __AlarmObject.SubItems[7].Text.Contains(">>Detected") ||
+                    Convert.ToInt32(string.Join("", ("0" + __AlarmObject.SubItems[6].Text).Where(char.IsDigit)).ToString()) > 0)
+                {
+                    string simpledescription = "[#] Time: " + xitem.SubItems[1].Text + "\nProcess: " + xitem.SubItems[2].Text + " Detected by ETWPM2Monitor2 (Detection High level)!\n"
+                        + "------------------------------------------------------------\n";
+                    ETW2MON.WriteEntry(simpledescription + st.ToString(), EventLogEntryType.Warning, 2);
+                }
+                else
+                {
+                    string simpledescription = "[#] Time: " + xitem.SubItems[1].Text + "\nProcess: " + xitem.SubItems[2].Text + " Detected by ETWPM2Monitor2 (Detection Medium level)!\n"
+                      + "------------------------------------------------------------\n";
+                    ETW2MON.WriteEntry(simpledescription + st.ToString(), EventLogEntryType.Information, 1);
+                }
             }
-            else
+            catch (Exception)
             {
-                string simpledescription = "[#] Time: " + xitem.SubItems[1].Text + "\nProcess: " + xitem.SubItems[2].Text + " Detected by ETWPM2Monitor2 (Detection Medium level)!\n"
-                  + "------------------------------------------------------------\n";
-                ETW2MON.WriteEntry(simpledescription + st.ToString(), EventLogEntryType.Information, 1);
+
+               
             }
         }
 
@@ -359,14 +374,17 @@ namespace ETWPM2Monitor2
                         if ((MyLviewItemsX1.SubItems[5].Text.Split('\n')[6].Contains("[size:160]")) || (MyLviewItemsX1.SubItems[5].Text.Split('\n')[6].Contains("[size:192]")))
                         {
                             MyLviewItemsX1.BackColor = Color.LightGray;
+                            MyLviewItemsX1.ForeColor = Color.Wheat;
 
                             if (MyLviewItemsX1.SubItems[5].Text.Split('\n')[6].Contains("[dport:4444]"))
                             {
                                 MyLviewItemsX1.BackColor = Color.Gray;
+                                MyLviewItemsX1.ForeColor = Color.Wheat;
+
                             }
-                           
+
                             MyLviewItemsX1.SubItems[5].Text += "\n\n#This Description Added by ETWPM2Monitor2 tool#\n##Warning Description: Packet with [size:160] maybe was for Meterpreter Session which will send every 1 min between Client/Server##\n" +
-                            "##Warning Description: Packet with [size:192] is for meterpreter session which will send before every command excution from server##\n" +
+                            "##Warning Description: Packet with [size:192] is for meterpreter session which will send before every command excution from/to server##\n" +
                             "##Warning Description: DestinationPort [dport:4444] is Default port for Meterpreter session##";
 
                             System_Detection_Log_events2.Invoke((object)MyLviewItemsX1, null);
@@ -374,8 +392,10 @@ namespace ETWPM2Monitor2
                         } else if (MyLviewItemsX1.SubItems[5].Text.Split('\n')[6].Contains("[dport:4444]"))
                         {
                             MyLviewItemsX1.BackColor = Color.LightSlateGray;
+                            MyLviewItemsX1.ForeColor = Color.Wheat;
+
                             MyLviewItemsX1.SubItems[5].Text += "\n\n#This Description Added by ETWPM2Monitor2 tool#\n##Warning Description: Packet with [size:160] maybe was for Meterpreter Session which will send every 1 min between Client/Server##\n" +
-                               "##Warning Description: Packet with [size:192] is for meterpreter session which will send before every command excution from server##\n" +
+                               "##Warning Description: Packet with [size:192] is for meterpreter session which will send before every command excution from/to server##\n" +
                                "##Warning Description: DestinationPort [dport:4444] is Default port for Meterpreter session##";
                             System_Detection_Log_events2.Invoke((object)MyLviewItemsX1, null);
                         }
@@ -687,7 +707,7 @@ namespace ETWPM2Monitor2
 
                     }
                     ETW2MON = new EventLog("ETWPM2Monitor2", ".", "ETWPM2Monitor2.1");
-                    ETW2MON.WriteEntry("ETWPM2Monitor2 v2.1 Started", EventLogEntryType.Information, 1);
+                    ETW2MON.WriteEntry("ETWPM2Monitor2 v2.1 Started", EventLogEntryType.Information, 255);
                 }
                 catch (Exception)
                 {
@@ -827,116 +847,35 @@ namespace ETWPM2Monitor2
 
         private void Form1_System_Detection_Log_events2(object sender, EventArgs e)
         {
-            ListViewItem tmp2 = (ListViewItem)sender;
-            if (tmp2.SubItems[2].Text == "3")
+            try
             {
-                if ((tmp2.SubItems[5].Text.Split('\n')[6].Contains("[size:160]")) || (tmp2.SubItems[5].Text.Split('\n')[6].Contains("[size:192]")))
+
+
+                ListViewItem tmp2 = (ListViewItem)sender;
+                if (tmp2.SubItems[2].Text == "3")
                 {
-
-
-
-
-                    //tmp2.SubItems[5].Text += "\n\n#This Description Added by ETWPM2Monitor2 tool#\n##Warning Description: Packet with [size:160] maybe was for Meterpreter Session which will send every 1 min between Client/Server##\n" +
-                    //"##Warning Description: Packet with [size:192] is for meterpreter session which will send before every command excution from server##\n" +
-                    //"##Warning Description: DestinationPort [dport:4444] is Default port for Meterpreter session##";
-
-                    
-                    iList3 = new ListViewItem();
-                    /// add event message to name value
-                    iList3.Name = tmp2.SubItems[5].Text;
-                    iList3.SubItems.Add(tmp2.SubItems[1].Text);
-                    iList3.SubItems.Add(tmp2.SubItems[3].Text);
-
-                    iList3.SubItems.Add("[!] Suspicious Traffic [Meterpreter!]");
-                    iList3.SubItems.Add("ETW [Tcp] event");
-                    iList3.SubItems.Add("Event Detected!");
-
-
-                    iList3.SubItems.Add("--");
-                    iList3.ImageIndex = 1;
-                    if (tmp2.Name != eventstring_tmp3)
+                    if ((tmp2.SubItems[5].Text.Split('\n')[6].Contains("[size:160]")) || (tmp2.SubItems[5].Text.Split('\n')[6].Contains("[size:192]")))
                     {
-                        bool found = false;
-                        for (int i = 0; i < listView3.Items.Count; i++)
-                        {
-                            if (listView3.Items[i].SubItems[2].Text + listView3.Items[i].SubItems[3].Text == tmp2.SubItems[3].Text + "[!] Suspicious Traffic [Meterpreter!]")
-                            {
-                                found = true;
-                            }
-                        }
-                        if (!found)
-                        {
-                            BeginInvoke(new __Additem(_Additems_toListview3), iList3);
-                            eventstring_tmp3 = tmp2.Name;
-                        }
-                    }
 
-                }
-                else if (tmp2.SubItems[5].Text.Split('\n')[6].Contains("[dport:4444]"))
-                {
-
-                    //tmp2.SubItems[5].Text += "\n\n#This Description Added by ETWPM2Monitor2 tool#\n##Warning Description: Packet with [size:160] maybe was for Meterpreter Session which will send every 1 min between Client/Server##\n" +
-                    //   "##Warning Description: Packet with [size:192] is for meterpreter session which will send before every command excution from server##\n" +
-                    //   "##Warning Description: DestinationPort [dport:4444] is Default port for Meterpreter session##";
-                    iList3 = new ListViewItem();
-                    iList3.Name = tmp2.SubItems[5].Text;
-                    iList3.SubItems.Add(tmp2.SubItems[1].Text);
-                    iList3.SubItems.Add(tmp2.SubItems[3].Text);
-
-                    iList3.SubItems.Add("[!] Suspicious Traffic [Meterpreter!]");
-                    iList3.SubItems.Add("ETW [Tcp] event");
-                    iList3.SubItems.Add("Event Detected!");
-
-
-                    iList3.SubItems.Add("--");
-                    iList3.ImageIndex = 1;
-                    if (tmp2.Name != eventstring_tmp3)
-                    {
-                        bool found = false;
-                        for (int i = 0; i < listView3.Items.Count; i++)
-                        {
-                            if (listView3.Items[i].SubItems[2].Text + listView3.Items[i].SubItems[3].Text == tmp2.SubItems[3].Text + "[!] Suspicious Traffic [Meterpreter!]")
-                            {
-                                found = true;
-                            }
-                        }
-                        if (!found)
-                        {
-                            BeginInvoke(new __Additem(_Additems_toListview3), iList3);
-                            eventstring_tmp3 = tmp2.Name;
-                        }
-                    }
-                }
-            }
-
-            if (tmp2.SubItems[2].Text == "1")
-            {
-                string commandline = tmp2.SubItems[5].Text.Split('\n')[4].ToLower();
-                string parentid = tmp2.SubItems[5].Text.Split('\n')[5].ToLower();
-                string Shell_Pid = tmp2.SubItems[5].Text.Split('\n')[2].Substring(6).Split(' ')[0];
-                if (commandline.Contains("[commandline: c:\\windows\\system32\\cmd.exe") || commandline.Contains("[commandline: cmd"))
-
-                {
-                    if (parentid != "[parentid path: c:\\windows\\explorer.exe]")
-                    {
                         iList3 = new ListViewItem();
+                        /// add event message to name value
                         iList3.Name = tmp2.SubItems[5].Text;
                         iList3.SubItems.Add(tmp2.SubItems[1].Text);
-                        iList3.SubItems.Add(tmp2.SubItems[3].Text+":" + Shell_Pid + " (with " + parentid + ")");
+                        iList3.SubItems.Add(tmp2.SubItems[3].Text);
 
-                        iList3.SubItems.Add("[!] Found Shell");
-                        iList3.SubItems.Add("ETW [New] event");
+                        iList3.SubItems.Add("[!] Suspicious Traffic [Meterpreter!]");
+                        iList3.SubItems.Add("ETW [Tcp] event");
                         iList3.SubItems.Add("Event Detected!");
 
 
                         iList3.SubItems.Add("--");
-                        iList3.ImageIndex = 2;
+                        iList3.ImageIndex = 1;
                         if (tmp2.Name != eventstring_tmp3)
                         {
                             bool found = false;
                             for (int i = 0; i < listView3.Items.Count; i++)
                             {
-                                if ((listView3.Items[i].SubItems[2].Text  + listView3.Items[i].SubItems[3].Text) == (tmp2.SubItems[3].Text + "[!] Found Shell"))
+                                if (listView3.Items[i].SubItems[2].Text + listView3.Items[i].SubItems[3].Text == tmp2.SubItems[3].Text + "[!] Suspicious Traffic [Meterpreter!]")
                                 {
                                     found = true;
                                 }
@@ -945,16 +884,104 @@ namespace ETWPM2Monitor2
                             {
                                 BeginInvoke(new __Additem(_Additems_toListview3), iList3);
                                 eventstring_tmp3 = tmp2.Name;
+                                BeginInvoke(new __core2(_Save_New_DetectionLogs_TCP_Shell_Events_to_WinEventLog), iList3);
+                            }
+                        }
+
+                    }
+                    else if (tmp2.SubItems[5].Text.Split('\n')[6].Contains("[dport:4444]"))
+                    {
+
+                        //tmp2.SubItems[5].Text += "\n\n#This Description Added by ETWPM2Monitor2 tool#\n##Warning Description: Packet with [size:160] maybe was for Meterpreter Session which will send every 1 min between Client/Server##\n" +
+                        //   "##Warning Description: Packet with [size:192] is for meterpreter session which will send before every command excution from/to  server##\n" +
+                        //   "##Warning Description: DestinationPort [dport:4444] is Default port for Meterpreter session##";
+                        iList3 = new ListViewItem();
+                        iList3.Name = tmp2.SubItems[5].Text;
+                        iList3.SubItems.Add(tmp2.SubItems[1].Text);
+                        iList3.SubItems.Add(tmp2.SubItems[3].Text);
+
+                        iList3.SubItems.Add("[!] Suspicious Traffic [Meterpreter!]");
+                        iList3.SubItems.Add("ETW [Tcp] event");
+                        iList3.SubItems.Add("Event Detected!");
+
+
+                        iList3.SubItems.Add("--");
+                        iList3.ImageIndex = 1;
+                        if (tmp2.Name != eventstring_tmp3)
+                        {
+                            bool found = false;
+                            for (int i = 0; i < listView3.Items.Count; i++)
+                            {
+                                if (listView3.Items[i].SubItems[2].Text + listView3.Items[i].SubItems[3].Text == tmp2.SubItems[3].Text + "[!] Suspicious Traffic [Meterpreter!]")
+                                {
+                                    found = true;
+                                }
+                            }
+                            if (!found)
+                            {
+                                BeginInvoke(new __Additem(_Additems_toListview3), iList3);
+                                eventstring_tmp3 = tmp2.Name;
+                                BeginInvoke(new __core2(_Save_New_DetectionLogs_TCP_Shell_Events_to_WinEventLog), iList3);
+
                             }
                         }
                     }
                 }
-                else
+
+                if (tmp2.SubItems[2].Text == "1")
                 {
+                    string commandline = tmp2.SubItems[5].Text.Split('\n')[4].ToLower();
+                    string parentid = tmp2.SubItems[5].Text.Split('\n')[5].ToLower();
+                    string Shell_Pid = tmp2.SubItems[5].Text.Split('\n')[2].Substring(6).Split(' ')[0];
+                    if (commandline.Contains("[commandline: c:\\windows\\system32\\cmd.exe") || commandline.Contains("[commandline: cmd"))
+
+                    {
+                        if (parentid != "[parentid path: c:\\windows\\explorer.exe]")
+                        {
+                            iList3 = new ListViewItem();
+                            iList3.Name = tmp2.SubItems[5].Text;
+                            iList3.SubItems.Add(tmp2.SubItems[1].Text);
+                            iList3.SubItems.Add(tmp2.SubItems[3].Text + ":" + Shell_Pid + " (with " + parentid + ")");
+
+                            iList3.SubItems.Add("[!] Found Shell");
+                            iList3.SubItems.Add("ETW [New] event");
+                            iList3.SubItems.Add("Event Detected!");
+
+
+                            iList3.SubItems.Add("--");
+                            iList3.ImageIndex = 2;
+                            if (tmp2.Name != eventstring_tmp3)
+                            {
+                                bool found = false;
+                                for (int i = 0; i < listView3.Items.Count; i++)
+                                {
+                                    if ((listView3.Items[i].SubItems[2].Text + listView3.Items[i].SubItems[3].Text) == (tmp2.SubItems[3].Text + "[!] Found Shell"))
+                                    {
+                                        found = true;
+                                    }
+                                }
+                                if (!found)
+                                {
+                                    BeginInvoke(new __Additem(_Additems_toListview3), iList3);
+                                    eventstring_tmp3 = tmp2.Name;
+                                    BeginInvoke(new __core2(_Save_New_DetectionLogs_TCP_Shell_Events_to_WinEventLog), iList3);
+
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+
+                    }
+
                     
                 }
+            }
+            catch (Exception)
+            {
 
-                //listView1.Items.Add(tmp2);
+                 
             }
         }
 
@@ -1324,316 +1351,293 @@ namespace ETWPM2Monitor2
        
         private void Form1_NewProcessAddedtolist1(object sender, EventArgs e)
         {
-
-            string PName_PID = sender.ToString().Split('@')[0];
-            string tcpdetails = sender.ToString().Split('@')[1];
-
-            subitemX = "Injection";
-            bool foundinlist = false;
-            string lastshow = "";
-            Int32 PID = Convert.ToInt32(PName_PID.Split(':')[1]);
-
-            string ProcessName = PName_PID.Split(':')[0];
-            string _des_address_port = tcpdetails.Substring(tcpdetails.IndexOf("daddr:") + 6).Split(']')[0] + ":" + tcpdetails.Substring(tcpdetails.IndexOf("dport:") + 6).Split(']')[0];
-
-          
-            string Procesname_path = ProcessName;
-            Int32 Pid = PID;
-            string evt_time = DateTime.Now.ToString();
-            Temp_Table_structure = new _TableofProcess_ETW_Event_Counts();
-            if (_ETW_Events_Counts.Exists(_xPID => _xPID.PID == PID))
+            try
             {
-                Temp_Table_structure.PID = Pid;
-                Temp_Table_structure.lastEventtime = evt_time;
-                Temp_Table_structure.ProcNameANDPath = Procesname_path;
-                Temp_Table_structure._LastTCP_Details = _des_address_port;
-                Temp_Table_structure._RemoteThreadInjection_count = _ETW_Events_Counts[_ETW_Events_Counts.FindIndex(__PID => __PID.PID == Pid)]._RemoteThreadInjection_count;
-                Temp_Table_structure._TCPSend_count = _ETW_Events_Counts[_ETW_Events_Counts.FindIndex(__PID => __PID.PID == Pid)]._TCPSend_count + 1;
-                Temp_Table_structure.CommandLine = _ETW_Events_Counts[_ETW_Events_Counts.FindIndex(__PID => __PID.PID == Pid)].CommandLine;
 
-                _ETW_Events_Counts[_ETW_Events_Counts.FindIndex(__PID => __PID.PID == Pid)] = Temp_Table_structure;
-            }
-            else
-            {
-                Temp_Table_structure.PID = Pid;
-                Temp_Table_structure.lastEventtime = evt_time;
-                Temp_Table_structure.ProcNameANDPath = Procesname_path;
-                Temp_Table_structure._LastTCP_Details = _des_address_port;
-                Temp_Table_structure._RemoteThreadInjection_count = 0;
-                Temp_Table_structure._TCPSend_count = 1;
-                Temp_Table_structure.CommandLine = "";
+                string PName_PID = sender.ToString().Split('@')[0];
+                string tcpdetails = sender.ToString().Split('@')[1];
 
-                _ETW_Events_Counts.Add(Temp_Table_structure);
-            }
+                subitemX = "Injection";
+                bool foundinlist = false;
+                string lastshow = "";
+                Int32 PID = Convert.ToInt32(PName_PID.Split(':')[1]);
 
-            if (Process_Table.Find(x => x.PID == PID && x.ProcessName == ProcessName).TCPDetails == "null")
-            {
-                //List<_TableofProcess> _Table = Process_Table.Distinct().ToList().FindAll(x => x.PID == PID && x.ProcessName == ProcessName);
+                string ProcessName = PName_PID.Split(':')[0];
+                string _des_address_port = tcpdetails.Substring(tcpdetails.IndexOf("daddr:") + 6).Split(']')[0] + ":" + tcpdetails.Substring(tcpdetails.IndexOf("dport:") + 6).Split(']')[0];
 
-                List<_TableofProcess> _Table = Process_Table.FindAll(x => x.PID == PID && x.ProcessName == ProcessName);
 
-                _StopLoopingScan_Exec_01 = false;
-                _StopLoopingScan_Exec_02 = false;
-
-                foreach (_TableofProcess item in _Table)
+                string Procesname_path = ProcessName;
+                Int32 Pid = PID;
+                string evt_time = DateTime.Now.ToString();
+                Temp_Table_structure = new _TableofProcess_ETW_Event_Counts();
+                if (_ETW_Events_Counts.Exists(_xPID => _xPID.PID == PID))
                 {
-                    if (item.ProcessName + ":" + item.PID + item.ProcessName_Path + item.Injector_Path + item.Injector.ToString() != tmplasttcpevent)
+                    Temp_Table_structure.PID = Pid;
+                    Temp_Table_structure.lastEventtime = evt_time;
+                    Temp_Table_structure.ProcNameANDPath = Procesname_path;
+                    Temp_Table_structure._LastTCP_Details = _des_address_port;
+                    Temp_Table_structure._RemoteThreadInjection_count = _ETW_Events_Counts[_ETW_Events_Counts.FindIndex(__PID => __PID.PID == Pid)]._RemoteThreadInjection_count;
+                    Temp_Table_structure._TCPSend_count = _ETW_Events_Counts[_ETW_Events_Counts.FindIndex(__PID => __PID.PID == Pid)]._TCPSend_count + 1;
+                    Temp_Table_structure.CommandLine = _ETW_Events_Counts[_ETW_Events_Counts.FindIndex(__PID => __PID.PID == Pid)].CommandLine;
+
+                    _ETW_Events_Counts[_ETW_Events_Counts.FindIndex(__PID => __PID.PID == Pid)] = Temp_Table_structure;
+                }
+                else
+                {
+                    Temp_Table_structure.PID = Pid;
+                    Temp_Table_structure.lastEventtime = evt_time;
+                    Temp_Table_structure.ProcNameANDPath = Procesname_path;
+                    Temp_Table_structure._LastTCP_Details = _des_address_port;
+                    Temp_Table_structure._RemoteThreadInjection_count = 0;
+                    Temp_Table_structure._TCPSend_count = 1;
+                    Temp_Table_structure.CommandLine = "";
+
+                    _ETW_Events_Counts.Add(Temp_Table_structure);
+                }
+
+                if (Process_Table.Find(x => x.PID == PID && x.ProcessName == ProcessName).TCPDetails == "null")
+                {
+                    //List<_TableofProcess> _Table = Process_Table.Distinct().ToList().FindAll(x => x.PID == PID && x.ProcessName == ProcessName);
+
+                    List<_TableofProcess> _Table = Process_Table.FindAll(x => x.PID == PID && x.ProcessName == ProcessName);
+
+                    _StopLoopingScan_Exec_01 = false;
+                    _StopLoopingScan_Exec_02 = false;
+
+                    foreach (_TableofProcess item in _Table)
                     {
-                        _finalresult_Scanned_02[2] = "--";
-                        iList2 = new ListViewItem();
-
-                        ////Parallel.Invoke(
-                        ////   () =>
-                        ////{
-                        ////    _finalresult_Scanned_01 = executeutilities_01(item.PID.ToString(), item.ProcessName_Path, item.Injector_Path + ":" + item.Injector.ToString());
-
-                        ////}, () =>
-                        ////{
-                        ////    /// thread wait(1000/2000) only for terminate action needed in this code 
-                        ////    /// because before adding to list target process will terminate without adding to list of detection/logs 
-                        ////    //if (HollowHunterLevel == 2)
-                        ////    //{
-                        ////    //    Thread.Sleep(2000);
-                        ////    //}
-
-                        ////    _finalresult_Scanned_02 = executeutilities_02(item.PID.ToString(), item.ProcessName_Path, item.Injector_Path + ":" + item.Injector.ToString());
-
-                        ////});
-
-                        if (!_StopLoopingScan_Exec_01)
+                        if (item.ProcessName + ":" + item.PID + item.ProcessName_Path + item.Injector_Path + item.Injector.ToString() != tmplasttcpevent)
                         {
-                            /// pe-sieve64.exe scanner
-                            _finalresult_Scanned_01 = executeutilities_01(item.PID.ToString(), item.ProcessName_Path, item.Injector_Path + ":" + item.Injector.ToString());
-                        }
+                            _finalresult_Scanned_02[2] = "--";
+                            iList2 = new ListViewItem();
 
-                        Thread.Sleep(100);
-                        //_finalresult_Scanned_02[2] = "-+";
 
-                        if (!_StopLoopingScan_Exec_02)
-                        {
-                            /// hollowshunter.exe scanner
-                            _finalresult_Scanned_02 = executeutilities_02(item.PID.ToString(), item.ProcessName_Path, item.Injector_Path + ":" + item.Injector.ToString());
-                        }
-                     
-                        iList2.Name = item.ProcessName + ":" + item.PID + ">\n" + _finalresult_Scanned_01[1] + _finalresult_Scanned_02[1]
-                            + "\n-------------------\nScanner Result/Status: " + _finalresult_Scanned_02[2];
-                        iList2.SubItems.Add(DateTime.Now.ToString());
-                        iList2.SubItems.Add(item.ProcessName + ":" + item.PID.ToString());
-                        int ResultNumbers_of__finalresult_Scanned_01 = 0;                        
-
-                        if (isPEScanonoff != false)
-                        {
-
-                            try
+                            if (!_StopLoopingScan_Exec_01)
                             {
-
-                                ResultNumbers_of__finalresult_Scanned_01 = Convert.ToInt32(
-                                    string.Join("", ("0" + _finalresult_Scanned_01[0]).ToCharArray().Where(char.IsDigit)).ToString());
-
-                                if (ResultNumbers_of__finalresult_Scanned_01 > 0)
-                                {
-                                    /// break loops for scanning target process again (if detected in first scan)
-                                    _StopLoopingScan_Exec_01 = true;
-
-                                }
-
-                                //foreach (char charitem in _finalresult_Scanned_01[0])
-                                //{
-                                //    if ((int)charitem == 48)
-                                //    {
-                                //        zero++;
-                                //    }
-                                //    if ((int)charitem > 48 && (int)charitem <= 57)
-                                //    {
-                                //        var vv = charitem;
-                                //        num++;
-                                //    }
-
-                                //}
-
-                            }
-                            catch (Exception)
-                            {
-
-
+                                /// pe-sieve64.exe scanner
+                                _finalresult_Scanned_01 = executeutilities_01(item.PID.ToString(), item.ProcessName_Path, item.Injector_Path + ":" + item.Injector.ToString());
                             }
 
+                            Thread.Sleep(100);
+                            //_finalresult_Scanned_02[2] = "-+";
 
-                            if (_finalresult_Scanned_01[0].Contains("Replaced:0"))
+                            if (!_StopLoopingScan_Exec_02)
                             {
-                                // "[Implanted:0\r][][Replaced:0\r]"
-                                iList2.ImageIndex = 1;
-                                if (!_finalresult_Scanned_01[0].Contains("PE:0") && !_finalresult_Scanned_01[0].Contains("shc:0"))
+                                /// hollowshunter.exe scanner
+                                _finalresult_Scanned_02 = executeutilities_02(item.PID.ToString(), item.ProcessName_Path, item.Injector_Path + ":" + item.Injector.ToString());
+                            }
+
+                            iList2.Name = item.ProcessName + ":" + item.PID + ">\n" + _finalresult_Scanned_01[1] + _finalresult_Scanned_02[1]
+                                + "\n-------------------\nScanner Result/Status: " + _finalresult_Scanned_02[2];
+                            iList2.SubItems.Add(DateTime.Now.ToString());
+                            iList2.SubItems.Add(item.ProcessName + ":" + item.PID.ToString());
+                            int ResultNumbers_of__finalresult_Scanned_01 = 0;
+
+                            if (isPEScanonoff != false)
+                            {
+
+                                try
                                 {
-                                   // iList2.ImageIndex = 2;
+
+                                    ResultNumbers_of__finalresult_Scanned_01 = Convert.ToInt32(
+                                        string.Join("", ("0" + _finalresult_Scanned_01[0]).ToCharArray().Where(char.IsDigit)).ToString());
+
+                                    if (ResultNumbers_of__finalresult_Scanned_01 > 0)
+                                    {
+                                        /// break loops for scanning target process again (if detected in first scan)
+                                        _StopLoopingScan_Exec_01 = true;
+
+                                    }
+
+                                }
+                                catch (Exception)
+                                {
 
 
                                 }
-                                else if (!_finalresult_Scanned_01[0].Contains("PE:0") || !_finalresult_Scanned_01[0].Contains("shc:0"))
+
+
+                                if (_finalresult_Scanned_01[0].Contains("Replaced:0"))
                                 {
-                                   // iList2.ImageIndex = 1;
+                                    // "[Implanted:0\r][][Replaced:0\r]"
+                                    iList2.ImageIndex = 1;
+                                    if (!_finalresult_Scanned_01[0].Contains("PE:0") && !_finalresult_Scanned_01[0].Contains("shc:0"))
+                                    {
+                                        // iList2.ImageIndex = 2;
+
+
+                                    }
+                                    else if (!_finalresult_Scanned_01[0].Contains("PE:0") || !_finalresult_Scanned_01[0].Contains("shc:0"))
+                                    {
+                                        // iList2.ImageIndex = 1;
+                                    }
+                                }
+                                if (!(_finalresult_Scanned_01[0].Contains("Replaced:0")))
+                                {
+                                    if (_finalresult_Scanned_01[0] != "[error not found pe-sieve64.exe[not scanned:0]")
+                                    {
+                                        // iList2.ImageIndex = 2;
+                                    }
+                                    else if (_finalresult_Scanned_01[0] == "[error not found pe-sieve64.exe[not scanned:0]")
+                                    {
+                                        subitemX = "Injection";
+                                        // iList2.ImageIndex = 1;
+                                    }
                                 }
                             }
-                            if (!(_finalresult_Scanned_01[0].Contains("Replaced:0")))
+
+
+
+                            if (isHollowHunteronoff)
                             {
-                                if (_finalresult_Scanned_01[0] != "[error not found pe-sieve64.exe[not scanned:0]")
+
+                                if (_finalresult_Scanned_02[0].Contains(">>Detected:"))
                                 {
-                                   // iList2.ImageIndex = 2;
+                                    _StopLoopingScan_Exec_02 = true;
+                                    subitemX = "Injection";
+                                    iList2.ImageIndex = 2;
+                                    if (isPEScanonoff && (!_finalresult_Scanned_01[0].Contains("Replaced:0")) && (!_finalresult_Scanned_01[0].Contains("not scanned:0")))
+                                    {
+                                        subitemX = "Process-Hollowing";
+                                        iList2.ImageIndex = 2;
+                                    }
                                 }
-                                else if (_finalresult_Scanned_01[0] == "[error not found pe-sieve64.exe[not scanned:0]")
+                                else if (!_finalresult_Scanned_02[0].Contains("Detected:"))
                                 {
                                     subitemX = "Injection";
-                                   // iList2.ImageIndex = 1;
-                                }
-                            }
-                        }
-
-                       
-
-                        if (isHollowHunteronoff)
-                        {
-
-                            if (_finalresult_Scanned_02[0].Contains(">>Detected:"))
-                            {
-                                _StopLoopingScan_Exec_02 = true;
-                                subitemX = "Injection";
-                                iList2.ImageIndex = 2;
-                                if (isPEScanonoff && (!_finalresult_Scanned_01[0].Contains("Replaced:0")) && (!_finalresult_Scanned_01[0].Contains("not scanned:0")))
-                                {
-                                    subitemX = "Process-Hollowing";
                                     iList2.ImageIndex = 2;
+
                                 }
-                            }
-                            else if (!_finalresult_Scanned_02[0].Contains("Detected:"))
-                            {
-                                subitemX = "Injection";
-                                iList2.ImageIndex = 2;
+
+                                if (_finalresult_Scanned_02[0].Contains(">>NotDetected:"))
+                                {
+                                    subitemX = "Injection";
+                                    iList2.ImageIndex = 1;
+                                }
 
                             }
 
-                            if (_finalresult_Scanned_02[0].Contains(">>NotDetected:"))
+                            if (isHollowHunteronoff == false && isPEScanonoff == false)
                             {
                                 subitemX = "Injection";
                                 iList2.ImageIndex = 1;
                             }
 
-                        }
-
-                        if (isHollowHunteronoff == false && isPEScanonoff == false)
-                        {
-                            subitemX = "Injection";
-                            iList2.ImageIndex = 1;
-                        }
-
-                        if (!_finalresult_Scanned_01[0].Contains("Replaced:0") && (!_finalresult_Scanned_01[0].Contains("not scanned:0")))
-                        {
-                            if (isPEScanonoff)
+                            if (!_finalresult_Scanned_01[0].Contains("Replaced:0") && (!_finalresult_Scanned_01[0].Contains("not scanned:0")))
                             {
-
-                                subitemX = "Process-Hollowing";
-                                iList2.ImageIndex = 2;
-
-                            }
-                        }
-
-                        if (_finalresult_Scanned_02[0].Contains("not scanned:0"))
-                        {
-                            subitemX = "Injection";
-                            iList2.ImageIndex = 1;
-                        }
-
-                        /// ico detection base on memory scanners result
-                        if (ResultNumbers_of__finalresult_Scanned_01 > 0)
-                        {
-                            iList2.ImageIndex = 2;
-                        }
-                        else
-                        {
-                            iList2.ImageIndex = 1;
-                            if (_finalresult_Scanned_02[0].Contains(">>Detected:"))
-                            {
-                                
-                                iList2.ImageIndex = 2;
-
-                            }
-                        }
-
-                        /// injection type
-                        iList2.SubItems.Add(subitemX);
-                        /// tcp send info
-                        iList2.SubItems.Add(_des_address_port);
-                        /// status for suspend/terminate by hollowshunter
-                        iList2.SubItems.Add(_finalresult_Scanned_02[2]);
-                        /// detection info by pe-sieve64
-                        iList2.SubItems.Add(_finalresult_Scanned_01[0]);
-                        /// detection info by hollowshunter
-                        iList2.SubItems.Add(_finalresult_Scanned_02[0]);
-
-
-                        /// injection description && / || [bug]
-                        _TableofProcess_NewProcess_evt FindingInjectorInfo = NewProcess_Table.Find(x => x.PID == item.Injector || x.ProcessName_Path == item.Injector_Path);
-
-                        iList2.SubItems.Add(item.ProcessName_Path + " Injected by => " + item.Injector_Path + " (PID:" + item.Injector.ToString() + ") \nInjector Details:\nInjector-ProcessName: "
-                            + FindingInjectorInfo.ProcessName + "\nInjector-Path: " + FindingInjectorInfo.ProcessName_Path +
-                            "\nInjector-CommandLine: " + FindingInjectorInfo.CommandLine);
-
-                        /// ETW Event message for injection which is decription value 
-                        _TableofProcess RelatedEvt_Description = Process_Table.Find(x => x.PID == PID && x.ProcessName == ProcessName
-                        && x.Description.Contains(":" + item.Injector.ToString() + "[Injected by "));
-                        iList2.SubItems.Add(RelatedEvt_Description.Description);
-
-                        foreach (string ShowItems in showitemsHash)
-                        {
-
-                            if (ShowItems == item.ProcessName + ":" + item.PID.ToString() + _des_address_port + _finalresult_Scanned_01[0] +
-                           item.ProcessName_Path + " Injected by => " + item.Injector_Path + " (PID:" + item.Injector.ToString() + ") " + HollowHunterLevel.ToString())
-                            {
-                                if (_finalresult_Scanned_01[0] != "[not scanned:0]")
+                                if (isPEScanonoff)
                                 {
-                                    foundinlist = true;
-                                    break;
+
+                                    subitemX = "Process-Hollowing";
+                                    iList2.ImageIndex = 2;
+
                                 }
                             }
-                        }
-                        if (!foundinlist)
-                        {
-                            if (Init_to_runPEScanner_01 || Init_to_runPEScanner_02)
+
+                            if (_finalresult_Scanned_02[0].Contains("not scanned:0"))
                             {
-                                BeginInvoke(new __Additem(_Additems_toListview2), iList2);
-
-                                System_Detection_Log_events.Invoke((object)iList2, null);
-
+                                subitemX = "Injection";
+                                iList2.ImageIndex = 1;
                             }
-                            bool found_obj = false;
-                            foreach (string Objitem in showitemsHash)
+
+                            /// ico detection base on memory scanners result
+                            if (ResultNumbers_of__finalresult_Scanned_01 > 0)
                             {
-                                if (Objitem == item.ProcessName + ":" + item.PID.ToString() + _des_address_port + _finalresult_Scanned_01[0] +
-                           item.ProcessName_Path + " Injected by => " + item.Injector_Path + " (PID:" + item.Injector.ToString() + ") " + HollowHunterLevel.ToString())
+                                iList2.ImageIndex = 2;
+                            }
+                            else
+                            {
+                                iList2.ImageIndex = 1;
+                                if (_finalresult_Scanned_02[0].Contains(">>Detected:"))
                                 {
-                                    found_obj = true;
+
+                                    iList2.ImageIndex = 2;
+
                                 }
                             }
-                            if (!found_obj)
+
+                            /// injection type
+                            iList2.SubItems.Add(subitemX);
+                            /// tcp send info
+                            iList2.SubItems.Add(_des_address_port);
+                            /// status for suspend/terminate by hollowshunter
+                            iList2.SubItems.Add(_finalresult_Scanned_02[2]);
+                            /// detection info by pe-sieve64
+                            iList2.SubItems.Add(_finalresult_Scanned_01[0]);
+                            /// detection info by hollowshunter
+                            iList2.SubItems.Add(_finalresult_Scanned_02[0]);
+
+
+                            /// injection description && / || [bug]
+                            _TableofProcess_NewProcess_evt FindingInjectorInfo = NewProcess_Table.Find(x => x.PID == item.Injector || x.ProcessName_Path == item.Injector_Path);
+
+                            iList2.SubItems.Add(item.ProcessName_Path + " Injected by => " + item.Injector_Path + " (PID:" + item.Injector.ToString() + ") \nInjector Details:\nInjector-ProcessName: "
+                                + FindingInjectorInfo.ProcessName + "\nInjector-Path: " + FindingInjectorInfo.ProcessName_Path +
+                                "\nInjector-CommandLine: " + FindingInjectorInfo.CommandLine);
+
+                            /// ETW Event message for injection which is decription value 
+                            _TableofProcess RelatedEvt_Description = Process_Table.Find(x => x.PID == PID && x.ProcessName == ProcessName
+                            && x.Description.Contains(":" + item.Injector.ToString() + "[Injected by "));
+                            iList2.SubItems.Add(RelatedEvt_Description.Description);
+
+                            foreach (string ShowItems in showitemsHash)
                             {
-                                showitemsHash.Add(item.ProcessName + ":" + item.PID.ToString() + _des_address_port + _finalresult_Scanned_01[0] +
-                               item.ProcessName_Path + " Injected by => " + item.Injector_Path + " (PID:" + item.Injector.ToString() + ") " + HollowHunterLevel.ToString());
+
+                                if (ShowItems == item.ProcessName + ":" + item.PID.ToString() + _des_address_port + _finalresult_Scanned_01[0] +
+                               item.ProcessName_Path + " Injected by => " + item.Injector_Path + " (PID:" + item.Injector.ToString() + ") " + HollowHunterLevel.ToString())
+                                {
+                                    if (_finalresult_Scanned_01[0] != "[not scanned:0]")
+                                    {
+                                        foundinlist = true;
+                                        break;
+                                    }
+                                }
+                            }
+                            if (!foundinlist)
+                            {
+                                if (Init_to_runPEScanner_01 || Init_to_runPEScanner_02)
+                                {
+                                    BeginInvoke(new __Additem(_Additems_toListview2), iList2);
+
+                                    System_Detection_Log_events.Invoke((object)iList2, null);
+
+                                }
+                                bool found_obj = false;
+                                foreach (string Objitem in showitemsHash)
+                                {
+                                    if (Objitem == item.ProcessName + ":" + item.PID.ToString() + _des_address_port + _finalresult_Scanned_01[0] +
+                               item.ProcessName_Path + " Injected by => " + item.Injector_Path + " (PID:" + item.Injector.ToString() + ") " + HollowHunterLevel.ToString())
+                                    {
+                                        found_obj = true;
+                                    }
+                                }
+                                if (!found_obj)
+                                {
+                                    showitemsHash.Add(item.ProcessName + ":" + item.PID.ToString() + _des_address_port + _finalresult_Scanned_01[0] +
+                                   item.ProcessName_Path + " Injected by => " + item.Injector_Path + " (PID:" + item.Injector.ToString() + ") " + HollowHunterLevel.ToString());
+                                }
+
+                                Thread.Sleep(10);
+
+                                /// bug here 5 feb
+                                // tabPage4.Text = "Alarms by ETW " + "(" + listView2.Items.Count.ToString() + ")";
+
+                                Thread.Sleep(10);
                             }
 
-                            Thread.Sleep(10);
+                            tmplasttcpevent = item.ProcessName + ":" + item.PID + item.ProcessName_Path + item.Injector_Path + item.Injector.ToString();
 
-                            /// bug here 5 feb
-                             // tabPage4.Text = "Alarms by ETW " + "(" + listView2.Items.Count.ToString() + ")";
+                            lastshow = item.ProcessName + ":" + item.PID.ToString() + _des_address_port + _finalresult_Scanned_01[0] +
+                                item.ProcessName_Path + " Injected by => " + item.Injector_Path + " (PID:" + item.Injector.ToString() + ") ";
 
-                            Thread.Sleep(10);
                         }
-
-                        tmplasttcpevent = item.ProcessName + ":" + item.PID + item.ProcessName_Path + item.Injector_Path + item.Injector.ToString();
-
-                        lastshow = item.ProcessName + ":" + item.PID.ToString() + _des_address_port + _finalresult_Scanned_01[0] +
-                            item.ProcessName_Path + " Injected by => " + item.Injector_Path + " (PID:" + item.Injector.ToString() + ") ";
-
                     }
                 }
+            }
+            catch (Exception)
+            {
+
+                
             }
         }
 
@@ -2666,7 +2670,7 @@ namespace ETWPM2Monitor2
 
         private void AboutToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(null, "ETWPM2Monitor v2 [test version 2.1.11.35]\nCode Published by Damon Mohammadbagher , Jul 2021", "About ETWPM2Monitor v2", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show(null, "ETWPM2Monitor v2 [test version 2.1.15.53]\nCode Published by Damon Mohammadbagher , Jul 2021", "About ETWPM2Monitor v2", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
         }
 
@@ -2942,177 +2946,96 @@ namespace ETWPM2Monitor2
 
             try
             {
-                int temp_get_InjectorPID_from_eventmessage = 0;
-                string temp_get_InjectorPN_from_description = "";
 
-                try
-                {
+                Invoke(new Action(() =>
+                 {
+                     int temp_get_InjectorPID_from_eventmessage = 0;
+                     string temp_get_InjectorPN_from_description = "";
 
+                     try
+                     {
 
-                    richTextBox2.Text = listView2.SelectedItems[0].Name;
-                    richTextBox4.Text = listView2.SelectedItems[0].SubItems[9].Text;
-                    richTextBox5.Text = listView2.SelectedItems[0].SubItems[8].Text;
-                    temp_get_InjectorPID_from_eventmessage = Convert.ToInt32(listView2.SelectedItems[0].SubItems[9].Text.Split('\n')[12].Split('>')[1]);
-                }
-                catch (Exception)
-                {
+                         richTextBox2.Text = listView2.SelectedItems[0].Name;
+                         richTextBox4.Text = listView2.SelectedItems[0].SubItems[9].Text;
+                         richTextBox5.Text = listView2.SelectedItems[0].SubItems[8].Text;
+                         temp_get_InjectorPID_from_eventmessage = Convert.ToInt32(listView2.SelectedItems[0].SubItems[9].Text.Split('\n')[12].Split('>')[1]);
+                     }
+                     catch (Exception)
+                     {
 
-                }
-
-                
-                try
-                {
-                    temp_get_InjectorPN_from_description = listView2.SelectedItems[0].SubItems[8].Text
-                 .Split('>')[1].Split('[')[1].Split(']')[0].Split(':')[0].Substring(1);
-                }
-                catch (Exception)
-                {
-
-                    temp_get_InjectorPN_from_description = listView2.SelectedItems[0].SubItems[8].Text
-                   .Split('>')[1].Substring(listView2.SelectedItems[0].SubItems[8].Text
-                   .Split('>')[1].IndexOf("Injector-CommandLine:")).Substring(21);
-                    if(temp_get_InjectorPN_from_description==" ")
-                    {
-                        temp_get_InjectorPN_from_description = "";
-                    }
-                    
-                }
-              
-
-                richTextBox3.Text = "";
-
-                string PIDName = listView2.SelectedItems[0].Name.Split('>')[0].Split(':')[0];
-                string PID = listView2.SelectedItems[0].Name.Split('>')[0].Split(':')[1];     
-                
-                BeginInvoke(new __core2(_MemoryScanner_Pesieve_ShowObjects), (object)PID);
-
-                richTextBox3.Text += "TargetProcess [" + PIDName + ":" + PID + "] Injection History with Debug info:\n";
-                richTextBox3.Text += "\n-------------------------------------------------------\n";
-                int counter = 0;
-                richTextBox3.Text += "Target Process & Injector Details:\n";
-                string last_tid = "";
-                foreach (_InjectedThreadDetails_bytes item in _InjectedTIDList.FindAll(y => y._TargetPID == Convert.ToInt32(PID) && y._InjectorPID == temp_get_InjectorPID_from_eventmessage))
-                {
-                    try
-                    {
-
-                        if (!temptids.Exists(___t => ___t == item._RemoteThreadID))
-                        {
-                            temptids.Add(item._RemoteThreadID);
-                        }
-                        Thread.Sleep(1);
-                        if (item._RemoteThreadID.ToString() != last_tid)
-                        {
-                            counter++;
-                            richTextBox3.Text += "[" + counter.ToString() + "] " + "Remote Thread Injection Detected!" + "\n";
-                            richTextBox3.Text += "[" + counter.ToString() + "] " + "Injection by InjectorPID:" + item._InjectorPID.ToString() + "===>==TID:" +
-                           item._RemoteThreadID.ToString() + "==>==Injected into====>" + PIDName + ":" + PID
-
-                           + "\nInjector More Details:"
-                           + "\nInjector CommandLine:" + NewProcess_Table.Find(_w => (_w.PID == item._InjectorPID && _w.CommandLine.Contains(temp_get_InjectorPN_from_description))).CommandLine.Substring(13)
-                           + "\nInjector Path:" + NewProcess_Table.Find(_w => _w.PID == item._InjectorPID).ProcessName_Path
-                           + "\nInjector PPID:" + NewProcess_Table.Find(_w => _w.PID == item._InjectorPID).PPID_Path
-                           + "\nTarget Process More Details:"
-                           + "\nTarget Process Path:" + NewProcess_Table.Find(_w => _w.ProcessName.Substring(1) == item._TargetPIDName && _w.PID == item._TargetPID).ProcessName_Path
-                           + "\n"
-                           + "Injected Bytes: \n" + item.Injected_Memory_Bytes_Hex + "\n";
-                            last_tid = item._RemoteThreadID.ToString();
-                        }
-                        
-
-                    }
-                    catch (Exception)
-                    {
-
-                    }
-                }
-
-                temptids.Clear();
-                 
-                //try
-                //{
-                //    if (pe_sieve_DumpSwitches == 0)
-                //    {
-
-                //        richTextBox7.Text = "";
-                //        string module = "";
-                //        Int32 module_size = 0;
-                //        string filename = "";
-
-                //        string dump = "";
-                //        foreach (string item in File.ReadAllLines(@".\process_" + PID + @"\" + @"dump_report.json"))
-                //        {
-                //            if (item.Contains("\"module\" :") || item.Contains("\"module_size\" :") || item.Contains("\"dump_file\" :")
-                //                || item.Contains("\"dump_mode\" :") || item.Contains("\"is_shellcode\" :"))
-                //            {
-                //                if (item.Contains("\"module\" :"))
-                //                {
-                //                    module = item.Split(':')[1];
-                //                    module = module.Replace("\"", "");
-                //                    module = module.Replace(" ", "");
-                //                    module = module.Replace(",", "");
-
-                //                }
-                //                if (item.Contains("module_size"))
-                //                {
-                //                    module_size = Convert.ToInt32(string.Join("", (item).ToCharArray().Where(char.IsDigit)).ToString());
-
-                //                }
-                //                if (item.Contains("dump_file"))
-                //                {
-                //                    filename = item.Split(':')[1].Substring(2);
-                //                    filename = filename.Replace("\",", "");
-
-                //                }
-
-                //                richTextBox7.Text += item + "\n";
-
-                //                if (item.Contains("is_shellcode"))
-                //                {
-                //                    try
-                //                    {
-
-                //                        if (module + ".dll" == filename)
-                //                        {
-                //                            buf = new byte[200];
-                //                            buf = File.ReadAllBytes(@".\process_" + PID + @"\" + module + ".dll");
-                //                            dump = Memoryinfo.HexDump2(buf) + "\n--------------------------------------------------------------------------------------------------------------------------\n";
-                //                            if (dump != null)
-                //                            {
-                //                                richTextBox7.Text += dump;
-                //                            }
-                //                        }
-                //                        else if (module + ".shc" == filename)
-                //                        {
-                //                            buf = new byte[200];
-                //                            buf = File.ReadAllBytes(@".\process_" + PID + @"\" + module + ".shc");
-                //                            dump = Memoryinfo.HexDump2(buf) + "\n--------------------------------------------------------------------------------------------------------------------------\n";
-                //                            if (dump != null)
-                //                            {
-                //                                richTextBox7.Text += dump;
-                //                            }
-                //                        }
-                //                    }
-                //                    catch (Exception)
-                //                    {
+                     }
 
 
-                //                    }
-                //                }
+                     try
+                     {
+                         temp_get_InjectorPN_from_description = listView2.SelectedItems[0].SubItems[8].Text
+                      .Split('>')[1].Split('[')[1].Split(']')[0].Split(':')[0].Substring(1);
+                     }
+                     catch (Exception)
+                     {
 
-                //            }
+                         temp_get_InjectorPN_from_description = listView2.SelectedItems[0].SubItems[8].Text
+                        .Split('>')[1].Substring(listView2.SelectedItems[0].SubItems[8].Text
+                        .Split('>')[1].IndexOf("Injector-CommandLine:")).Substring(21);
+                         if (temp_get_InjectorPN_from_description == " ")
+                         {
+                             temp_get_InjectorPN_from_description = "";
+                         }
 
-                //        }
-
-                //    }
-
-                //}
-                //catch (Exception rr)
-                //{
+                     }
 
 
-                //}
+                     richTextBox3.Text = "";
 
+                     string PIDName = listView2.SelectedItems[0].Name.Split('>')[0].Split(':')[0];
+                     string PID = listView2.SelectedItems[0].Name.Split('>')[0].Split(':')[1];
+
+                     BeginInvoke(new __core2(_MemoryScanner_Pesieve_ShowObjects), (object)PID);
+
+                     richTextBox3.Text += "TargetProcess [" + PIDName + ":" + PID + "] Injection History with Debug info:\n";
+                     richTextBox3.Text += "\n-------------------------------------------------------\n";
+                     int counter = 0;
+                     richTextBox3.Text += "Target Process & Injector Details:\n";
+                     string last_tid = "";
+                     foreach (_InjectedThreadDetails_bytes item in _InjectedTIDList.FindAll(y => y._TargetPID == Convert.ToInt32(PID) && y._InjectorPID == temp_get_InjectorPID_from_eventmessage))
+                     {
+                         try
+                         {
+
+                             if (!temptids.Exists(___t => ___t == item._RemoteThreadID))
+                             {
+                                 temptids.Add(item._RemoteThreadID);
+                             }
+                             Thread.Sleep(1);
+                             if (item._RemoteThreadID.ToString() != last_tid)
+                             {
+                                 counter++;
+                                 richTextBox3.Text += "[" + counter.ToString() + "] " + "Remote Thread Injection Detected!" + "\n";
+                                 richTextBox3.Text += "[" + counter.ToString() + "] " + "Injection by InjectorPID:" + item._InjectorPID.ToString() + "===>==TID:" +
+                                item._RemoteThreadID.ToString() + "==>==Injected into====>" + PIDName + ":" + PID
+
+                                + "\nInjector More Details:"
+                                + "\nInjector CommandLine:" + NewProcess_Table.Find(_w => (_w.PID == item._InjectorPID && _w.CommandLine.Contains(temp_get_InjectorPN_from_description))).CommandLine.Substring(13)
+                                + "\nInjector Path:" + NewProcess_Table.Find(_w => _w.PID == item._InjectorPID).ProcessName_Path
+                                + "\nInjector PPID:" + NewProcess_Table.Find(_w => _w.PID == item._InjectorPID).PPID_Path
+                                + "\nTarget Process More Details:"
+                                + "\nTarget Process Path:" + NewProcess_Table.Find(_w => _w.ProcessName.Substring(1) == item._TargetPIDName && _w.PID == item._TargetPID).ProcessName_Path
+                                + "\n"
+                                + "Injected Bytes: \n" + item.Injected_Memory_Bytes_Hex + "\n";
+                                 last_tid = item._RemoteThreadID.ToString();
+                             }
+
+
+                         }
+                         catch (Exception)
+                         {
+
+                         }
+                     }
+
+                     temptids.Clear();
+                 }));
+               
             }
             catch (Exception)
             {
@@ -3295,8 +3218,8 @@ namespace ETWPM2Monitor2
         public void _Additems_str_toRichtextbox1(object str)
         {
             try
-            {              
-                    richTextBox1.Text += str.ToString();                
+            {
+                richTextBox1.Text += str.ToString();
             }
             catch (Exception)
             {
