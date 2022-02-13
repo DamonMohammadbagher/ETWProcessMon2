@@ -50,10 +50,16 @@ Usage Steps
 ### ETWPM2Monitor2 v2.1 (Memory Scanners Logs added to code, now you can see what happened in background when something Detected or not by [Memory Scanners & events])
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2/Pics/v21_11.35_scannerlogs.png)
 
-### ETWPM2Monitor2 v2.1 (all Alarms Now will save in windows Eventlog "ETWPM2Monitor2")
+### ETWPM2Monitor2 v2.1 (all Alarms & System/Detection logs Now will save in windows Eventlog "ETWPM2Monitor2")
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2/Pics/EVT.png)
-   
-#### note: this simple important code added to source code ;) [11 feb 2022]
+      
+#### note: this simple important code added/updated to source code ;) [13 feb 2022] , 
+    
+    windows Eventlog "ETWPM2Monitor2": EventIDs 1,2,3,4,255 Added...
+    [Event ID 1 Detected + Scanned but not found] , 
+    [Event ID 2 Detected + Scanned & Found or Suspended or Terminated via ETW Injection Events] ,
+    [Event ID 3 Detection for Meterpreter Traffic only via ETW Tcp Events] , 
+    [Event ID 4 Detection for Shell Activity via ETW New Process Events] ...
 
 ### ETWPM2Monitor2 v2.1 (Memory Scanner Dump files details/hex file added to source code for better report result)
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2/Pics/reportresult.png)
