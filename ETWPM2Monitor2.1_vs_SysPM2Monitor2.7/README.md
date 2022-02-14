@@ -12,5 +12,15 @@ i am working on these projects [ETWPM2Monitor2.1 , SysPM2Monitor2.7] and i will 
 in Pic1 you can see steps for use ETWProcessMon2.exe (v2.1) + ETWPM2Monitor2 (v2.1), first you need to collect ETW Events then you can Detect some Process Injection attacks by ETWPM2Monitor2...
 
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2.1_vs_SysPM2Monitor2.7/Pictures/1.png)
+   
+Step1: ETW Event will collect to Windows Event Log name "ETWPM2" by ETWProcessMon2 (v2.1) and these ETW events are :
+         
+         [Information] Event ID 1  => NewProcess event 
+         [Warning]     Event ID 2  => Remote-Thread-Injection Detection event 
+         [Information] Event ID 3  => TCPIP Send event & TCPIP Connect event (added in v2.1)
+Step2: all ETW events will Monitor by ETWPM2Monitor2 (v2.1) real-time for Detection also this tool will use Memory scanner for Scanning Target Process which detected by ETW Events etc.
+
+Step3; after run code for [Dll-hollowing attack] you can see payload injected to Amsi.dll for Target process in this case mspaint and shell executed very well also this injection detected by ETW & ETWPM2Monitor2 (v2.1) and Not detected by Memory Scanner Hollows_Hunter but this code Detected in memory by Pe-sieve which in the next pic2 you can see which was detected by Memory scaner Pe-sieve.
+
 
 
