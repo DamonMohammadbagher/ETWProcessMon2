@@ -117,6 +117,9 @@ Video link2: https://share.vidyard.com/watch/PjBybo5BNHbfCXazoLmN6f
     
     step1: [win, Run As Admin] ETWProcessMon2.exe > Save_all_outputs.txt
     step2: [win] ETWPM2Monitor.exe 
+    
+### ETWPM2Monitor2 v2.1 [v2.1.15.53] (last update of code & All Detection Now Will Save to Windows Event Log [ETWPM2Monitor2])
+   ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2/Pics/EVT.png)
 
 ### ETWPM2Monitor2 v2.1 [v2.1.11.35] (Detecting Cmd.exe for shell via [EventID 1] & Meterpreter Traffic Packets via [EventID 3])
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2/Pics/tcp.png)
