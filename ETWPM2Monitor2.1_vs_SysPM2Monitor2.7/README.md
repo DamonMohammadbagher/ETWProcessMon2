@@ -65,5 +65,8 @@ as you can see this Attack Not Detected by Sysmon Events (in my tests) but this 
 
   ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2.1_vs_SysPM2Monitor2.7/Pictures/3-1.png)
     Picture6:
+    
+    ------------------------------------------------------------------------
+    
 
-
+<p><a href="https://hits.seeyoufarm.com"><img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https://github.com/DamonMohammadbagher/ETWProcessMon2/ETWPM2Monitor2.1_vs_SysPM2Monitor2.7/"/></a></p>
