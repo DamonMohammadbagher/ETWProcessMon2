@@ -61,7 +61,7 @@ as you can see this Attack Detected by ETW very well also detected by Memory Sca
 
 #### Test2-2: SysPM2Monitor2.7 against Thread Hijacking Attack.
 
-as you can see this Attack Not Detected by Sysmon Events (in my tests) but this Attack Detected by my ETW Memory Scanner VirtualMemAllocMon v1.1 which is one of the Memory Scanners used in this tool, this tool [virtualMemAllocMon.exe] works, this tool will scann memory of process based on ETW VirtualMemAlloc Events and worked very fast/good.
+as you can see this Attack Not Detected by Sysmon Events (in my tests) but this Attack Detected by my ETW Memory Scanner VirtualMemAllocMon v1.1 which is one of the Memory Scanners used in this tool, this tool [virtualMemAllocMon.exe] works & this tool will scan memory of processes based on ETW VirtualMemAlloc Events and worked very fast/good.
 
   ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2.1_vs_SysPM2Monitor2.7/Pictures/3-1.png)
     Picture6:
