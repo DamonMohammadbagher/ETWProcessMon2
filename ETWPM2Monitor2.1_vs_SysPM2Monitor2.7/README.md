@@ -45,7 +45,7 @@ in the next pic4 you can see this Attack against Sysmon & SysPM2Monitor2.7 tool 
 
 aslo you can see Memory scanner Detected this again.
 
-   ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2.1_vs_SysPM2Monitor2.7/Pictures/2-0.png)
+   ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2.1_vs_SysPM2Monitor2.7/Pictures/2.png)
     Picture5:
    
 
