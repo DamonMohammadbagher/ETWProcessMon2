@@ -6,6 +6,7 @@ which you called noisy exactly are things you should focous on them and you will
 
 i am working on these projects [ETWPM2Monitor2.1 , SysPM2Monitor2.7] and i will share some result of these codes against some Process Injection Attacks here with examples:  
 
+--------------------------------------------------------------------
 ### Test1: ETWPM2Monitor2.1 vs SysPM2Monitor2.7 & Dll Hollowing Attack.
 
 #### Test1-1: ETWPM2Monitor2.1 against Dll Hollowing Attack.
@@ -47,8 +48,22 @@ aslo you can see Memory scanner Detected this again.
 
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2.1_vs_SysPM2Monitor2.7/Pictures/2.png)
     Picture5:
-   
+    
+--------------------------------------------------------------------------------------
+### Test2: ETWPM2Monitor2.1 vs SysPM2Monitor2.7 & Thread Hijacking Attack.
 
+#### Test2-1: ETWPM2Monitor2.1 against Thread Hijacking Attack.
 
+as you can see this Attack Detected by ETW very well also detected by Memory Scanner too. 
+
+  ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2.1_vs_SysPM2Monitor2.7/Pictures/3.png)
+    Picture6:
+
+#### Test2-2: SysPM2Monitor2.7 against Thread Hijacking Attack.
+
+as you can see this Attack Not Detected by Sysmon Events (in my tests) but this Attack Detected by my ETW Memory Scanner VirtualMemAllocMon v1.1 which is one of the Memory Scanners used in this tool, this tool [virtualMemAllocMon.exe] works, this tool will scann memory of process based on ETW VirtualMemAlloc Events and worked very fast/good.
+
+  ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2.1_vs_SysPM2Monitor2.7/Pictures/3-1.png)
+    Picture6:
 
 
