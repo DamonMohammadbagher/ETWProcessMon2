@@ -57,6 +57,9 @@ Video : https://www.youtube.com/watch?v=Q8fSpUXR2kw
  -------------------------  
 ### SysPM2Monitor2.7 & RemoteThreadInjection Detection via Sysmon Events
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/SysPM2Monitor2.7/Pic/v2.7-3.png)
+-------------------------      
+### SysPM2Monitor2.7 & System/Detection Logs + SysPM2Monitor2.7 Console (monitoring detection logs)
+   ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/SysPM2Monitor2.7/Pic/console.png)
 
 -------------------------   
 
