@@ -26,7 +26,7 @@ Step1: ETW Event will collect to Windows Event Log name "ETWPM2" by ETWProcessMo
          
 Step2: all ETW events will Monitor by ETWPM2Monitor2 (v2.1) real-time for Detection also this tool will use Memory scanner for Scanning Target Process which detected by ETW Events etc.
 
-Step3; after run code for [Dll-hollowing attack] you can see payload injected to Amsi.dll for Target process in this case mspaint and shell executed very well also this injection detected by ETW & ETWPM2Monitor2 (v2.1) and Not detected by Memory Scanner Hollows_Hunter but this code Detected in memory by Pe-sieve which in the next pic2 you can see which was detected by Memory scaner Pe-sieve.
+Step3; after run code for [Dll-hollowing attack] you can see payload injected to Amsi.dll for Target process in this case mspaint and shell executed very well also this injection detected by ETW & ETWPM2Monitor2 (v2.1) and Not detected by Memory Scanner Hollows_Hunter but this code Detected in memory by Pe-sieve which in the next pic2 you can see which was detected by Memory scaner Pe-sieve.(i will fix this bug in my codes soon)
 
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2.1_vs_SysPM2Monitor2.7/Pictures/1-1.png)
     Picture2:
