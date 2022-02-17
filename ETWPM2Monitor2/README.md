@@ -67,6 +67,11 @@ Usage Steps
    
 #### note: this simple tab for Memory Scanner Report added to source code ;)  [10 feb 2022]
 
+### ETWPM2Monitor2 v2.1 (Network Connections Tab & Meterpreter Traffic Packets via [EventID 3])
+   ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2/Pics/NetworkConnections.png)
+   
+#### note: this Network Connections Tab, will add to the source code ;)  [17 feb 2022]
+
 ### ETWPM2Monitor2 v2.1 (Detecting Cmd.exe with Parent_Process_Path/ID, when cmd process has ParentPID which is not normal)
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2/Pics/v21-cmd.png)
 
