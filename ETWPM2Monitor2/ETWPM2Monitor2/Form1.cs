@@ -867,9 +867,10 @@ namespace ETWPM2Monitor2
 
                 /// event for add all tcp events to Network Tab
                 NewTCP_Connection_Detected += Form1_NewTCP_Connection_Detected;
-
-                ChangeColorstoDefault += Form1_ChangeColorstoDefault
-                    ;
+		
+		/// event for change colors of listview4 Network_Connections Tab
+                ChangeColorstoDefault += Form1_ChangeColorstoDefault;
+                
                 groupBox1.Text = "New Processes events: " + Chart_NewProcess;
                 groupBox2.Text = "Injection events: " + chart_Inj;
                 groupBox3.Text = "TCP Send events: " + Chart_Tcp;
