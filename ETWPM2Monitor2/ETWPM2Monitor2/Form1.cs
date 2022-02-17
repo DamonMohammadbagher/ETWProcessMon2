@@ -218,6 +218,8 @@ namespace ETWPM2Monitor2
         /// event for add tcp events to Network Tab 
         public event EventHandler NewTCP_Connection_Detected;
 
+        /// event  
+        public event EventHandler ChangeColorstoDefault;
         public struct _TableofProcess_ETW_Event_Counts
         {
             private string LastTCP_Details;
@@ -866,6 +868,8 @@ namespace ETWPM2Monitor2
                 /// event for add all tcp events to Network Tab
                 NewTCP_Connection_Detected += Form1_NewTCP_Connection_Detected;
 
+                ChangeColorstoDefault += Form1_ChangeColorstoDefault
+                    ;
                 groupBox1.Text = "New Processes events: " + Chart_NewProcess;
                 groupBox2.Text = "Injection events: " + chart_Inj;
                 groupBox3.Text = "TCP Send events: " + Chart_Tcp;
@@ -886,11 +890,62 @@ namespace ETWPM2Monitor2
             }
         }
 
+        private void Form1_ChangeColorstoDefault(object sender, EventArgs e)
+        {
+            try
+            {
+                System.Threading.Thread.Sleep(25);
+                /// for sure check all index ;)
+                for (int ii = 0; ii < listView4.Items.Count; ii++)
+                {
+                   
+                    listView4.Items[ii].BackColor = Color.White;
+ 
+                }
+                listView4.Refresh();
+               
+            }
+            catch (Exception)
+            {
+
+                
+            }
+           
+        }
+
         private void Form1_NewTCP_Connection_Detected(object sender, EventArgs e)
         {
             BeginInvoke(new __Additem(Refresh_NetworkConection_in_Network_Tab), sender);
         }
 
+        public async Task _changedProperty_Color_changed_delay(object itemid)
+        {
+            try
+            {
+
+                await new TaskFactory().StartNew(() =>
+                {
+                    listView4.Items[(int)itemid].BackColor = Color.Red;
+                    listView4.Items[(int)itemid].SubItems[0].Text = "*";
+                    listView4.Refresh();
+                    ChangeColorstoDefault.Invoke((object)itemid, null);
+                    System.Threading.Thread.Sleep(5);
+                    listView4.BackColor = Color.White;
+                    listView4.Refresh();
+                });
+            }
+            catch (Exception)
+            {
+
+
+            }
+        }
+
+        public async void _Run_ChangeColor_for_listview4(object _item)
+        {
+            await _changedProperty_Color_changed_delay(_item);
+        }
+        
         public void Refresh_NetworkConection_in_Network_Tab(object obj)
         {
             try
@@ -904,7 +959,7 @@ namespace ETWPM2Monitor2
                 string dip_port = __obj.SubItems[5].Text.Split('\n')[6].Split(']')[3].Split(':')[1];
                 NetworkTCP.Name = __obj.SubItems[3].Text + sip + sip_port + dip + dip_port;
                 iList4 = new ListViewItem();
-               
+
                 if (listView4.Items.Count > 0)
                 {
                     for (int i = 0; i < listView4.Items.Count; i++)
@@ -912,7 +967,7 @@ namespace ETWPM2Monitor2
                         if (listView4.Items[i].Name != __obj.SubItems[3].Text + sip + sip_port + dip + dip_port)
                         {
                             NetworkConection_found = false;
-                            
+
                         }
                         else if (listView4.Items[i].Name == __obj.SubItems[3].Text + sip + sip_port + dip + dip_port)
                         {
@@ -921,8 +976,10 @@ namespace ETWPM2Monitor2
                             NetworkConection_TCP_counts = Convert.ToInt64(listView4.Items[i].SubItems[7].Text);
                             NetworkConection_TCP_counts++;
                             listView4.Items[i].SubItems[7].Text = NetworkConection_TCP_counts.ToString();
-                            listView4.Refresh();
+                            listView4.Refresh();                            
+                            BeginInvoke(new __Additem(_Run_ChangeColor_for_listview4), i);
                             NetworkConection_found = true;
+                          
                             break;
                         }
                     }
@@ -937,7 +994,9 @@ namespace ETWPM2Monitor2
                         iList4.SubItems.Add("0");
                         iList4.SubItems.Add("1");
                         iList4.Name = __obj.SubItems[3].Text + sip + sip_port + dip + dip_port;
-                        listView4.Items.Add(iList4);
+                        int _i = listView4.Items.Add(iList4).Index;                        
+                        BeginInvoke(new __Additem(_Run_ChangeColor_for_listview4), _i);
+                        
                     }
                 }
                 else if (listView4.Items.Count <= 0)
@@ -950,7 +1009,8 @@ namespace ETWPM2Monitor2
                     iList4.SubItems.Add("0");
                     iList4.SubItems.Add("1");
                     iList4.Name = __obj.SubItems[3].Text + sip + sip_port + dip + dip_port;
-                    listView4.Items.Add(iList4);
+                    int _i = listView4.Items.Add(iList4).Index;                    
+                    BeginInvoke(new __Additem(_Run_ChangeColor_for_listview4), _i);
                     
                 }
             }

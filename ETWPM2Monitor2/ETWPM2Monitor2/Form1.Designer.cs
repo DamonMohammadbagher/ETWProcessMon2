@@ -79,6 +79,8 @@
             this.progressBar6 = new System.Windows.Forms.ProgressBar();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.tabPage9 = new System.Windows.Forms.TabPage();
+            this.listView4 = new System.Windows.Forms.ListView();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.splitContainer4 = new System.Windows.Forms.SplitContainer();
             this.listView3 = new System.Windows.Forms.ListView();
@@ -160,8 +162,6 @@
             this.toolStripStatusLabel4 = new System.Windows.Forms.ToolStripStatusLabel();
             this.contextMenuStrip4 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.dumpTIDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.tabPage9 = new System.Windows.Forms.TabPage();
-            this.listView4 = new System.Windows.Forms.ListView();
             this.contextMenuStrip5.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -198,6 +198,7 @@
             this.groupBox2.SuspendLayout();
             this.groupBox6.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            this.tabPage9.SuspendLayout();
             this.tabPage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).BeginInit();
             this.splitContainer4.Panel1.SuspendLayout();
@@ -207,7 +208,6 @@
             this.menuStrip3.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.contextMenuStrip4.SuspendLayout();
-            this.tabPage9.SuspendLayout();
             this.SuspendLayout();
             // 
             // richTextBox1
@@ -744,6 +744,30 @@
             this.progressBar1.Name = "progressBar1";
             this.progressBar1.Size = new System.Drawing.Size(272, 10);
             this.progressBar1.TabIndex = 5;
+            // 
+            // tabPage9
+            // 
+            this.tabPage9.Controls.Add(this.listView4);
+            this.tabPage9.Location = new System.Drawing.Point(4, 22);
+            this.tabPage9.Name = "tabPage9";
+            this.tabPage9.Size = new System.Drawing.Size(1077, 199);
+            this.tabPage9.TabIndex = 3;
+            this.tabPage9.Text = "Network Connections";
+            this.tabPage9.UseVisualStyleBackColor = true;
+            // 
+            // listView4
+            // 
+            this.listView4.AllowColumnReorder = true;
+            this.listView4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listView4.FullRowSelect = true;
+            this.listView4.HideSelection = false;
+            this.listView4.Location = new System.Drawing.Point(0, 0);
+            this.listView4.MultiSelect = false;
+            this.listView4.Name = "listView4";
+            this.listView4.Size = new System.Drawing.Size(1077, 199);
+            this.listView4.Sorting = System.Windows.Forms.SortOrder.Ascending;
+            this.listView4.TabIndex = 0;
+            this.listView4.UseCompatibleStateImageBehavior = false;
             // 
             // tabPage3
             // 
@@ -1404,26 +1428,6 @@
             this.dumpTIDToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
             this.dumpTIDToolStripMenuItem.Text = "Injected TID Memory info";
             // 
-            // tabPage9
-            // 
-            this.tabPage9.Controls.Add(this.listView4);
-            this.tabPage9.Location = new System.Drawing.Point(4, 22);
-            this.tabPage9.Name = "tabPage9";
-            this.tabPage9.Size = new System.Drawing.Size(1077, 199);
-            this.tabPage9.TabIndex = 3;
-            this.tabPage9.Text = "Network Connections";
-            this.tabPage9.UseVisualStyleBackColor = true;
-            // 
-            // listView4
-            // 
-            this.listView4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listView4.HideSelection = false;
-            this.listView4.Location = new System.Drawing.Point(0, 0);
-            this.listView4.Name = "listView4";
-            this.listView4.Size = new System.Drawing.Size(1077, 199);
-            this.listView4.TabIndex = 0;
-            this.listView4.UseCompatibleStateImageBehavior = false;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1472,6 +1476,7 @@
             this.groupBox2.ResumeLayout(false);
             this.groupBox6.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
+            this.tabPage9.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
             this.splitContainer4.Panel1.ResumeLayout(false);
             this.splitContainer4.Panel2.ResumeLayout(false);
@@ -1483,7 +1488,6 @@
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.contextMenuStrip4.ResumeLayout(false);
-            this.tabPage9.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
