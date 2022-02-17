@@ -37,6 +37,7 @@ namespace ETWPM2Monitor2
         public ListViewItem iList = new ListViewItem();
         public ListViewItem iList2 = new ListViewItem();
         public ListViewItem iList3 = new ListViewItem();
+        public ListViewItem iList4 = new ListViewItem();
         public static EventLogWatcher EvtWatcher = null;
         public string tempMessage, tempMessage2, EventMessage = "";
         public static byte[] buf = new byte[90];
@@ -214,6 +215,9 @@ namespace ETWPM2Monitor2
         /// event for add tcp/new events which was for Shell or Meterpreter Session detection events to System_Detection_logs Tab
         public event EventHandler System_Detection_Log_events2;
 
+        /// event for add tcp events to Network Tab 
+        public event EventHandler NewTCP_Connection_Detected;
+
         public struct _TableofProcess_ETW_Event_Counts
         {
             private string LastTCP_Details;
@@ -241,6 +245,9 @@ namespace ETWPM2Monitor2
         public static bool ScannerMixedMode_Hollowh = false;
         public static bool ScannerEvery10minMode_Hollowh = false;
         public static string eventstring_tmp3 = "";
+        public static bool NetworkConection_found = false;
+        public static Int64 NetworkConection_TCP_counts = 0;
+
         public static int _percent(int count, int total)
         {
             if (total != 0)
@@ -634,6 +641,14 @@ namespace ETWPM2Monitor2
             InitializeComponent();
         }
 
+        public static string Delta_Time(DateTime currenttime_for_packet , DateTime lasttime_for_packet)
+        {
+            DateTime date1 = lasttime_for_packet;
+            DateTime date2 = currenttime_for_packet;
+            TimeSpan _ts = date2 - date1;
+            return _ts.TotalMinutes.ToString();
+        }
+
         public void StartQueries_Mon(string queries)
         {
             ThreadStart Core2 = new ThreadStart(delegate { BeginInvoke(new __core2(_Core2), queries); });
@@ -691,7 +706,6 @@ namespace ETWPM2Monitor2
                 /// very important  
                 Form.CheckForIllegalCrossThreadCalls = false;
 
-                //GC.TryStartNoGCRegion(250000);
 
                 ThreadStart Core = new ThreadStart(delegate { BeginInvoke(new __Obj_Updater_to_WinForm(_Core)); });
                 Thread _T1_Core1 = new Thread(Core);
@@ -806,6 +820,30 @@ namespace ETWPM2Monitor2
                 listView3.Columns.Add("Actions Scanned:Suspended:Terminated", 220, HorizontalAlignment.Left);
                 listView3.Columns.Add("Memory Scanner", 200, HorizontalAlignment.Left);
 
+
+                listView4.SmallImageList = imageList1;
+                /// Set the view to show details.
+                listView4.View = View.Details;
+                /// Allow the user to edit item text.
+                listView4.LabelEdit = false;
+                /// Allow the user to rearrange columns.
+                listView4.AllowColumnReorder = true;
+                /// Display check boxes.
+                listView4.CheckBoxes = false;
+                /// Select the item and subitems when selection is made.
+                listView4.FullRowSelect = true;
+                /// Display grid lines.
+                listView4.GridLines = false;
+                listView4.Sorting = SortOrder.Ascending;
+                listView4.Columns.Add(" ", 20, HorizontalAlignment.Left);
+                listView4.Columns.Add("Time", 130, HorizontalAlignment.Left);
+                listView4.Columns.Add("Process", 180, HorizontalAlignment.Left);
+                listView4.Columns.Add("Status", 88, HorizontalAlignment.Left);
+                listView4.Columns.Add("Source IP:Port", 120, HorizontalAlignment.Left);
+                listView4.Columns.Add("Destination IP:Port", 120, HorizontalAlignment.Left);
+                listView4.Columns.Add("Delta Time (Minutes)", 120, HorizontalAlignment.Left);
+                listView4.Columns.Add("Event Count", 110, HorizontalAlignment.Left);
+
                 /// event for add Process to Alarm-Tab by ETW & Scanning Target Process by Memory Scanners
                 /// event is ready ...
                 NewProcessAddedtolist += Form1_NewProcessAddedtolist1;
@@ -824,6 +862,9 @@ namespace ETWPM2Monitor2
 
                 /// event for add all detection events to System_Detection_logs Tab
                 System_Detection_Log_events2 += Form1_System_Detection_Log_events2;
+
+                /// event for add all tcp events to Network Tab
+                NewTCP_Connection_Detected += Form1_NewTCP_Connection_Detected;
 
                 groupBox1.Text = "New Processes events: " + Chart_NewProcess;
                 groupBox2.Text = "Injection events: " + chart_Inj;
@@ -845,13 +886,87 @@ namespace ETWPM2Monitor2
             }
         }
 
+        private void Form1_NewTCP_Connection_Detected(object sender, EventArgs e)
+        {
+            BeginInvoke(new __Additem(Refresh_NetworkConection_in_Network_Tab), sender);
+        }
+
+        public void Refresh_NetworkConection_in_Network_Tab(object obj)
+        {
+            try
+            {
+
+                ListViewItem NetworkTCP = (ListViewItem)obj;
+                ListViewItem __obj = (ListViewItem)obj;
+                string sip = __obj.SubItems[5].Text.Split('\n')[6].Split(']')[2].Split(':')[1];
+                string sip_port = __obj.SubItems[5].Text.Split('\n')[6].Split(']')[4].Split(':')[1];
+                string dip = __obj.SubItems[5].Text.Split('\n')[6].Split(']')[1].Split(':')[1];
+                string dip_port = __obj.SubItems[5].Text.Split('\n')[6].Split(']')[3].Split(':')[1];
+                NetworkTCP.Name = __obj.SubItems[3].Text + sip + sip_port + dip + dip_port;
+                iList4 = new ListViewItem();
+               
+                if (listView4.Items.Count > 0)
+                {
+                    for (int i = 0; i < listView4.Items.Count; i++)
+                    {
+                        if (listView4.Items[i].Name != __obj.SubItems[3].Text + sip + sip_port + dip + dip_port)
+                        {
+                            NetworkConection_found = false;
+                            
+                        }
+                        else if (listView4.Items[i].Name == __obj.SubItems[3].Text + sip + sip_port + dip + dip_port)
+                        {
+                            listView4.Items[i].SubItems[6].Text = Delta_Time(Convert.ToDateTime(__obj.SubItems[1].Text), Convert.ToDateTime(listView4.Items[i].SubItems[1].Text));
+                            listView4.Items[i].SubItems[1].Text = NetworkTCP.SubItems[1].Text;
+                            NetworkConection_TCP_counts = Convert.ToInt64(listView4.Items[i].SubItems[7].Text);
+                            NetworkConection_TCP_counts++;
+                            listView4.Items[i].SubItems[7].Text = NetworkConection_TCP_counts.ToString();
+                            listView4.Refresh();
+                            NetworkConection_found = true;
+                            break;
+                        }
+                    }
+
+                    if (!NetworkConection_found)
+                    {
+                        iList4.SubItems.Add(NetworkTCP.SubItems[1].Text);
+                        iList4.SubItems.Add(NetworkTCP.SubItems[3].Text);
+                        iList4.SubItems.Add("Connected");
+                        iList4.SubItems.Add(sip + ":" + sip_port);
+                        iList4.SubItems.Add(dip + ":" + dip_port);
+                        iList4.SubItems.Add("0");
+                        iList4.SubItems.Add("1");
+                        iList4.Name = __obj.SubItems[3].Text + sip + sip_port + dip + dip_port;
+                        listView4.Items.Add(iList4);
+                    }
+                }
+                else if (listView4.Items.Count <= 0)
+                {
+                    iList4.SubItems.Add(NetworkTCP.SubItems[1].Text);
+                    iList4.SubItems.Add(NetworkTCP.SubItems[3].Text);
+                    iList4.SubItems.Add("Connected");
+                    iList4.SubItems.Add(sip + ":" + sip_port);
+                    iList4.SubItems.Add(dip + ":" + dip_port);
+                    iList4.SubItems.Add("0");
+                    iList4.SubItems.Add("1");
+                    iList4.Name = __obj.SubItems[3].Text + sip + sip_port + dip + dip_port;
+                    listView4.Items.Add(iList4);
+                    
+                }
+            }
+            catch (Exception err)
+            {
+ 
+            }
+        }
+
         private void Form1_System_Detection_Log_events2(object sender, EventArgs e)
         {
             try
             {
 
-
                 ListViewItem tmp2 = (ListViewItem)sender;
+
                 if (tmp2.SubItems[2].Text == "3")
                 {
                     if ((tmp2.SubItems[5].Text.Split('\n')[6].Contains("[size:160]")) || (tmp2.SubItems[5].Text.Split('\n')[6].Contains("[size:192]")))
@@ -2224,6 +2339,10 @@ namespace ETWPM2Monitor2
                         Thread.Sleep(10);
 
                         NewEventFrom_EventLogsCome.Invoke((object)LviewItemsX, null);
+
+                        /// add to Network Connection Tab
+                        NewTCP_Connection_Detected.Invoke((object)LviewItemsX,null);
+
                     }
                 }
 
@@ -3035,7 +3154,7 @@ namespace ETWPM2Monitor2
 
                      temptids.Clear();
                  }));
-               
+
             }
             catch (Exception)
             {
@@ -3054,7 +3173,7 @@ namespace ETWPM2Monitor2
                 
                 richTextBox7.Text = "";
                 string module = "";
-                Int32 module_size = 0;
+                string module_size = "";
                 string filename = "";
 
                 string dump = "";
@@ -3076,7 +3195,10 @@ namespace ETWPM2Monitor2
                             }
                             if (item.Contains("module_size"))
                             {
-                                module_size = Convert.ToInt32(string.Join("", (item).ToCharArray().Where(char.IsDigit)).ToString());
+                                module_size = item.Split(':')[1];
+                                module_size = module_size.Replace("\"", "");
+                                module_size = module_size.Replace(" ", "");
+                                module_size = module_size.Replace(",", "");
 
                             }
                             if (item.Contains("dump_file"))
