@@ -31,6 +31,7 @@ namespace ETWPM2Monitor2
         public static System.Timers.Timer t2 = new System.Timers.Timer(5000);
         public static System.Timers.Timer t3 = new System.Timers.Timer(5000);
         public static System.Timers.Timer t4 = new System.Timers.Timer(15000);
+        public static System.Timers.Timer t4_1 = new System.Timers.Timer(1500);
         public static uint NTReadTmpRef = 0;
         public static EventLog ETW2MON;
         public static EventLogQuery ETWPM2Query;
@@ -205,6 +206,7 @@ namespace ETWPM2Monitor2
         public static string subitemX = "";
         public static string[] temp_str = null;
         public static string tmpitemListview2 = "";
+
         /// <summary>
         /// event for refresh/update events in listView1 for (real-time events)
         /// </summary>
@@ -212,14 +214,16 @@ namespace ETWPM2Monitor2
 
         /// event for add all detection events to System_Detection_logs Tab
         public event EventHandler System_Detection_Log_events;
+
         /// event for add tcp/new events which was for Shell or Meterpreter Session detection events to System_Detection_logs Tab
         public event EventHandler System_Detection_Log_events2;
 
         /// event for add tcp events to Network Tab 
         public event EventHandler NewTCP_Connection_Detected;
 
-        /// event  
+        /// event for change Listview4 colors
         public event EventHandler ChangeColorstoDefault;
+
         public struct _TableofProcess_ETW_Event_Counts
         {
             private string LastTCP_Details;
@@ -383,12 +387,12 @@ namespace ETWPM2Monitor2
                         if ((MyLviewItemsX1.SubItems[5].Text.Split('\n')[6].Contains("[size:160]")) || (MyLviewItemsX1.SubItems[5].Text.Split('\n')[6].Contains("[size:192]")))
                         {
                             MyLviewItemsX1.BackColor = Color.LightGray;
-                            MyLviewItemsX1.ForeColor = Color.Wheat;
+                            MyLviewItemsX1.ForeColor = Color.White;
 
                             if (MyLviewItemsX1.SubItems[5].Text.Split('\n')[6].Contains("[dport:4444]"))
                             {
                                 MyLviewItemsX1.BackColor = Color.Gray;
-                                MyLviewItemsX1.ForeColor = Color.Wheat;
+                                MyLviewItemsX1.ForeColor = Color.White;
 
                             }
 
@@ -401,7 +405,7 @@ namespace ETWPM2Monitor2
                         } else if (MyLviewItemsX1.SubItems[5].Text.Split('\n')[6].Contains("[dport:4444]"))
                         {
                             MyLviewItemsX1.BackColor = Color.LightSlateGray;
-                            MyLviewItemsX1.ForeColor = Color.Wheat;
+                            MyLviewItemsX1.ForeColor = Color.White;
 
                             MyLviewItemsX1.SubItems[5].Text += "\n\n#This Description Added by ETWPM2Monitor2 tool#\n##Warning Description: Packet with [size:160] maybe was for Meterpreter Session which will send every 1 min between Client/Server##\n" +
                                "##Warning Description: Packet with [size:192] is for meterpreter session which will send before every command excution from/to server##\n" +
@@ -759,12 +763,20 @@ namespace ETWPM2Monitor2
                 t.Enabled = true;
                 t2.Elapsed += T2_Elapsed;
                 t2.Enabled = true;
-                //t3.Elapsed += T3_Elapsed;
-                //t3.Enabled = true;
-                //t3.Start();
                 t4.Elapsed += T4_Elapsed;
                 t4.Enabled = true;
                 t4.Start();
+                t4_1.Elapsed += T4_1_Elapsed;
+                t4_1.Enabled = true;
+                t4_1.Start();
+               
+
+
+                //t3.Elapsed += T3_Elapsed;
+                //t3.Enabled = true;
+                //t3.Start();
+
+
                 listView1.Columns.Add(" ", 20, HorizontalAlignment.Left);
                 listView1.Columns.Add("Time", 130, HorizontalAlignment.Left);
                 listView1.Columns.Add("EventID", 55, HorizontalAlignment.Left);
@@ -840,11 +852,13 @@ namespace ETWPM2Monitor2
                 listView4.Columns.Add(" ", 20, HorizontalAlignment.Left);
                 listView4.Columns.Add("Time", 130, HorizontalAlignment.Left);
                 listView4.Columns.Add("Process", 180, HorizontalAlignment.Left);
-                listView4.Columns.Add("Status", 88, HorizontalAlignment.Left);
+                listView4.Columns.Add("Status", 70, HorizontalAlignment.Left);
                 listView4.Columns.Add("Source IP:Port", 120, HorizontalAlignment.Left);
                 listView4.Columns.Add("Destination IP:Port", 120, HorizontalAlignment.Left);
                 listView4.Columns.Add("Delta Time (Minutes)", 120, HorizontalAlignment.Left);
-                listView4.Columns.Add("Event Count", 110, HorizontalAlignment.Left);
+                listView4.Columns.Add("Event Count", 77, HorizontalAlignment.Left);
+                listView4.Columns.Add("Event TTL (Minutes)", 110, HorizontalAlignment.Left);
+                listView4.Columns.Add("Event First Time", 130, HorizontalAlignment.Left);
 
                 /// event for add Process to Alarm-Tab by ETW & Scanning Target Process by Memory Scanners
                 /// event is ready ...
@@ -867,10 +881,11 @@ namespace ETWPM2Monitor2
 
                 /// event for add all tcp events to Network Tab
                 NewTCP_Connection_Detected += Form1_NewTCP_Connection_Detected;
-		
-		/// event for change colors of listview4 Network_Connections Tab
+
+                /// event fo change colors for listview4
                 ChangeColorstoDefault += Form1_ChangeColorstoDefault;
-                
+
+
                 groupBox1.Text = "New Processes events: " + Chart_NewProcess;
                 groupBox2.Text = "Injection events: " + chart_Inj;
                 groupBox3.Text = "TCP Send events: " + Chart_Tcp;
@@ -891,7 +906,7 @@ namespace ETWPM2Monitor2
             }
         }
 
-        private void Form1_ChangeColorstoDefault(object sender, EventArgs e)
+        private void T4_1_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
             try
             {
@@ -899,18 +914,25 @@ namespace ETWPM2Monitor2
                 /// for sure check all index ;)
                 for (int ii = 0; ii < listView4.Items.Count; ii++)
                 {
-                   
+
                     listView4.Items[ii].BackColor = Color.White;
- 
+
                 }
                 listView4.Refresh();
-               
+
             }
             catch (Exception)
             {
 
-                
+
             }
+            t4_1.Enabled = false;
+        }
+
+        private void Form1_ChangeColorstoDefault(object sender, EventArgs e)
+        {
+            /// time to change/refresh listview4 colors (1500) delay
+            t4_1.Enabled = true;
            
         }
 
@@ -918,8 +940,8 @@ namespace ETWPM2Monitor2
         {
             BeginInvoke(new __Additem(Refresh_NetworkConection_in_Network_Tab), sender);
         }
-
-        public async Task _changedProperty_Color_changed_delay(object itemid)
+  
+        public async Task _ChangedProperty_Color_changed_delay(object itemid)
         {
             try
             {
@@ -944,7 +966,7 @@ namespace ETWPM2Monitor2
 
         public async void _Run_ChangeColor_for_listview4(object _item)
         {
-            await _changedProperty_Color_changed_delay(_item);
+            await _ChangedProperty_Color_changed_delay(_item);
         }
         
         public void Refresh_NetworkConection_in_Network_Tab(object obj)
@@ -977,6 +999,8 @@ namespace ETWPM2Monitor2
                             NetworkConection_TCP_counts = Convert.ToInt64(listView4.Items[i].SubItems[7].Text);
                             NetworkConection_TCP_counts++;
                             listView4.Items[i].SubItems[7].Text = NetworkConection_TCP_counts.ToString();
+                            TimeSpan _ttl = Convert.ToDateTime(NetworkTCP.SubItems[1].Text) - Convert.ToDateTime(listView4.Items[i].SubItems[9].Text);
+                            listView4.Items[i].SubItems[8].Text = _ttl.Minutes.ToString();
                             listView4.Refresh();                            
                             BeginInvoke(new __Additem(_Run_ChangeColor_for_listview4), i);
                             NetworkConection_found = true;
@@ -994,6 +1018,10 @@ namespace ETWPM2Monitor2
                         iList4.SubItems.Add(dip + ":" + dip_port);
                         iList4.SubItems.Add("0");
                         iList4.SubItems.Add("1");
+                        /// event ttl
+                        iList4.SubItems.Add("0");
+                        /// event first time
+                        iList4.SubItems.Add(NetworkTCP.SubItems[1].Text);
                         iList4.Name = __obj.SubItems[3].Text + sip + sip_port + dip + dip_port;
                         int _i = listView4.Items.Add(iList4).Index;                        
                         BeginInvoke(new __Additem(_Run_ChangeColor_for_listview4), _i);
@@ -1009,6 +1037,10 @@ namespace ETWPM2Monitor2
                     iList4.SubItems.Add(dip + ":" + dip_port);
                     iList4.SubItems.Add("0");
                     iList4.SubItems.Add("1");
+                    /// event ttl
+                    iList4.SubItems.Add("0");
+                    /// event first time
+                    iList4.SubItems.Add(NetworkTCP.SubItems[1].Text);
                     iList4.Name = __obj.SubItems[3].Text + sip + sip_port + dip + dip_port;
                     int _i = listView4.Items.Add(iList4).Index;                    
                     BeginInvoke(new __Additem(_Run_ChangeColor_for_listview4), _i);
