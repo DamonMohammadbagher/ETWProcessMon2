@@ -1000,7 +1000,7 @@ namespace ETWPM2Monitor2
                             NetworkConection_TCP_counts++;
                             listView4.Items[i].SubItems[7].Text = NetworkConection_TCP_counts.ToString();
                             TimeSpan _ttl = Convert.ToDateTime(NetworkTCP.SubItems[1].Text) - Convert.ToDateTime(listView4.Items[i].SubItems[9].Text);
-                            listView4.Items[i].SubItems[8].Text = _ttl.Minutes.ToString();
+                            listView4.Items[i].SubItems[8].Text = "D: " +_ttl.Days.ToString() + ",H: " + _ttl.Hours.ToString() + ",M: " + _ttl.Minutes.ToString();
                             listView4.Refresh();                            
                             BeginInvoke(new __Additem(_Run_ChangeColor_for_listview4), i);
                             NetworkConection_found = true;
