@@ -162,6 +162,10 @@
             this.toolStripStatusLabel4 = new System.Windows.Forms.ToolStripStatusLabel();
             this.contextMenuStrip4 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.dumpTIDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.scanOnlyModeDefaultToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.scanKillSuspiciousRunAsAdminToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
             this.contextMenuStrip5.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -937,14 +941,14 @@
             // startMonitorToolStripMenuItem
             // 
             this.startMonitorToolStripMenuItem.Name = "startMonitorToolStripMenuItem";
-            this.startMonitorToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+            this.startMonitorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.startMonitorToolStripMenuItem.Text = "Start Monitor";
             this.startMonitorToolStripMenuItem.Click += new System.EventHandler(this.StartMonitorToolStripMenuItem_Click);
             // 
             // stoptMonitorToolStripMenuItem
             // 
             this.stoptMonitorToolStripMenuItem.Name = "stoptMonitorToolStripMenuItem";
-            this.stoptMonitorToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+            this.stoptMonitorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.stoptMonitorToolStripMenuItem.Text = "Stop Monitor";
             this.stoptMonitorToolStripMenuItem.Click += new System.EventHandler(this.StoptMonitorToolStripMenuItem_Click);
             // 
@@ -954,7 +958,7 @@
             this.onToolStripMenuItem,
             this.offToolStripMenuItem});
             this.autoScrollToolStripMenuItem.Name = "autoScrollToolStripMenuItem";
-            this.autoScrollToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+            this.autoScrollToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.autoScrollToolStripMenuItem.Text = "Auto Scroll";
             // 
             // onToolStripMenuItem
@@ -974,14 +978,14 @@
             // clearAllToolStripMenuItem
             // 
             this.clearAllToolStripMenuItem.Name = "clearAllToolStripMenuItem";
-            this.clearAllToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+            this.clearAllToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.clearAllToolStripMenuItem.Text = "Clear All";
             this.clearAllToolStripMenuItem.Click += new System.EventHandler(this.ClearAllToolStripMenuItem_Click);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(141, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(177, 6);
             // 
             // scannersToolStripMenuItem
             // 
@@ -993,7 +997,7 @@
             this.toolStripSeparator2,
             this.scanningConfigurationToolStripMenuItem});
             this.scannersToolStripMenuItem.Name = "scannersToolStripMenuItem";
-            this.scannersToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+            this.scannersToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.scannersToolStripMenuItem.Text = "Scanners";
             // 
             // pesieve64exeOffToolStripMenuItem
@@ -1007,6 +1011,9 @@
             // pesieve64exeonToolStripMenuItem
             // 
             this.pesieve64exeonToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.scanOnlyModeDefaultToolStripMenuItem,
+            this.scanKillSuspiciousRunAsAdminToolStripMenuItem,
+            this.toolStripSeparator7,
             this.defaultDumpAllToolStripMenuItem,
             this.dontDumpTheModifiedPEsButSaveTheReportoffToolStripMenuItem,
             this.dontDumpAnyFilesToolStripMenuItem1});
@@ -1041,6 +1048,7 @@
             this.scanOnlyModeToolStripMenuItem,
             this.scanSuspendToolStripMenuItem,
             this.scanKillSuspiciousToolStripMenuItem,
+            this.toolStripSeparator8,
             this.dontDumpPEOfilterToolStripMenuItem,
             this.dontDumpAnyFilesToolStripMenuItem,
             this.dumpAllProcessToolStripMenuItem});
@@ -1050,6 +1058,8 @@
             // 
             // scanOnlyModeToolStripMenuItem
             // 
+            this.scanOnlyModeToolStripMenuItem.Checked = true;
+            this.scanOnlyModeToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.scanOnlyModeToolStripMenuItem.Name = "scanOnlyModeToolStripMenuItem";
             this.scanOnlyModeToolStripMenuItem.Size = new System.Drawing.Size(360, 22);
             this.scanOnlyModeToolStripMenuItem.Text = "Scan only mode (Default)";
@@ -1412,8 +1422,8 @@
             // toolStripStatusLabel4
             // 
             this.toolStripStatusLabel4.Name = "toolStripStatusLabel4";
-            this.toolStripStatusLabel4.Size = new System.Drawing.Size(118, 17);
-            this.toolStripStatusLabel4.Text = "| hollowshunter is off";
+            this.toolStripStatusLabel4.Size = new System.Drawing.Size(117, 17);
+            this.toolStripStatusLabel4.Text = "| hollowshunter is on";
             // 
             // contextMenuStrip4
             // 
@@ -1427,6 +1437,32 @@
             this.dumpTIDToolStripMenuItem.Name = "dumpTIDToolStripMenuItem";
             this.dumpTIDToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
             this.dumpTIDToolStripMenuItem.Text = "Injected TID Memory info";
+            // 
+            // scanOnlyModeDefaultToolStripMenuItem
+            // 
+            this.scanOnlyModeDefaultToolStripMenuItem.Checked = true;
+            this.scanOnlyModeDefaultToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.scanOnlyModeDefaultToolStripMenuItem.Name = "scanOnlyModeDefaultToolStripMenuItem";
+            this.scanOnlyModeDefaultToolStripMenuItem.Size = new System.Drawing.Size(360, 22);
+            this.scanOnlyModeDefaultToolStripMenuItem.Text = "Scan only mode (Default)";
+            this.scanOnlyModeDefaultToolStripMenuItem.Click += new System.EventHandler(this.ScanOnlyModeDefaultToolStripMenuItem_Click);
+            // 
+            // scanKillSuspiciousRunAsAdminToolStripMenuItem
+            // 
+            this.scanKillSuspiciousRunAsAdminToolStripMenuItem.Name = "scanKillSuspiciousRunAsAdminToolStripMenuItem";
+            this.scanKillSuspiciousRunAsAdminToolStripMenuItem.Size = new System.Drawing.Size(360, 22);
+            this.scanKillSuspiciousRunAsAdminToolStripMenuItem.Text = "Scan + Kill Suspicious (Run as Admin)";
+            this.scanKillSuspiciousRunAsAdminToolStripMenuItem.Click += new System.EventHandler(this.ScanKillSuspiciousRunAsAdminToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator7
+            // 
+            this.toolStripSeparator7.Name = "toolStripSeparator7";
+            this.toolStripSeparator7.Size = new System.Drawing.Size(357, 6);
+            // 
+            // toolStripSeparator8
+            // 
+            this.toolStripSeparator8.Name = "toolStripSeparator8";
+            this.toolStripSeparator8.Size = new System.Drawing.Size(357, 6);
             // 
             // Form1
             // 
@@ -1626,6 +1662,10 @@
         private System.Windows.Forms.RichTextBox richTextBox8;
         private System.Windows.Forms.TabPage tabPage9;
         private System.Windows.Forms.ListView listView4;
+        private System.Windows.Forms.ToolStripMenuItem scanOnlyModeDefaultToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem scanKillSuspiciousRunAsAdminToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator8;
     }
 }
 

@@ -46,7 +46,7 @@ namespace ETWPM2Monitor2
         public static ListViewItem LviewItemsX = null;
         public static string evtstring, tmplasttcpevent = "";
         public static bool isPEScanonoff = true;
-        public static bool isHollowHunteronoff = false;
+        public static bool isHollowHunteronoff = true;
         public static bool init_savedumpinfo = false;
 
 
@@ -154,6 +154,7 @@ namespace ETWPM2Monitor2
         public static System.Diagnostics.Process outputs2 = new System.Diagnostics.Process();
         public static bool Init_to_runPEScanner_02 = false;
         public static int HollowHunterLevel = 0;
+        public static int Pe_sieveLevel = 0;
         public static bool AlarmsByETW_onoff_WithoutScanners = false;
 
         /// <summary>
@@ -1765,6 +1766,25 @@ namespace ETWPM2Monitor2
                                 }
                             }
 
+                            if (Convert.ToInt32(string.Join("", ("0" + _finalresult_Scanned_01[0]).ToCharArray().Where(char.IsDigit))) > 0)
+                            {
+                                _finalresult_Scanned_02[2] = "Scanned & Found!";
+                                if (Pe_sieveLevel == 2)
+                                {
+                                    try
+                                    {
+                                        Process.GetProcessById(PID).Kill();
+                                        _finalresult_Scanned_02[2] = "Terminated!";
+                                    }
+                                    catch (Exception)
+                                    {
+
+                                        
+                                    }
+                                   
+                                }
+                                
+                            }
                             /// injection type
                             iList2.SubItems.Add(subitemX);
                             /// tcp send info
@@ -1950,10 +1970,13 @@ namespace ETWPM2Monitor2
                                     outputs.StartInfo.RedirectStandardError = true;
 
                                     outputs.Start();
+                                    
                                     /// scanner logs
                                     BeginInvoke(new __AddTextTorichtexhbox1(Update_listbox1_scanner_logs), "[pe-sieve64.exe], Scanner Running => " + outputs.StartInfo.FileName + " " + outputs.StartInfo.Arguments);
+
                                     strOutput = outputs.StandardOutput.ReadToEnd();
-                                    string temp1, temp2, temp3 = "";
+                                    string temp1, temp2, temp3, temp4 = "";
+
                                     try
                                     {
                                         temp1 = strOutput.Substring(strOutput.IndexOf("Implanted PE:")).Split('\n')[0];
@@ -1967,11 +1990,16 @@ namespace ETWPM2Monitor2
                                         temp2 = "";
                                         temp3 = strOutput.Substring(strOutput.IndexOf("Replaced:")).Split('\n')[0];
                                     }
-
-                                    result1 = "[" + temp1 + "][" + temp2 + "][" + temp3 + "]";
-
-
-
+                                    try
+                                    {
+                                        /// find "hooked or patched in report"
+                                        temp4 = strOutput.Substring(strOutput.IndexOf("Hooked:")).Split('\n')[0];
+                                    }
+                                    catch (Exception)
+                                    {
+                                           
+                                    }
+                                    result1 = "[" + temp1 + "][" + temp2 + "][" + temp3 + "]" + "[" + temp4 + "]";
 
                                     string result2 = "";
                                     foreach (char item in result1)
@@ -1979,6 +2007,7 @@ namespace ETWPM2Monitor2
                                         if (item != ' ')
                                             result2 += item;
                                     }
+
                                     BeginInvoke(new __AddTextTorichtexhbox1(Update_listbox1_scanner_logs), "[pe-sieve64.exe], Scanner output [ProcessId " + pid.ToString() + "]=> " + result2.Split('\r')[0] + result2.Split('\r')[1] + result2.Split('\r')[2]);
 
                                     finalresult_Scanned_01[0] = result2;
@@ -2883,7 +2912,7 @@ namespace ETWPM2Monitor2
 
         private void AboutToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(null, "ETWPM2Monitor v2 [test version 2.1.15.53]\nCode Published by Damon Mohammadbagher , Jul 2021", "About ETWPM2Monitor v2", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show(null, "ETWPM2Monitor2 v2.1 [test version 2.1.17.74]\nCode Published by Damon Mohammadbagher , Jul 2021", "About ETWPM2Monitor2 v2.1", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
         }
 
@@ -3089,6 +3118,20 @@ namespace ETWPM2Monitor2
             }
         }
 
+        private void ScanOnlyModeDefaultToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Pe_sieveLevel = 0;
+            scanKillSuspiciousRunAsAdminToolStripMenuItem.Checked = false;
+            scanOnlyModeDefaultToolStripMenuItem.Checked = true;
+        }
+
+        private void ScanKillSuspiciousRunAsAdminToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Pe_sieveLevel = 2;
+            scanKillSuspiciousRunAsAdminToolStripMenuItem.Checked = true;
+            scanOnlyModeDefaultToolStripMenuItem.Checked = false;
+        }
+
         private void DontDumpPEOfilterToolStripMenuItem_Click(object sender, EventArgs e)
         {
             toolStripStatusLabel4.Text = "| hollowshunter is on";
@@ -3234,7 +3277,7 @@ namespace ETWPM2Monitor2
                                 + "\nTarget Process More Details:"
                                 + "\nTarget Process Path:" + NewProcess_Table.Find(_w => _w.ProcessName.Substring(1) == item._TargetPIDName && _w.PID == item._TargetPID).ProcessName_Path
                                 + "\n"
-                                + "Injected Bytes: \n" + item.Injected_Memory_Bytes_Hex + "\n";
+                                + "Injected Bytes:  (TID: " + item._RemoteThreadID.ToString() + ") " + " (StartAddress: " + item._ThreadStartAddress.ToString() + ")\n" + item.Injected_Memory_Bytes_Hex + "\n";
                                  last_tid = item._RemoteThreadID.ToString();
                              }
 
@@ -3304,38 +3347,53 @@ namespace ETWPM2Monitor2
 
                             richTextBox7.Text += item + "\n";
 
-                            if (item.Contains("is_shellcode"))
+                            //if (item.Contains("is_shellcode"))
+                            //{
+                            try
                             {
-                                try
-                                {
 
-                                    if (module + ".dll" == filename)
+                                if (module + ".dll" == filename)
+                                {
+                                    buf = new byte[200];
+                                    buf = File.ReadAllBytes(@".\process_" + PID + @"\" + module + ".dll");
+                                    dump = Memoryinfo.HexDump2(buf) + "\n--------------------------------------------------------------------------------------------------------------------------\n";
+                                    if (dump != null)
                                     {
-                                        buf = new byte[200];
-                                        buf = File.ReadAllBytes(@".\process_" + PID + @"\" + module + ".dll");
-                                        dump = Memoryinfo.HexDump2(buf) + "\n--------------------------------------------------------------------------------------------------------------------------\n";
-                                        if (dump != null)
-                                        {
-                                            richTextBox7.Text += dump;
-                                        }
-                                    }
-                                    else if (module + ".shc" == filename)
-                                    {
-                                        buf = new byte[200];
-                                        buf = File.ReadAllBytes(@".\process_" + PID + @"\" + module + ".shc");
-                                        dump = Memoryinfo.HexDump2(buf) + "\n--------------------------------------------------------------------------------------------------------------------------\n";
-                                        if (dump != null)
-                                        {
-                                            richTextBox7.Text += dump;
-                                        }
+                                        richTextBox7.Text += dump;
                                     }
                                 }
-                                catch (Exception)
+                                else if (module + ".shc" == filename)
                                 {
+                                    buf = new byte[200];
+                                    buf = File.ReadAllBytes(@".\process_" + PID + @"\" + module + ".shc");
+                                    dump = Memoryinfo.HexDump2(buf) + "\n--------------------------------------------------------------------------------------------------------------------------\n";
+                                    if (dump != null)
+                                    {
+                                        richTextBox7.Text += dump;
+                                    }
+                                }
+                                else if (item.Contains("dump_file"))
+                                {
+                                    buf = new byte[200];
+                                    buf = File.ReadAllBytes(@".\process_" + PID + @"\" + filename);
+                                    dump = Memoryinfo.HexDump2(buf) + "\n";
+                                    if (dump != null)
+                                    {
+                                        richTextBox7.Text += dump;
+                                    }
 
-
+                                }
+                                else if (item.Contains("\"is_shellcode\" :"))
+                                {
+                                    richTextBox7.Text += "\n--------------------------------------------------------------------------------------------------------------------------\n";
                                 }
                             }
+                            catch (Exception)
+                            {
+
+
+                            }
+                            // }
 
                         }
 
@@ -3377,6 +3435,9 @@ namespace ETWPM2Monitor2
             HollowHunterLevel = 0;
             hollowHunterexeOnToolStripMenuItem.Text = "HollowsHunter.exe [on]";
             scanOnlyModeToolStripMenuItem.Text = "Scan only mode (Default) [on]";
+            scanOnlyModeToolStripMenuItem.Checked = true;
+            scanSuspendToolStripMenuItem.Checked = false;
+            scanKillSuspiciousToolStripMenuItem.Checked = false;
             scanSuspendToolStripMenuItem.Text = "Scan + Suspend Suspicious (Run as Admin)";
             scanKillSuspiciousToolStripMenuItem.Text = "Scan + Kill Suspicious (Run as Admin)";
             hollowHunterexeoffToolStripMenuItem.Text = "HollowsHunter.exe off";
@@ -3391,6 +3452,9 @@ namespace ETWPM2Monitor2
             HollowHunterLevel = 1;
             hollowHunterexeOnToolStripMenuItem.Text = "HollowsHunter.exe [on]";
             scanSuspendToolStripMenuItem.Text = "Scan + Suspend Suspicious (Run as Admin) [on]";
+            scanOnlyModeToolStripMenuItem.Checked = false;
+            scanSuspendToolStripMenuItem.Checked = true;
+            scanKillSuspiciousToolStripMenuItem.Checked = false;
             scanOnlyModeToolStripMenuItem.Text = "Scan only mode (Default)";
             scanKillSuspiciousToolStripMenuItem.Text = "Scan + Kill Suspicious (Run as Admin)";
             hollowHunterexeoffToolStripMenuItem.Text = "HollowsHunter.exe off";
@@ -3407,6 +3471,9 @@ namespace ETWPM2Monitor2
             hollowHunterexeOnToolStripMenuItem.Text = "HollowsHunter.exe [on]";
             scanOnlyModeToolStripMenuItem.Text = "Scan only mode (Default)";
             scanKillSuspiciousToolStripMenuItem.Text = "Scan + Kill Suspicious (Run as Admin) [on]";
+            scanOnlyModeToolStripMenuItem.Checked = false;
+            scanSuspendToolStripMenuItem.Checked = false;
+            scanKillSuspiciousToolStripMenuItem.Checked = true;
             scanSuspendToolStripMenuItem.Text = "Scan + Suspend Suspicious (Run as Admin)";
             hollowHunterexeoffToolStripMenuItem.Text = "HollowsHunter.exe off";
 
