@@ -987,20 +987,21 @@ namespace ETWPM2Monitor2
                 {
                     for (int i = 0; i < listView4.Items.Count; i++)
                     {
-                        if (listView4.Items[i].Name != __obj.SubItems[3].Text + sip + sip_port + dip + dip_port)
+                        if (listView4.Items[i].Name != __obj.SubItems[3].Text + sip + dip + dip_port)
                         {
                             NetworkConection_found = false;
 
                         }
-                        else if (listView4.Items[i].Name == __obj.SubItems[3].Text + sip + sip_port + dip + dip_port)
+                        else if (listView4.Items[i].Name == __obj.SubItems[3].Text + sip + dip + dip_port)
                         {
                             listView4.Items[i].SubItems[6].Text = Delta_Time(Convert.ToDateTime(__obj.SubItems[1].Text), Convert.ToDateTime(listView4.Items[i].SubItems[1].Text));
                             listView4.Items[i].SubItems[1].Text = NetworkTCP.SubItems[1].Text;
+                            listView4.Items[i].SubItems[4].Text = sip + ":" + sip_port;
                             NetworkConection_TCP_counts = Convert.ToInt64(listView4.Items[i].SubItems[7].Text);
                             NetworkConection_TCP_counts++;
                             listView4.Items[i].SubItems[7].Text = NetworkConection_TCP_counts.ToString();
                             TimeSpan _ttl = Convert.ToDateTime(NetworkTCP.SubItems[1].Text) - Convert.ToDateTime(listView4.Items[i].SubItems[9].Text);
-                            listView4.Items[i].SubItems[8].Text = "D: " +_ttl.Days.ToString() + ",H: " + _ttl.Hours.ToString() + ",M: " + _ttl.Minutes.ToString();
+                            listView4.Items[i].SubItems[8].Text = "D:" +_ttl.Days.ToString() + " , H:" + _ttl.Hours.ToString() + " , M:" + _ttl.Minutes.ToString();
                             listView4.Refresh();                            
                             BeginInvoke(new __Additem(_Run_ChangeColor_for_listview4), i);
                             NetworkConection_found = true;
@@ -1022,7 +1023,7 @@ namespace ETWPM2Monitor2
                         iList4.SubItems.Add("0");
                         /// event first time
                         iList4.SubItems.Add(NetworkTCP.SubItems[1].Text);
-                        iList4.Name = __obj.SubItems[3].Text + sip + sip_port + dip + dip_port;
+                        iList4.Name = __obj.SubItems[3].Text + sip  + dip + dip_port;
                         int _i = listView4.Items.Add(iList4).Index;                        
                         BeginInvoke(new __Additem(_Run_ChangeColor_for_listview4), _i);
                         
@@ -1041,7 +1042,7 @@ namespace ETWPM2Monitor2
                     iList4.SubItems.Add("0");
                     /// event first time
                     iList4.SubItems.Add(NetworkTCP.SubItems[1].Text);
-                    iList4.Name = __obj.SubItems[3].Text + sip + sip_port + dip + dip_port;
+                    iList4.Name = __obj.SubItems[3].Text + sip  + dip + dip_port;
                     int _i = listView4.Items.Add(iList4).Index;                    
                     BeginInvoke(new __Additem(_Run_ChangeColor_for_listview4), _i);
                     
