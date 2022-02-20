@@ -109,6 +109,9 @@
             this.scannersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pesieve64exeOffToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pesieve64exeonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.scanOnlyModeDefaultToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.scanKillSuspiciousRunAsAdminToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
             this.defaultDumpAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dontDumpTheModifiedPEsButSaveTheReportoffToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dontDumpAnyFilesToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -116,6 +119,7 @@
             this.scanOnlyModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.scanSuspendToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.scanKillSuspiciousToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
             this.dontDumpPEOfilterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dontDumpAnyFilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dumpAllProcessToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -162,10 +166,6 @@
             this.toolStripStatusLabel4 = new System.Windows.Forms.ToolStripStatusLabel();
             this.contextMenuStrip4 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.dumpTIDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.scanOnlyModeDefaultToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.scanKillSuspiciousRunAsAdminToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
             this.contextMenuStrip5.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -834,6 +834,8 @@
             this.imageList1.Images.SetKeyName(3, "warning-128-3.ico");
             this.imageList1.Images.SetKeyName(4, "info.ico");
             this.imageList1.Images.SetKeyName(5, "messagebox_warning.ico");
+            this.imageList1.Images.SetKeyName(6, "Icojam-Blueberry-Basic-Shield-protect-off.ico");
+            this.imageList1.Images.SetKeyName(7, "Icojam-Blueberry-Basic-Shield-protect-on.ico");
             // 
             // contextMenuStrip1
             // 
@@ -941,14 +943,14 @@
             // startMonitorToolStripMenuItem
             // 
             this.startMonitorToolStripMenuItem.Name = "startMonitorToolStripMenuItem";
-            this.startMonitorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.startMonitorToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
             this.startMonitorToolStripMenuItem.Text = "Start Monitor";
             this.startMonitorToolStripMenuItem.Click += new System.EventHandler(this.StartMonitorToolStripMenuItem_Click);
             // 
             // stoptMonitorToolStripMenuItem
             // 
             this.stoptMonitorToolStripMenuItem.Name = "stoptMonitorToolStripMenuItem";
-            this.stoptMonitorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.stoptMonitorToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
             this.stoptMonitorToolStripMenuItem.Text = "Stop Monitor";
             this.stoptMonitorToolStripMenuItem.Click += new System.EventHandler(this.StoptMonitorToolStripMenuItem_Click);
             // 
@@ -958,7 +960,7 @@
             this.onToolStripMenuItem,
             this.offToolStripMenuItem});
             this.autoScrollToolStripMenuItem.Name = "autoScrollToolStripMenuItem";
-            this.autoScrollToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.autoScrollToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
             this.autoScrollToolStripMenuItem.Text = "Auto Scroll";
             // 
             // onToolStripMenuItem
@@ -978,14 +980,14 @@
             // clearAllToolStripMenuItem
             // 
             this.clearAllToolStripMenuItem.Name = "clearAllToolStripMenuItem";
-            this.clearAllToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.clearAllToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
             this.clearAllToolStripMenuItem.Text = "Clear All";
             this.clearAllToolStripMenuItem.Click += new System.EventHandler(this.ClearAllToolStripMenuItem_Click);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(141, 6);
             // 
             // scannersToolStripMenuItem
             // 
@@ -997,7 +999,7 @@
             this.toolStripSeparator2,
             this.scanningConfigurationToolStripMenuItem});
             this.scannersToolStripMenuItem.Name = "scannersToolStripMenuItem";
-            this.scannersToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.scannersToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
             this.scannersToolStripMenuItem.Text = "Scanners";
             // 
             // pesieve64exeOffToolStripMenuItem
@@ -1020,6 +1022,27 @@
             this.pesieve64exeonToolStripMenuItem.Name = "pesieve64exeonToolStripMenuItem";
             this.pesieve64exeonToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
             this.pesieve64exeonToolStripMenuItem.Text = "Pe-sieve.exe on";
+            // 
+            // scanOnlyModeDefaultToolStripMenuItem
+            // 
+            this.scanOnlyModeDefaultToolStripMenuItem.Checked = true;
+            this.scanOnlyModeDefaultToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.scanOnlyModeDefaultToolStripMenuItem.Name = "scanOnlyModeDefaultToolStripMenuItem";
+            this.scanOnlyModeDefaultToolStripMenuItem.Size = new System.Drawing.Size(360, 22);
+            this.scanOnlyModeDefaultToolStripMenuItem.Text = "Scan only mode (Default)";
+            this.scanOnlyModeDefaultToolStripMenuItem.Click += new System.EventHandler(this.ScanOnlyModeDefaultToolStripMenuItem_Click);
+            // 
+            // scanKillSuspiciousRunAsAdminToolStripMenuItem
+            // 
+            this.scanKillSuspiciousRunAsAdminToolStripMenuItem.Name = "scanKillSuspiciousRunAsAdminToolStripMenuItem";
+            this.scanKillSuspiciousRunAsAdminToolStripMenuItem.Size = new System.Drawing.Size(360, 22);
+            this.scanKillSuspiciousRunAsAdminToolStripMenuItem.Text = "Scan + Kill Suspicious (Run as Admin)";
+            this.scanKillSuspiciousRunAsAdminToolStripMenuItem.Click += new System.EventHandler(this.ScanKillSuspiciousRunAsAdminToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator7
+            // 
+            this.toolStripSeparator7.Name = "toolStripSeparator7";
+            this.toolStripSeparator7.Size = new System.Drawing.Size(357, 6);
             // 
             // defaultDumpAllToolStripMenuItem
             // 
@@ -1078,6 +1101,11 @@
             this.scanKillSuspiciousToolStripMenuItem.Size = new System.Drawing.Size(360, 22);
             this.scanKillSuspiciousToolStripMenuItem.Text = "Scan + Kill Suspicious (Run as Admin)";
             this.scanKillSuspiciousToolStripMenuItem.Click += new System.EventHandler(this.ScanKillSuspiciousToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator8
+            // 
+            this.toolStripSeparator8.Name = "toolStripSeparator8";
+            this.toolStripSeparator8.Size = new System.Drawing.Size(357, 6);
             // 
             // dontDumpPEOfilterToolStripMenuItem
             // 
@@ -1438,32 +1466,6 @@
             this.dumpTIDToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
             this.dumpTIDToolStripMenuItem.Text = "Injected TID Memory info";
             // 
-            // scanOnlyModeDefaultToolStripMenuItem
-            // 
-            this.scanOnlyModeDefaultToolStripMenuItem.Checked = true;
-            this.scanOnlyModeDefaultToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.scanOnlyModeDefaultToolStripMenuItem.Name = "scanOnlyModeDefaultToolStripMenuItem";
-            this.scanOnlyModeDefaultToolStripMenuItem.Size = new System.Drawing.Size(360, 22);
-            this.scanOnlyModeDefaultToolStripMenuItem.Text = "Scan only mode (Default)";
-            this.scanOnlyModeDefaultToolStripMenuItem.Click += new System.EventHandler(this.ScanOnlyModeDefaultToolStripMenuItem_Click);
-            // 
-            // scanKillSuspiciousRunAsAdminToolStripMenuItem
-            // 
-            this.scanKillSuspiciousRunAsAdminToolStripMenuItem.Name = "scanKillSuspiciousRunAsAdminToolStripMenuItem";
-            this.scanKillSuspiciousRunAsAdminToolStripMenuItem.Size = new System.Drawing.Size(360, 22);
-            this.scanKillSuspiciousRunAsAdminToolStripMenuItem.Text = "Scan + Kill Suspicious (Run as Admin)";
-            this.scanKillSuspiciousRunAsAdminToolStripMenuItem.Click += new System.EventHandler(this.ScanKillSuspiciousRunAsAdminToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator7
-            // 
-            this.toolStripSeparator7.Name = "toolStripSeparator7";
-            this.toolStripSeparator7.Size = new System.Drawing.Size(357, 6);
-            // 
-            // toolStripSeparator8
-            // 
-            this.toolStripSeparator8.Name = "toolStripSeparator8";
-            this.toolStripSeparator8.Size = new System.Drawing.Size(357, 6);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1472,6 +1474,7 @@
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.menuStrip3);
             this.Controls.Add(this.statusStrip1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
             this.Text = "ETWPM2 Events Monitor v2.1";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);

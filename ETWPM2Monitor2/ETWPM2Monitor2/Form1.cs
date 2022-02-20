@@ -7,6 +7,7 @@ using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
@@ -32,6 +33,8 @@ namespace ETWPM2Monitor2
         public static System.Timers.Timer t3 = new System.Timers.Timer(5000);
         public static System.Timers.Timer t4 = new System.Timers.Timer(15000);
         public static System.Timers.Timer t4_1 = new System.Timers.Timer(1500);
+        public static System.Timers.Timer t5 = new System.Timers.Timer(10000);
+
         public static uint NTReadTmpRef = 0;
         public static EventLog ETW2MON;
         public static EventLogQuery ETWPM2Query;
@@ -114,6 +117,7 @@ namespace ETWPM2Monitor2
         public static List<_InjectedThreadDetails_bytes> _InjectedTIDList = new List<_InjectedThreadDetails_bytes>();
         public static List<string> List_ofProcess_inListview2 = new List<string>();
         public static List<Int32> temptids = new List<int>();
+        public static List<string> ActiveTCP = new List<string>();
 
 
         public string Tempops, Injectortmp = "";
@@ -254,6 +258,48 @@ namespace ETWPM2Monitor2
         public static string eventstring_tmp3 = "";
         public static bool NetworkConection_found = false;
         public static Int64 NetworkConection_TCP_counts = 0;
+
+        public void GetTcpConnections()
+        {
+            try
+            {
+
+                ActiveTCP.Clear();
+                IPGlobalProperties _GetIPGlobalProperties = IPGlobalProperties.GetIPGlobalProperties();
+                TcpConnectionInformation[] _TCPConnections = _GetIPGlobalProperties.GetActiveTcpConnections();
+
+                foreach (TcpConnectionInformation t in _TCPConnections)
+                {
+
+                    ActiveTCP.Add(t.LocalEndPoint.Address.ToString() + ":" + t.LocalEndPoint.Port.ToString() + ">" + t.RemoteEndPoint.Address.ToString()
+                        + ":" + t.RemoteEndPoint.Port.ToString() + "@" + t.State.ToString());
+
+                }
+
+                for (int i = 0; i < listView4.Items.Count; i++)
+                {
+                    string __find = ActiveTCP.Find(_tcp => _tcp.Split('>')[0] == listView4.Items[i].SubItems[4].Text && _tcp.Split('>')[1].Split('@')[0]
+                    == listView4.Items[i].SubItems[5].Text);
+                    if (__find != null)
+                    {
+                        if (__find.Split('@')[1].ToLower().Contains("established"))
+                        {
+                            listView4.Items[i].ImageIndex = 7;
+                        }
+                        else
+                        {
+                            listView4.Items[i].ImageIndex = 6;
+                        }
+                        listView4.Refresh();
+                    }
+                }
+            }
+            catch (Exception)
+            {
+
+               
+            }
+        }
 
         public static int _percent(int count, int total)
         {
@@ -738,6 +784,7 @@ namespace ETWPM2Monitor2
 
                 listView1.SmallImageList = imageList1;
 
+                listView4.SmallImageList = imageList1;
 
                 listView2.HeaderStyle = ColumnHeaderStyle.Nonclickable;
                 listView2.BorderStyle = BorderStyle.FixedSingle;
@@ -770,8 +817,10 @@ namespace ETWPM2Monitor2
                 t4_1.Elapsed += T4_1_Elapsed;
                 t4_1.Enabled = true;
                 t4_1.Start();
-               
 
+                t5.Elapsed += T5_Elapsed;
+                t5.Enabled = true;
+                t5.Start();
 
                 //t3.Elapsed += T3_Elapsed;
                 //t3.Enabled = true;
@@ -903,6 +952,55 @@ namespace ETWPM2Monitor2
             }
             catch (EventLogReadingException err)
             {
+
+            }
+        }
+
+        private void T5_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            try
+            {
+                new TaskFactory().StartNew(() =>
+                {
+                    ActiveTCP.Clear();
+                    IPGlobalProperties _GetIPGlobalProperties = IPGlobalProperties.GetIPGlobalProperties();
+                    TcpConnectionInformation[] _TCPConnections = _GetIPGlobalProperties.GetActiveTcpConnections();
+
+                    foreach (TcpConnectionInformation t in _TCPConnections)
+                    {
+
+                        ActiveTCP.Add(t.LocalEndPoint.Address.ToString() + ":" + t.LocalEndPoint.Port.ToString() + ">" + t.RemoteEndPoint.Address.ToString()
+                            + ":" + t.RemoteEndPoint.Port.ToString() + "@" + t.State.ToString());
+
+                    }
+
+                    for (int i = 0; i < listView4.Items.Count; i++)
+                    {
+                        string __find = ActiveTCP.Find(_tcp => _tcp.Split('>')[0] == listView4.Items[i].SubItems[4].Text && _tcp.Split('>')[1].Split('@')[0]
+                        == listView4.Items[i].SubItems[5].Text);
+                        if (__find != null)
+                        {
+                            if (__find.Split('@')[1].ToLower().Contains("established"))
+                            {
+                                listView4.Items[i].ImageIndex = 7;
+                            }
+                            else
+                            {
+                                listView4.Items[i].ImageIndex = 6;
+                            }
+                            listView4.Refresh();
+                        }
+                        else
+                        {
+                            listView4.Items[i].ImageIndex = 6;
+                            listView4.Refresh();
+                        }
+                    }
+                });
+            }
+            catch (Exception)
+            {
+
 
             }
         }
@@ -1768,7 +1866,11 @@ namespace ETWPM2Monitor2
 
                             if (Convert.ToInt32(string.Join("", ("0" + _finalresult_Scanned_01[0]).ToCharArray().Where(char.IsDigit))) > 0)
                             {
-                                _finalresult_Scanned_02[2] = "Scanned & Found!";
+                                if (_finalresult_Scanned_02[2] != "Terminated" && _finalresult_Scanned_02[2] != "Suspended")
+                                {
+                                    _finalresult_Scanned_02[2] = "Scanned & Found!";
+                                }
+
                                 if (Pe_sieveLevel == 2)
                                 {
                                     try
