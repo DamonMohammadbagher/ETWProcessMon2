@@ -257,49 +257,7 @@ namespace ETWPM2Monitor2
         public static bool ScannerEvery10minMode_Hollowh = false;
         public static string eventstring_tmp3 = "";
         public static bool NetworkConection_found = false;
-        public static Int64 NetworkConection_TCP_counts = 0;
-
-        public void GetTcpConnections()
-        {
-            try
-            {
-
-                ActiveTCP.Clear();
-                IPGlobalProperties _GetIPGlobalProperties = IPGlobalProperties.GetIPGlobalProperties();
-                TcpConnectionInformation[] _TCPConnections = _GetIPGlobalProperties.GetActiveTcpConnections();
-
-                foreach (TcpConnectionInformation t in _TCPConnections)
-                {
-
-                    ActiveTCP.Add(t.LocalEndPoint.Address.ToString() + ":" + t.LocalEndPoint.Port.ToString() + ">" + t.RemoteEndPoint.Address.ToString()
-                        + ":" + t.RemoteEndPoint.Port.ToString() + "@" + t.State.ToString());
-
-                }
-
-                for (int i = 0; i < listView4.Items.Count; i++)
-                {
-                    string __find = ActiveTCP.Find(_tcp => _tcp.Split('>')[0] == listView4.Items[i].SubItems[4].Text && _tcp.Split('>')[1].Split('@')[0]
-                    == listView4.Items[i].SubItems[5].Text);
-                    if (__find != null)
-                    {
-                        if (__find.Split('@')[1].ToLower().Contains("established"))
-                        {
-                            listView4.Items[i].ImageIndex = 7;
-                        }
-                        else
-                        {
-                            listView4.Items[i].ImageIndex = 6;
-                        }
-                        listView4.Refresh();
-                    }
-                }
-            }
-            catch (Exception)
-            {
-
-               
-            }
-        }
+        public static Int64 NetworkConection_TCP_counts = 0;      
 
         public static int _percent(int count, int total)
         {
@@ -530,7 +488,7 @@ namespace ETWPM2Monitor2
                                 //_SaveNewETW_Alarms_to_WinEventLog(MyLviewItemsX2);
                                 Thread.Sleep(10);
                                 tabPage4.Text = "Alarms by ETW " + "(" + listView2.Items.Count.ToString() + ")";
-
+                                toolStripStatusLabel6.Text = "| Alarms by ETW " + "(" + listView2.Items.Count.ToString() + ")";
                             }
 
                             if (MyLviewItemsX2.ImageIndex == 1) { Chart_Orange++; }
@@ -554,6 +512,7 @@ namespace ETWPM2Monitor2
                             //_SaveNewETW_Alarms_to_WinEventLog(MyLviewItemsX2);
                             Thread.Sleep(10);
                             tabPage4.Text = "Alarms by ETW " + "(" + listView2.Items.Count.ToString() + ")";
+                            toolStripStatusLabel6.Text = "| Alarms by ETW " + "(" + listView2.Items.Count.ToString() + ")";
                         }
                         if (MyLviewItemsX2.ImageIndex == 1) { Chart_Orange++; }
                         else if (MyLviewItemsX2.ImageIndex == 2) { Chart_Redflag++; }
@@ -589,7 +548,7 @@ namespace ETWPM2Monitor2
 
                     }
 
-                   // tabPage4.Text = "Alarms by ETW " + "(" + listView2.Items.Count.ToString() + ")";
+                 
 
                 }
 
@@ -625,6 +584,7 @@ namespace ETWPM2Monitor2
                     }
                 }
                 tabPage3.Text = "System/Detection Logs " + "(" + listView3.Items.Count.ToString() + ")";
+                toolStripStatusLabel5.Text = "| System/Detection Logs " + "(" + listView3.Items.Count.ToString() + ")";
 
             }
             catch (Exception ee)
@@ -988,14 +948,15 @@ namespace ETWPM2Monitor2
                             {
                                 listView4.Items[i].ImageIndex = 6;
                             }
-                            listView4.Refresh();
+                           
                         }
                         else
                         {
                             listView4.Items[i].ImageIndex = 6;
-                            listView4.Refresh();
+                            //listView4.Refresh();
                         }
                     }
+                    listView4.Refresh();
                 });
             }
             catch (Exception)
@@ -1054,6 +1015,7 @@ namespace ETWPM2Monitor2
                     System.Threading.Thread.Sleep(5);
                     listView4.BackColor = Color.White;
                     listView4.Refresh();
+                    
                 });
             }
             catch (Exception)
@@ -1104,7 +1066,8 @@ namespace ETWPM2Monitor2
                             listView4.Refresh();                            
                             BeginInvoke(new __Additem(_Run_ChangeColor_for_listview4), i);
                             NetworkConection_found = true;
-                          
+                            tabPage9.Text = "Network Connections (" + listView4.Items.Count.ToString() + ")";
+                            toolStripStatusLabel7.Text= "| Network Connections (" + listView4.Items.Count.ToString() + ")";
                             break;
                         }
                     }
@@ -1125,7 +1088,9 @@ namespace ETWPM2Monitor2
                         iList4.Name = __obj.SubItems[3].Text + sip  + dip + dip_port;
                         int _i = listView4.Items.Add(iList4).Index;                        
                         BeginInvoke(new __Additem(_Run_ChangeColor_for_listview4), _i);
-                        
+                        tabPage9.Text = "Network Connections (" + listView4.Items.Count.ToString() + ")";
+                        toolStripStatusLabel7.Text = "| Network Connections (" + listView4.Items.Count.ToString() + ")";
+
                     }
                 }
                 else if (listView4.Items.Count <= 0)
@@ -1144,7 +1109,10 @@ namespace ETWPM2Monitor2
                     iList4.Name = __obj.SubItems[3].Text + sip  + dip + dip_port;
                     int _i = listView4.Items.Add(iList4).Index;                    
                     BeginInvoke(new __Additem(_Run_ChangeColor_for_listview4), _i);
-                    
+                    tabPage9.Text = "Network Connections (" + listView4.Items.Count.ToString() + ")";
+                    toolStripStatusLabel7.Text = "| Network Connections (" + listView4.Items.Count.ToString() + ")";
+
+
                 }
             }
             catch (Exception err)

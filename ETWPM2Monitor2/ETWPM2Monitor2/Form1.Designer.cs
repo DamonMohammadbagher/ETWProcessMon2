@@ -166,6 +166,9 @@
             this.toolStripStatusLabel4 = new System.Windows.Forms.ToolStripStatusLabel();
             this.contextMenuStrip4 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.dumpTIDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripStatusLabel5 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel6 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel7 = new System.Windows.Forms.ToolStripStatusLabel();
             this.contextMenuStrip5.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -231,6 +234,7 @@
             this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listView1.HideSelection = false;
             this.listView1.Location = new System.Drawing.Point(0, 0);
+            this.listView1.MultiSelect = false;
             this.listView1.Name = "listView1";
             this.listView1.Size = new System.Drawing.Size(1085, 202);
             this.listView1.TabIndex = 1;
@@ -362,6 +366,7 @@
             this.listView2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listView2.HideSelection = false;
             this.listView2.Location = new System.Drawing.Point(0, 0);
+            this.listView2.MultiSelect = false;
             this.listView2.Name = "listView2";
             this.listView2.Size = new System.Drawing.Size(1085, 149);
             this.listView2.TabIndex = 0;
@@ -557,7 +562,7 @@
             this.tabPage7.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage7.Size = new System.Drawing.Size(1077, 199);
             this.tabPage7.TabIndex = 2;
-            this.tabPage7.Text = "Charts";
+            this.tabPage7.Text = "Charts & Scan Logs";
             this.tabPage7.UseVisualStyleBackColor = true;
             // 
             // panel1
@@ -807,6 +812,7 @@
             this.listView3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listView3.HideSelection = false;
             this.listView3.Location = new System.Drawing.Point(0, 0);
+            this.listView3.MultiSelect = false;
             this.listView3.Name = "listView3";
             this.listView3.Size = new System.Drawing.Size(1091, 180);
             this.listView3.TabIndex = 0;
@@ -1422,7 +1428,10 @@
             this.toolStripStatusLabel1,
             this.toolStripStatusLabel2,
             this.toolStripStatusLabel3,
-            this.toolStripStatusLabel4});
+            this.toolStripStatusLabel4,
+            this.toolStripStatusLabel5,
+            this.toolStripStatusLabel6,
+            this.toolStripStatusLabel7});
             this.statusStrip1.Location = new System.Drawing.Point(0, 434);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(1099, 22);
@@ -1465,6 +1474,24 @@
             this.dumpTIDToolStripMenuItem.Name = "dumpTIDToolStripMenuItem";
             this.dumpTIDToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
             this.dumpTIDToolStripMenuItem.Text = "Injected TID Memory info";
+            // 
+            // toolStripStatusLabel5
+            // 
+            this.toolStripStatusLabel5.Name = "toolStripStatusLabel5";
+            this.toolStripStatusLabel5.Size = new System.Drawing.Size(152, 17);
+            this.toolStripStatusLabel5.Text = "| System/Detection Logs (0)";
+            // 
+            // toolStripStatusLabel6
+            // 
+            this.toolStripStatusLabel6.Name = "toolStripStatusLabel6";
+            this.toolStripStatusLabel6.Size = new System.Drawing.Size(109, 17);
+            this.toolStripStatusLabel6.Text = "| Alarms by ETW (0)";
+            // 
+            // toolStripStatusLabel7
+            // 
+            this.toolStripStatusLabel7.Name = "toolStripStatusLabel7";
+            this.toolStripStatusLabel7.Size = new System.Drawing.Size(145, 17);
+            this.toolStripStatusLabel7.Text = "| Network Connections (0)";
             // 
             // Form1
             // 
@@ -1669,6 +1696,9 @@
         private System.Windows.Forms.ToolStripMenuItem scanKillSuspiciousRunAsAdminToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator8;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel5;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel6;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel7;
     }
 }
 
