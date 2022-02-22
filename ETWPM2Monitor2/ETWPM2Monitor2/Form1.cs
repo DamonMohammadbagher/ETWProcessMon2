@@ -125,22 +125,26 @@ namespace ETWPM2Monitor2
         public string[] _finalresult_Scanned_01 = new string[2];
         public string[] finalresult_Scanned_02 = new string[3];
         public string[] _finalresult_Scanned_02 = new string[3];
+
+        /// <summary>
+        /// table/list for pe-sieve64.exe
+        /// </summary>
         public struct _TableofProcess_Scanned_01
         {
-            /// <summary>
-            /// table/list for pe-sieve64.exe
-            /// </summary>
+           
             public string injectorPathPID { set; get; }
             public int time_min { set; get; }
             public int time_Hour { set; get; }
             public string ProcNameANDPath { set; get; }
             public int PID { set; get; }
         }
+
+        /// <summary>
+        /// table/list for hollowshunter.exe
+        /// </summary>
         public struct _TableofProcess_Scanned_02
         {
-            /// <summary>
-            /// table/list for hollowshunter.exe
-            /// </summary>
+            
             public string injectorPathPID { set; get; }
             public int time_min { set; get; }
             public int time_Hour { set; get; }
@@ -165,14 +169,14 @@ namespace ETWPM2Monitor2
         /// Adding Process which had RemoteThreadInjection to the list for monitoring their TCP Connections etc...
         /// </summary>
         public event EventHandler RemoteThreadInjectionDetection_ProcessLists;
-
-
+   
         /// <summary>
-        /// event for Injection Detection + TCP Send event & Adding Target Process info to the list + details/debug info... [Event ID 2]
-        /// when this event invoked? after any tcp connection via those process which had RemoteThreadInjection.
-        /// so this event will invoke with/inside EventID 3 but this will check process in list if had remotethreadinjection + tcp send then flag = true
-        /// for scan + add the proces name to list in the "Alrams by ETW TAB" 
-        /// </summary>
+        /// C# event, when new tcp Event ID 3 detected then this event will invoke [NewProcessAddedtolist.Invoke(objX, null)]
+        /// for check process via process table [_Table = Process_Table] and memory scanners (if needed), 
+        /// that means if this process has tcp connection event which had some related injection event 
+        /// then should have true flag for scanning by memory scanners and add to "Alarms by ETW Tab"
+        /// so this process had remotethread injectioh event plus tcp connection event so maybe should has true flag for scanning in memory ...
+        /// </summary>   
         public event EventHandler NewProcessAddedtolist;
 
         public object[] obj = new object[2];
@@ -185,6 +189,7 @@ namespace ETWPM2Monitor2
         public event EventHandler NewProcessAddedtolist_NewProcessEvt;
         public object[] obj2 = new object[8];
 
+
         /// <summary>
         /// v0 => new process
         /// v1 => injection count
@@ -196,6 +201,7 @@ namespace ETWPM2Monitor2
         /// v7 => total new/inj/tcp counts (etw recored real-time)
         /// </summary>
 
+
         public static Int64 Chart_NewProcess, chart_Inj, Chart_Tcp, Chart_Redflag, Chart_Orange, Chart_suspend, Chart_Terminate, Chart_Counts = 0;
         /// <summary>
         ///  pe_sieve_DumpSwitches = 0 dump all Detected Process to disk
@@ -204,7 +210,7 @@ namespace ETWPM2Monitor2
         /// </summary>
         public static int pe_sieve_DumpSwitches = 0;
         /// <summary>
-        /// hollowshunter_DumpSwitches =  /ofilter  & => 0 dump all , 1 dump some files , 2 Dont Dump any Process to disk (if detected something)
+        /// hollowshunter_DumpSwitches =  /ofilter  & , 0 dump all , 1 dump some files , 2 Dont Dump any Process to disk (if detected something)
         /// </summary>
         public static int hollowshunter_DumpSwitches = 0;
         public int _1, _2, _3, _4, _5, _6, _7, _8, time4t = 0;
@@ -212,21 +218,19 @@ namespace ETWPM2Monitor2
         public static string[] temp_str = null;
         public static string tmpitemListview2 = "";
 
-        /// <summary>
-        /// event for refresh/update events in listView1 for (real-time events)
-        /// </summary>
+        /// <summary> event for refresh/update events in listView1 for (real-time events), these events read from windows event log name "ETWPM2" and added to listview1 (real_time)  </summary>
         public event EventHandler NewEventFrom_EventLogsCome;
 
-        /// event for add all detection events to System_Detection_logs Tab
+        /// <summary> event for add all detection events to System_Detection_logs Tab </summary>  
         public event EventHandler System_Detection_Log_events;
 
-        /// event for add tcp/new events which was for Shell or Meterpreter Session detection events to System_Detection_logs Tab
+        /// <summary> event for add tcp/new events which was for Shell or Meterpreter Session detection events to System_Detection_logs Tab </summary>  
         public event EventHandler System_Detection_Log_events2;
 
-        /// event for add tcp events to Network Tab 
+        /// <summary> event for add tcp events to Network Tab  </summary>  
         public event EventHandler NewTCP_Connection_Detected;
 
-        /// event for change Listview4 colors
+        /// <summary> event for change Listview4 colors </summary>        
         public event EventHandler ChangeColorstoDefault;
 
         public struct _TableofProcess_ETW_Event_Counts
@@ -257,7 +261,9 @@ namespace ETWPM2Monitor2
         public static bool ScannerEvery10minMode_Hollowh = false;
         public static string eventstring_tmp3 = "";
         public static bool NetworkConection_found = false;
-        public static Int64 NetworkConection_TCP_counts = 0;      
+        public static Int64 NetworkConection_TCP_counts = 0;        
+        public static string _windir = Environment.GetEnvironmentVariable("windir").ToLower();
+
 
         public static int _percent(int count, int total)
         {
@@ -280,6 +286,10 @@ namespace ETWPM2Monitor2
            
         }
 
+        /// <summary>
+        /// save this obj as event which was detected as Shell or TCP Meterpreter session to Windows EventLog "ETWPM2Monitor2"
+        /// </summary>
+        /// <param name="Obj"></param>
         public static void _Save_New_DetectionLogs_TCP_Shell_Events_to_WinEventLog(object Obj)
         {
             try
@@ -318,6 +328,10 @@ namespace ETWPM2Monitor2
             }
         }
 
+        /// <summary>
+        ///  save all Alarms like "Terminated,Suspended,Scannedfound,Detected" by Memory scanners etc to windows eventlog "ETWPM2Monitor2". Event ID1 (Medium Level) , Event ID2 (High Level)
+        /// </summary>
+        /// <param name="AlarmObjects"></param>
         public static void _SaveNewETW_Alarms_to_WinEventLog(object AlarmObjects)
         {
             try
@@ -369,6 +383,10 @@ namespace ETWPM2Monitor2
             }
         }
 
+        /// <summary>
+        /// Add ETW items to listview1 [events ID 1 : new process] [even ID 2 : injection detection] [event ID 3 : tcp send,connect connections] 
+        /// </summary>
+        /// <param name="obj"></param>
         public void _Additems_toListview1(object obj)
         {
 
@@ -426,10 +444,10 @@ namespace ETWPM2Monitor2
                     {
                         string commandline = MyLviewItemsX1.SubItems[5].Text.Split('\n')[4].ToLower();
                         string parentid = MyLviewItemsX1.SubItems[5].Text.Split('\n')[6].ToLower();
-                        if (commandline.Contains("[commandline: c:\\windows\\system32\\cmd.exe") || commandline.Contains("[commandline: cmd"))
-
+                        if (commandline.Contains("[commandline: "+ _windir +"\\system32\\cmd.exe") || commandline.Contains("[commandline: cmd"))
                         {
-                            if (parentid != "[parentid path: c:\\windows\\explorer.exe]")
+
+                            if (parentid != "[parentid path: " + _windir + "\\explorer.exe]")
                             {
                                 MyLviewItemsX1.BackColor = Color.Red;
                                 MyLviewItemsX1.ForeColor = Color.Black;
@@ -465,6 +483,10 @@ namespace ETWPM2Monitor2
             }
         }
 
+        /// <summary>
+        /// add items to listview2 Alarms by ETW like Scanned,Scannedfound,Suspended,Terminated etc
+        /// </summary>
+        /// <param name="obj"></param>
         public void _Additems_toListview2(object obj)
         {
             ListViewItem MyLviewItemsX2 = (ListViewItem)obj;
@@ -563,6 +585,10 @@ namespace ETWPM2Monitor2
 
         }
 
+        /// <summary>
+        /// add items to SystemDetection Logs like [meterpreter session,foundshell and all alarms by etw] 
+        /// </summary>
+        /// <param name="obj"></param>
         public void _Additems_toListview3(object obj)
         {
             ListViewItem MyLviewItemsX6 = (ListViewItem)obj;
@@ -607,7 +633,10 @@ namespace ETWPM2Monitor2
             }
 
         }
-
+        
+        /// <summary>
+        /// dump all details info about Injected ThreadId , StartAddress , Hex bytes and more also add them to richtextbox1 Realtime text Tab
+        /// </summary>       
         public void _DumpMemoryInfo_Injected_Bytes(string _i32StartAddress , Int32 _InjectedTID , Int32 _TPID , string _InjectorPID)
         {
             string d = _i32StartAddress.Substring(2);
@@ -654,12 +683,29 @@ namespace ETWPM2Monitor2
             InitializeComponent();
         }
 
+        public static string Setinputs(double input)
+        {
+            if(input >= 1)
+            {
+                return input.ToString();
+            }
+            else
+            {
+                return "0";
+            }
+        }
+
+        /// <summary>
+        /// detect Delta time for tcp connections
+        /// </summary>      
         public static string Delta_Time(DateTime currenttime_for_packet , DateTime lasttime_for_packet)
         {
             DateTime date1 = lasttime_for_packet;
             DateTime date2 = currenttime_for_packet;
             TimeSpan _ts = date2 - date1;
-            return _ts.TotalMinutes.ToString();
+            
+           
+            return Setinputs(_ts.TotalDays) + ":" + Setinputs(_ts.TotalHours) + ":" + _ts.TotalMinutes.ToString();
         }
 
         public void StartQueries_Mon(string queries)
@@ -671,6 +717,9 @@ namespace ETWPM2Monitor2
 
         }
 
+        /// <summary>
+        /// core code for realtime monitoring Windows eventlog "ETWPM2".
+        /// </summary>
         public void _Core2(object queries)
         {
             try
@@ -691,6 +740,9 @@ namespace ETWPM2Monitor2
             }
         }
 
+        /// <summary>
+        /// core code for realtime monitoring Windows eventlog "ETWPM2".
+        /// </summary>
         public void _Core()
         {
             try
@@ -865,9 +917,9 @@ namespace ETWPM2Monitor2
                 listView4.Columns.Add("Status", 70, HorizontalAlignment.Left);
                 listView4.Columns.Add("Source IP:Port", 120, HorizontalAlignment.Left);
                 listView4.Columns.Add("Destination IP:Port", 120, HorizontalAlignment.Left);
-                listView4.Columns.Add("Delta Time (Minutes)", 120, HorizontalAlignment.Left);
+                listView4.Columns.Add("Delta Time (D:H:Minutes)", 135, HorizontalAlignment.Left);
                 listView4.Columns.Add("Event Count", 77, HorizontalAlignment.Left);
-                listView4.Columns.Add("Event TTL (Minutes)", 110, HorizontalAlignment.Left);
+                listView4.Columns.Add("Event TTL (D:H:Minutes)", 135, HorizontalAlignment.Left);
                 listView4.Columns.Add("Event First Time", 130, HorizontalAlignment.Left);
 
                 /// event for add Process to Alarm-Tab by ETW & Scanning Target Process by Memory Scanners
@@ -916,6 +968,9 @@ namespace ETWPM2Monitor2
             }
         }
 
+        /// <summary>
+        /// time for refresh listview4 [network connections Tab] items and verfiy tcp connection for each items [realtime] to change their imageindex (refresh every 10sec) 
+        /// </summary>        
         private void T5_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
             try
@@ -966,6 +1021,9 @@ namespace ETWPM2Monitor2
             }
         }
 
+        /// <summary>
+        /// timer to refresh listview4 [network connection Tab] and change colors to white (delay 25millisec) 
+        /// </summary>        
         private void T4_1_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
             try
@@ -996,6 +1054,9 @@ namespace ETWPM2Monitor2
            
         }
 
+        /// <summary>
+        /// add all tcp events to networ connection Tab
+        /// </summary>       
         private void Form1_NewTCP_Connection_Detected(object sender, EventArgs e)
         {
             BeginInvoke(new __Additem(Refresh_NetworkConection_in_Network_Tab), sender);
@@ -1029,7 +1090,10 @@ namespace ETWPM2Monitor2
         {
             await _ChangedProperty_Color_changed_delay(_item);
         }
-        
+
+        /// <summary>
+        /// add and refresh all tcp events to networ connection Tab
+        /// </summary>
         public void Refresh_NetworkConection_in_Network_Tab(object obj)
         {
             try
@@ -1121,6 +1185,9 @@ namespace ETWPM2Monitor2
             }
         }
 
+        /// <summary>
+        /// add detected events to System_Detection_Logs Tab , for TCP Meterpreter events and Found Shell events (only)
+        /// </summary>        
         private void Form1_System_Detection_Log_events2(object sender, EventArgs e)
         {
             try
@@ -1167,7 +1234,7 @@ namespace ETWPM2Monitor2
                     }
                     else if (tmp2.SubItems[5].Text.Split('\n')[6].Contains("[dport:4444]"))
                     {
-
+                      
                         //tmp2.SubItems[5].Text += "\n\n#This Description Added by ETWPM2Monitor2 tool#\n##Warning Description: Packet with [size:160] maybe was for Meterpreter Session which will send every 1 min between Client/Server##\n" +
                         //   "##Warning Description: Packet with [size:192] is for meterpreter session which will send before every command excution from/to  server##\n" +
                         //   "##Warning Description: DestinationPort [dport:4444] is Default port for Meterpreter session##";
@@ -1261,6 +1328,9 @@ namespace ETWPM2Monitor2
             }
         }
 
+        /// <summary>
+        /// add detected events to System_Detection_Logs Tab , for Injections events (only)
+        /// </summary>       
         private void Form1_System_Detection_Log_events(object sender, EventArgs e)
         {
             try
@@ -1343,6 +1413,9 @@ namespace ETWPM2Monitor2
             await Listview1__Removeitems();
         }
 
+        /// <summary>
+        /// C# method for remove listview1 items, default is 500
+        /// </summary>      
         public async Task Listview1__Removeitems()
         {
 
@@ -1383,13 +1456,10 @@ namespace ETWPM2Monitor2
         {
             
         }
-
-        private void T3_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
-        {
-            // GC.Collect();
-
-        }
-
+       
+        /// <summary>
+        /// C# event for add all ETW events from windows evet log real_time to listview1
+        /// </summary>       
         private void Form1_NewEventFrom_EventLogsCome(object sender, EventArgs e)
         {
             ListViewItem MyLviewItemsX = (ListViewItem)sender;
@@ -1416,6 +1486,9 @@ namespace ETWPM2Monitor2
             }
         }
 
+        /// <summary>
+        /// C# event for add RemoteThreadInjection Detection to the list of process [Process_Table table], [_ETW_Events_Counts table] , Event ID 2
+        /// </summary>       
         private void Form1_RemoteThreadInjectionDetection_ProcessLists(object sender, EventArgs e)
         {
             try
@@ -1494,6 +1567,9 @@ namespace ETWPM2Monitor2
             }
         }
 
+        /// <summary>
+        /// C# event for add New Process events to the list of process [NewProcess_Table table], Event ID 1
+        /// </summary>        
         private void Form1_NewProcessAddedtolist_NewProcessEvt(object sender, EventArgs e)
         {
             var evt_time = "";
@@ -1608,6 +1684,9 @@ namespace ETWPM2Monitor2
             }
         }
 
+        /// <summary>
+        /// timer to refresh chart tab ETW events info
+        /// </summary>        
         private void T2_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
 
@@ -1624,7 +1703,14 @@ namespace ETWPM2Monitor2
             }
 
         }
-       
+
+        /// <summary>
+        /// C# event, when new tcp Event ID 3 detected then this event will invoke [NewProcessAddedtolist.Invoke(objX, null)]
+        /// for check process via process table [_Table = Process_Table] and memory scanners (if needed), 
+        /// that means if this process has tcp connection event which had some related injection event 
+        /// then should have true flag for scanning by memory scanners and add to "Alarms by ETW Tab"
+        /// so this process had remotethread injectioh event plus tcp connection event so maybe should has true flag for scanning in memory ...
+        /// </summary>     
         private void Form1_NewProcessAddedtolist1(object sender, EventArgs e)
         {
             try
@@ -1673,7 +1759,6 @@ namespace ETWPM2Monitor2
 
                 if (Process_Table.Find(x => x.PID == PID && x.ProcessName == ProcessName).TCPDetails == "null")
                 {
-                    //List<_TableofProcess> _Table = Process_Table.Distinct().ToList().FindAll(x => x.PID == PID && x.ProcessName == ProcessName);
 
                     List<_TableofProcess> _Table = Process_Table.FindAll(x => x.PID == PID && x.ProcessName == ProcessName);
 
@@ -1695,7 +1780,6 @@ namespace ETWPM2Monitor2
                             }
 
                             Thread.Sleep(100);
-                            //_finalresult_Scanned_02[2] = "-+";
 
                             if (!_StopLoopingScan_Exec_02)
                             {
@@ -1900,7 +1984,7 @@ namespace ETWPM2Monitor2
 
                                     System_Detection_Log_events.Invoke((object)iList2, null);
 
-                                }
+                                } 
                                 bool found_obj = false;
                                 foreach (string Objitem in showitemsHash)
                                 {
@@ -1966,6 +2050,12 @@ namespace ETWPM2Monitor2
 
         }
 
+        /// <summary>
+        /// C# Method to scan target process moemory  (memory scanner 01)
+        /// result will be result1 = "[" + temp1 + "][" + temp2 + "][" + temp3 + "]" + "[" + temp4 + "]";
+        /// result is finalresult_Scanned_01[0] = result2;
+        /// memory scanner output is finalresult_Scanned_01[1] = strOutput;
+        /// </summary>        
         public string[] executeutilities_01(string pid, string InProcessName_Path, string _injectorPathPid)
         {
 
@@ -2138,6 +2228,10 @@ namespace ETWPM2Monitor2
 
         }
 
+        /// <summary>
+        /// C# Method to scan target process moemory  (memory scanner 02)
+        /// results are finalresult_Scanned_02[0] , finalresult_Scanned_02[1] = "", finalresult_Scanned_02[2] = "Scanned & Found!";
+        /// </summary>  
         public string[] executeutilities_02(string pid, string InProcessName_Path, string _injectorPathPid)
         {
             Init_to_runPEScanner_02 = false;
@@ -2421,6 +2515,9 @@ namespace ETWPM2Monitor2
 
         }
 
+        /// <summary>
+        /// realtime monitoring events IDs 1,2,3 from windows event log "ETWPM2"  
+        /// </summary>         
         public void Watcher_EventRecordWritten(object sender, EventRecordWrittenEventArgs e)
         {
 
@@ -3267,6 +3364,9 @@ namespace ETWPM2Monitor2
 
         }
 
+        /// <summary>
+        /// C# Method , this method is for Show details info about Detected process in Listview2 [Alarms by ETW Tab]
+        /// </summary>        
         public async Task _Changedindexof_listview_2()
         {
 
@@ -3294,7 +3394,7 @@ namespace ETWPM2Monitor2
 
                      try
                      {
-                         temp_get_InjectorPN_from_description = listView2.SelectedItems[0].SubItems[8].Text
+                        temp_get_InjectorPN_from_description = listView2.SelectedItems[0].SubItems[8].Text
                       .Split('>')[1].Split('[')[1].Split(']')[0].Split(':')[0].Substring(1);
                      }
                      catch (Exception)
@@ -3372,6 +3472,9 @@ namespace ETWPM2Monitor2
 
         }
 
+        /// <summary>
+        /// C# Method , this method is for Show Memory scanner 01 details info about Detected process in Listview2 [Alarms by ETW Tab]         
+        /// </summary>   
         public void _MemoryScanner_Pesieve_ShowObjects(object _PID)
         {
             try
@@ -3580,6 +3683,10 @@ namespace ETWPM2Monitor2
             }
         }
 
+        /// <summary>
+        /// only detected proces in Alarms by ETW Tab will send to richtextbox1
+        /// details info about remotethreadinjection and hex bytes 
+        /// </summary>       
         public void InjectionMemoryInfoDetails_torichtectbox(object etwEvtMessage)
         {
 
