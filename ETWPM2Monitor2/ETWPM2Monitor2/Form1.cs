@@ -687,7 +687,7 @@ namespace ETWPM2Monitor2
         {
             if(input >= 1)
             {
-                return input.ToString();
+                return input.ToString().Split('.')[0];
             }
             else
             {
@@ -705,7 +705,7 @@ namespace ETWPM2Monitor2
             TimeSpan _ts = date2 - date1;
             
            
-            return Setinputs(_ts.TotalDays) + ":" + Setinputs(_ts.TotalHours) + ":" + _ts.TotalMinutes.ToString();
+            return "D:" + Setinputs(_ts.TotalDays) + " or " + "H:" + Setinputs(_ts.TotalHours) + " or " + "M:" + _ts.TotalMinutes.ToString();
         }
 
         public void StartQueries_Mon(string queries)
@@ -912,12 +912,12 @@ namespace ETWPM2Monitor2
                 listView4.GridLines = false;
                 listView4.Sorting = SortOrder.Ascending;
                 listView4.Columns.Add(" ", 20, HorizontalAlignment.Left);
-                listView4.Columns.Add("Time", 130, HorizontalAlignment.Left);
+                listView4.Columns.Add("Time", 124, HorizontalAlignment.Left);
                 listView4.Columns.Add("Process", 180, HorizontalAlignment.Left);
-                listView4.Columns.Add("Status", 70, HorizontalAlignment.Left);
+                listView4.Columns.Add("Status", 64, HorizontalAlignment.Left);
                 listView4.Columns.Add("Source IP:Port", 120, HorizontalAlignment.Left);
                 listView4.Columns.Add("Destination IP:Port", 120, HorizontalAlignment.Left);
-                listView4.Columns.Add("Delta Time (D:H:Minutes)", 135, HorizontalAlignment.Left);
+                listView4.Columns.Add("Delta Time (Days or Hours or Minutes)", 187, HorizontalAlignment.Left);
                 listView4.Columns.Add("Event Count", 77, HorizontalAlignment.Left);
                 listView4.Columns.Add("Event TTL (D:H:Minutes)", 135, HorizontalAlignment.Left);
                 listView4.Columns.Add("Event First Time", 130, HorizontalAlignment.Left);
@@ -1916,6 +1916,8 @@ namespace ETWPM2Monitor2
                                 }
                             }
 
+                            bool IsTargetProcessTerminatedbyETWPM2monitor = false;
+
                             if (Convert.ToInt32(string.Join("", ("0" + _finalresult_Scanned_01[0]).ToCharArray().Where(char.IsDigit))) > 0)
                             {
                                 if (_finalresult_Scanned_02[2] != "Terminated" && _finalresult_Scanned_02[2] != "Suspended")
@@ -1928,17 +1930,19 @@ namespace ETWPM2Monitor2
                                     try
                                     {
                                         Process.GetProcessById(PID).Kill();
-                                        _finalresult_Scanned_02[2] = "Terminated!";
+                                        _finalresult_Scanned_02[2] = "Terminated";
+                                        IsTargetProcessTerminatedbyETWPM2monitor = true;
                                     }
                                     catch (Exception)
                                     {
 
-                                        
+
                                     }
-                                   
+
                                 }
-                                
+
                             }
+
                             /// injection type
                             iList2.SubItems.Add(subitemX);
                             /// tcp send info
@@ -1975,7 +1979,8 @@ namespace ETWPM2Monitor2
                                         break;
                                     }
                                 }
-                            }
+                            }                           
+
                             if (!foundinlist)
                             {
                                 if (Init_to_runPEScanner_01 || Init_to_runPEScanner_02)
@@ -1984,7 +1989,7 @@ namespace ETWPM2Monitor2
 
                                     System_Detection_Log_events.Invoke((object)iList2, null);
 
-                                } 
+                                }
                                 bool found_obj = false;
                                 foreach (string Objitem in showitemsHash)
                                 {
