@@ -3084,7 +3084,7 @@ namespace ETWPM2Monitor2
 
         private void AboutToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(null, "ETWPM2Monitor2 v2.1 [test version 2.1.17.74]\nCode Published by Damon Mohammadbagher , Jul 2021", "About ETWPM2Monitor2 v2.1", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show(null, "ETWPM2Monitor2 v2.1 [test version 2.1.18.82]\nCode Published by Damon Mohammadbagher , Jul 2021", "About ETWPM2Monitor2 v2.1", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
         }
 
@@ -3302,6 +3302,12 @@ namespace ETWPM2Monitor2
             Pe_sieveLevel = 2;
             scanKillSuspiciousRunAsAdminToolStripMenuItem.Checked = true;
             scanOnlyModeDefaultToolStripMenuItem.Checked = false;
+        }
+
+        private void RealTimeSearchFiltersToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SearchForm_Realtime _NewForm = new SearchForm_Realtime();
+            _NewForm.Show();
         }
 
         private void DontDumpPEOfilterToolStripMenuItem_Click(object sender, EventArgs e)

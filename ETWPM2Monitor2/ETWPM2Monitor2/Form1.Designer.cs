@@ -151,6 +151,8 @@
             this.removeRealtimeRecordsAfter2000RecordsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.removeRealtimeRecordsAfter3000RecordsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.removeRealtimeRecordsAfter5000RecordsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
+            this.realTimeSearchFiltersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.memoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.injectedTIDMemoryInfoToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -164,11 +166,11 @@
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel4 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.contextMenuStrip4 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.dumpTIDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripStatusLabel5 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel6 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel7 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.contextMenuStrip4 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.dumpTIDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip5.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -842,6 +844,12 @@
             this.imageList1.Images.SetKeyName(5, "messagebox_warning.ico");
             this.imageList1.Images.SetKeyName(6, "Icojam-Blueberry-Basic-Shield-protect-off.ico");
             this.imageList1.Images.SetKeyName(7, "Icojam-Blueberry-Basic-Shield-protect-on.ico");
+            this.imageList1.Images.SetKeyName(8, "Graphicloads-100-Flat-2-Check-1.ico");
+            this.imageList1.Images.SetKeyName(9, "Matiasam-Ios7-Style-Clear-Tick.ico");
+            this.imageList1.Images.SetKeyName(10, "Awicons-Vista-Artistic-Add.ico");
+            this.imageList1.Images.SetKeyName(11, "Awicons-Vista-Artistic-Delete.ico");
+            this.imageList1.Images.SetKeyName(12, "Danrabbit-Elementary-Button-stop.ico");
+            this.imageList1.Images.SetKeyName(13, "Saki-NuoveXT-2-Actions-remove.ico");
             // 
             // contextMenuStrip1
             // 
@@ -1235,7 +1243,9 @@
             this.removeRealtimeRecordsAfter1000RecordsToolStripMenuItem,
             this.removeRealtimeRecordsAfter2000RecordsToolStripMenuItem,
             this.removeRealtimeRecordsAfter3000RecordsToolStripMenuItem,
-            this.removeRealtimeRecordsAfter5000RecordsToolStripMenuItem});
+            this.removeRealtimeRecordsAfter5000RecordsToolStripMenuItem,
+            this.toolStripSeparator9,
+            this.realTimeSearchFiltersToolStripMenuItem});
             this.filtersToolStripMenuItem.Name = "filtersToolStripMenuItem";
             this.filtersToolStripMenuItem.Size = new System.Drawing.Size(50, 20);
             this.filtersToolStripMenuItem.Text = "Filters";
@@ -1362,6 +1372,18 @@
             this.removeRealtimeRecordsAfter5000RecordsToolStripMenuItem.Text = "Remove Realtime Records after (5000 records)";
             this.removeRealtimeRecordsAfter5000RecordsToolStripMenuItem.Click += new System.EventHandler(this.RemoveRealtimeRecordsAfter5000RecordsToolStripMenuItem_Click);
             // 
+            // toolStripSeparator9
+            // 
+            this.toolStripSeparator9.Name = "toolStripSeparator9";
+            this.toolStripSeparator9.Size = new System.Drawing.Size(348, 6);
+            // 
+            // realTimeSearchFiltersToolStripMenuItem
+            // 
+            this.realTimeSearchFiltersToolStripMenuItem.Name = "realTimeSearchFiltersToolStripMenuItem";
+            this.realTimeSearchFiltersToolStripMenuItem.Size = new System.Drawing.Size(351, 22);
+            this.realTimeSearchFiltersToolStripMenuItem.Text = "RealTime Search/Filters";
+            this.realTimeSearchFiltersToolStripMenuItem.Click += new System.EventHandler(this.RealTimeSearchFiltersToolStripMenuItem_Click);
+            // 
             // memoryToolStripMenuItem
             // 
             this.memoryToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -1462,19 +1484,6 @@
             this.toolStripStatusLabel4.Size = new System.Drawing.Size(117, 17);
             this.toolStripStatusLabel4.Text = "| hollowshunter is on";
             // 
-            // contextMenuStrip4
-            // 
-            this.contextMenuStrip4.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.dumpTIDToolStripMenuItem});
-            this.contextMenuStrip4.Name = "contextMenuStrip4";
-            this.contextMenuStrip4.Size = new System.Drawing.Size(209, 26);
-            // 
-            // dumpTIDToolStripMenuItem
-            // 
-            this.dumpTIDToolStripMenuItem.Name = "dumpTIDToolStripMenuItem";
-            this.dumpTIDToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
-            this.dumpTIDToolStripMenuItem.Text = "Injected TID Memory info";
-            // 
             // toolStripStatusLabel5
             // 
             this.toolStripStatusLabel5.Name = "toolStripStatusLabel5";
@@ -1492,6 +1501,19 @@
             this.toolStripStatusLabel7.Name = "toolStripStatusLabel7";
             this.toolStripStatusLabel7.Size = new System.Drawing.Size(145, 17);
             this.toolStripStatusLabel7.Text = "| Network Connections (0)";
+            // 
+            // contextMenuStrip4
+            // 
+            this.contextMenuStrip4.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.dumpTIDToolStripMenuItem});
+            this.contextMenuStrip4.Name = "contextMenuStrip4";
+            this.contextMenuStrip4.Size = new System.Drawing.Size(209, 26);
+            // 
+            // dumpTIDToolStripMenuItem
+            // 
+            this.dumpTIDToolStripMenuItem.Name = "dumpTIDToolStripMenuItem";
+            this.dumpTIDToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
+            this.dumpTIDToolStripMenuItem.Text = "Injected TID Memory info";
             // 
             // Form1
             // 
@@ -1563,7 +1585,6 @@
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
-        private System.Windows.Forms.ImageList imageList1;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip2;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip3;
@@ -1699,6 +1720,9 @@
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel5;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel6;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel7;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator9;
+        private System.Windows.Forms.ToolStripMenuItem realTimeSearchFiltersToolStripMenuItem;
+        public System.Windows.Forms.ImageList imageList1;
     }
 }
 
