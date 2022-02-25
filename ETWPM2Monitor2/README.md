@@ -47,7 +47,7 @@ Usage Steps
 ### ETWPM2Monitor2 v2.1 (Search/Filters)
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2/Pics/filters.png)
    
-#### note: Search/Filters added to the source code ;)  [25 feb 2022]
+#### note: Search/Filters from Event log "ETWPM2", added to the source code ;)  [25 feb 2022]
 
 ### ETWPM2Monitor2 v2.1 (Search/Filters)
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2/Pics/filters2.png)
