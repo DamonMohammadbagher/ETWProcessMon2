@@ -1974,7 +1974,8 @@ namespace ETWPM2Monitor2
                             /// bug was here
                             if ((!ScannerMixedMode_Hollowh) && (IsTargetProcessTerminatedbyETWPM2monitor))
                             {
-                                BeginInvoke(new __Additem(_Additems_toListview2), iList2);
+                               
+                                // BeginInvoke(new __Additem(_Additems_toListview2), iList2);
 
                                 System_Detection_Log_events.Invoke((object)iList2, null);                                
                             }
@@ -3396,8 +3397,15 @@ namespace ETWPM2Monitor2
 
         private void ListView2_SelectedIndexChanged(object sender, EventArgs e)
         {
-            BeginInvoke(new __Obj_Updater_to_WinForm(_Run_Async_Changedindexof_listview_2));
-           
+
+            ThreadStart __T7_for_show_Details_info = new ThreadStart(delegate
+            {
+                BeginInvoke(new __Obj_Updater_to_WinForm(_Run_Async_Changedindexof_listview_2));
+            });
+
+            Thread _T7_for_show_Details_info_ = new Thread(__T7_for_show_Details_info);
+            _T7_for_show_Details_info_.Start();
+
         }
 
         public async void _Run_Async_Changedindexof_listview_2()
