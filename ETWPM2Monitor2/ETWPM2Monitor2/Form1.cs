@@ -165,6 +165,7 @@ namespace ETWPM2Monitor2
         public static int Pe_sieveLevel = 0;
         public static bool AlarmsByETW_onoff_WithoutScanners = false;
 
+
         /// <summary>
         /// Adding Process which had RemoteThreadInjection to the list for monitoring their TCP Connections etc...
         /// </summary>
@@ -252,6 +253,7 @@ namespace ETWPM2Monitor2
         public static string evtstring2, evtstring3 = "";
         public static Int32 ListiveItemCount = 1000;
         public static Int32 counter_for_tcp_packets_filter = 0;
+        public static bool IsSearchFormActived = false;
         public static bool show_tcp_packets_filter = false;
         public static bool _StopLoopingScan_Exec_01 = false;
         public static bool _StopLoopingScan_Exec_02 = false;
@@ -261,7 +263,8 @@ namespace ETWPM2Monitor2
         public static bool ScannerEvery10minMode_Hollowh = false;
         public static string eventstring_tmp3 = "";
         public static bool NetworkConection_found = false;
-        public static Int64 NetworkConection_TCP_counts = 0;        
+        public static Int64 NetworkConection_TCP_counts = 0;
+        public static bool IsTargetProcessTerminatedbyETWPM2monitor = false;
         public static string _windir = Environment.GetEnvironmentVariable("windir").ToLower();
 
 
@@ -1916,7 +1919,7 @@ namespace ETWPM2Monitor2
                                 }
                             }
 
-                            bool IsTargetProcessTerminatedbyETWPM2monitor = false;
+                            IsTargetProcessTerminatedbyETWPM2monitor = false;
 
                             if (Convert.ToInt32(string.Join("", ("0" + _finalresult_Scanned_01[0]).ToCharArray().Where(char.IsDigit))) > 0)
                             {
@@ -1924,7 +1927,6 @@ namespace ETWPM2Monitor2
                                 {
                                     _finalresult_Scanned_02[2] = "Scanned & Found!";
                                 }
-
                                 if (Pe_sieveLevel == 2)
                                 {
                                     try
@@ -1932,6 +1934,7 @@ namespace ETWPM2Monitor2
                                         Process.GetProcessById(PID).Kill();
                                         _finalresult_Scanned_02[2] = "Terminated";
                                         IsTargetProcessTerminatedbyETWPM2monitor = true;
+                                         
                                     }
                                     catch (Exception)
                                     {
@@ -1952,8 +1955,7 @@ namespace ETWPM2Monitor2
                             /// detection info by pe-sieve64
                             iList2.SubItems.Add(_finalresult_Scanned_01[0]);
                             /// detection info by hollowshunter
-                            iList2.SubItems.Add(_finalresult_Scanned_02[0]);
-
+                            iList2.SubItems.Add(_finalresult_Scanned_02[0]);                         
 
                             /// injection description && / || [bug]
                             _TableofProcess_NewProcess_evt FindingInjectorInfo = NewProcess_Table.Find(x => x.PID == item.Injector || x.ProcessName_Path == item.Injector_Path);
@@ -1966,6 +1968,16 @@ namespace ETWPM2Monitor2
                             _TableofProcess RelatedEvt_Description = Process_Table.Find(x => x.PID == PID && x.ProcessName == ProcessName
                             && x.Description.Contains(":" + item.Injector.ToString() + "[Injected by "));
                             iList2.SubItems.Add(RelatedEvt_Description.Description);
+
+
+                            /// if mixed mode disabled for memoryscanner02, need this to show new event in system/detection logs Tab & alarms by ETW Tab
+                            /// bug was here
+                            if ((!ScannerMixedMode_Hollowh) && (IsTargetProcessTerminatedbyETWPM2monitor))
+                            {
+                                BeginInvoke(new __Additem(_Additems_toListview2), iList2);
+
+                                System_Detection_Log_events.Invoke((object)iList2, null);                                
+                            }
 
                             foreach (string ShowItems in showitemsHash)
                             {
@@ -2655,8 +2667,13 @@ namespace ETWPM2Monitor2
 
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
-            EvtWatcher.Enabled = false;
-            EvtWatcher.Dispose();
+            if (!IsSearchFormActived)
+            {
+                EvtWatcher.Enabled = false;
+                EvtWatcher.Dispose();
+            }
+             
+
         }
 
         private void StartMonitorToolStripMenuItem_Click(object sender, EventArgs e)
@@ -3084,7 +3101,7 @@ namespace ETWPM2Monitor2
 
         private void AboutToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(null, "ETWPM2Monitor2 v2.1 [test version 2.1.18.82]\nCode Published by Damon Mohammadbagher , Jul 2021", "About ETWPM2Monitor2 v2.1", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show(null, "ETWPM2Monitor2 v2.1 [test version 2.1.18.84]\nCode Published by Damon Mohammadbagher , Jul 2021", "About ETWPM2Monitor2 v2.1", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
         }
 
@@ -3307,7 +3324,21 @@ namespace ETWPM2Monitor2
         private void RealTimeSearchFiltersToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SearchForm_Realtime _NewForm = new SearchForm_Realtime();
+            IsSearchFormActived = true;
             _NewForm.Show();
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (!IsSearchFormActived)
+            {
+               
+            }
+            else
+            {
+                MessageBox.Show("Please first exit from Search/Filter Form!");
+                e.Cancel = true;
+            }
         }
 
         private void DontDumpPEOfilterToolStripMenuItem_Click(object sender, EventArgs e)

@@ -35,6 +35,7 @@ namespace ETWPM2Monitor2
         public static CancellationTokenSource _dowork;
         public static ListViewItem MyLviewItemsX = new ListViewItem();
         public static Form1 _Form1 = new Form1();
+        public static bool ALT_F4 = false;
 
         public static void GetRowsTODataTable(DateTime _Time, string _EventID, Int32 _PID, string _Process, string _EventMessage )
         {
@@ -559,8 +560,10 @@ namespace ETWPM2Monitor2
         private void Button4_Click(object sender, EventArgs e)
         {
             stopsearch = true;
+            ALT_F4 = true;
             Thread.Sleep(1000);
             this.Close();
+           
         }
 
         private void CheckBox5_CheckedChanged(object sender, EventArgs e)
@@ -707,6 +710,19 @@ namespace ETWPM2Monitor2
             }
         }
 
+        private void SearchForm_Realtime_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (!ALT_F4)
+            {
+                e.Cancel = true;
+                base.OnClosing(e);
+            }
+            else
+            {
+                Form1.IsSearchFormActived = false;
+            }
+        }
+              
         private void CheckBox3_CheckedChanged(object sender, EventArgs e)
         {
 
