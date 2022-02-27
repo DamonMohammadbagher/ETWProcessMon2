@@ -134,6 +134,8 @@
             this.scanningTargetProcessEvery10mininBackgroundToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.mixedModeToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.disableBothToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
+            this.showNotifyPopupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.filtersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.allEventsIDs123ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.eventID12ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -166,11 +168,12 @@
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel4 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.contextMenuStrip4 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.dumpTIDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.statusStrip2 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel5 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel6 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel7 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.contextMenuStrip4 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.dumpTIDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip5.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -217,6 +220,7 @@
             this.menuStrip3.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.contextMenuStrip4.SuspendLayout();
+            this.statusStrip2.SuspendLayout();
             this.SuspendLayout();
             // 
             // richTextBox1
@@ -238,7 +242,7 @@
             this.listView1.Location = new System.Drawing.Point(0, 0);
             this.listView1.MultiSelect = false;
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(1085, 202);
+            this.listView1.Size = new System.Drawing.Size(1085, 190);
             this.listView1.TabIndex = 1;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.SelectedIndexChanged += new System.EventHandler(this.ListView1_SelectedIndexChanged);
@@ -275,7 +279,7 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 24);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1099, 410);
+            this.tabControl1.Size = new System.Drawing.Size(1099, 388);
             this.tabControl1.TabIndex = 2;
             this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.TabControl1_SelectedIndexChanged);
             // 
@@ -285,7 +289,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1091, 384);
+            this.tabPage1.Size = new System.Drawing.Size(1091, 362);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "ETWPM2 (Realtime events)";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -305,8 +309,8 @@
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.richTextBox6);
-            this.splitContainer2.Size = new System.Drawing.Size(1085, 378);
-            this.splitContainer2.SplitterDistance = 202;
+            this.splitContainer2.Size = new System.Drawing.Size(1085, 356);
+            this.splitContainer2.SplitterDistance = 190;
             this.splitContainer2.TabIndex = 2;
             // 
             // richTextBox6
@@ -316,7 +320,7 @@
             this.richTextBox6.Location = new System.Drawing.Point(0, 0);
             this.richTextBox6.Name = "richTextBox6";
             this.richTextBox6.ReadOnly = true;
-            this.richTextBox6.Size = new System.Drawing.Size(1085, 172);
+            this.richTextBox6.Size = new System.Drawing.Size(1085, 162);
             this.richTextBox6.TabIndex = 0;
             this.richTextBox6.Text = "";
             // 
@@ -949,7 +953,9 @@
             this.autoScrollToolStripMenuItem,
             this.clearAllToolStripMenuItem,
             this.toolStripSeparator3,
-            this.scannersToolStripMenuItem});
+            this.scannersToolStripMenuItem,
+            this.toolStripSeparator10,
+            this.showNotifyPopupToolStripMenuItem});
             this.actionToolStripMenuItem1.Name = "actionToolStripMenuItem1";
             this.actionToolStripMenuItem1.Size = new System.Drawing.Size(59, 20);
             this.actionToolStripMenuItem1.Text = "Actions";
@@ -957,14 +963,14 @@
             // startMonitorToolStripMenuItem
             // 
             this.startMonitorToolStripMenuItem.Name = "startMonitorToolStripMenuItem";
-            this.startMonitorToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+            this.startMonitorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.startMonitorToolStripMenuItem.Text = "Start Monitor";
             this.startMonitorToolStripMenuItem.Click += new System.EventHandler(this.StartMonitorToolStripMenuItem_Click);
             // 
             // stoptMonitorToolStripMenuItem
             // 
             this.stoptMonitorToolStripMenuItem.Name = "stoptMonitorToolStripMenuItem";
-            this.stoptMonitorToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+            this.stoptMonitorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.stoptMonitorToolStripMenuItem.Text = "Stop Monitor";
             this.stoptMonitorToolStripMenuItem.Click += new System.EventHandler(this.StoptMonitorToolStripMenuItem_Click);
             // 
@@ -974,7 +980,7 @@
             this.onToolStripMenuItem,
             this.offToolStripMenuItem});
             this.autoScrollToolStripMenuItem.Name = "autoScrollToolStripMenuItem";
-            this.autoScrollToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+            this.autoScrollToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.autoScrollToolStripMenuItem.Text = "Auto Scroll";
             // 
             // onToolStripMenuItem
@@ -994,14 +1000,14 @@
             // clearAllToolStripMenuItem
             // 
             this.clearAllToolStripMenuItem.Name = "clearAllToolStripMenuItem";
-            this.clearAllToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+            this.clearAllToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.clearAllToolStripMenuItem.Text = "Clear All";
             this.clearAllToolStripMenuItem.Click += new System.EventHandler(this.ClearAllToolStripMenuItem_Click);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(141, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(177, 6);
             // 
             // scannersToolStripMenuItem
             // 
@@ -1013,7 +1019,7 @@
             this.toolStripSeparator2,
             this.scanningConfigurationToolStripMenuItem});
             this.scannersToolStripMenuItem.Name = "scannersToolStripMenuItem";
-            this.scannersToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+            this.scannersToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.scannersToolStripMenuItem.Text = "Scanners";
             // 
             // pesieve64exeOffToolStripMenuItem
@@ -1225,6 +1231,20 @@
             this.disableBothToolStripMenuItem.Text = "Disable Both";
             this.disableBothToolStripMenuItem.Click += new System.EventHandler(this.DisableBothToolStripMenuItem_Click);
             // 
+            // toolStripSeparator10
+            // 
+            this.toolStripSeparator10.Name = "toolStripSeparator10";
+            this.toolStripSeparator10.Size = new System.Drawing.Size(177, 6);
+            // 
+            // showNotifyPopupToolStripMenuItem
+            // 
+            this.showNotifyPopupToolStripMenuItem.Checked = true;
+            this.showNotifyPopupToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.showNotifyPopupToolStripMenuItem.Name = "showNotifyPopupToolStripMenuItem";
+            this.showNotifyPopupToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.showNotifyPopupToolStripMenuItem.Text = "Show Notify Popup";
+            this.showNotifyPopupToolStripMenuItem.Click += new System.EventHandler(this.ShowNotifyPopupToolStripMenuItem_Click);
+            // 
             // filtersToolStripMenuItem
             // 
             this.filtersToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -1252,6 +1272,7 @@
             // 
             // allEventsIDs123ToolStripMenuItem
             // 
+            this.allEventsIDs123ToolStripMenuItem.CheckOnClick = true;
             this.allEventsIDs123ToolStripMenuItem.Name = "allEventsIDs123ToolStripMenuItem";
             this.allEventsIDs123ToolStripMenuItem.Size = new System.Drawing.Size(351, 22);
             this.allEventsIDs123ToolStripMenuItem.Text = "All EventIDs 1,2,3";
@@ -1259,6 +1280,7 @@
             // 
             // eventID12ToolStripMenuItem
             // 
+            this.eventID12ToolStripMenuItem.CheckOnClick = true;
             this.eventID12ToolStripMenuItem.Name = "eventID12ToolStripMenuItem";
             this.eventID12ToolStripMenuItem.Size = new System.Drawing.Size(351, 22);
             this.eventID12ToolStripMenuItem.Text = "EventID 1,2 [NewProcess + [RemoteThreadInjection ]";
@@ -1267,6 +1289,7 @@
             // 
             // eventID13ToolStripMenuItem
             // 
+            this.eventID13ToolStripMenuItem.CheckOnClick = true;
             this.eventID13ToolStripMenuItem.Name = "eventID13ToolStripMenuItem";
             this.eventID13ToolStripMenuItem.Size = new System.Drawing.Size(351, 22);
             this.eventID13ToolStripMenuItem.Text = "EventID 1,3 [NewProcess + TCPIP]";
@@ -1275,6 +1298,7 @@
             // 
             // eventID23InjectionTCPIPToolStripMenuItem
             // 
+            this.eventID23InjectionTCPIPToolStripMenuItem.CheckOnClick = true;
             this.eventID23InjectionTCPIPToolStripMenuItem.Name = "eventID23InjectionTCPIPToolStripMenuItem";
             this.eventID23InjectionTCPIPToolStripMenuItem.Size = new System.Drawing.Size(351, 22);
             this.eventID23InjectionTCPIPToolStripMenuItem.Text = "EventID 2,3 [RemoteThreadInjection + TCPIP]";
@@ -1282,6 +1306,7 @@
             // 
             // eventID1ToolStripMenuItem
             // 
+            this.eventID1ToolStripMenuItem.CheckOnClick = true;
             this.eventID1ToolStripMenuItem.Name = "eventID1ToolStripMenuItem";
             this.eventID1ToolStripMenuItem.Size = new System.Drawing.Size(351, 22);
             this.eventID1ToolStripMenuItem.Text = "EventID 1 [NewProcess event]";
@@ -1290,6 +1315,7 @@
             // 
             // eventID2ToolStripMenuItem
             // 
+            this.eventID2ToolStripMenuItem.CheckOnClick = true;
             this.eventID2ToolStripMenuItem.Name = "eventID2ToolStripMenuItem";
             this.eventID2ToolStripMenuItem.Size = new System.Drawing.Size(351, 22);
             this.eventID2ToolStripMenuItem.Text = "EventID 2 [RemoteThreadInjection event]";
@@ -1298,6 +1324,7 @@
             // 
             // eventID3ToolStripMenuItem
             // 
+            this.eventID3ToolStripMenuItem.CheckOnClick = true;
             this.eventID3ToolStripMenuItem.Name = "eventID3ToolStripMenuItem";
             this.eventID3ToolStripMenuItem.Size = new System.Drawing.Size(351, 22);
             this.eventID3ToolStripMenuItem.Text = "EventID 3 [TCPIP Send event]";
@@ -1446,14 +1473,12 @@
             // 
             // statusStrip1
             // 
+            this.statusStrip1.BackColor = System.Drawing.Color.DimGray;
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1,
             this.toolStripStatusLabel2,
             this.toolStripStatusLabel3,
-            this.toolStripStatusLabel4,
-            this.toolStripStatusLabel5,
-            this.toolStripStatusLabel6,
-            this.toolStripStatusLabel7});
+            this.toolStripStatusLabel4});
             this.statusStrip1.Location = new System.Drawing.Point(0, 434);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(1099, 22);
@@ -1462,45 +1487,31 @@
             // 
             // toolStripStatusLabel1
             // 
+            this.toolStripStatusLabel1.ForeColor = System.Drawing.Color.GhostWhite;
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
             this.toolStripStatusLabel1.Size = new System.Drawing.Size(105, 17);
             this.toolStripStatusLabel1.Text = "Monitor Status: on";
             // 
             // toolStripStatusLabel2
             // 
+            this.toolStripStatusLabel2.ForeColor = System.Drawing.Color.GhostWhite;
             this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
             this.toolStripStatusLabel2.Size = new System.Drawing.Size(47, 17);
             this.toolStripStatusLabel2.Text = "| Filters:";
             // 
             // toolStripStatusLabel3
             // 
+            this.toolStripStatusLabel3.ForeColor = System.Drawing.Color.GhostWhite;
             this.toolStripStatusLabel3.Name = "toolStripStatusLabel3";
             this.toolStripStatusLabel3.Size = new System.Drawing.Size(85, 17);
             this.toolStripStatusLabel3.Text = "| pe-sieve is on";
             // 
             // toolStripStatusLabel4
             // 
+            this.toolStripStatusLabel4.ForeColor = System.Drawing.Color.GhostWhite;
             this.toolStripStatusLabel4.Name = "toolStripStatusLabel4";
             this.toolStripStatusLabel4.Size = new System.Drawing.Size(117, 17);
             this.toolStripStatusLabel4.Text = "| hollowshunter is on";
-            // 
-            // toolStripStatusLabel5
-            // 
-            this.toolStripStatusLabel5.Name = "toolStripStatusLabel5";
-            this.toolStripStatusLabel5.Size = new System.Drawing.Size(152, 17);
-            this.toolStripStatusLabel5.Text = "| System/Detection Logs (0)";
-            // 
-            // toolStripStatusLabel6
-            // 
-            this.toolStripStatusLabel6.Name = "toolStripStatusLabel6";
-            this.toolStripStatusLabel6.Size = new System.Drawing.Size(109, 17);
-            this.toolStripStatusLabel6.Text = "| Alarms by ETW (0)";
-            // 
-            // toolStripStatusLabel7
-            // 
-            this.toolStripStatusLabel7.Name = "toolStripStatusLabel7";
-            this.toolStripStatusLabel7.Size = new System.Drawing.Size(145, 17);
-            this.toolStripStatusLabel7.Text = "| Network Connections (0)";
             // 
             // contextMenuStrip4
             // 
@@ -1515,12 +1526,48 @@
             this.dumpTIDToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
             this.dumpTIDToolStripMenuItem.Text = "Injected TID Memory info";
             // 
+            // statusStrip2
+            // 
+            this.statusStrip2.BackColor = System.Drawing.Color.Gray;
+            this.statusStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripStatusLabel5,
+            this.toolStripStatusLabel6,
+            this.toolStripStatusLabel7});
+            this.statusStrip2.Location = new System.Drawing.Point(0, 412);
+            this.statusStrip2.Name = "statusStrip2";
+            this.statusStrip2.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
+            this.statusStrip2.Size = new System.Drawing.Size(1099, 22);
+            this.statusStrip2.TabIndex = 8;
+            this.statusStrip2.Text = "statusStrip2";
+            // 
+            // toolStripStatusLabel5
+            // 
+            this.toolStripStatusLabel5.ForeColor = System.Drawing.Color.Lavender;
+            this.toolStripStatusLabel5.Name = "toolStripStatusLabel5";
+            this.toolStripStatusLabel5.Size = new System.Drawing.Size(152, 17);
+            this.toolStripStatusLabel5.Text = "| System/Detection Logs (0)";
+            // 
+            // toolStripStatusLabel6
+            // 
+            this.toolStripStatusLabel6.ForeColor = System.Drawing.Color.Lavender;
+            this.toolStripStatusLabel6.Name = "toolStripStatusLabel6";
+            this.toolStripStatusLabel6.Size = new System.Drawing.Size(109, 17);
+            this.toolStripStatusLabel6.Text = "| Alarms by ETW (0)";
+            // 
+            // toolStripStatusLabel7
+            // 
+            this.toolStripStatusLabel7.ForeColor = System.Drawing.Color.Lavender;
+            this.toolStripStatusLabel7.Name = "toolStripStatusLabel7";
+            this.toolStripStatusLabel7.Size = new System.Drawing.Size(145, 17);
+            this.toolStripStatusLabel7.Text = "| Network Connections (0)";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1099, 456);
             this.Controls.Add(this.tabControl1);
+            this.Controls.Add(this.statusStrip2);
             this.Controls.Add(this.menuStrip3);
             this.Controls.Add(this.statusStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -1577,6 +1624,8 @@
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.contextMenuStrip4.ResumeLayout(false);
+            this.statusStrip2.ResumeLayout(false);
+            this.statusStrip2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1718,12 +1767,15 @@
         private System.Windows.Forms.ToolStripMenuItem scanKillSuspiciousRunAsAdminToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator8;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel5;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel6;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel7;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator9;
         private System.Windows.Forms.ToolStripMenuItem realTimeSearchFiltersToolStripMenuItem;
         public System.Windows.Forms.ImageList imageList1;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator10;
+        private System.Windows.Forms.ToolStripMenuItem showNotifyPopupToolStripMenuItem;
+        private System.Windows.Forms.StatusStrip statusStrip2;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel5;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel6;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel7;
     }
 }
 

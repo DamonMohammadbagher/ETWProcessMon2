@@ -266,7 +266,32 @@ namespace ETWPM2Monitor2
         public static Int64 NetworkConection_TCP_counts = 0;
         public static bool IsTargetProcessTerminatedbyETWPM2monitor = false;
         public static string _windir = Environment.GetEnvironmentVariable("windir").ToLower();
+        public static NotifyIcon ico = new NotifyIcon();
+        public static bool _isNotifyEnabled = true;
 
+        public static void _Show_Notify_Ico_Popup(object obj)
+        {
+            try
+            {
+                ico.Visible = false;
+                ListViewItem _Obj_notify = (ListViewItem)obj;
+
+                var _value2 = _Obj_notify.SubItems[2].Text;
+                var _value3 = _Obj_notify.SubItems[3].Text;
+                var _value4 = _Obj_notify.SubItems[4].Text;
+                var _value5 = _Obj_notify.SubItems[5].Text;
+                var _value6 = _Obj_notify.SubItems[6].Text;
+
+                ico.Icon = SystemIcons.Error;
+                ico.Visible = true;
+                ico.ShowBalloonTip(4000, _value3 + "\n" + _value2.Replace('\n', ' ')
+                    + "\n" + _value4 + "\n" + _value5 + "\n" + _value6, _value5, ToolTipIcon.Error);
+            }
+            catch (Exception)
+            {
+
+            }
+        }
 
         public static int _percent(int count, int total)
         {
@@ -610,6 +635,14 @@ namespace ETWPM2Monitor2
                         listView3.EndUpdate();
                         evtstring3 = MyLviewItemsX6.Name;
                         Thread.Sleep(50);
+
+                        if (_isNotifyEnabled)
+                        {
+                            if (MyLviewItemsX6.SubItems[3].Text.Contains("Scanned & Found")
+                                || MyLviewItemsX6.SubItems[3].Text.Contains("Suspended")
+                                || MyLviewItemsX6.SubItems[3].Text.Contains("Terminated"))
+                                _Show_Notify_Ico_Popup(MyLviewItemsX6);
+                        }
                     }
                 }
                 tabPage3.Text = "System/Detection Logs " + "(" + listView3.Items.Count.ToString() + ")";
@@ -2744,6 +2777,14 @@ namespace ETWPM2Monitor2
             StartQueries_Mon("*");
             toolStripStatusLabel2.ForeColor = Color.Red;
 
+            eventID12ToolStripMenuItem.Checked = false;
+            eventID13ToolStripMenuItem.Checked = false;
+            eventID1ToolStripMenuItem.Checked = false;
+            eventID23InjectionTCPIPToolStripMenuItem.Checked = false;
+            eventID2ToolStripMenuItem.Checked = false;
+            eventID3ToolStripMenuItem.Checked = false;
+            //allEventsIDs123ToolStripMenuItem.Checked = true;
+
             toolStripStatusLabel2.Text = "| Filters: Select All EventIDs 1,2,3 [NewProcess , RemoteThreadInjection Detection , TCPIP Send]";
 
         }
@@ -2751,6 +2792,14 @@ namespace ETWPM2Monitor2
         public void EventID12ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string _Query = "<QueryList><Query Id=\"0\" Path=\"ETWPM2\"><Select Path=\"ETWPM2\">*[System[(EventID=1 or EventID=2)]]</Select></Query></QueryList>";
+
+            eventID12ToolStripMenuItem.Checked = true;
+            eventID13ToolStripMenuItem.Checked = false;
+            eventID1ToolStripMenuItem.Checked = false;
+            eventID23InjectionTCPIPToolStripMenuItem.Checked = false;
+            eventID2ToolStripMenuItem.Checked = false;
+            eventID3ToolStripMenuItem.Checked = false;
+            allEventsIDs123ToolStripMenuItem.Checked = false;
 
             StartQueries_Mon(_Query);
             toolStripStatusLabel2.ForeColor = Color.Red;
@@ -2762,6 +2811,14 @@ namespace ETWPM2Monitor2
         public void EventID13ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string _Query = "<QueryList><Query Id=\"0\" Path=\"ETWPM2\"><Select Path=\"ETWPM2\">*[System[(EventID=1 or EventID=3)]]</Select></Query></QueryList>";
+
+            eventID12ToolStripMenuItem.Checked = false;
+            eventID13ToolStripMenuItem.Checked = true;
+            eventID1ToolStripMenuItem.Checked = false;
+            eventID23InjectionTCPIPToolStripMenuItem.Checked = false;
+            eventID2ToolStripMenuItem.Checked = false;
+            eventID3ToolStripMenuItem.Checked = false;
+            allEventsIDs123ToolStripMenuItem.Checked = false;
 
             StartQueries_Mon(_Query);
             toolStripStatusLabel2.ForeColor = Color.Red;
@@ -2775,6 +2832,14 @@ namespace ETWPM2Monitor2
         {
             string _Query = "<QueryList><Query Id=\"0\" Path=\"ETWPM2\"><Select Path=\"ETWPM2\">*[System[(EventID=2 or EventID=3)]]</Select></Query></QueryList>";
 
+            eventID12ToolStripMenuItem.Checked = false;
+            eventID13ToolStripMenuItem.Checked = false;
+            eventID1ToolStripMenuItem.Checked = false;
+            eventID23InjectionTCPIPToolStripMenuItem.Checked = true;
+            eventID2ToolStripMenuItem.Checked = false;
+            eventID3ToolStripMenuItem.Checked = false;
+            allEventsIDs123ToolStripMenuItem.Checked = false;
+
             StartQueries_Mon(_Query);
             toolStripStatusLabel2.ForeColor = Color.Red;
 
@@ -2785,6 +2850,14 @@ namespace ETWPM2Monitor2
         private void EventID1ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string _Query = "<QueryList><Query Id=\"0\" Path=\"ETWPM2\"><Select Path=\"ETWPM2\">*[System[(EventID=1)]]</Select></Query></QueryList>";
+
+            eventID12ToolStripMenuItem.Checked = false;
+            eventID13ToolStripMenuItem.Checked = false;
+            eventID1ToolStripMenuItem.Checked = true;
+            eventID23InjectionTCPIPToolStripMenuItem.Checked = false;
+            eventID2ToolStripMenuItem.Checked = false;
+            eventID3ToolStripMenuItem.Checked = false;
+            allEventsIDs123ToolStripMenuItem.Checked = false;
 
             StartQueries_Mon(_Query);
             toolStripStatusLabel2.ForeColor = Color.Red;
@@ -2799,6 +2872,14 @@ namespace ETWPM2Monitor2
         {
             string _Query = "<QueryList><Query Id=\"0\" Path=\"ETWPM2\"><Select Path=\"ETWPM2\">*[System[(EventID=2)]]</Select></Query></QueryList>";
 
+            eventID12ToolStripMenuItem.Checked = false;
+            eventID13ToolStripMenuItem.Checked = false;
+            eventID1ToolStripMenuItem.Checked = false;
+            eventID23InjectionTCPIPToolStripMenuItem.Checked = false;
+            eventID2ToolStripMenuItem.Checked = true;
+            eventID3ToolStripMenuItem.Checked = false;
+            allEventsIDs123ToolStripMenuItem.Checked = false;
+
             StartQueries_Mon(_Query);
             toolStripStatusLabel2.ForeColor = Color.Red;
 
@@ -2811,6 +2892,14 @@ namespace ETWPM2Monitor2
         private void EventID3ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string _Query = "<QueryList><Query Id=\"0\" Path=\"ETWPM2\"><Select Path=\"ETWPM2\">*[System[(EventID=3)]]</Select></Query></QueryList>";
+
+            eventID12ToolStripMenuItem.Checked = false;
+            eventID13ToolStripMenuItem.Checked = false;
+            eventID1ToolStripMenuItem.Checked = false;
+            eventID23InjectionTCPIPToolStripMenuItem.Checked = false;
+            eventID2ToolStripMenuItem.Checked = false;
+            eventID3ToolStripMenuItem.Checked = true;
+            allEventsIDs123ToolStripMenuItem.Checked = false;
 
             StartQueries_Mon(_Query);
             toolStripStatusLabel2.ForeColor = Color.Red;
@@ -3327,6 +3416,7 @@ namespace ETWPM2Monitor2
             SearchForm_Realtime _NewForm = new SearchForm_Realtime();
             IsSearchFormActived = true;
             _NewForm.Show();
+           
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
@@ -3339,6 +3429,21 @@ namespace ETWPM2Monitor2
             {
                 MessageBox.Show("Please first exit from Search/Filter Form!");
                 e.Cancel = true;
+            }
+        }
+       
+        private void ShowNotifyPopupToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!showNotifyPopupToolStripMenuItem.Checked)
+            {
+                showNotifyPopupToolStripMenuItem.Checked = true;
+                _isNotifyEnabled = true;
+            }
+            else
+            {
+                if (showNotifyPopupToolStripMenuItem.Checked)
+                    showNotifyPopupToolStripMenuItem.Checked = false;
+                _isNotifyEnabled = false;
             }
         }
 
