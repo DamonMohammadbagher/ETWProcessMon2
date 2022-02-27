@@ -66,7 +66,8 @@ Note: "ETWPM2Monitor2 v2" code Published here => https://github.com/DamonMohamma
 
 md5 info [ETWPM2Monitor2.exe], "exe files are not safe here in github so make your own exe files with C# source by yourself [i recommend]":
 
-    6048e89bb0-b3d99921a2-58f0b3a86443 => ETWPM2Monitor2.exe (v2.1)
+    
+    79379b9657-5dd789b4cf-f8c6325282f9 => ETWPM2Monitor2.exe (v2.1)
     
 
 
