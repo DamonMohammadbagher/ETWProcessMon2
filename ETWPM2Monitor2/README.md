@@ -44,6 +44,9 @@ Usage Steps
     Step2: ETWPM2Monitor2.exe (Run as Admin)
 
 ----------------------------------------------------------
+### ETWPM2Monitor2 v2.1 , update(17) v2.1.18.84 [Feb 27, 2022]
+   ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/Pics/ETWPM2Monitor2.1.png)
+   
 ### ETWPM2Monitor2 v2.1 (Search/Filters)
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2/Pics/filters.png)
    
