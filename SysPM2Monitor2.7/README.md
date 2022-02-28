@@ -2,9 +2,13 @@
 
 this tool [SysPM2Monitor2 v2.7] is for Monitor Sysmon Event-Logs & this code almost is same with ETWPM2Monitor2.exe code but in this case this code Integrated with Sysmon Events so we dont have ETW Events in this case, but in the future i will add ETW VirtualMemAllocMon code to this tool so then we have at same time Sysmon logs + ETW VirtualMemAlloc logs (memory scanner via ETW VirtualMemAlloc Events)...
 
-#### Note:  `"sysmonconfig-export.xml" file was my rules for test sysmon so you should use these rules in this file for sysmon but only Event IDs 1,3,8,25 are important for this tool and you do not need other events IDs for running SysPM2Monitor2.7 so you can use your own rules with these Events IDs too.`
+#### Note: `"sysmonconfig-export.xml" file was my rules for test sysmon so you should use these rules in this file for sysmon but only Event IDs 1,3,8,25 are important for this tool and you do not need other events IDs for running SysPM2Monitor2.7 so you can use your own rules with these Events IDs too.`
 
 ##### Sysmon Config => https://github.com/SwiftOnSecurity/sysmon-config
+
+
+Important: `this Code will use "VirtualMemAllocMon.exe" v1.1 so you need copy/paste this exe to \SysPM2Monitor2.7\Bin\Debug\VirtualMemAllocMon\Debug\ folder you can download/compile source code for VirtualMemAllocMon v1.1 from here => https://github.com/DamonMohammadbagher/ETWProcessMon2/tree/main/VirtualMemAllocMon or you can use exe file in github.`
+
 
 ### Technique Detection & Payload Detection via Sysmon events: 
 in this code the goal is Monitoring Process for (RemoteThreadInjection Techniques) via Sysmon Events like EventID 1 [New Process], EventID 8 [CreateRemoteThread] & EventID 3 [Tcp/ip Connections] so background of code is exactly same with ETWPM2Monitor2.exe but in this case we use Sysmon Events instead ETW events which made by ETWProcessMon2.exe C# tool.
