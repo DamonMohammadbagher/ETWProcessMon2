@@ -10,6 +10,9 @@ in this code the goal is Monitoring Process for (RemoteThreadInjection Technique
 Video : https://www.youtube.com/watch?v=Q8fSpUXR2kw
 
 ------------------------- 
+### SysPM2Monitor2.7 [v 2.7.12.58] (28 feb , 2022)
+   ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/SysPM2Monitor2.7/Pic/SysPM2Monitor2.7.png)
+-------------------------   
 ### SysPM2Monitor2.7 & Detection Logs & Memory Scanners (ETW VirtualMemAllocMon v1.1 works very well & fast)
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/SysPM2Monitor2.7/Pic/logs.png)
 ------------------------- 
