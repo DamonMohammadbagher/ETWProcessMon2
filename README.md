@@ -58,7 +58,26 @@ VirtualMemAllocMon is for Monitoring VirtualMemAlloc Event via ETW, when some Na
    
 For more Information & Details with Picture about this Code => https://github.com/DamonMohammadbagher/ETWProcessMon2/tree/main/VirtualMemAllocMon 
 
------------------------------------------------------------    
+-----------------------------------------------------------   
+### SysPM2Monitor2.7.exe
+
+this tool [SysPM2Monitor2 v2.7] is for Monitor Sysmon Event-Logs & this code almost is same with ETWPM2Monitor2.exe code but in this case this code Integrated with Sysmon Events so we dont have ETW Events in this case, but in the future i will add ETW VirtualMemAllocMon code to this tool so then we have at same time Sysmon logs + ETW VirtualMemAlloc logs (memory scanner via ETW VirtualMemAlloc Events)...
+
+#### Note: `"sysmonconfig-export.xml" file was my rules for test sysmon so you should use these rules in this file for sysmon but only Event IDs 1,3,8,25 are important for this tool and you do not need other events IDs for running SysPM2Monitor2.7 so you can use your own rules with these Events IDs too.`
+
+##### Sysmon Config => https://github.com/SwiftOnSecurity/sysmon-config
+
+### SysPM2Monitor2.7 [v 2.7.12.58] (28 feb , 2022)
+   ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/SysPM2Monitor2.7/Pic/SysPM2Monitor2.7.png)
+
+Important: `this Code will use memory scanner "VirtualMemAllocMon.exe" v1.1 so before run SysPM2Monitor2.7 you need copy/paste this exe to \SysPM2Monitor2.7\Bin\Debug\VirtualMemAllocMon\Debug\ folder you can download/compile source code for VirtualMemAllocMon v1.1 from here => https://github.com/DamonMohammadbagher/ETWProcessMon2/tree/main/VirtualMemAllocMon or you can use exe file in github.`
+
+#### VirtualMemAllocMon.exe v1.1 => https://github.com/DamonMohammadbagher/ETWProcessMon2/tree/main/VirtualMemAllocMon
+
+Important: `this Code will use memory scanners "pe-sieve64.exe" & "hollows_hunter64.exe",so before run SysPM2Monitor2.7 you need download/paste these exe files to \SysPM2Monitor2.7\Bin\Debug\ folder then you can run SysPM2Monitor2.7.exe , you can download these files from here link1: https://github.com/hasherezade/pe-sieve
+link2: https://github.com/hasherezade/hollows_hunter.`
+
+-----------------------------------------------------------
 ### ETWPM2Monitor.exe
 "ETWPM2Monitor" v1.2 is simple C# code [test version 1.2.10.18] for Realtime Event Log Monitor, but this code only will work with logname "ETWPM2" which made by "ETWProcessMon2.exe", so you need run as Admin "ETWProcessMon2.exe" (step1) before use "ETWPM2Monitor.exe" (step2) for monitor windows event logs which made by "ETWProcessMon2exe".
 
