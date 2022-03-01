@@ -23,10 +23,10 @@ Video : https://www.youtube.com/watch?v=Q8fSpUXR2kw
 
 Note: SysPM2Monitor2_7.exe will save all System/Detection logs to Windows eventlog Name "SysPM2Monitor2_7". 
             
-            [information] EventId 1 is for Scanned events.
-            [warning]     EventId 2 is for Terminated, Suspended, Scanned & Found events.
-            [information] EventId 3 is for Suspicious Traffic [Meterpreter!].
-            [warning]     EventId 4 is for Found Shell events.
+     [information] EventId 1 is for Scanned events.
+     [warning]     EventId 2 is for Terminated, Suspended, Scanned & Found events.
+     [information] EventId 3 is for Suspicious Traffic [Meterpreter!].
+     [warning]     EventId 4 is for Found Shell events.
            
 
 
