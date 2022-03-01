@@ -20,6 +20,17 @@ in this code the goal is Monitoring Process for (RemoteThreadInjection Technique
 
 Video : https://www.youtube.com/watch?v=Q8fSpUXR2kw
 
+      step1: config your Sysmon rules
+      step2: make folder "c:\test"
+      step3: copy/paste SysPM2Monitor2_7.exe to test folder 
+      step4: download/paste memory scanners Pe-sieve64.exe/hollow_hunter64.exe to the test folder.
+      step5: download/paste ETW Memory scanner VirtualMemAllocMon.exe to folder "c:\test\VirtualMemAllocMon\Debug\"
+      step6: (Run as Admin) SysPM2Monitor2_7.exe
+
+usage: 
+
+      SysPM2Monitor2_7.exe  (Run as admin)
+
 ------------------------- 
 ### SysPM2Monitor2.7 [v 2.7.12.58] (28 feb , 2022)
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/SysPM2Monitor2.7/Pic/SysPM2Monitor2.7.png)
