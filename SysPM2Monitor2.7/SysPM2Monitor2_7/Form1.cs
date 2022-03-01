@@ -260,6 +260,9 @@ namespace SysPM2Monitor2_7
         public static bool ScannerMixedMode_Pesieve = true;
         public static bool ScannerEvery10minMode_Pesieve = false;
         public static bool error_eventlognotfouand = false;
+        public static string _windir = Environment.GetEnvironmentVariable("windir").ToLower();
+
+
         /// <summary>
         /// event for adding event logs to listView6 for all Sysmon/Etw Detection logs.
         /// </summary>
@@ -1444,10 +1447,10 @@ namespace SysPM2Monitor2_7
                     {
                         string commandline = MyLviewItemsX1.SubItems[5].Text.Split('\n')[11].ToLower();
                         string parentid = MyLviewItemsX1.SubItems[5].Text.Split('\n')[21].ToLower();
-                        if (commandline.Contains("commandline: c:\\windows\\system32\\cmd.exe") || commandline.Contains("commandline: cmd"))
+                        if (commandline.Contains("commandline: " + _windir + "\\system32\\cmd.exe") || commandline.Contains("commandline: cmd"))
 
                         {
-                            if (parentid != "parentimage: c:\\windows\\explorer.exe")
+                            if (parentid != "parentimage: " + _windir + "\\explorer.exe")
                             {
                                 MyLviewItemsX1.BackColor = Color.Red;
                                 MyLviewItemsX1.ForeColor = Color.Black;
