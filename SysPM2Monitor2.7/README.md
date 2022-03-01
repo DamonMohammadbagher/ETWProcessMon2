@@ -23,7 +23,7 @@ Video : https://www.youtube.com/watch?v=Q8fSpUXR2kw
       step1: config your Sysmon rules
       step2: make folder "c:\test"
       step3: copy/paste SysPM2Monitor2_7.exe to test folder 
-      step4: download/paste memory scanners Pe-sieve64.exe/hollow_hunter64.exe to the test folder.
+      step4: download/paste memory scanners Pe-sieve64.exe/hollows_hunter64.exe to the test folder.
       step5: download/paste ETW Memory scanner VirtualMemAllocMon.exe to folder "c:\test\VirtualMemAllocMon\Debug\"
       step6: (Run as Admin) SysPM2Monitor2_7.exe
 
