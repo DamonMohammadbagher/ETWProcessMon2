@@ -63,6 +63,8 @@ For more Information & Details with Picture about this Code => https://github.co
 
 this tool [SysPM2Monitor2 v2.7] is for Monitor Sysmon Event-Logs & this code almost is same with ETWPM2Monitor2.exe code but in this case this code Integrated with Sysmon Events so we dont have all ETW Events in this case, but we have ETW VirtualMemAllocMon code in this tool so we have at same time Sysmon logs + ETW VirtualMemAlloc logs (memory scanner via ETW VirtualMemAlloc Events)...
 
+link : https://github.com/DamonMohammadbagher/ETWProcessMon2/tree/main/SysPM2Monitor2.7
+
 #### Note: `"sysmonconfig-export.xml" file was my rules for test sysmon so you should use these rules in this file for sysmon but only Event IDs 1,3,8,25 are important for this tool and you do not need other events IDs for running SysPM2Monitor2.7 so you can use your own rules with these Events IDs too.`
 
 ##### Sysmon Config => https://github.com/SwiftOnSecurity/sysmon-config
@@ -76,6 +78,29 @@ Important: `this Code will use memory scanner "VirtualMemAllocMon.exe" v1.1 so b
 
 Important: `this Code will use memory scanners "pe-sieve64.exe" & "hollows_hunter64.exe",so before run SysPM2Monitor2.7 you need download/paste these exe files to \SysPM2Monitor2.7\Bin\Debug\ folder then you can run SysPM2Monitor2.7.exe , you can download these files from here link1: https://github.com/hasherezade/pe-sieve
 link2: https://github.com/hasherezade/hollows_hunter.`
+
+Video : https://www.youtube.com/watch?v=Q8fSpUXR2kw
+
+
+Note: SysPM2Monitor2_7.exe will save all System/Detection logs to Windows eventlog Name "SysPM2Monitor2_7". 
+            
+     [information] EventId 1 is for Scanned events.
+     [warning]     EventId 2 is for Terminated, Suspended, Scanned & Found events.
+     [information] EventId 3 is for Suspicious Traffic [Meterpreter!].
+     [warning]     EventId 4 is for Found Shell events.           
+
+#### Running SysPM2Monitor2_7.exe step by step
+
+      step1: config your Sysmon rules
+      step2: make folder "c:\test"
+      step3: copy/paste SysPM2Monitor2_7.exe to test folder 
+      step4: download/paste memory scanners Pe-sieve64.exe/hollows_hunter64.exe to the test folder.
+      step5: download/paste ETW Memory scanner VirtualMemAllocMon.exe to folder "c:\test\VirtualMemAllocMon\Debug\"
+      step6: SysPM2Monitor2_7.exe (Run as Admin) 
+
+usage: 
+
+      SysPM2Monitor2_7.exe  (Run as admin)
 
 -----------------------------------------------------------
 ### ETWPM2Monitor.exe
