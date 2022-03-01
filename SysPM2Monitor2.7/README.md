@@ -28,6 +28,8 @@ Note: SysPM2Monitor2_7.exe will save all System/Detection logs to Windows eventl
 
 Video : https://www.youtube.com/watch?v=Q8fSpUXR2kw
 
+#### Running SysPM2Monitor2_7.exe step by step
+
       step1: config your Sysmon rules
       step2: make folder "c:\test"
       step3: copy/paste SysPM2Monitor2_7.exe to test folder 
