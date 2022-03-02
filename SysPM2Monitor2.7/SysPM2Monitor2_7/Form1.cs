@@ -536,17 +536,26 @@ namespace SysPM2Monitor2_7
                     
                      
                 }
-               
-                ETW_VirtualMemAllocMon_Events_Reader();
-                //string Query = "*";
-                SysmonPM2Query = new EventLogQuery("Microsoft-Windows-Sysmon/Operational", PathType.LogName);
 
-                EvtWatcher = new EventLogWatcher(SysmonPM2Query);
-                EvtWatcher.EventRecordWritten += Watcher_EventRecordWritten;
+                try
+                {
+                    ETW_VirtualMemAllocMon_Events_Reader();
+                    //string Query = "*";
+                    SysmonPM2Query = new EventLogQuery("Microsoft-Windows-Sysmon/Operational", PathType.LogName);
 
-                listView1.SmallImageList = imageList1;
-                /// Run As Admin ;)
-                EvtWatcher.Enabled = true;
+                    EvtWatcher = new EventLogWatcher(SysmonPM2Query);
+                    EvtWatcher.EventRecordWritten += Watcher_EventRecordWritten;
+
+                    listView1.SmallImageList = imageList1;
+                    /// Run As Admin ;)
+                    EvtWatcher.Enabled = true;
+                }
+                catch (Exception error)
+                {
+                    MessageBox.Show("Sysmon Windows EventLog Not Found or Access Error!?\n" + error.Message);
+                    
+                }
+              
 
                 listView2.HeaderStyle = ColumnHeaderStyle.Nonclickable;
                 listView2.BorderStyle = BorderStyle.FixedSingle;
@@ -1334,6 +1343,7 @@ namespace SysPM2Monitor2_7
                     bool MemoryBytes = Memoryinfo.ReadProcessMemory(prch, (UIntPtr)i32StartAddress, buf, buf.Length, IntPtr.Zero);
                     string _buf = Memoryinfo.HexDump(buf);
                     string _bytes = BitConverter.ToString(buf).ToString();
+
                     /// added
                     ThreadStart __T5_info_for_additems_to_Richtextbox1 = new ThreadStart(delegate
                     {
@@ -1422,10 +1432,6 @@ namespace SysPM2Monitor2_7
                             InjectionMemoryInfoDetails_torichtectbox(MyLviewItemsX1.SubItems[5].Text);
                         }
 
-                        
-                      
-                         
-
                     }
 
                     if (MyLviewItemsX1.SubItems[2].Text == "25")
@@ -1447,8 +1453,13 @@ namespace SysPM2Monitor2_7
                     {
                         string commandline = MyLviewItemsX1.SubItems[5].Text.Split('\n')[11].ToLower();
                         string parentid = MyLviewItemsX1.SubItems[5].Text.Split('\n')[21].ToLower();
-                        if (commandline.Contains("commandline: " + _windir + "\\system32\\cmd.exe") || commandline.Contains("commandline: cmd"))
+                        string _image = MyLviewItemsX1.SubItems[5].Text.Split('\n')[5].ToLower();
+                        parentid = parentid.Substring(0, parentid.Length - 1);
+                        _image = _image.Substring(0, _image.Length - 1);
 
+                        if (commandline.Contains("commandline: " + _windir + "\\system32\\cmd.exe")
+                            || commandline.Contains("commandline: cmd")
+                            || _image == "image: " + _windir + "\\system32\\cmd.exe")
                         {
                             if (parentid != "parentimage: " + _windir + "\\explorer.exe")
                             {
