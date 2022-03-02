@@ -81,6 +81,10 @@ link2: https://github.com/hasherezade/hollows_hunter.`
 
 Video : https://www.youtube.com/watch?v=Q8fSpUXR2kw
 
+md5 info:
+
+    bfe1bb7bae-468185632c-27fce4c51c03 => SysPM2Monitor2_7.exe [v2.7.12.58]
+
 
 Note: SysPM2Monitor2_7.exe will save all System/Detection logs to Windows eventlog Name "SysPM2Monitor2_7". 
             
