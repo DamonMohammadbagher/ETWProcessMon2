@@ -1168,10 +1168,15 @@ namespace SysPM2Monitor2_7
                 string commandline = tmp2.SubItems[5].Text.Split('\n')[11].ToLower();
                 string parentid = tmp2.SubItems[5].Text.Split('\n')[21].ToLower();
                 string Shell_Pid = tmp2.SubItems[5].Text.Split('\n')[4].Split(':')[1];
-                if (commandline.Contains("commandline: c:\\windows\\system32\\cmd.exe") || commandline.Contains("commandline: cmd"))
+                string _image = tmp2.SubItems[5].Text.Split('\n')[5].ToLower();
+                parentid = parentid.Substring(0, parentid.Length - 1);
+                _image = _image.Substring(0, _image.Length - 1);
 
+                if (commandline.Contains("commandline: " + _windir + "\\system32\\cmd.exe")
+                             || commandline.Contains("commandline: cmd")
+                             || _image == "image: " + _windir + "\\system32\\cmd.exe")
                 {
-                    if (parentid != "parentimage: c:\\windows\\explorer.exe]")
+                    if (parentid != "parentimage: " + _windir + "\\explorer.exe")
                     {
                         iList6 = new ListViewItem();
                         iList6.Name = tmp2.SubItems[5].Text;
