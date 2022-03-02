@@ -24,6 +24,7 @@ Video : https://www.youtube.com/watch?v=Q8fSpUXR2kw
 md5 info:
 
        bfe1bb7bae-468185632c-27fce4c51c03 => SysPM2Monitor2_7.exe [v2.7.12.58]
+       5ee176af45-524d29ea3e-b89fe0c3e928 => VirtualMemAllocMon.exe (v1.1)
 
 
 Note: SysPM2Monitor2_7.exe will save all System/Detection logs to Windows eventlog Name "SysPM2Monitor2_7". 
