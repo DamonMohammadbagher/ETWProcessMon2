@@ -28,6 +28,14 @@ Note: all alarms (Those Processes which Detected by ETWPM2Monitor2 v2.1) will sa
 
     link1: https://github.com/hasherezade/pe-sieve
     link2: https://github.com/hasherezade/hollows_hunter
+    
+Note: EventIDs 1,2,3,4,255, these events will save save by ETWPM2Monitor2.1 in Windows Eventlog Name "ETWPM2Monitor2":
+
+        [Information] Event ID 1 : Detected + Scanned but not found 
+        [Warning]     Event ID 2 : Detected + Scanned & Found or Suspended or Terminated via ETW Injection Events
+        [Informarion] Event ID 3 : Detection for Meterpreter Traffic only via ETW Tcp Events 
+        [Warning]     Event ID 4 : Detection for Shell Activity via ETW New Process Events
+
 
 md5 info, "exe files are not safe here in github so make your own exe files with C# source by yourself [i recommend]":
 
