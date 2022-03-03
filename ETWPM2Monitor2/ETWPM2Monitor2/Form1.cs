@@ -1312,10 +1312,11 @@ namespace ETWPM2Monitor2
                     string commandline = tmp2.SubItems[5].Text.Split('\n')[4].ToLower();
                     string parentid = tmp2.SubItems[5].Text.Split('\n')[5].ToLower();
                     string Shell_Pid = tmp2.SubItems[5].Text.Split('\n')[2].Substring(6).Split(' ')[0];
-                    if (commandline.Contains("[commandline: c:\\windows\\system32\\cmd.exe") || commandline.Contains("[commandline: cmd"))
 
+                    if (commandline.Contains("[commandline: " + _windir + "\\system32\\cmd.exe") || commandline.Contains("[commandline: cmd"))
                     {
-                        if (parentid != "[parentid path: c:\\windows\\explorer.exe]")
+
+                        if (parentid != "[parentid path: " + _windir + "\\explorer.exe]")
                         {
                             iList3 = new ListViewItem();
                             iList3.Name = tmp2.SubItems[5].Text;
@@ -3819,11 +3820,11 @@ namespace ETWPM2Monitor2
             listView2.BorderStyle = BorderStyle.FixedSingle;
             listView2.ForeColor = Color.Black;
 
-            richTextBox1.BackColor = Control.DefaultBackColor;
-            toolStripSeparator1.BackColor = Control.DefaultBackColor;
-            statusStrip1.BackColor = Control.DefaultBackColor;
-            menuStrip3.BackColor = Control.DefaultBackColor;
-            toolStripSeparator1.BackColor = Color.Black;
+            //richTextBox1.BackColor = Control.DefaultBackColor;
+            //toolStripSeparator1.BackColor = Control.DefaultBackColor;
+            //statusStrip1.BackColor = Control.DefaultBackColor;
+            //menuStrip3.BackColor = Control.DefaultBackColor;
+            //toolStripSeparator1.BackColor = Color.Black;
         }
 
         public void _Additems_str_toRichtextbox1(object str)

@@ -229,7 +229,7 @@
             this.richTextBox1.Location = new System.Drawing.Point(3, 3);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.ReadOnly = true;
-            this.richTextBox1.Size = new System.Drawing.Size(1085, 378);
+            this.richTextBox1.Size = new System.Drawing.Size(1085, 356);
             this.richTextBox1.TabIndex = 0;
             this.richTextBox1.Text = "";
             // 
@@ -330,7 +330,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(1091, 384);
+            this.tabPage2.Size = new System.Drawing.Size(1091, 362);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "ETWPM2 (Realtime events, text)";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -341,7 +341,7 @@
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(1091, 384);
+            this.tabPage4.Size = new System.Drawing.Size(1091, 362);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Alarms by ETW";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -361,8 +361,8 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.tabControl2);
-            this.splitContainer1.Size = new System.Drawing.Size(1085, 378);
-            this.splitContainer1.SplitterDistance = 149;
+            this.splitContainer1.Size = new System.Drawing.Size(1085, 356);
+            this.splitContainer1.SplitterDistance = 140;
             this.splitContainer1.TabIndex = 1;
             // 
             // listView2
@@ -374,7 +374,7 @@
             this.listView2.Location = new System.Drawing.Point(0, 0);
             this.listView2.MultiSelect = false;
             this.listView2.Name = "listView2";
-            this.listView2.Size = new System.Drawing.Size(1085, 149);
+            this.listView2.Size = new System.Drawing.Size(1085, 140);
             this.listView2.TabIndex = 0;
             this.listView2.UseCompatibleStateImageBehavior = false;
             this.listView2.SelectedIndexChanged += new System.EventHandler(this.ListView2_SelectedIndexChanged);
@@ -411,7 +411,7 @@
             this.tabControl2.Location = new System.Drawing.Point(0, 0);
             this.tabControl2.Name = "tabControl2";
             this.tabControl2.SelectedIndex = 0;
-            this.tabControl2.Size = new System.Drawing.Size(1085, 225);
+            this.tabControl2.Size = new System.Drawing.Size(1085, 212);
             this.tabControl2.TabIndex = 0;
             // 
             // tabPage5
@@ -420,7 +420,7 @@
             this.tabPage5.Location = new System.Drawing.Point(4, 22);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage5.Size = new System.Drawing.Size(1077, 199);
+            this.tabPage5.Size = new System.Drawing.Size(1077, 186);
             this.tabPage5.TabIndex = 0;
             this.tabPage5.Text = "Memory Scanner Result";
             this.tabPage5.UseVisualStyleBackColor = true;
@@ -439,7 +439,7 @@
             // splitContainer3.Panel2
             // 
             this.splitContainer3.Panel2.Controls.Add(this.MemoryAddresses_tabControl3);
-            this.splitContainer3.Size = new System.Drawing.Size(1071, 193);
+            this.splitContainer3.Size = new System.Drawing.Size(1071, 180);
             this.splitContainer3.SplitterDistance = 461;
             this.splitContainer3.TabIndex = 1;
             // 
@@ -451,7 +451,7 @@
             this.richTextBox2.Location = new System.Drawing.Point(0, 0);
             this.richTextBox2.Name = "richTextBox2";
             this.richTextBox2.ReadOnly = true;
-            this.richTextBox2.Size = new System.Drawing.Size(461, 193);
+            this.richTextBox2.Size = new System.Drawing.Size(461, 180);
             this.richTextBox2.TabIndex = 0;
             this.richTextBox2.Text = "";
             // 
@@ -462,7 +462,7 @@
             this.MemoryAddresses_tabControl3.Location = new System.Drawing.Point(0, 0);
             this.MemoryAddresses_tabControl3.Name = "MemoryAddresses_tabControl3";
             this.MemoryAddresses_tabControl3.SelectedIndex = 0;
-            this.MemoryAddresses_tabControl3.Size = new System.Drawing.Size(606, 193);
+            this.MemoryAddresses_tabControl3.Size = new System.Drawing.Size(606, 180);
             this.MemoryAddresses_tabControl3.TabIndex = 0;
             // 
             // tabPage8
@@ -471,7 +471,7 @@
             this.tabPage8.Location = new System.Drawing.Point(4, 22);
             this.tabPage8.Name = "tabPage8";
             this.tabPage8.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage8.Size = new System.Drawing.Size(598, 167);
+            this.tabPage8.Size = new System.Drawing.Size(598, 154);
             this.tabPage8.TabIndex = 1;
             this.tabPage8.Text = "Detected Memory Addresses (Pe-sieve, Default dump all should be [on] for this)";
             this.tabPage8.UseVisualStyleBackColor = true;
@@ -483,7 +483,7 @@
             this.richTextBox7.Location = new System.Drawing.Point(3, 3);
             this.richTextBox7.Name = "richTextBox7";
             this.richTextBox7.ReadOnly = true;
-            this.richTextBox7.Size = new System.Drawing.Size(592, 161);
+            this.richTextBox7.Size = new System.Drawing.Size(592, 148);
             this.richTextBox7.TabIndex = 0;
             this.richTextBox7.Text = "";
             // 
@@ -495,7 +495,7 @@
             this.tabPage6.Location = new System.Drawing.Point(4, 22);
             this.tabPage6.Name = "tabPage6";
             this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage6.Size = new System.Drawing.Size(1077, 199);
+            this.tabPage6.Size = new System.Drawing.Size(1077, 186);
             this.tabPage6.TabIndex = 1;
             this.tabPage6.Text = "Details & Injection Information by ETW";
             this.tabPage6.UseVisualStyleBackColor = true;
@@ -508,7 +508,7 @@
             this.groupBox9.Controls.Add(this.richTextBox4);
             this.groupBox9.Location = new System.Drawing.Point(605, 6);
             this.groupBox9.Name = "groupBox9";
-            this.groupBox9.Size = new System.Drawing.Size(466, 106);
+            this.groupBox9.Size = new System.Drawing.Size(466, 93);
             this.groupBox9.TabIndex = 1;
             this.groupBox9.TabStop = false;
             this.groupBox9.Text = "Event Message";
@@ -520,7 +520,7 @@
             this.richTextBox4.Location = new System.Drawing.Point(3, 16);
             this.richTextBox4.Name = "richTextBox4";
             this.richTextBox4.ReadOnly = true;
-            this.richTextBox4.Size = new System.Drawing.Size(460, 87);
+            this.richTextBox4.Size = new System.Drawing.Size(460, 74);
             this.richTextBox4.TabIndex = 0;
             this.richTextBox4.Text = "";
             // 
@@ -529,7 +529,7 @@
             this.groupBox10.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox10.Controls.Add(this.richTextBox5);
-            this.groupBox10.Location = new System.Drawing.Point(605, 115);
+            this.groupBox10.Location = new System.Drawing.Point(605, 102);
             this.groupBox10.Name = "groupBox10";
             this.groupBox10.Size = new System.Drawing.Size(466, 81);
             this.groupBox10.TabIndex = 2;
@@ -556,7 +556,7 @@
             this.richTextBox3.Location = new System.Drawing.Point(3, 3);
             this.richTextBox3.Name = "richTextBox3";
             this.richTextBox3.ReadOnly = true;
-            this.richTextBox3.Size = new System.Drawing.Size(596, 193);
+            this.richTextBox3.Size = new System.Drawing.Size(596, 180);
             this.richTextBox3.TabIndex = 0;
             this.richTextBox3.Text = "";
             // 
@@ -566,7 +566,7 @@
             this.tabPage7.Location = new System.Drawing.Point(4, 22);
             this.tabPage7.Name = "tabPage7";
             this.tabPage7.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage7.Size = new System.Drawing.Size(1077, 199);
+            this.tabPage7.Size = new System.Drawing.Size(1077, 186);
             this.tabPage7.TabIndex = 2;
             this.tabPage7.Text = "Charts & Scan Logs";
             this.tabPage7.UseVisualStyleBackColor = true;
@@ -586,7 +586,7 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(3, 3);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1071, 193);
+            this.panel1.Size = new System.Drawing.Size(1071, 180);
             this.panel1.TabIndex = 3;
             // 
             // groupBox11
@@ -598,7 +598,7 @@
             this.groupBox11.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.groupBox11.Location = new System.Drawing.Point(583, 8);
             this.groupBox11.Name = "groupBox11";
-            this.groupBox11.Size = new System.Drawing.Size(485, 182);
+            this.groupBox11.Size = new System.Drawing.Size(485, 169);
             this.groupBox11.TabIndex = 5;
             this.groupBox11.TabStop = false;
             this.groupBox11.Text = "Memory Scanners Logs";
@@ -611,7 +611,7 @@
             this.listBox1.HorizontalScrollbar = true;
             this.listBox1.Location = new System.Drawing.Point(3, 16);
             this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(479, 163);
+            this.listBox1.Size = new System.Drawing.Size(479, 150);
             this.listBox1.TabIndex = 1;
             // 
             // groupBox7
@@ -765,7 +765,7 @@
             this.tabPage9.Controls.Add(this.listView4);
             this.tabPage9.Location = new System.Drawing.Point(4, 22);
             this.tabPage9.Name = "tabPage9";
-            this.tabPage9.Size = new System.Drawing.Size(1077, 199);
+            this.tabPage9.Size = new System.Drawing.Size(1077, 186);
             this.tabPage9.TabIndex = 3;
             this.tabPage9.Text = "Network Connections";
             this.tabPage9.UseVisualStyleBackColor = true;
@@ -779,7 +779,7 @@
             this.listView4.Location = new System.Drawing.Point(0, 0);
             this.listView4.MultiSelect = false;
             this.listView4.Name = "listView4";
-            this.listView4.Size = new System.Drawing.Size(1077, 199);
+            this.listView4.Size = new System.Drawing.Size(1077, 186);
             this.listView4.Sorting = System.Windows.Forms.SortOrder.Ascending;
             this.listView4.TabIndex = 0;
             this.listView4.UseCompatibleStateImageBehavior = false;
@@ -789,7 +789,7 @@
             this.tabPage3.Controls.Add(this.splitContainer4);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(1091, 384);
+            this.tabPage3.Size = new System.Drawing.Size(1091, 362);
             this.tabPage3.TabIndex = 4;
             this.tabPage3.Text = "System/Detection Logs";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -809,8 +809,8 @@
             // splitContainer4.Panel2
             // 
             this.splitContainer4.Panel2.Controls.Add(this.richTextBox8);
-            this.splitContainer4.Size = new System.Drawing.Size(1091, 384);
-            this.splitContainer4.SplitterDistance = 180;
+            this.splitContainer4.Size = new System.Drawing.Size(1091, 362);
+            this.splitContainer4.SplitterDistance = 169;
             this.splitContainer4.TabIndex = 0;
             // 
             // listView3
@@ -820,7 +820,7 @@
             this.listView3.Location = new System.Drawing.Point(0, 0);
             this.listView3.MultiSelect = false;
             this.listView3.Name = "listView3";
-            this.listView3.Size = new System.Drawing.Size(1091, 180);
+            this.listView3.Size = new System.Drawing.Size(1091, 169);
             this.listView3.TabIndex = 0;
             this.listView3.UseCompatibleStateImageBehavior = false;
             this.listView3.SelectedIndexChanged += new System.EventHandler(this.ListView3_SelectedIndexChanged);
@@ -832,7 +832,7 @@
             this.richTextBox8.Location = new System.Drawing.Point(0, 0);
             this.richTextBox8.Name = "richTextBox8";
             this.richTextBox8.ReadOnly = true;
-            this.richTextBox8.Size = new System.Drawing.Size(1091, 200);
+            this.richTextBox8.Size = new System.Drawing.Size(1091, 189);
             this.richTextBox8.TabIndex = 0;
             this.richTextBox8.Text = "";
             // 
@@ -922,6 +922,7 @@
             // 
             this.themeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.dGreyToolStripMenuItem});
+            this.themeToolStripMenuItem.Enabled = false;
             this.themeToolStripMenuItem.Name = "themeToolStripMenuItem";
             this.themeToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
             this.themeToolStripMenuItem.Text = "Theme";
@@ -929,7 +930,7 @@
             // dGreyToolStripMenuItem
             // 
             this.dGreyToolStripMenuItem.Name = "dGreyToolStripMenuItem";
-            this.dGreyToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+            this.dGreyToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.dGreyToolStripMenuItem.Text = "Theme1";
             this.dGreyToolStripMenuItem.Click += new System.EventHandler(this.DGreyToolStripMenuItem_Click);
             // 
@@ -963,14 +964,14 @@
             // startMonitorToolStripMenuItem
             // 
             this.startMonitorToolStripMenuItem.Name = "startMonitorToolStripMenuItem";
-            this.startMonitorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.startMonitorToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
             this.startMonitorToolStripMenuItem.Text = "Start Monitor";
             this.startMonitorToolStripMenuItem.Click += new System.EventHandler(this.StartMonitorToolStripMenuItem_Click);
             // 
             // stoptMonitorToolStripMenuItem
             // 
             this.stoptMonitorToolStripMenuItem.Name = "stoptMonitorToolStripMenuItem";
-            this.stoptMonitorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.stoptMonitorToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
             this.stoptMonitorToolStripMenuItem.Text = "Stop Monitor";
             this.stoptMonitorToolStripMenuItem.Click += new System.EventHandler(this.StoptMonitorToolStripMenuItem_Click);
             // 
@@ -980,7 +981,7 @@
             this.onToolStripMenuItem,
             this.offToolStripMenuItem});
             this.autoScrollToolStripMenuItem.Name = "autoScrollToolStripMenuItem";
-            this.autoScrollToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.autoScrollToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
             this.autoScrollToolStripMenuItem.Text = "Auto Scroll";
             // 
             // onToolStripMenuItem
@@ -1000,14 +1001,14 @@
             // clearAllToolStripMenuItem
             // 
             this.clearAllToolStripMenuItem.Name = "clearAllToolStripMenuItem";
-            this.clearAllToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.clearAllToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
             this.clearAllToolStripMenuItem.Text = "Clear All";
             this.clearAllToolStripMenuItem.Click += new System.EventHandler(this.ClearAllToolStripMenuItem_Click);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(174, 6);
             // 
             // scannersToolStripMenuItem
             // 
@@ -1019,7 +1020,7 @@
             this.toolStripSeparator2,
             this.scanningConfigurationToolStripMenuItem});
             this.scannersToolStripMenuItem.Name = "scannersToolStripMenuItem";
-            this.scannersToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.scannersToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
             this.scannersToolStripMenuItem.Text = "Scanners";
             // 
             // pesieve64exeOffToolStripMenuItem
@@ -1234,14 +1235,14 @@
             // toolStripSeparator10
             // 
             this.toolStripSeparator10.Name = "toolStripSeparator10";
-            this.toolStripSeparator10.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator10.Size = new System.Drawing.Size(174, 6);
             // 
             // showNotifyPopupToolStripMenuItem
             // 
             this.showNotifyPopupToolStripMenuItem.Checked = true;
             this.showNotifyPopupToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.showNotifyPopupToolStripMenuItem.Name = "showNotifyPopupToolStripMenuItem";
-            this.showNotifyPopupToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.showNotifyPopupToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
             this.showNotifyPopupToolStripMenuItem.Text = "Show Notify Popup";
             this.showNotifyPopupToolStripMenuItem.Click += new System.EventHandler(this.ShowNotifyPopupToolStripMenuItem_Click);
             // 
