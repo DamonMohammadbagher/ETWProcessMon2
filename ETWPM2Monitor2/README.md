@@ -41,7 +41,8 @@ md5 info, "exe files are not safe here in github so make your own exe files with
 
     b913a0d66d-750478c5a8-1d557aad377d => ETWProcessMon2.exe
     1351cc2d56-8aae91f9b2-06aa526e1f1d => ETWProcessMon2.exe (v2.1)
-    79379b9657-5dd789b4cf-f8c6325282f9 => ETWPM2Monitor2.exe (v2.1)
+    a59885063c-05f96d9db5-dd811ae5b555 => ETWPM2Monitor2.exe (v2.1)
+
 
     
 
