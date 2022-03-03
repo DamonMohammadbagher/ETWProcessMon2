@@ -110,7 +110,7 @@ usage:
       SysPM2Monitor2_7.exe  (Run as admin)
 
 -----------------------------------------------------------
-### ETWPM2Monitor.exe (v2.1)
+### ETWPM2Monitor2.exe (v2.1)
 "ETWPM2Monitor2" [v2.1] is simple C# code for Realtime Event Log Monitor, but this code only will work with logname "ETWPM2" which made by "ETWProcessMon2.exe", so you need run as Admin "ETWProcessMon2.exe" (step1) before use "ETWPM2Monitor2.1.exe" (step2) for monitor windows event logs which made by "ETWProcessMon2.exe (v2.1)".
 
 This tool [ETWPM2Monitor version2] is for Monitor ETW Event-Logs [log name: ETWPM2] which made by ETWProcessMon2.exe & the goal is Monitoring RemoteThreadInjection Techniques (Technique Detection & Payload Detection via ETW).
