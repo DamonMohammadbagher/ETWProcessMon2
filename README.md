@@ -113,7 +113,24 @@ usage:
 ### ETWPM2Monitor.exe
 "ETWPM2Monitor" v1.2 is simple C# code [test version 1.2.10.18] for Realtime Event Log Monitor, but this code only will work with logname "ETWPM2" which made by "ETWProcessMon2.exe", so you need run as Admin "ETWProcessMon2.exe" (step1) before use "ETWPM2Monitor.exe" (step2) for monitor windows event logs which made by "ETWProcessMon2exe".
 
-Note: "ETWPM2Monitor2 v2" code Published here => https://github.com/DamonMohammadbagher/ETWProcessMon2/tree/main/ETWPM2Monitor2
+This tool [ETWPM2Monitor version2] is for Monitor ETW Event-Logs [log name: ETWPM2] which made by ETWProcessMon2.exe & the goal is Monitoring RemoteThreadInjection Techniques (Technique Detection & Payload Detection via ETW).
+
+```diff 
+! Note: ETWPM2Monitor2 v2.1 is new version of code & you can use this code with ETWProcessMon2.1 (v2.1),
+! this version ETWPM2Monitor2 v2.1 will work with ETWProcessMon2.1 and both are
+! very fast for (Remote-Thread-Injection) Technique/Payload Detection via ETW Events)
++ code performance now is good and "a lot bugs" fixed also Search/Filters form + NotifyIcon added to the source. 
++ last source/exe update(17) v2.1.18.84 [Feb 27, 2022]...
+```
+
+Note: "ETWPM2Monitor2 v2.1" code Published here => https://github.com/DamonMohammadbagher/ETWProcessMon2/tree/main/ETWPM2Monitor2
+
+Note: EventIDs 1,2,3,4,255, these events will save save by ETWPM2Monitor2.1 in Windows Eventlog Name "ETWPM2Monitor2":
+
+        [Information] Event ID 1 : Detected + Scanned but not found 
+        [Warning]     Event ID 2 : Detected + Scanned & Found or Suspended or Terminated via ETW Injection Events
+        [Informarion] Event ID 3 : Detection for Meterpreter Traffic only via ETW Tcp Events 
+        [Warning]     Event ID 4 : Detection for Shell Activity via ETW New Process Events
 
 md5 info [ETWPM2Monitor2.exe], "exe files are not safe here in github so make your own exe files with C# source by yourself [i recommend]":
 
