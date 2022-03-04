@@ -9,6 +9,8 @@ this tool [SysPM2Monitor2 v2.7] is for Monitor Sysmon Event-Logs & this code alm
 
 Important: `this Code will use memory scanner "VirtualMemAllocMon.exe" v1.1 so before run SysPM2Monitor2.7 you need copy/paste this exe to \SysPM2Monitor2.7\Bin\Debug\VirtualMemAllocMon\Debug\ folder you can download/compile source code for VirtualMemAllocMon v1.1 from here => https://github.com/DamonMohammadbagher/ETWProcessMon2/tree/main/VirtualMemAllocMon or you can use exe file in github.`
 
+#### warning: `VirtualMemAllocMon.exe has ETW C# codes (https://www.nuget.org/packages/Microsoft.Diagnostics.Tracing.TraceEvent) for monitoring ETW Events and this code has Confilict with some tools like TCPView (Sysinternals), or maybe i should say TCPView has confilict with ETW, so if you use this tool with VirtualMemAllocMon.exe at same time then code will be crash and VirtualMemAllocMon.exe Memory scanner will not work for SysPM2Monitor2.7.exe ....`
+
 #### VirtualMemAllocMon.exe v1.1 => https://github.com/DamonMohammadbagher/ETWProcessMon2/tree/main/VirtualMemAllocMon
 
 Important: `this Code will use memory scanners "pe-sieve64.exe" & "hollows_hunter64.exe",so before run SysPM2Monitor2.7 you need download/paste these exe files to \SysPM2Monitor2.7\Bin\Debug\ folder then you can run SysPM2Monitor2.7.exe , you can download these files from here link1: https://github.com/hasherezade/pe-sieve
