@@ -261,6 +261,8 @@ namespace SysPM2Monitor2_7
         public static bool ScannerEvery10minMode_Pesieve = false;
         public static bool error_eventlognotfouand = false;
         public static string _windir = Environment.GetEnvironmentVariable("windir").ToLower();
+        public static bool IsTargetProcessTerminatedbyETWPM2monitor = false;
+        public static int Pe_sieveLevel = 0;
 
 
         /// <summary>
@@ -1167,6 +1169,8 @@ namespace SysPM2Monitor2_7
             {
                 string commandline = tmp2.SubItems[5].Text.Split('\n')[11].ToLower();
                 string parentid = tmp2.SubItems[5].Text.Split('\n')[21].ToLower();
+                string _parentid = tmp2.SubItems[5].Text.Split('\n')[21];
+                _parentid = _parentid.Substring(0, _parentid.Length - 1);
                 string Shell_Pid = tmp2.SubItems[5].Text.Split('\n')[4].Split(':')[1];
                 string _image = tmp2.SubItems[5].Text.Split('\n')[5].ToLower();
                 parentid = parentid.Substring(0, parentid.Length - 1);
@@ -1181,7 +1185,7 @@ namespace SysPM2Monitor2_7
                         iList6 = new ListViewItem();
                         iList6.Name = tmp2.SubItems[5].Text;
                         iList6.SubItems.Add(tmp2.SubItems[1].Text);
-                        iList6.SubItems.Add(tmp2.SubItems[3].Text + " " + " (with " + parentid + ")");
+                        iList6.SubItems.Add(tmp2.SubItems[3].Text + " " + " (with " + _parentid + ")");
 
                         iList6.SubItems.Add("[!] Found Shell");
                         iList6.SubItems.Add("Sysmon [Process Create] event id 1");
@@ -1237,9 +1241,20 @@ namespace SysPM2Monitor2_7
                     iList6.SubItems.Add(tmp.SubItems[2].Text);
                     if (tmp.SubItems[5].Text == "--")
                     {
-                        iList6.SubItems.Add("[!] Found Suspicious");
-                        iList6.SubItems.Add("Sysmon");
-                        iList6.SubItems.Add("Scanned & Found!");
+                        if (Convert.ToInt32(string.Join("", ("0" + tmp.SubItems[6].Text).ToCharArray().Where(char.IsDigit)).ToString()) > 0
+                              || tmp.SubItems[7].Text.Contains(">>Detected"))
+                        {
+                            iList6.SubItems.Add("[!] Found Suspicious");
+                            iList6.SubItems.Add("Sysmon");
+                            iList6.SubItems.Add("Scanned & Found!");
+                        }
+                        else
+                        {
+                            iList6.SubItems.Add("[!] " + tmp.SubItems[5].Text);
+                            iList6.SubItems.Add("Sysmon");
+                            iList6.SubItems.Add(tmp.SubItems[5].Text);
+                        }
+
                     }
                     else
                     {
@@ -2224,9 +2239,30 @@ namespace SysPM2Monitor2_7
                                 + "\n-------------------\nScanner Result/Status: " + _finalresult_Scanned_02[2];
                             iList2.SubItems.Add(DateTime.Now.ToString());
                             iList2.SubItems.Add(item.ProcessName + ":" + item.PID.ToString());
+                            int ResultNumbers_of__finalresult_Scanned_01 = 0;
 
                             if (isPEScanonoff != false)
                             {
+                                try
+                                {
+
+                                    ResultNumbers_of__finalresult_Scanned_01 = Convert.ToInt32(
+                                        string.Join("", ("0" + _finalresult_Scanned_01[0]).ToCharArray().Where(char.IsDigit)).ToString());
+
+                                    if (ResultNumbers_of__finalresult_Scanned_01 > 0)
+                                    {
+                                        /// break loops for scanning target process again (if detected in first scan)
+                                       // _StopLoopingScan_Exec_01 = true;
+
+                                    }
+
+                                }
+                                catch (Exception)
+                                {
+
+
+                                }
+
                                 if (_finalresult_Scanned_01[0].Contains("Replaced:0"))
                                 {
 
@@ -2305,6 +2341,51 @@ namespace SysPM2Monitor2_7
                                 iList2.ImageIndex = 1;
                             }
 
+                            /// ico detection base on memory scanners result
+                            if (ResultNumbers_of__finalresult_Scanned_01 > 0)
+                            {
+                                iList2.ImageIndex = 2;
+                            }
+                            else
+                            {
+                                iList2.ImageIndex = 1;
+                                if (_finalresult_Scanned_02[0].Contains(">>Detected:"))
+                                {
+
+                                    iList2.ImageIndex = 2;
+
+                                }
+                            }
+
+                            IsTargetProcessTerminatedbyETWPM2monitor = false;
+
+                            if (Convert.ToInt32(string.Join("", ("0" + _finalresult_Scanned_01[0]).ToCharArray().Where(char.IsDigit))) > 0)
+                            {
+                                if (_finalresult_Scanned_02[2] != "Terminated" && _finalresult_Scanned_02[2] != "Suspended")
+                                {
+                                    _finalresult_Scanned_02[2] = "Scanned & Found!";
+                                }
+
+                                if (Pe_sieveLevel == 2)
+                                {
+                                    try
+                                    {
+                                        Process.GetProcessById(PID).Kill();
+                                        _finalresult_Scanned_02[2] = "Terminated";
+                                        IsTargetProcessTerminatedbyETWPM2monitor = true;
+
+                                    }
+                                    catch (Exception)
+                                    {
+
+
+                                    }
+
+                                }
+
+                            }
+
+
                             /// injection type
                             iList2.SubItems.Add(subitemX);
                             /// tcp send info
@@ -2347,7 +2428,14 @@ namespace SysPM2Monitor2_7
                                 /// event id 25 has not good description ;)
                                 iList2.SubItems.Add(item.Description);
                             }
-                            
+
+                            if (IsTargetProcessTerminatedbyETWPM2monitor)
+                            {
+
+                                // BeginInvoke(new __Additem(_Additems_toListview2), iList2);
+
+                                System_Detection_Log_events.Invoke((object)iList2, null);
+                            }
 
                             foreach (string ShowItems in showitemsHash)
                             {
@@ -3440,7 +3528,7 @@ namespace SysPM2Monitor2_7
         private void AboutToolStripMenuItem1_Click(object sender, EventArgs e)
         {
  
-            MessageBox.Show(null, "SysPM2Monitor2 v2.7 [test version 2.7.12.58]\nCode Published by Damon Mohammadbagher , Jan 2022", "About SysPM2Monitor2 v2.7", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show(null, "SysPM2Monitor2 v2.7 [test version 2.7.17.59]\nCode Published by Damon Mohammadbagher , Jan 2022", "About SysPM2Monitor2 v2.7", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
         }
 
@@ -3608,6 +3696,19 @@ namespace SysPM2Monitor2_7
             _SaveAlarmsByETW();
         }
 
+        private void ScanOnlyModeDefaultToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Pe_sieveLevel = 0;
+            scanKillSuspiciousRunAsAdminToolStripMenuItem.Checked = false;
+            scanOnlyModeDefaultToolStripMenuItem.Checked = true;
+        }
+
+        private void ScanKillSuspiciousRunAsAdminToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Pe_sieveLevel = 2;
+            scanKillSuspiciousRunAsAdminToolStripMenuItem.Checked = true;
+            scanOnlyModeDefaultToolStripMenuItem.Checked = false;
+        }
 
         private void DefaultDumpAllToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -4086,31 +4187,27 @@ namespace SysPM2Monitor2_7
 
         private void DGreyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            listView1.BackColor = Color.Beige;
-            listView1.HeaderStyle = ColumnHeaderStyle.Nonclickable;
-            listView1.BorderStyle = BorderStyle.FixedSingle;
-            listView1.ForeColor = Color.Black;
+            //listView1.BackColor = Color.Beige;
+            //listView1.HeaderStyle = ColumnHeaderStyle.Nonclickable;
+            //listView1.BorderStyle = BorderStyle.FixedSingle;
+            //listView1.ForeColor = Color.Black;
 
-            listView2.BackColor = Color.Beige;
-            listView2.HeaderStyle = ColumnHeaderStyle.Nonclickable;
-            listView2.BorderStyle = BorderStyle.FixedSingle;
-            listView2.ForeColor = Color.Black;           
+            //listView2.BackColor = Color.Beige;
+            //listView2.HeaderStyle = ColumnHeaderStyle.Nonclickable;
+            //listView2.BorderStyle = BorderStyle.FixedSingle;
+            //listView2.ForeColor = Color.Black;           
 
-            listView5.BackColor = Color.Beige; 
-            listView5.HeaderStyle = ColumnHeaderStyle.Nonclickable;
-            listView5.BorderStyle = BorderStyle.FixedSingle;
-            listView5.ForeColor = Color.Black;
+            //listView5.BackColor = Color.Beige; 
+            //listView5.HeaderStyle = ColumnHeaderStyle.Nonclickable;
+            //listView5.BorderStyle = BorderStyle.FixedSingle;
+            //listView5.ForeColor = Color.Black;
 
-            listView6.BackColor = Color.Beige;
-            listView6.HeaderStyle = ColumnHeaderStyle.Nonclickable;
-            listView6.BorderStyle = BorderStyle.FixedSingle;
-            listView6.ForeColor = Color.Black;
+            //listView6.BackColor = Color.Beige;
+            //listView6.HeaderStyle = ColumnHeaderStyle.Nonclickable;
+            //listView6.BorderStyle = BorderStyle.FixedSingle;
+            //listView6.ForeColor = Color.Black;
 
-            richTextBox1.BackColor = Control.DefaultBackColor;
-            toolStripSeparator1.BackColor = Control.DefaultBackColor;
-            statusStrip1.BackColor = Control.DefaultBackColor;
-            menuStrip3.BackColor = Control.DefaultBackColor;
-            toolStripSeparator1.BackColor = Color.Black;
+            
         }
 
 
