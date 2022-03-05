@@ -34,7 +34,8 @@ md5 info [ETWProcessMon2.exe], "exe files are not safe here in github so make yo
     1351cc2d56-8aae91f9b2-06aa526e1f1d => ETWProcessMon2.exe (v2.1)
 
 ### Videos: 
-Note: i will make video for "ETWProcessMon2" soon.
+
+Video: https://www.youtube.com/watch?v=DMtMTkAfFNo
 
 this Video is for (Version 1), ETWProcessMon.exe v1 download & (step by step with details) => https://github.com/DamonMohammadbagher/ETWNetMonv3
 
