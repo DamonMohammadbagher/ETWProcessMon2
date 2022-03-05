@@ -8,7 +8,7 @@ This tool [ETWPM2Monitor version2] is for Monitor ETW Event-Logs [log name: ETWP
 + code performance now is good and "a lot bugs" fixed also Search/Filters form + NotifyIcon added to the source. 
 + last source/exe update(17) v2.1.18.84 [Feb 27, 2022]...
 ```
-
+Video: https://www.youtube.com/watch?v=DMtMTkAfFNo
 
 Note: if you want new v2.1 you should Re-compile this project with new Source code [compile with .NETFramework v4.5] ;), woow i had a lot bugs in code v2.0 , now fixed in v2.1, compiler says (not me), `code performance now is good and "a lot bugs" [like tcp events flooding] fixed with last source update(11) v2.1.17.74 [Feb 21, 2022]...` 
 
