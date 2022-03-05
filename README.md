@@ -122,6 +122,7 @@ This tool [ETWPM2Monitor version2] is for Monitor ETW Event-Logs [log name: ETWP
 + code performance now is good and "a lot bugs" fixed also Search/Filters form + NotifyIcon added to the source. 
 + last source/exe update(17) v2.1.18.84 [Feb 27, 2022]...
 ```
+Video: https://www.youtube.com/watch?v=DMtMTkAfFNo
 
 Note: "ETWPM2Monitor2 v2.1" code Published here => https://github.com/DamonMohammadbagher/ETWProcessMon2/tree/main/ETWPM2Monitor2
 
