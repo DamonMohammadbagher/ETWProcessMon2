@@ -8,7 +8,9 @@ Related video:
 
 Video1: "ETWPM2Monitor2 v2.1" =>  https://www.youtube.com/watch?v=DMtMTkAfFNo
 
-Video2: "SysPM2Monitor v2.7" =>  https://www.youtube.com/watch?v=Q8fSpUXR2kw
+Video2: "SysPM2Monitor v2.7" => https://www.youtube.com/watch?v=E7mB1we9GhU
+
+Video3: "SysPM2Monitor v2.7" =>  https://www.youtube.com/watch?v=Q8fSpUXR2kw
 
 i am working on these projects [ETWPM2Monitor2.1 , SysPM2Monitor2.7] and i will share some result of these codes against some Process Injection Attacks here with examples:  
 
