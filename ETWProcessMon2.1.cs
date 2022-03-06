@@ -59,16 +59,19 @@ namespace ETWProcessMon2
         public static string temppath = "";
 
         public static List<string> PList = new List<string>();
-        //public static List<_ProcessInfo<String>> Process_Events_db = new List<_ProcessInfo<String>>();
         public static List<int> detectedPIDs = new List<int>();
         public static StringBuilder _BytesStr;
 
         public static System.Threading.Thread Bingo;
-        //public static Task _t;
         public static EventLog ETW2MON;
 
         public static Int32 counter_for_tcp_packets_filter = 0;
         public static bool show_tcp_packets_filter = false;
+        public static DateTime _lasttimecreated_tcp;
+        public static string _lastTCP_Message_PID = "";
+        public static TimeSpan _dt;
+        public static DateTime _timecreated_tcp;
+        public static string ConnectionID = "";
 
         //public static event EventHandler _Event_VirtualMemAlloc_NewThreadInj_into_TxtLogFile;
         //public static event EventHandler _Event_Add_ETWEvent_to_WindowsEventLog_ETWPM2;
@@ -217,13 +220,24 @@ namespace ETWProcessMon2
                 _v6++;
             }
 
+           
+            
+            _timecreated_tcp = obj.TimeStamp;
+            _dt = _timecreated_tcp - _lasttimecreated_tcp;
 
+            if (_dt.Seconds > 1 || obj.ProcessID.ToString() != _lastTCP_Message_PID)
+            {
+                Thread T1_evt1 = new Thread(_additems1);
+                T1_evt1.Priority = ThreadPriority.Highest;
+                T1_evt1.Start((object)("[ETW] " + "\n[TCPIP] TcpIpSend Detected" + "\nTarget_Process: " + obj.ProcessName + ":" + obj.ProcessID + "  TID(" + obj.ThreadID + ")" + " TaskName(" + obj.TaskName + ") " + "\nPIDPath = "
+             + getpathPID(obj.ProcessID) + "\nEventTime = " + obj.TimeStamp.ToString() + "\n\n" + TemptcptipInfo2));
 
-            Thread T1_evt1 = new Thread(_additems1);
-            T1_evt1.Priority = ThreadPriority.Highest;
-            T1_evt1.Start((object)("[ETW] " + "\n[TCPIP] TcpIpSend Detected" + "\nTarget_Process: " + obj.ProcessName + ":" + obj.ProcessID + "  TID(" + obj.ThreadID + ")" + " TaskName(" + obj.TaskName + ") " + "\nPIDPath = "
-         + getpathPID(obj.ProcessID) + "\nEventTime = " + obj.TimeStamp.ToString() + "\n\n" + TemptcptipInfo2));
+                //_lasttimecreated_tcp = obj.TimeStamp;                
+                //_lastTCP_Message_PID = obj.ProcessID.ToString();
+            }
 
+            _lasttimecreated_tcp = obj.TimeStamp;
+            _lastTCP_Message_PID = obj.ProcessID.ToString();
 
         }
 
@@ -352,6 +366,11 @@ namespace ETWProcessMon2
                     _v2++;
                 }
 
+            _timecreated_tcp = obj.TimeStamp;
+            _dt = _timecreated_tcp - _lasttimecreated_tcp;
+
+            if (_dt.Seconds > 1 || obj.ProcessID.ToString() != _lastTCP_Message_PID)
+            {
                 /// sizes are for Meterpreter session packets & 4444 is default port (just for test)
                 if ((TemptcptipInfo.Contains("[size:160]")) || (TemptcptipInfo.Contains("[size:192]")))
                 {
@@ -360,8 +379,10 @@ namespace ETWProcessMon2
                     T1_evt1.Start((object)("[ETW] " + "\n[TCPIP] TcpIpSend Detected" + "\nTarget_Process: " + obj.ProcessName + ":" + obj.ProcessID + "  TID(" + obj.ThreadID + ")" + " TaskName(" + obj.TaskName + ") " + "\nPIDPath = "
                  + getpathPID(obj.ProcessID) + "\nEventTime = " + obj.TimeStamp.ToString() + "\n\n" + TemptcptipInfo));
                 }
+                _lasttimecreated_tcp = obj.TimeStamp;                 
+                _lastTCP_Message_PID = obj.ProcessID.ToString();
+            }
            
-
         }
 
         public static void Kernel_ProcessStart(Microsoft.Diagnostics.Tracing.Parsers.Kernel.ProcessTraceData obj)
