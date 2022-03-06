@@ -84,9 +84,9 @@ Important: `this Code will use memory scanner "VirtualMemAllocMon.exe" v1.1 so b
 Important: `this Code will use memory scanners "pe-sieve64.exe" & "hollows_hunter64.exe",so before run SysPM2Monitor2.7 you need download/paste these exe files to \SysPM2Monitor2.7\Bin\Debug\ folder then you can run SysPM2Monitor2.7.exe , you can download these files from here link1: https://github.com/hasherezade/pe-sieve
 link2: https://github.com/hasherezade/hollows_hunter.`
 
-Video1: https://www.youtube.com/watch?v=E7mB1we9GhU
+Video1 : https://www.youtube.com/watch?v=E7mB1we9GhU
 
-Video2: https://www.youtube.com/watch?v=Q8fSpUXR2kw
+Video2 : https://www.youtube.com/watch?v=Q8fSpUXR2kw
 
 md5 info:
     
