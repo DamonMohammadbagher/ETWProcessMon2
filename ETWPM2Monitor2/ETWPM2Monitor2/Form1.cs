@@ -268,6 +268,9 @@ namespace ETWPM2Monitor2
         public static string _windir = Environment.GetEnvironmentVariable("windir").ToLower();
         public static NotifyIcon ico = new NotifyIcon();
         public static bool _isNotifyEnabled = true;
+        public static string _ProcessName;
+        public static bool _IsProcessTab_Enabled = true;
+
 
         public static void _Show_Notify_Ico_Popup(object obj)
         {
@@ -313,6 +316,7 @@ namespace ETWPM2Monitor2
             }
            
         }
+                   
 
         /// <summary>
         /// save this obj as event which was detected as Shell or TCP Meterpreter session to Windows EventLog "ETWPM2Monitor2"
@@ -429,6 +433,9 @@ namespace ETWPM2Monitor2
                     /// just for test for better detection via events ;)
                     /// simple example.
 
+                    if(_IsProcessTab_Enabled)
+                    BeginInvoke(new __Additem(_Additems_toTreeview1), MyLviewItemsX1);
+                    
                     /// EventID 3 = TCP Send Event
                     if (MyLviewItemsX1.SubItems[2].Text == "3")
                     {
@@ -656,6 +663,162 @@ namespace ETWPM2Monitor2
 
         }
 
+        /// <summary>
+        /// add items to Processes Tab (Process List)
+        /// </summary>
+        /// <param name="obj"></param>
+        public void _Additems_toTreeview1(object obj)
+        {
+            try
+            {
+
+                if (obj != null)
+                {
+                    ListViewItem MyLviewItemsX5 = (ListViewItem)obj;
+
+                    bool xfound = false;
+                    foreach (TreeNode item in treeView1.Nodes)
+                    {
+                        if (item.Text == MyLviewItemsX5.SubItems[3].Text)
+                        {
+                            int _Imgindex2 = 0;
+                            if (MyLviewItemsX5.SubItems[2].Text == "1") { _Imgindex2 = 0; }
+                            if (MyLviewItemsX5.SubItems[2].Text == "2") { _Imgindex2 = 1; }
+                            if (MyLviewItemsX5.SubItems[2].Text == "3") { _Imgindex2 = 3; }
+                            item.Nodes.Add("", "[EventID:" + MyLviewItemsX5.SubItems[2].Text + "]" +
+                                "[" + MyLviewItemsX5.SubItems[4].Text + "] { " + MyLviewItemsX5.SubItems[5].Text + " }", _Imgindex2);
+
+                            item.ForeColor = Color.Red;
+                            xfound = true;
+
+                            break;
+                        }
+                    }
+
+                    if (!xfound)
+                    {
+                        int _Imgindex = 0;
+                        if (MyLviewItemsX5.SubItems[2].Text == "1") { _Imgindex = 0; }
+                        if (MyLviewItemsX5.SubItems[2].Text == "2") { _Imgindex = 1; }
+                        if (MyLviewItemsX5.SubItems[2].Text == "3") { _Imgindex = 3; }
+
+                        treeView1.Nodes.Add("", MyLviewItemsX5.SubItems[3].Text, _Imgindex).Nodes.Add("", "[EventID:" + MyLviewItemsX5.SubItems[2].Text + "]"
+                            + "[" + MyLviewItemsX5.SubItems[4].Text + "] { " + MyLviewItemsX5.SubItems[5].Text + " }", _Imgindex).Parent.ImageIndex = _Imgindex;
+
+                    }
+
+                }
+
+
+            }
+            catch (Exception err)
+            {
+
+
+            }
+        }
+
+        public async void _Additems_toTreeview2(object obj)
+        {
+            try
+            {
+                bool found = false;
+                await new TaskFactory().StartNew(() =>
+                {
+
+
+                    foreach (TreeNode item in treeView2.Nodes)
+                    {
+                        Thread.Sleep(1);
+                        if (item.Text == ((TreeNode)obj).Text)
+                        {
+                            found = true;
+                            break;
+                        }
+                    }
+                });
+                if (!found)
+                {
+                    object _obj = ((TreeNode)obj).Clone();
+
+                    treeView2.Nodes.Add(((TreeNode)_obj));
+
+                }
+                
+
+            }
+            catch (Exception r)
+            {
+
+            }
+        }
+
+        private async void T3_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            if (_IsProcessTab_Enabled)
+            {
+                await new TaskFactory().StartNew(() =>
+                {
+                    Thread.Sleep(25);
+                    foreach (TreeNode item in treeView1.Nodes)
+                    {
+                    //Thread.Sleep(2);
+
+                    try
+                        {
+                            if (item != null)
+                            {
+                                if (!item.Text.Contains("Process Exited!?"))
+                                {
+                                    item.ForeColor = Color.Black;
+                                    if (item.Nodes.Count > 0)
+                                    {
+                                        item.ImageIndex = item.Nodes[item.Nodes.Count - 1].ImageIndex;
+                                    }
+                                    else
+                                    {
+
+                                    }
+
+                                    bool found_prc = false;
+                                    foreach (Process Prc_item in Process.GetProcesses())
+                                    {
+                                        if (Prc_item.Id == Convert.ToInt32(item.Text.Split(':')[1]))
+                                        {
+                                            Thread.Sleep(7);
+                                            found_prc = true;
+                                            break;
+                                        }
+                                    }
+
+                                //if (Process.GetProcesses().ToList().Find(x => x.Id == Convert.ToInt32(item.Text.Split(':')[1])) == null)
+
+                                if (!found_prc)
+                                    {
+                                    //Thread.Sleep(10);
+                                    if (!item.Text.Contains("Process Exited!?"))
+                                        {
+                                            item.Text = item.Text + " <<Process Exited!?>>";
+                                            item.ForeColor = Color.DarkBlue;
+                                            BeginInvoke(new __Additem(_Additems_toTreeview2), item);
+                                            item.Remove();
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        catch (Exception)
+                        {
+
+                        }
+
+                    }
+
+                    treeView1.Refresh();
+                });
+            }
+        }
+
         public void Update_Richtexbox8_SystemDetection_ETW_AllDetails_info()
         {
             try
@@ -834,6 +997,23 @@ namespace ETWPM2Monitor2
 
                 listView4.SmallImageList = imageList1;
 
+                treeView1.ImageList = imageList1;
+                treeView2.ImageList = imageList1;
+
+                try
+                {
+                    Process[] AllProcess = Process.GetProcesses();
+                    foreach (Process item in AllProcess)
+                    {
+                        treeView1.Nodes.Add(item.ProcessName + ":" + item.Id.ToString());
+                    }
+                }
+                catch (Exception)
+                {
+
+
+                }
+
                 listView2.HeaderStyle = ColumnHeaderStyle.Nonclickable;
                 listView2.BorderStyle = BorderStyle.FixedSingle;
                 listView1.HeaderStyle = ColumnHeaderStyle.Nonclickable;
@@ -870,9 +1050,9 @@ namespace ETWPM2Monitor2
                 t5.Enabled = true;
                 t5.Start();
 
-                //t3.Elapsed += T3_Elapsed;
-                //t3.Enabled = true;
-                //t3.Start();
+                t3.Elapsed += T3_Elapsed; ;
+                t3.Enabled = true;
+                t3.Start();
 
 
                 listView1.Columns.Add(" ", 20, HorizontalAlignment.Left);
@@ -958,6 +1138,10 @@ namespace ETWPM2Monitor2
                 listView4.Columns.Add("Event TTL (D:H:Minutes)", 135, HorizontalAlignment.Left);
                 listView4.Columns.Add("Event First Time", 130, HorizontalAlignment.Left);
 
+              
+               
+
+
                 /// event for add Process to Alarm-Tab by ETW & Scanning Target Process by Memory Scanners
                 /// event is ready ...
                 NewProcessAddedtolist += Form1_NewProcessAddedtolist1;
@@ -1003,6 +1187,7 @@ namespace ETWPM2Monitor2
 
             }
         }
+
 
         /// <summary>
         /// time for refresh listview4 [network connections Tab] items and verfiy tcp connection for each items [realtime] to change their imageindex (refresh every 10sec) 
@@ -1321,7 +1506,7 @@ namespace ETWPM2Monitor2
                             iList3 = new ListViewItem();
                             iList3.Name = tmp2.SubItems[5].Text;
                             iList3.SubItems.Add(tmp2.SubItems[1].Text);
-                            iList3.SubItems.Add(tmp2.SubItems[3].Text + ":" + Shell_Pid + " (with " + parentid + ")");
+                            iList3.SubItems.Add(tmp2.SubItems[3].Text + " (with " + parentid + ")");
 
                             iList3.SubItems.Add("[!] Found Shell");
                             iList3.SubItems.Add("ETW [New] event");
@@ -1729,7 +1914,7 @@ namespace ETWPM2Monitor2
 
             try
             {
-                BeginInvoke(new __Obj_Updater_to_WinForm(Update_Charts_info));
+               BeginInvoke(new __Obj_Updater_to_WinForm(Update_Charts_info));
 
                
             }
@@ -2566,6 +2751,7 @@ namespace ETWPM2Monitor2
             }
 
         }
+       
 
         /// <summary>
         /// realtime monitoring events IDs 1,2,3 from windows event log "ETWPM2"  
@@ -2606,7 +2792,10 @@ namespace ETWPM2Monitor2
                         iList.Name = e.EventRecord.RecordId.ToString();
                         iList.SubItems.Add(e.EventRecord.TimeCreated.ToString());
                         iList.SubItems.Add(e.EventRecord.Id.ToString());
-                        iList.SubItems.Add(e.EventRecord.FormatDescription().Substring(e.EventRecord.FormatDescription().IndexOf("ProcessName = ") + 14).Split('[')[0]);
+                        _ProcessName = e.EventRecord.FormatDescription().Substring(e.EventRecord.FormatDescription().IndexOf("ProcessName = ") + 14).Split('[')[0];
+                        _ProcessName = _ProcessName.Substring(0, _ProcessName.Length - 1);
+                        iList.SubItems.Add(_ProcessName + ":" + e.EventRecord.FormatDescription().Split('\n')[2].Substring(6).Split(' ')[0]);
+                       
                         iList.SubItems.Add("[NEW]");
                         iList.SubItems.Add(e.EventRecord.FormatDescription());
                         iList.ImageIndex = 0;
@@ -2640,7 +2829,7 @@ namespace ETWPM2Monitor2
                         Thread.Sleep(25);
                         chart_Inj++;
 
-                        RemoteThreadInjectionDetection_ProcessLists.Invoke((object)(e.EventRecord.FormatDescription().Substring(e.EventRecord.FormatDescription().IndexOf(":")).Split(' ')[1]
+                        RemoteThreadInjectionDetection_ProcessLists.Invoke((object)(e.EventRecord.FormatDescription().Substring(e.EventRecord.FormatDescription().IndexOf(":")).Split(' ')[1].Replace('\n',' ')
                         + "@" + e.EventRecord.FormatDescription()), null);
 
                         Thread.Sleep(10);
@@ -2676,6 +2865,8 @@ namespace ETWPM2Monitor2
                         obj[0] = e.EventRecord.FormatDescription().Substring(e.EventRecord.FormatDescription().IndexOf(":")).Split(' ')[1];
                         obj[1] = e.EventRecord.FormatDescription();
                         objX = obj[0] + "@" + obj[1];
+
+
                         NewProcessAddedtolist.Invoke(objX, null);
 
                         Thread.Sleep(10);
@@ -2683,7 +2874,9 @@ namespace ETWPM2Monitor2
                         NewEventFrom_EventLogsCome.Invoke((object)LviewItemsX, null);
 
                         /// add to Network Connection Tab
-                        NewTCP_Connection_Detected.Invoke((object)LviewItemsX,null);
+                        NewTCP_Connection_Detected.Invoke((object)LviewItemsX, null);
+
+
 
                     }
                 }
@@ -3192,7 +3385,7 @@ namespace ETWPM2Monitor2
 
         private void AboutToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(null, "ETWPM2Monitor2 v2.1 [test version 2.1.18.84]\nCode Published by Damon Mohammadbagher , Jul 2021", "About ETWPM2Monitor2 v2.1", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show(null, "ETWPM2Monitor2 v2.1 [test version 2.1.20.94]\nCode Published by Damon Mohammadbagher , Jul 2021", "About ETWPM2Monitor2 v2.1", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
         }
 
@@ -3446,6 +3639,135 @@ namespace ETWPM2Monitor2
                     showNotifyPopupToolStripMenuItem.Checked = false;
                 _isNotifyEnabled = false;
             }
+        }
+
+        private void TreeView1_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            richTextBox9.Text = treeView1.SelectedNode.Text;
+        }
+
+        private void TreeView2_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            richTextBox9.Text = treeView2.SelectedNode.Text;
+        }
+
+        private void Button1_Click(object sender, EventArgs e)
+        {
+            richTextBox9.Clear();
+
+
+            foreach (TreeNode item in treeView1.Nodes)
+            {
+
+                foreach (TreeNode _item in item.Nodes)
+                {
+                    if (_item.Text.Contains(textBox1.Text))
+                    {
+                        richTextBox9.Text += "\n_______________________________________________________________________\n";
+                        richTextBox9.Text += "\n" + item.Text + "\n" + _item.Text + "\n";
+                    }
+                }
+
+
+            }
+
+        }
+
+        private void Button2_Click(object sender, EventArgs e)
+        {
+            richTextBox9.Clear();
+
+
+            foreach (TreeNode item in treeView2.Nodes)
+            {
+
+                
+                foreach (TreeNode _item in item.Nodes)
+                {
+                    if (_item.Text.Contains(textBox1.Text))
+                    {
+                        richTextBox9.Text += "\n_______________________________________________________________________\n";
+                        richTextBox9.Text += "\n" + item.Text + "\n" + _item.Text + "\n";
+                    }
+                }
+
+
+            }
+
+        }
+
+        private void Refresh5SecToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            t3.Interval = 5000;
+            refresh5SecToolStripMenuItem.Checked = true;
+            refresh10SecToolStripMenuItem.Checked = false;
+        }
+
+        private void Refresh10SecToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            t3.Interval = 10000;
+            refresh5SecToolStripMenuItem.Checked = false;
+            refresh10SecToolStripMenuItem.Checked = true;
+        }
+
+        private void AllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            treeView1.Nodes.Clear();
+            treeView2.Nodes.Clear();
+            GC.Collect();
+            try
+            {
+                Process[] AllProcess = Process.GetProcesses();
+                foreach (Process item in AllProcess)
+                {
+                    treeView1.Nodes.Add(item.ProcessName + ":" + item.Id.ToString());
+                }
+            }
+            catch (Exception)
+            {
+
+
+            }
+        }
+
+        private void LiveProcessesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            treeView1.Nodes.Clear();
+            GC.Collect();
+            try
+            {
+                Process[] AllProcess = Process.GetProcesses();
+                foreach (Process item in AllProcess)
+                {
+                    treeView1.Nodes.Add(item.ProcessName + ":" + item.Id.ToString());
+                }
+            }
+            catch (Exception)
+            {
+
+
+            }
+        }
+
+        private void ClosedProcessesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            treeView2.Nodes.Clear();
+        }
+
+        private void StopListRefreshingToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _IsProcessTab_Enabled = false;
+            stopListRefreshingToolStripMenuItem.Checked = true;
+            startRefreshingToolStripMenuItem.Checked = false;
+            processesToolStripMenuItem.Checked = false;
+        }
+
+        private void StartRefreshingToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _IsProcessTab_Enabled = true;
+            processesToolStripMenuItem.Checked = true;
+            stopListRefreshingToolStripMenuItem.Checked = false;
+            startRefreshingToolStripMenuItem.Checked = true;
         }
 
         private void DontDumpPEOfilterToolStripMenuItem_Click(object sender, EventArgs e)
