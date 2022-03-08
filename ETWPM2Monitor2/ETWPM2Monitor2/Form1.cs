@@ -62,7 +62,8 @@ namespace ETWPM2Monitor2
         public delegate void __core2(object str);
         public delegate void __Updatelistview1();
         public delegate void __Obj_Updater_to_WinForm();
-      
+        public delegate void __Obj_Updater_to_WinForm2(string obj1 , TreeView obj2);
+
 
         public static List<_All_Injection_Details_info_Filter_withoutSystem4> _List_All_Injection_Details_info_Filter_withoutSystem4 = new List<_All_Injection_Details_info_Filter_withoutSystem4>();
         public struct _All_Injection_Details_info_Filter_withoutSystem4
@@ -316,7 +317,64 @@ namespace ETWPM2Monitor2
             }
            
         }
-                   
+
+        public IEnumerable<TreeNode> _FindSubsNode(TreeNodeCollection nodes, string Search)
+        {
+            foreach (TreeNode node in nodes)
+            {
+                if (node.Text.IndexOf(Search, StringComparison.CurrentCultureIgnoreCase) >= 0)
+                {
+                    yield return node;
+                }
+                else
+                {
+                    foreach (var subNode in _FindSubsNode(node.Nodes, Search)) yield return subNode;
+                }
+            }
+        }
+
+        public async void __SearchStrings_in_ProcessesTab(string search, TreeView targetProcesses )
+        {
+            try
+            {
+
+                foreach (TreeNode node in targetProcesses.Nodes)
+                {
+
+                    if (node.Text.IndexOf(search, StringComparison.CurrentCultureIgnoreCase) >= 0)
+                    {
+                        object mainobj = node.Clone();
+                        treeView3.Nodes.Add((TreeNode)mainobj);
+                    }
+                    else
+                    {
+                        string lastnode = "";
+                        foreach (var subNode in _FindSubsNode(node.Nodes, search))
+                        {
+
+                            object obj = subNode.Parent.Clone();
+
+                            ((TreeNode)obj).ForeColor = Color.Black;
+                            ((TreeNode)obj).ExpandAll();
+
+                            if (((TreeNode)obj).Text != lastnode)
+                                treeView3.Nodes.Add((TreeNode)obj);
+
+                            lastnode = ((TreeNode)obj).Text;
+
+                        }
+                    }
+                }
+
+            }
+            catch (Exception r)
+            {
+
+
+            }
+
+           
+        }
 
         /// <summary>
         /// save this obj as event which was detected as Shell or TCP Meterpreter session to Windows EventLog "ETWPM2Monitor2"
@@ -3848,48 +3906,20 @@ namespace ETWPM2Monitor2
             richTextBox9.Text = treeView2.SelectedNode.Text;
         }
 
-        private void Button1_Click(object sender, EventArgs e)
+        public void Button1_Click(object sender, EventArgs e)
         {
             richTextBox9.Clear();
-
-
-            foreach (TreeNode item in treeView1.Nodes)
-            {
-
-                foreach (TreeNode _item in item.Nodes)
-                {
-                    if (_item.Text.Contains(textBox1.Text))
-                    {
-                        richTextBox9.Text += "\n_______________________________________________________________________\n";
-                        richTextBox9.Text += "\n" + item.Text + "\n" + _item.Text + "\n";
-                    }
-                }
-
-
-            }
-
+            treeView3.Nodes.Clear();
+            treeView3.ImageList = imageList1;
+            BeginInvoke(new __Obj_Updater_to_WinForm2(__SearchStrings_in_ProcessesTab), textBox1.Text, treeView1);          
         }
 
-        private void Button2_Click(object sender, EventArgs e)
+        public void Button2_Click(object sender, EventArgs e)
         {
             richTextBox9.Clear();
-
-
-            foreach (TreeNode item in treeView2.Nodes)
-            {
-
-                
-                foreach (TreeNode _item in item.Nodes)
-                {
-                    if (_item.Text.Contains(textBox1.Text))
-                    {
-                        richTextBox9.Text += "\n_______________________________________________________________________\n";
-                        richTextBox9.Text += "\n" + item.Text + "\n" + _item.Text + "\n";
-                    }
-                }
-
-
-            }
+            treeView3.Nodes.Clear();
+            treeView3.ImageList = imageList1;
+            BeginInvoke(new __Obj_Updater_to_WinForm2(__SearchStrings_in_ProcessesTab), textBox1.Text, treeView2);
 
         }
 
@@ -3986,6 +4016,11 @@ namespace ETWPM2Monitor2
             t6.Enabled = false;
             t6.Stop();
             BeginInvoke(new __Obj_Updater_to_WinForm(_RunRemoveItemsLisview1));
+        }
+
+        private void TreeView3_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            richTextBox9.Text = treeView3.SelectedNode.Text;
         }
 
         private void DontDumpPEOfilterToolStripMenuItem_Click(object sender, EventArgs e)
