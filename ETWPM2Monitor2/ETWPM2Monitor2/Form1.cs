@@ -34,6 +34,7 @@ namespace ETWPM2Monitor2
         public static System.Timers.Timer t4 = new System.Timers.Timer(15000);
         public static System.Timers.Timer t4_1 = new System.Timers.Timer(1500);
         public static System.Timers.Timer t5 = new System.Timers.Timer(10000);
+        public static System.Timers.Timer t6 = new System.Timers.Timer(10000);
 
         public static uint NTReadTmpRef = 0;
         public static EventLog ETW2MON;
@@ -87,8 +88,7 @@ namespace ETWPM2Monitor2
             public string Injected_Memory_Bytes { set; get; }
             public string Injected_Memory_Bytes_Hex { set; get; }
             public string _TargetPIDName { set; get; }
-
-    }
+        }
 
         public struct _TableofProcess_NewProcess_evt
         {
@@ -270,7 +270,7 @@ namespace ETWPM2Monitor2
         public static bool _isNotifyEnabled = true;
         public static string _ProcessName;
         public static bool _IsProcessTab_Enabled = true;
-
+        public static int ETWPM2Realt_timeShowMode_Level = 1;
 
         public static void _Show_Notify_Ico_Popup(object obj)
         {
@@ -413,6 +413,144 @@ namespace ETWPM2Monitor2
 
                
             }
+        }
+
+        public void __Additems_toListview1__2_Method(object _obj)
+        {
+            ListViewItem _obj_ = (ListViewItem)_obj;
+            if (listView1.Items.Count > 0)
+            {
+                bool _found = false;
+                for (int i = 0; i < listView1.Items.Count; i++)
+                {
+                   // Thread.Sleep(5);
+                    if (listView1.Items[i].SubItems[3].Text == _obj_.SubItems[3].Text)
+                    {
+                        listView1.Items[i].SubItems[0] = _obj_.SubItems[0];
+                        listView1.Items[i].SubItems[1] = _obj_.SubItems[1];
+                        listView1.Items[i].SubItems[2] = _obj_.SubItems[2];
+                        listView1.Items[i].SubItems[3] = _obj_.SubItems[3];
+                        listView1.Items[i].SubItems[4] = _obj_.SubItems[4];
+                        listView1.Items[i].SubItems[5] = _obj_.SubItems[5];
+                        listView1.Items[i].Name = _obj_.Name;
+                        listView1.Items[i].ImageIndex = _obj_.ImageIndex;
+                        _found = true;
+                        listView1.Items[i].ForeColor = Color.OrangeRed;
+                        break;
+                    }
+                }
+
+                if (!_found)
+                {
+                    listView1.Items.Add(_obj_).ForeColor = Color.OrangeRed;
+
+                    Thread.Sleep(5);
+                  
+                }
+
+            }
+            else
+            {
+                listView1.Items.Add(_obj_).ForeColor = Color.OrangeRed;
+            }
+        }
+
+        public void _Additems_toListview1__2(object obj)
+        {
+            try
+            {
+                ListViewItem MyLviewItemsX1 = (ListViewItem)obj;
+                Thread.Sleep(5);
+
+                if (MyLviewItemsX1 != null)
+                {
+                    if (_IsProcessTab_Enabled)
+                        BeginInvoke(new __Additem(_Additems_toTreeview1), MyLviewItemsX1);
+
+                    /// EventID 3 = TCP Send Event
+                    if (MyLviewItemsX1.SubItems[2].Text == "3")
+                    {
+                        /// size 160 , 192 was about Meterpreter traffic wich will send send for each 1 min [sleep(1000) default] 
+                        /// also 192 will send before every command packets  meterpreter backdoor
+                        /// that was my test ;)
+                        if ((MyLviewItemsX1.SubItems[5].Text.Split('\n')[6].Contains("[size:160]")) || (MyLviewItemsX1.SubItems[5].Text.Split('\n')[6].Contains("[size:192]")))
+                        {
+                            MyLviewItemsX1.BackColor = Color.LightGray;
+                           // MyLviewItemsX1.ForeColor = Color.White;
+
+                            if (MyLviewItemsX1.SubItems[5].Text.Split('\n')[6].Contains("[dport:4444]"))
+                            {
+                                MyLviewItemsX1.BackColor = Color.Gray;
+                                //MyLviewItemsX1.ForeColor = Color.White;
+
+                            }
+
+                            MyLviewItemsX1.SubItems[5].Text += "\n\n#This Description Added by ETWPM2Monitor2 tool#\n##Warning Description: Packet with [size:160] maybe was for Meterpreter Session which will send every 1 min between Client/Server##\n" +
+                            "##Warning Description: Packet with [size:192] is for meterpreter session which will send before every command excution from/to server##\n" +
+                            "##Warning Description: DestinationPort [dport:4444] is Default port for Meterpreter session##";
+
+                            System_Detection_Log_events2.Invoke((object)MyLviewItemsX1, null);
+
+                        }
+                        else if (MyLviewItemsX1.SubItems[5].Text.Split('\n')[6].Contains("[dport:4444]"))
+                        {
+                            MyLviewItemsX1.BackColor = Color.LightSlateGray;
+                            //MyLviewItemsX1.ForeColor = Color.White;
+
+                            MyLviewItemsX1.SubItems[5].Text += "\n\n#This Description Added by ETWPM2Monitor2 tool#\n##Warning Description: Packet with [size:160] maybe was for Meterpreter Session which will send every 1 min between Client/Server##\n" +
+                               "##Warning Description: Packet with [size:192] is for meterpreter session which will send before every command excution from/to server##\n" +
+                               "##Warning Description: DestinationPort [dport:4444] is Default port for Meterpreter session##";
+                            System_Detection_Log_events2.Invoke((object)MyLviewItemsX1, null);
+                        }
+
+                        //  listView1.Items.Add(MyLviewItemsX1);
+                        BeginInvoke(new __Additem(__Additems_toListview1__2_Method), MyLviewItemsX1);
+                    }
+
+                    /// EventID 1 = Create New Process
+                    if (MyLviewItemsX1.SubItems[2].Text == "1")
+                    {
+                        string commandline = MyLviewItemsX1.SubItems[5].Text.Split('\n')[4].ToLower();
+                        string parentid = MyLviewItemsX1.SubItems[5].Text.Split('\n')[6].ToLower();
+                        if (commandline.Contains("[commandline: " + _windir + "\\system32\\cmd.exe") || commandline.Contains("[commandline: cmd"))
+                        {
+
+                            if (parentid != "[parentid path: " + _windir + "\\explorer.exe]")
+                            {
+                                MyLviewItemsX1.BackColor = Color.Red;
+                                MyLviewItemsX1.ForeColor = Color.Black;
+                                MyLviewItemsX1.ImageIndex = 2;
+                                MyLviewItemsX1.SubItems[5].Text += "\n\n#This Description Added by ETWPM2Monitor2 tool#\n##Warning Description: [ParentID Path] & [PPID] for this New Process is not Normal! (maybe Shell Activated?)##\n";
+                                System_Detection_Log_events2.Invoke((object)MyLviewItemsX1, null);
+                            }
+                        }
+                        else
+                        {
+                            MyLviewItemsX1.ForeColor = Color.Black;
+                            MyLviewItemsX1.ImageIndex = 0;
+                        }
+
+                        //listView1.Items.Add(MyLviewItemsX1);
+                        BeginInvoke(new __Additem(__Additems_toListview1__2_Method), MyLviewItemsX1);
+
+                    }
+                    /// EventID 2 = Injection
+                    if (MyLviewItemsX1.SubItems[2].Text == "2")
+                    {
+                        //listView1.Items.Add(MyLviewItemsX1);
+                        BeginInvoke(new __Additem(__Additems_toListview1__2_Method), MyLviewItemsX1);
+
+                    }
+
+                    evtstring = MyLviewItemsX1.Name;
+                }
+            }
+            catch (Exception)
+            {
+
+                //throw;
+            }
+
         }
 
         /// <summary>
@@ -737,6 +875,7 @@ namespace ETWPM2Monitor2
                         }
                     }
                 });
+
                 if (!found)
                 {
                     object _obj = ((TreeNode)obj).Clone();
@@ -744,8 +883,7 @@ namespace ETWPM2Monitor2
                     treeView2.Nodes.Add(((TreeNode)_obj));
 
                 }
-                
-
+                 
             }
             catch (Exception r)
             {
@@ -762,9 +900,9 @@ namespace ETWPM2Monitor2
                     Thread.Sleep(25);
                     foreach (TreeNode item in treeView1.Nodes)
                     {
-                    //Thread.Sleep(2);
+                        //Thread.Sleep(2);
 
-                    try
+                        try
                         {
                             if (item != null)
                             {
@@ -791,17 +929,18 @@ namespace ETWPM2Monitor2
                                         }
                                     }
 
-                                //if (Process.GetProcesses().ToList().Find(x => x.Id == Convert.ToInt32(item.Text.Split(':')[1])) == null)
+                                    //if(Process.GetProcesses().ToList().Find(x => x.Id == Convert.ToInt32(item.Text.Split(':')[1])) == null)
 
-                                if (!found_prc)
+                                    if (!found_prc)
                                     {
-                                    //Thread.Sleep(10);
-                                    if (!item.Text.Contains("Process Exited!?"))
+                                        //Thread.Sleep(10);
+                                        if (!item.Text.Contains("Process Exited!?"))
                                         {
                                             item.Text = item.Text + " <<Process Exited!?>>";
                                             item.ForeColor = Color.DarkBlue;
                                             BeginInvoke(new __Additem(_Additems_toTreeview2), item);
                                             item.Remove();
+                                           
                                         }
                                     }
                                 }
@@ -814,7 +953,7 @@ namespace ETWPM2Monitor2
 
                     }
 
-                    treeView1.Refresh();
+                    
                 });
             }
         }
@@ -1050,10 +1189,13 @@ namespace ETWPM2Monitor2
                 t5.Enabled = true;
                 t5.Start();
 
-                t3.Elapsed += T3_Elapsed; ;
+                t3.Elapsed += T3_Elapsed; 
                 t3.Enabled = true;
                 t3.Start();
 
+                t6.Elapsed += T6_Elapsed;
+                t6.Enabled = true;
+                t6.Start();
 
                 listView1.Columns.Add(" ", 20, HorizontalAlignment.Left);
                 listView1.Columns.Add("Time", 130, HorizontalAlignment.Left);
@@ -1138,9 +1280,7 @@ namespace ETWPM2Monitor2
                 listView4.Columns.Add("Event TTL (D:H:Minutes)", 135, HorizontalAlignment.Left);
                 listView4.Columns.Add("Event First Time", 130, HorizontalAlignment.Left);
 
-              
-               
-
+                             
 
                 /// event for add Process to Alarm-Tab by ETW & Scanning Target Process by Memory Scanners
                 /// event is ready ...
@@ -1178,14 +1318,34 @@ namespace ETWPM2Monitor2
                 groupBox8.Text = "All Real-time events: " + Chart_Counts;
 
                 removeRealtimeRecordsAfter1000RecordsToolStripMenuItem.Checked = true;
-
-                BeginInvoke(new __Obj_Updater_to_WinForm(_RunRemoveItemsLisview1));
                
             }
             catch (EventLogReadingException err)
             {
 
             }
+        }
+
+        private void T6_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            try
+            {
+                Process[] p = Process.GetProcesses();
+                foreach (ListViewItem item in listView1.Items)
+                {
+                    if (p.ToList().Find(pid => pid.Id == Convert.ToInt32(item.SubItems[3].Text.Split(':')[1])
+                     && pid.ProcessName.ToLower() == item.SubItems[3].Text.Split(':')[0].ToLower()) == null)
+                    {
+                        item.Remove();
+                    }
+                }
+            }
+            catch (Exception)
+            {
+
+               
+            }
+
         }
 
 
@@ -1643,9 +1803,10 @@ namespace ETWPM2Monitor2
 
             await new TaskFactory().StartNew(() =>
             {
-
                 while (true)
                 {
+                    if (ETWPM2Realt_timeShowMode_Level == 1) break;
+
                     try
                     {
                         Thread.Sleep(10000);
@@ -1692,13 +1853,30 @@ namespace ETWPM2Monitor2
                 {
                     if (MyLviewItemsX.SubItems[3].Text.ToString().ToUpper() != "SYSTEM:4")
                     {
-                        BeginInvoke(new __Additem(_Additems_toListview1), MyLviewItemsX);
+                        if (ETWPM2Realt_timeShowMode_Level == 0)
+                        {
+                            BeginInvoke(new __Additem(_Additems_toListview1), MyLviewItemsX);
+                        }
+                        else
+                        {
+                            BeginInvoke(new __Additem(_Additems_toListview1__2), MyLviewItemsX);
+
+                        }
 
                     }
                 }
                 else
                 {
-                    BeginInvoke(new __Additem(_Additems_toListview1), MyLviewItemsX);
+                    if (ETWPM2Realt_timeShowMode_Level == 0)
+                    {
+                        BeginInvoke(new __Additem(_Additems_toListview1), MyLviewItemsX);
+                    }
+                    else
+                    {
+                        BeginInvoke(new __Additem(_Additems_toListview1__2), MyLviewItemsX);
+
+                    }
+                    //BeginInvoke(new __Additem(_Additems_toListview1), MyLviewItemsX);
 
                 }
             }
@@ -2672,28 +2850,47 @@ namespace ETWPM2Monitor2
 
         public void UpdateRefreshListview1()
         {
-            try
+            if (ETWPM2Realt_timeShowMode_Level == 0)
             {
-                if (i6 != listView1.Items.Count - 1)
+                t.Interval = 10000;
+                try
                 {
-                    try
+                    if (i6 != listView1.Items.Count - 1)
                     {
-                        listView1.FocusedItem = listView1.Items[listView1.Items.Count - 1];
-                        listView1.BeginInvoke((MethodInvoker)delegate { listView1.FocusedItem.EnsureVisible(); });
-                        i6 = listView1.Items.Count - 1;
-                    }
-                    catch (Exception)
-                    {
+                        try
+                        {
+                            listView1.FocusedItem = listView1.Items[listView1.Items.Count - 1];
+                            listView1.BeginInvoke((MethodInvoker)delegate { listView1.FocusedItem.EnsureVisible(); });
+                            i6 = listView1.Items.Count - 1;
+                        }
+                        catch (Exception)
+                        {
 
 
+                        }
                     }
+
                 }
+                catch (Exception)
+                {
 
+
+                }
             }
-            catch (Exception)
+            else if (ETWPM2Realt_timeShowMode_Level == 1)
             {
 
+                listView1.BeginInvoke((MethodInvoker)delegate
+                {
+                    t.Interval = 6000;
+                    foreach (ListViewItem item in listView1.Items)
+                    {
+                        item.ForeColor = Color.Black;
 
+                    }
+                    listView1.Refresh();
+                });
+               
             }
         }
 
@@ -3385,7 +3582,7 @@ namespace ETWPM2Monitor2
 
         private void AboutToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(null, "ETWPM2Monitor2 v2.1 [test version 2.1.20.94]\nCode Published by Damon Mohammadbagher , Jul 2021", "About ETWPM2Monitor2 v2.1", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show(null, "ETWPM2Monitor2 v2.1 [test version 2.1.21.97]\nCode Published by Damon Mohammadbagher , Jul 2021", "About ETWPM2Monitor2 v2.1", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
         }
 
@@ -3770,6 +3967,27 @@ namespace ETWPM2Monitor2
             startRefreshingToolStripMenuItem.Checked = true;
         }
 
+        private void ShowEventDetails2ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            listView1.Items.Clear();
+            ETWPM2Realt_timeShowMode_Level = 1;
+            showEventDetailsToolStripMenuItem.Checked = false;
+            showEventDetails2ToolStripMenuItem.Checked = true;
+            t6.Enabled = true;
+            t6.Start();
+        }
+
+        private void ShowEventDetailsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            listView1.Items.Clear();
+            ETWPM2Realt_timeShowMode_Level = 0;
+            showEventDetailsToolStripMenuItem.Checked = true;
+            showEventDetails2ToolStripMenuItem.Checked = false;
+            t6.Enabled = false;
+            t6.Stop();
+            BeginInvoke(new __Obj_Updater_to_WinForm(_RunRemoveItemsLisview1));
+        }
+
         private void DontDumpPEOfilterToolStripMenuItem_Click(object sender, EventArgs e)
         {
             toolStripStatusLabel4.Text = "| hollowshunter is on";
@@ -3957,111 +4175,175 @@ namespace ETWPM2Monitor2
         {
             try
             {
-                int PID = Convert.ToInt32(_PID);
-                
-                richTextBox7.Text = "";
-                string module = "";
-                string module_size = "";
-                string filename = "";
-
-                string dump = "";
-                if (File.Exists(@".\process_" + PID + @"\" + @"dump_report.json"))
+                Invoke(new Action(() =>
                 {
+                    int PID = Convert.ToInt32(_PID);
 
-                    foreach (string item in File.ReadAllLines(@".\process_" + PID + @"\" + @"dump_report.json"))
+                    richTextBox7.Text = "";
+                    string module = "";
+                    string module_size = "";
+                    string filename = "";
+
+                    string dump = "";
+                    if (File.Exists(@".\process_" + PID + @"\" + @"dump_report.json"))
                     {
-                        if (item.Contains("\"module\" :") || item.Contains("\"module_size\" :") || item.Contains("\"dump_file\" :")
-                            || item.Contains("\"dump_mode\" :") || item.Contains("\"is_shellcode\" :"))
+
+                        foreach (string item in File.ReadAllLines(@".\process_" + PID + @"\" + @"dump_report.json"))
                         {
-                            if (item.Contains("\"module\" :"))
+                            if (item.Contains("\"module\" :") || item.Contains("\"module_size\" :") || item.Contains("\"dump_file\" :")
+                                || item.Contains("\"dump_mode\" :") || item.Contains("\"is_shellcode\" :"))
                             {
-                                module = item.Split(':')[1];
-                                module = module.Replace("\"", "");
-                                module = module.Replace(" ", "");
-                                module = module.Replace(",", "");
-
-                            }
-                            if (item.Contains("module_size"))
-                            {
-                                module_size = item.Split(':')[1];
-                                module_size = module_size.Replace("\"", "");
-                                module_size = module_size.Replace(" ", "");
-                                module_size = module_size.Replace(",", "");
-
-                            }
-                            if (item.Contains("dump_file"))
-                            {
-                                filename = item.Split(':')[1].Substring(2);
-                                filename = filename.Replace("\",", "");
-
-                            }
-
-                            richTextBox7.Text += item + "\n";
-
-                            //if (item.Contains("is_shellcode"))
-                            //{
-                            try
-                            {
-
-                                if (module + ".dll" == filename)
+                                if (item.Contains("\"module\" :"))
                                 {
-                                    buf = new byte[200];
-                                    buf = File.ReadAllBytes(@".\process_" + PID + @"\" + module + ".dll");
-                                    dump = Memoryinfo.HexDump2(buf) + "\n--------------------------------------------------------------------------------------------------------------------------\n";
-                                    if (dump != null)
-                                    {
-                                        richTextBox7.Text += dump;
-                                    }
-                                }
-                                else if (module + ".shc" == filename)
-                                {
-                                    buf = new byte[200];
-                                    buf = File.ReadAllBytes(@".\process_" + PID + @"\" + module + ".shc");
-                                    dump = Memoryinfo.HexDump2(buf) + "\n--------------------------------------------------------------------------------------------------------------------------\n";
-                                    if (dump != null)
-                                    {
-                                        richTextBox7.Text += dump;
-                                    }
-                                }
-                                else if (item.Contains("dump_file"))
-                                {
-                                    buf = new byte[200];
-                                    buf = File.ReadAllBytes(@".\process_" + PID + @"\" + filename);
-                                    dump = Memoryinfo.HexDump2(buf) + "\n";
-                                    if (dump != null)
-                                    {
-                                        richTextBox7.Text += dump;
-                                    }
+                                    module = item.Split(':')[1];
+                                    module = module.Replace("\"", "");
+                                    module = module.Replace(" ", "");
+                                    module = module.Replace(",", "");
 
                                 }
-                                else if (item.Contains("\"is_shellcode\" :"))
+                                if (item.Contains("module_size"))
                                 {
-                                    richTextBox7.Text += "\n--------------------------------------------------------------------------------------------------------------------------\n";
+                                    module_size = item.Split(':')[1];
+                                    module_size = module_size.Replace("\"", "");
+                                    module_size = module_size.Replace(" ", "");
+                                    module_size = module_size.Replace(",", "");
+
                                 }
-                            }
-                            catch (Exception)
-                            {
+                                if (item.Contains("dump_file"))
+                                {
+                                    filename = item.Split(':')[1].Substring(2);
+                                    filename = filename.Replace("\",", "");
+
+                                }
+
+                                richTextBox7.Text += item + "\n";
 
 
                             }
-                            // }
 
                         }
 
-                    }
-                }
-                else
-                {
-                    richTextBox7.Text = "";
-                }
-                 
 
+                    }
+                    else
+                    {
+                        richTextBox7.Text = "";
+                    }
+
+                }));
             }
             catch (Exception rr)
             {
 
 
             }
+            //try
+            //{
+            //    int PID = Convert.ToInt32(_PID);
+
+            //    richTextBox7.Text = "";
+            //    string module = "";
+            //    string module_size = "";
+            //    string filename = "";
+
+            //    string dump = "";
+            //    if (File.Exists(@".\process_" + PID + @"\" + @"dump_report.json"))
+            //    {
+
+            //        foreach (string item in File.ReadAllLines(@".\process_" + PID + @"\" + @"dump_report.json"))
+            //        {
+            //            if (item.Contains("\"module\" :") || item.Contains("\"module_size\" :") || item.Contains("\"dump_file\" :")
+            //                || item.Contains("\"dump_mode\" :") || item.Contains("\"is_shellcode\" :"))
+            //            {
+            //                if (item.Contains("\"module\" :"))
+            //                {
+            //                    module = item.Split(':')[1];
+            //                    module = module.Replace("\"", "");
+            //                    module = module.Replace(" ", "");
+            //                    module = module.Replace(",", "");
+
+            //                }
+            //                if (item.Contains("module_size"))
+            //                {
+            //                    module_size = item.Split(':')[1];
+            //                    module_size = module_size.Replace("\"", "");
+            //                    module_size = module_size.Replace(" ", "");
+            //                    module_size = module_size.Replace(",", "");
+
+            //                }
+            //                if (item.Contains("dump_file"))
+            //                {
+            //                    filename = item.Split(':')[1].Substring(2);
+            //                    filename = filename.Replace("\",", "");
+
+            //                }
+
+            //                richTextBox7.Text += item + "\n";
+
+            //                //if (item.Contains("is_shellcode"))
+            //                //{
+            //                try
+            //                {
+
+            //                    if (module + ".dll" == filename)
+            //                    {
+            //                        buf = new byte[200];
+            //                        buf = File.ReadAllBytes(@".\process_" + PID + @"\" + module + ".dll");
+            //                        dump = Memoryinfo.HexDump2(buf) + "\n--------------------------------------------------------------------------------------------------------------------------\n";
+            //                        if (dump != null)
+            //                        {
+            //                            richTextBox7.Text += dump;
+            //                        }
+            //                    }
+            //                    else if (module + ".shc" == filename)
+            //                    {
+            //                        buf = new byte[200];
+            //                        buf = File.ReadAllBytes(@".\process_" + PID + @"\" + module + ".shc");
+            //                        dump = Memoryinfo.HexDump2(buf) + "\n--------------------------------------------------------------------------------------------------------------------------\n";
+            //                        if (dump != null)
+            //                        {
+            //                            richTextBox7.Text += dump;
+            //                        }
+            //                    }
+            //                    else if (item.Contains("dump_file"))
+            //                    {
+            //                        buf = new byte[200];
+            //                        buf = File.ReadAllBytes(@".\process_" + PID + @"\" + filename);
+            //                        dump = Memoryinfo.HexDump2(buf) + "\n";
+            //                        if (dump != null)
+            //                        {
+            //                            richTextBox7.Text += dump;
+            //                        }
+
+            //                    }
+            //                    else if (item.Contains("\"is_shellcode\" :"))
+            //                    {
+            //                        richTextBox7.Text += "\n--------------------------------------------------------------------------------------------------------------------------\n";
+            //                    }
+            //                }
+            //                catch (Exception)
+            //                {
+
+
+            //                }
+            //                // }
+
+            //            }
+
+            //        }
+            //    }
+            //    else
+            //    {
+            //        richTextBox7.Text = "";
+            //    }
+
+
+            //}
+            //catch (Exception rr)
+            //{
+
+
+            //}
         }
 
         private void HollowHunterexeoffToolStripMenuItem_Click(object sender, EventArgs e)
