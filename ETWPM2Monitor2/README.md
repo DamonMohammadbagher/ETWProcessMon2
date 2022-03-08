@@ -53,7 +53,7 @@ Usage Steps
     Step2: ETWPM2Monitor2.exe (Run as Admin)
 
 ----------------------------------------------------------
-### ETWPM2Monitor2 v2.1 , update(18) v2.1.20.94 [Mar 07, 2022] (Processes Tab Added)
+### ETWPM2Monitor2 v2.1 , update(19) v2.1.21.97 [Mar 07, 2022] (Processes Tab Added)
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2/Pics/Process.png)
    
 #### note: Simple Processes Tab added to the source code ;) [Mar 07, 2022]
