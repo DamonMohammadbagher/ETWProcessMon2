@@ -124,6 +124,9 @@
             this.scannersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pesieve64exeOffToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pesieve64exeonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.scanOnlyModeDefaultToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.scanKillSuspiciousRunAsAdminToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.defaultDumpAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dontDumpTheModifiedPEsButSaveTheReportoffToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dontDumpAnyFilesToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -167,9 +170,20 @@
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.contextMenuStrip4 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.dumpTIDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.scanOnlyModeDefaultToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.scanKillSuspiciousRunAsAdminToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
+            this.tabPage13 = new System.Windows.Forms.TabPage();
+            this.splitContainer8 = new System.Windows.Forms.SplitContainer();
+            this.splitContainer9 = new System.Windows.Forms.SplitContainer();
+            this.groupBox18 = new System.Windows.Forms.GroupBox();
+            this.groupBox19 = new System.Windows.Forms.GroupBox();
+            this.splitContainer10 = new System.Windows.Forms.SplitContainer();
+            this.richTextBox13 = new System.Windows.Forms.RichTextBox();
+            this.Search = new System.Windows.Forms.GroupBox();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.treeView1 = new System.Windows.Forms.TreeView();
+            this.treeView2 = new System.Windows.Forms.TreeView();
+            this.treeView3 = new System.Windows.Forms.TreeView();
             this.contextMenuStrip5.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -232,6 +246,22 @@
             this.menuStrip3.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.contextMenuStrip4.SuspendLayout();
+            this.tabPage13.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer8)).BeginInit();
+            this.splitContainer8.Panel1.SuspendLayout();
+            this.splitContainer8.Panel2.SuspendLayout();
+            this.splitContainer8.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer9)).BeginInit();
+            this.splitContainer9.Panel1.SuspendLayout();
+            this.splitContainer9.Panel2.SuspendLayout();
+            this.splitContainer9.SuspendLayout();
+            this.groupBox18.SuspendLayout();
+            this.groupBox19.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer10)).BeginInit();
+            this.splitContainer10.Panel1.SuspendLayout();
+            this.splitContainer10.Panel2.SuspendLayout();
+            this.splitContainer10.SuspendLayout();
+            this.Search.SuspendLayout();
             this.SuspendLayout();
             // 
             // richTextBox1
@@ -283,6 +313,7 @@
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage13);
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tabPage4);
             this.tabControl1.Controls.Add(this.tabPage3);
@@ -1167,14 +1198,14 @@
             // startMonitorToolStripMenuItem
             // 
             this.startMonitorToolStripMenuItem.Name = "startMonitorToolStripMenuItem";
-            this.startMonitorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.startMonitorToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
             this.startMonitorToolStripMenuItem.Text = "Start Monitor";
             this.startMonitorToolStripMenuItem.Click += new System.EventHandler(this.StartMonitorToolStripMenuItem_Click);
             // 
             // stoptMonitorToolStripMenuItem
             // 
             this.stoptMonitorToolStripMenuItem.Name = "stoptMonitorToolStripMenuItem";
-            this.stoptMonitorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.stoptMonitorToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
             this.stoptMonitorToolStripMenuItem.Text = "Stop Monitor";
             this.stoptMonitorToolStripMenuItem.Click += new System.EventHandler(this.StoptMonitorToolStripMenuItem_Click);
             // 
@@ -1184,7 +1215,7 @@
             this.onToolStripMenuItem,
             this.offToolStripMenuItem});
             this.autoScrollToolStripMenuItem.Name = "autoScrollToolStripMenuItem";
-            this.autoScrollToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.autoScrollToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
             this.autoScrollToolStripMenuItem.Text = "Auto Scroll";
             // 
             // onToolStripMenuItem
@@ -1204,14 +1235,14 @@
             // clearAllToolStripMenuItem
             // 
             this.clearAllToolStripMenuItem.Name = "clearAllToolStripMenuItem";
-            this.clearAllToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.clearAllToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
             this.clearAllToolStripMenuItem.Text = "Clear All";
             this.clearAllToolStripMenuItem.Click += new System.EventHandler(this.ClearAllToolStripMenuItem_Click);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(174, 6);
             // 
             // scannersToolStripMenuItem
             // 
@@ -1223,7 +1254,7 @@
             this.toolStripSeparator4,
             this.toolStripMenuItem1});
             this.scannersToolStripMenuItem.Name = "scannersToolStripMenuItem";
-            this.scannersToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.scannersToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
             this.scannersToolStripMenuItem.Text = "Scanners";
             // 
             // pesieve64exeOffToolStripMenuItem
@@ -1246,6 +1277,25 @@
             this.pesieve64exeonToolStripMenuItem.Name = "pesieve64exeonToolStripMenuItem";
             this.pesieve64exeonToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
             this.pesieve64exeonToolStripMenuItem.Text = "pe-sieve64.exe on";
+            // 
+            // scanOnlyModeDefaultToolStripMenuItem
+            // 
+            this.scanOnlyModeDefaultToolStripMenuItem.Name = "scanOnlyModeDefaultToolStripMenuItem";
+            this.scanOnlyModeDefaultToolStripMenuItem.Size = new System.Drawing.Size(360, 22);
+            this.scanOnlyModeDefaultToolStripMenuItem.Text = "Scan only mode (Default)";
+            this.scanOnlyModeDefaultToolStripMenuItem.Click += new System.EventHandler(this.ScanOnlyModeDefaultToolStripMenuItem_Click);
+            // 
+            // scanKillSuspiciousRunAsAdminToolStripMenuItem
+            // 
+            this.scanKillSuspiciousRunAsAdminToolStripMenuItem.Name = "scanKillSuspiciousRunAsAdminToolStripMenuItem";
+            this.scanKillSuspiciousRunAsAdminToolStripMenuItem.Size = new System.Drawing.Size(360, 22);
+            this.scanKillSuspiciousRunAsAdminToolStripMenuItem.Text = "Scan + Kill Suspicious (Run as Admin)";
+            this.scanKillSuspiciousRunAsAdminToolStripMenuItem.Click += new System.EventHandler(this.ScanKillSuspiciousRunAsAdminToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator6
+            // 
+            this.toolStripSeparator6.Name = "toolStripSeparator6";
+            this.toolStripSeparator6.Size = new System.Drawing.Size(357, 6);
             // 
             // defaultDumpAllToolStripMenuItem
             // 
@@ -1352,14 +1402,14 @@
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(174, 6);
             // 
             // showNotifyPopupToolStripMenuItem
             // 
             this.showNotifyPopupToolStripMenuItem.Checked = true;
             this.showNotifyPopupToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.showNotifyPopupToolStripMenuItem.Name = "showNotifyPopupToolStripMenuItem";
-            this.showNotifyPopupToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.showNotifyPopupToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
             this.showNotifyPopupToolStripMenuItem.Text = "Show Notify Popup";
             this.showNotifyPopupToolStripMenuItem.Click += new System.EventHandler(this.ShowNotifyPopupToolStripMenuItem_Click);
             // 
@@ -1580,24 +1630,175 @@
             this.dumpTIDToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
             this.dumpTIDToolStripMenuItem.Text = "Injected TID Memory info";
             // 
-            // scanOnlyModeDefaultToolStripMenuItem
+            // tabPage13
             // 
-            this.scanOnlyModeDefaultToolStripMenuItem.Name = "scanOnlyModeDefaultToolStripMenuItem";
-            this.scanOnlyModeDefaultToolStripMenuItem.Size = new System.Drawing.Size(360, 22);
-            this.scanOnlyModeDefaultToolStripMenuItem.Text = "Scan only mode (Default)";
-            this.scanOnlyModeDefaultToolStripMenuItem.Click += new System.EventHandler(this.ScanOnlyModeDefaultToolStripMenuItem_Click);
+            this.tabPage13.Controls.Add(this.splitContainer8);
+            this.tabPage13.Location = new System.Drawing.Point(4, 22);
+            this.tabPage13.Name = "tabPage13";
+            this.tabPage13.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage13.Size = new System.Drawing.Size(1074, 384);
+            this.tabPage13.TabIndex = 6;
+            this.tabPage13.Text = "Processes";
+            this.tabPage13.UseVisualStyleBackColor = true;
+            this.tabPage13.Click += new System.EventHandler(this.TabPage13_Click);
             // 
-            // scanKillSuspiciousRunAsAdminToolStripMenuItem
+            // splitContainer8
             // 
-            this.scanKillSuspiciousRunAsAdminToolStripMenuItem.Name = "scanKillSuspiciousRunAsAdminToolStripMenuItem";
-            this.scanKillSuspiciousRunAsAdminToolStripMenuItem.Size = new System.Drawing.Size(360, 22);
-            this.scanKillSuspiciousRunAsAdminToolStripMenuItem.Text = "Scan + Kill Suspicious (Run as Admin)";
-            this.scanKillSuspiciousRunAsAdminToolStripMenuItem.Click += new System.EventHandler(this.ScanKillSuspiciousRunAsAdminToolStripMenuItem_Click);
+            this.splitContainer8.BackColor = System.Drawing.Color.DarkGray;
+            this.splitContainer8.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer8.Location = new System.Drawing.Point(3, 3);
+            this.splitContainer8.Name = "splitContainer8";
+            this.splitContainer8.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
-            // toolStripSeparator6
+            // splitContainer8.Panel1
             // 
-            this.toolStripSeparator6.Name = "toolStripSeparator6";
-            this.toolStripSeparator6.Size = new System.Drawing.Size(357, 6);
+            this.splitContainer8.Panel1.Controls.Add(this.splitContainer9);
+            // 
+            // splitContainer8.Panel2
+            // 
+            this.splitContainer8.Panel2.Controls.Add(this.splitContainer10);
+            this.splitContainer8.Panel2.Controls.Add(this.Search);
+            this.splitContainer8.Size = new System.Drawing.Size(1068, 378);
+            this.splitContainer8.SplitterDistance = 184;
+            this.splitContainer8.TabIndex = 4;
+            // 
+            // splitContainer9
+            // 
+            this.splitContainer9.BackColor = System.Drawing.Color.DarkGray;
+            this.splitContainer9.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer9.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer9.Name = "splitContainer9";
+            // 
+            // splitContainer9.Panel1
+            // 
+            this.splitContainer9.Panel1.Controls.Add(this.groupBox18);
+            // 
+            // splitContainer9.Panel2
+            // 
+            this.splitContainer9.Panel2.Controls.Add(this.groupBox19);
+            this.splitContainer9.Size = new System.Drawing.Size(1068, 184);
+            this.splitContainer9.SplitterDistance = 527;
+            this.splitContainer9.TabIndex = 2;
+            // 
+            // groupBox18
+            // 
+            this.groupBox18.BackColor = System.Drawing.SystemColors.Control;
+            this.groupBox18.Controls.Add(this.treeView1);
+            this.groupBox18.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox18.Location = new System.Drawing.Point(0, 0);
+            this.groupBox18.Name = "groupBox18";
+            this.groupBox18.Size = new System.Drawing.Size(527, 184);
+            this.groupBox18.TabIndex = 1;
+            this.groupBox18.TabStop = false;
+            this.groupBox18.Text = "Live Processes";
+            // 
+            // groupBox19
+            // 
+            this.groupBox19.BackColor = System.Drawing.SystemColors.Control;
+            this.groupBox19.Controls.Add(this.treeView2);
+            this.groupBox19.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox19.Location = new System.Drawing.Point(0, 0);
+            this.groupBox19.Name = "groupBox19";
+            this.groupBox19.Size = new System.Drawing.Size(537, 184);
+            this.groupBox19.TabIndex = 2;
+            this.groupBox19.TabStop = false;
+            this.groupBox19.Text = "Terminated/Closed Processes";
+            // 
+            // splitContainer10
+            // 
+            this.splitContainer10.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer10.Location = new System.Drawing.Point(0, 48);
+            this.splitContainer10.Name = "splitContainer10";
+            // 
+            // splitContainer10.Panel1
+            // 
+            this.splitContainer10.Panel1.Controls.Add(this.treeView3);
+            // 
+            // splitContainer10.Panel2
+            // 
+            this.splitContainer10.Panel2.Controls.Add(this.richTextBox13);
+            this.splitContainer10.Size = new System.Drawing.Size(1068, 142);
+            this.splitContainer10.SplitterDistance = 355;
+            this.splitContainer10.TabIndex = 6;
+            // 
+            // richTextBox13
+            // 
+            this.richTextBox13.BackColor = System.Drawing.Color.Beige;
+            this.richTextBox13.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.richTextBox13.Location = new System.Drawing.Point(0, 0);
+            this.richTextBox13.Name = "richTextBox13";
+            this.richTextBox13.ReadOnly = true;
+            this.richTextBox13.Size = new System.Drawing.Size(709, 142);
+            this.richTextBox13.TabIndex = 0;
+            this.richTextBox13.Text = "";
+            // 
+            // Search
+            // 
+            this.Search.BackColor = System.Drawing.SystemColors.Control;
+            this.Search.Controls.Add(this.button2);
+            this.Search.Controls.Add(this.button1);
+            this.Search.Controls.Add(this.textBox1);
+            this.Search.Dock = System.Windows.Forms.DockStyle.Top;
+            this.Search.Location = new System.Drawing.Point(0, 0);
+            this.Search.Name = "Search";
+            this.Search.Size = new System.Drawing.Size(1068, 48);
+            this.Search.TabIndex = 4;
+            this.Search.TabStop = false;
+            this.Search.Text = "Search";
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(450, 17);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(148, 22);
+            this.button2.TabIndex = 3;
+            this.button2.Text = "Search [Closed Processes]";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.Button2_Click);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(296, 17);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(148, 22);
+            this.button1.TabIndex = 2;
+            this.button1.Text = "Search [Live Processes]";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.Button1_Click);
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(6, 18);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(282, 20);
+            this.textBox1.TabIndex = 1;
+            // 
+            // treeView1
+            // 
+            this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.treeView1.Location = new System.Drawing.Point(3, 16);
+            this.treeView1.Name = "treeView1";
+            this.treeView1.Size = new System.Drawing.Size(521, 165);
+            this.treeView1.TabIndex = 0;
+            this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TreeView1_AfterSelect_1);
+            // 
+            // treeView2
+            // 
+            this.treeView2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.treeView2.Location = new System.Drawing.Point(3, 16);
+            this.treeView2.Name = "treeView2";
+            this.treeView2.Size = new System.Drawing.Size(531, 165);
+            this.treeView2.TabIndex = 0;
+            this.treeView2.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TreeView2_AfterSelect_1);
+            // 
+            // treeView3
+            // 
+            this.treeView3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.treeView3.Location = new System.Drawing.Point(0, 0);
+            this.treeView3.Name = "treeView3";
+            this.treeView3.Size = new System.Drawing.Size(355, 142);
+            this.treeView3.TabIndex = 0;
+            this.treeView3.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TreeView3_AfterSelect_1);
             // 
             // Form1
             // 
@@ -1677,6 +1878,23 @@
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.contextMenuStrip4.ResumeLayout(false);
+            this.tabPage13.ResumeLayout(false);
+            this.splitContainer8.Panel1.ResumeLayout(false);
+            this.splitContainer8.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer8)).EndInit();
+            this.splitContainer8.ResumeLayout(false);
+            this.splitContainer9.Panel1.ResumeLayout(false);
+            this.splitContainer9.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer9)).EndInit();
+            this.splitContainer9.ResumeLayout(false);
+            this.groupBox18.ResumeLayout(false);
+            this.groupBox19.ResumeLayout(false);
+            this.splitContainer10.Panel1.ResumeLayout(false);
+            this.splitContainer10.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer10)).EndInit();
+            this.splitContainer10.ResumeLayout(false);
+            this.Search.ResumeLayout(false);
+            this.Search.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1823,6 +2041,20 @@
         private System.Windows.Forms.ToolStripMenuItem scanOnlyModeDefaultToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem scanKillSuspiciousRunAsAdminToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
+        private System.Windows.Forms.TabPage tabPage13;
+        private System.Windows.Forms.SplitContainer splitContainer8;
+        private System.Windows.Forms.SplitContainer splitContainer9;
+        private System.Windows.Forms.GroupBox groupBox18;
+        private System.Windows.Forms.GroupBox groupBox19;
+        private System.Windows.Forms.SplitContainer splitContainer10;
+        private System.Windows.Forms.RichTextBox richTextBox13;
+        private System.Windows.Forms.GroupBox Search;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TreeView treeView1;
+        private System.Windows.Forms.TreeView treeView2;
+        private System.Windows.Forms.TreeView treeView3;
     }
 }
 
