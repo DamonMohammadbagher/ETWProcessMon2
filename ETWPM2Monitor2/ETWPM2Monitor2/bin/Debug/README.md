@@ -5,7 +5,7 @@ Note: in this code we have "Pe-sieve64.exe" & "Hollowshunter.exe" so to use you 
 
 md5 info, "exe files are not safe here in github so make your own exe files with C# source by yourself [i recommend]":
 
-      a59885063c-05f96d9db5-dd811ae5b555 => ETWPM2Monitor2.exe (v2.1)
+      0e5f6bd971-a53f450017-c6967d6549f1 => ETWPM2Monitor2.exe (v2.1)
       
       Note: ETWPM2Monitor2.exe [ver 2.1.18.84]
     
