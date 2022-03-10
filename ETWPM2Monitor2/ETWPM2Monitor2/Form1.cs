@@ -63,6 +63,8 @@ namespace ETWPM2Monitor2
         public delegate void __Updatelistview1();
         public delegate void __Obj_Updater_to_WinForm();
         public delegate void __Obj_Updater_to_WinForm2(string obj1 , TreeView obj2);
+        public delegate void __Obj_Updater_to_WinForm3(string obj1, int obj2);
+
 
 
         public static List<_All_Injection_Details_info_Filter_withoutSystem4> _List_All_Injection_Details_info_Filter_withoutSystem4 = new List<_All_Injection_Details_info_Filter_withoutSystem4>();
@@ -289,7 +291,7 @@ namespace ETWPM2Monitor2
                 ico.Icon = SystemIcons.Error;
                 ico.Visible = true;
                 ico.ShowBalloonTip(4000, _value3 + "\n" + _value2.Replace('\n', ' ')
-                    + "\n" + _value4 + "\n" + _value5 + "\n" + _value6, _value5, ToolTipIcon.Error);
+                     + "\n" + _value4 + "\n" + _value5 + "\n" + _value6, _value2 + "\n" + _value5, ToolTipIcon.Error);
             }
             catch (Exception)
             {
@@ -472,7 +474,7 @@ namespace ETWPM2Monitor2
                
             }
         }
-
+ 
         public void __Additems_toListview1__2_Method(object _obj)
         {
             ListViewItem _obj_ = (ListViewItem)_obj;
@@ -493,7 +495,7 @@ namespace ETWPM2Monitor2
                         listView1.Items[i].Name = _obj_.Name;
                         listView1.Items[i].ImageIndex = _obj_.ImageIndex;
                         _found = true;
-                        listView1.Items[i].ForeColor = Color.OrangeRed;
+                        listView1.Items[i].ForeColor = Color.OrangeRed;                       
                         break;
                     }
                 }
@@ -501,9 +503,7 @@ namespace ETWPM2Monitor2
                 if (!_found)
                 {
                     listView1.Items.Add(_obj_).ForeColor = Color.OrangeRed;
-
-                    Thread.Sleep(5);
-                  
+                    Thread.Sleep(5);                  
                 }
 
             }

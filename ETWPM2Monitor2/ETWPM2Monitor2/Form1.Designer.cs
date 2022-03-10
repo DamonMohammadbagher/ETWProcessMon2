@@ -56,6 +56,8 @@
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.groupBox13 = new System.Windows.Forms.GroupBox();
             this.treeView2 = new System.Windows.Forms.TreeView();
+            this.splitContainer7 = new System.Windows.Forms.SplitContainer();
+            this.treeView3 = new System.Windows.Forms.TreeView();
             this.richTextBox9 = new System.Windows.Forms.RichTextBox();
             this.Search = new System.Windows.Forms.GroupBox();
             this.button2 = new System.Windows.Forms.Button();
@@ -211,8 +213,6 @@
             this.toolStripStatusLabel5 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel6 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel7 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.treeView3 = new System.Windows.Forms.TreeView();
-            this.splitContainer7 = new System.Windows.Forms.SplitContainer();
             this.contextMenuStrip5.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -231,6 +231,10 @@
             this.splitContainer6.SuspendLayout();
             this.groupBox12.SuspendLayout();
             this.groupBox13.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer7)).BeginInit();
+            this.splitContainer7.Panel1.SuspendLayout();
+            this.splitContainer7.Panel2.SuspendLayout();
+            this.splitContainer7.SuspendLayout();
             this.Search.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.tabPage4.SuspendLayout();
@@ -272,10 +276,6 @@
             this.statusStrip1.SuspendLayout();
             this.contextMenuStrip4.SuspendLayout();
             this.statusStrip2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer7)).BeginInit();
-            this.splitContainer7.Panel1.SuspendLayout();
-            this.splitContainer7.Panel2.SuspendLayout();
-            this.splitContainer7.SuspendLayout();
             this.SuspendLayout();
             // 
             // richTextBox1
@@ -471,6 +471,32 @@
             this.treeView2.Size = new System.Drawing.Size(539, 155);
             this.treeView2.TabIndex = 1;
             this.treeView2.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TreeView2_AfterSelect);
+            // 
+            // splitContainer7
+            // 
+            this.splitContainer7.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer7.Location = new System.Drawing.Point(0, 48);
+            this.splitContainer7.Name = "splitContainer7";
+            // 
+            // splitContainer7.Panel1
+            // 
+            this.splitContainer7.Panel1.Controls.Add(this.treeView3);
+            // 
+            // splitContainer7.Panel2
+            // 
+            this.splitContainer7.Panel2.Controls.Add(this.richTextBox9);
+            this.splitContainer7.Size = new System.Drawing.Size(1085, 130);
+            this.splitContainer7.SplitterDistance = 361;
+            this.splitContainer7.TabIndex = 6;
+            // 
+            // treeView3
+            // 
+            this.treeView3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.treeView3.Location = new System.Drawing.Point(0, 0);
+            this.treeView3.Name = "treeView3";
+            this.treeView3.Size = new System.Drawing.Size(361, 130);
+            this.treeView3.TabIndex = 5;
+            this.treeView3.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TreeView3_AfterSelect);
             // 
             // richTextBox9
             // 
@@ -1674,7 +1700,7 @@
             this.includeSYSTEM4EventsFromRealtimeToolStripMenuItem.CheckOnClick = true;
             this.includeSYSTEM4EventsFromRealtimeToolStripMenuItem.Name = "includeSYSTEM4EventsFromRealtimeToolStripMenuItem";
             this.includeSYSTEM4EventsFromRealtimeToolStripMenuItem.Size = new System.Drawing.Size(351, 22);
-            this.includeSYSTEM4EventsFromRealtimeToolStripMenuItem.Text = "Include \"SYSTEM:4\" Events from Realtime";
+            this.includeSYSTEM4EventsFromRealtimeToolStripMenuItem.Text = "Include \"SYSTEM:4\" Events";
             this.includeSYSTEM4EventsFromRealtimeToolStripMenuItem.Click += new System.EventHandler(this.IncludeSYSTEM4EventsFromRealtimeToolStripMenuItem_Click);
             // 
             // toolStripSeparator5
@@ -1884,32 +1910,6 @@
             this.toolStripStatusLabel7.Size = new System.Drawing.Size(145, 17);
             this.toolStripStatusLabel7.Text = "| Network Connections (0)";
             // 
-            // treeView3
-            // 
-            this.treeView3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.treeView3.Location = new System.Drawing.Point(0, 0);
-            this.treeView3.Name = "treeView3";
-            this.treeView3.Size = new System.Drawing.Size(361, 130);
-            this.treeView3.TabIndex = 5;
-            this.treeView3.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TreeView3_AfterSelect);
-            // 
-            // splitContainer7
-            // 
-            this.splitContainer7.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer7.Location = new System.Drawing.Point(0, 48);
-            this.splitContainer7.Name = "splitContainer7";
-            // 
-            // splitContainer7.Panel1
-            // 
-            this.splitContainer7.Panel1.Controls.Add(this.treeView3);
-            // 
-            // splitContainer7.Panel2
-            // 
-            this.splitContainer7.Panel2.Controls.Add(this.richTextBox9);
-            this.splitContainer7.Size = new System.Drawing.Size(1085, 130);
-            this.splitContainer7.SplitterDistance = 361;
-            this.splitContainer7.TabIndex = 6;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1943,6 +1943,10 @@
             this.splitContainer6.ResumeLayout(false);
             this.groupBox12.ResumeLayout(false);
             this.groupBox13.ResumeLayout(false);
+            this.splitContainer7.Panel1.ResumeLayout(false);
+            this.splitContainer7.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer7)).EndInit();
+            this.splitContainer7.ResumeLayout(false);
             this.Search.ResumeLayout(false);
             this.Search.PerformLayout();
             this.tabPage2.ResumeLayout(false);
@@ -1988,10 +1992,6 @@
             this.contextMenuStrip4.ResumeLayout(false);
             this.statusStrip2.ResumeLayout(false);
             this.statusStrip2.PerformLayout();
-            this.splitContainer7.Panel1.ResumeLayout(false);
-            this.splitContainer7.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer7)).EndInit();
-            this.splitContainer7.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
