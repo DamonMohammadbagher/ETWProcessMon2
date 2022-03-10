@@ -1633,17 +1633,8 @@ namespace SysPM2Monitor2_7
                     {
                         if (MyLviewItemsX5.SubItems[2].Text == "3" || MyLviewItemsX5.SubItems[2].Text == "8" || MyLviewItemsX5.SubItems[2].Text == "25")
                         {
-                            //"C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe\r:9908\r"
-                            //string[] PNPath = MyLviewItemsX5.SubItems[3].Text.Split('\\');
-                            //string ProcessName_PID = PNPath[PNPath.Length - 1];
-                            //ProcessName_PID = ProcessName_PID.Split('\r')[0] + ProcessName_PID.Split('\r')[1];
+                            ///"C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe\r:9908\r"                                                       
 
-                            // if (MyLviewItemsX5.SubItems[2].Text != "25" && (ProcessName_PID.Contains('\r')))
-                            // ProcessName_PID = ProcessName_PID.Split('\r')[0] + ProcessName_PID.Split('\r')[1];
-
-                            // if (MyLviewItemsX5.SubItems[2].Text == "25" && (ProcessName_PID.Contains('\r')))
-                            //   ProcessName_PID = ProcessName_PID.Split('\r')[0];
-                            string g = MyLviewItemsX5.SubItems[3].Text;
                             if (MyLviewItemsX5.SubItems[3].Text.Split(':')[0].Contains(item.Text.ToLower().Split(':')[0])
                                 && item.Text.Split(':')[1] == MyLviewItemsX5.SubItems[3].Text.Split(':')[1])
                             {
@@ -1651,6 +1642,7 @@ namespace SysPM2Monitor2_7
                                 if (MyLviewItemsX5.SubItems[2].Text == "1") { _Imgindex2 = 0; }
                                 if (MyLviewItemsX5.SubItems[2].Text == "8" || MyLviewItemsX5.SubItems[2].Text == "25") { _Imgindex2 = 1; }
                                 if (MyLviewItemsX5.SubItems[2].Text == "3") { _Imgindex2 = 3; }
+
                                 item.Nodes.Add("", "[EventID:" + MyLviewItemsX5.SubItems[2].Text + "]" +
                                     "[" + MyLviewItemsX5.SubItems[4].Text + "] { " + MyLviewItemsX5.SubItems[5].Text + " }", _Imgindex2);
 
@@ -1670,6 +1662,7 @@ namespace SysPM2Monitor2_7
                                 if (MyLviewItemsX5.SubItems[2].Text == "1") { _Imgindex2 = 0; }
                                 if (MyLviewItemsX5.SubItems[2].Text == "8" || MyLviewItemsX5.SubItems[2].Text == "25") { _Imgindex2 = 1; }
                                 if (MyLviewItemsX5.SubItems[2].Text == "3") { _Imgindex2 = 3; }
+
                                 item.Nodes.Add("", "[EventID:" + MyLviewItemsX5.SubItems[2].Text + "]" +
                                     "[" + MyLviewItemsX5.SubItems[4].Text + "] { " + MyLviewItemsX5.SubItems[5].Text + " }", _Imgindex2);
 
@@ -1696,11 +1689,6 @@ namespace SysPM2Monitor2_7
                         {
                             try
                             {
-                                //"C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe\r:9908\r"
-
-                                //string[] PNPath = MyLviewItemsX5.SubItems[3].Text.Split('\\');
-                               // string ProcessName_PID = PNPath[PNPath.Length - 1];
-                               // ProcessName_PID = ProcessName_PID.Split('\r')[0] + ProcessName_PID.Split('\r')[1];
 
                                 treeView1.Nodes.Add("", MyLviewItemsX5.SubItems[3].Text, _Imgindex).Nodes.Add("", "[EventID:" + MyLviewItemsX5.SubItems[2].Text + "]"
                                + "[" + MyLviewItemsX5.SubItems[4].Text + "] { " + MyLviewItemsX5.SubItems[5].Text + " }", _Imgindex).Parent.ImageIndex = _Imgindex;
@@ -1715,8 +1703,6 @@ namespace SysPM2Monitor2_7
                     }
 
                 }
-
-
             }
             catch (Exception err)
             {
