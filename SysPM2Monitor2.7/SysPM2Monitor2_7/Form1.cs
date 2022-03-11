@@ -35,6 +35,8 @@ namespace SysPM2Monitor2_7
         public static System.Timers.Timer t4_1 = new System.Timers.Timer(1500);
         public static System.Timers.Timer t5 = new System.Timers.Timer(10000);
         public static System.Timers.Timer t6 = new System.Timers.Timer(5000);
+        public static System.Timers.Timer t7 = new System.Timers.Timer(5000);
+
         public static uint NTReadTmpRef = 0;
         public static EventLogQuery SysmonPM2Query;
         public ListViewItem iList = new ListViewItem();
@@ -80,10 +82,13 @@ namespace SysPM2Monitor2_7
             public string ProcessName { set; get; }
             public string ProcessName_Path { set; get; }
             public bool IsLive { set; get; }
-            public bool IsShow { set; get; }
+            public bool IsShow_Alarm { set; get; }
             public int SysMonEventId8_25 { set; get; }
             public string StartAddress_of_TID { set; get; }
             public Int32 TID { set; get; }
+
+            private string _TCPDetails2;
+            public string TCPDetails2 { get { return _TCPDetails2; } set { _TCPDetails2 = value; } }
 
         }
 
@@ -222,6 +227,7 @@ namespace SysPM2Monitor2_7
             public string _TargetPIDName { set; get; }
 
         }
+        public static string[] temp_str = null;
 
         public static List<_InjectedThreadDetails_bytes> _InjectedTIDList = new List<_InjectedThreadDetails_bytes>();
         public static List<string> List_ofProcess_inListview2 = new List<string>();
@@ -230,6 +236,20 @@ namespace SysPM2Monitor2_7
         public static List<_TableOfMemoryInjection_Details> _SysmonEventID8_InjectionMemory_Details = new List<_TableOfMemoryInjection_Details>();
         public static List<_TableofProcess_Sysmon_Event_Counts> _Sysmon_Events_Counts = new List<_TableofProcess_Sysmon_Event_Counts>();
         public static _TableofProcess_Sysmon_Event_Counts Temp_Table_structure;
+
+        public static List<_All_Injection_Details_info_Filter_withoutSystem4> _List_All_Injection_Details_info_Filter_withoutSystem4 = new List<_All_Injection_Details_info_Filter_withoutSystem4>();
+        public struct _All_Injection_Details_info_Filter_withoutSystem4
+        {
+
+            public string _time_evt { set; get; }
+            public string _ThreadStartAddress { set; get; }
+            public Int32 _RemoteThreadID { set; get; }
+            public Int32 _TargetPID { set; get; }
+            public string _TargetPID_Path { set; get; }
+            public Int32 _InjectorPID { set; get; }
+            public string _InjectorPID_Path { set; get; }
+
+        }
 
         public static int _percent(int count, int total)
         {
@@ -250,7 +270,8 @@ namespace SysPM2Monitor2_7
         public static string ETW_LogsReader_ResultText = "";
         public delegate void __MyDelegate_LogFileReader_Method();
         public delegate void __MyDelegate_showdatagrid();
-        public delegate void __LogReader();       
+        public delegate void __LogReader();
+        public delegate void __core2(object str);
         public __MyDelegate_LogFileReader_Method AsyncMethod = new __MyDelegate_LogFileReader_Method(ETW_LogFileReader_Method);
         public static string Logfile = @".\VirtualMemAllocMon\Debug\VirtualMemAllocMonlog.txt";
         public static string eventstring_tmp3 = "";
@@ -679,7 +700,10 @@ namespace SysPM2Monitor2_7
                 t6.Elapsed += T6_Elapsed;
                 t.Enabled = true;
                 t6.Start();
-                
+
+                t7.Elapsed += T7_Elapsed;
+                t7.Enabled = true;
+                t7.Start();
 
                 listView1.Columns.Add(" ", 20, HorizontalAlignment.Left);
                 listView1.Columns.Add("Time", 130, HorizontalAlignment.Left);
@@ -851,6 +875,132 @@ namespace SysPM2Monitor2_7
             catch (EventLogReadingException err)
             {
                 MessageBox.Show(err.Message);
+            }
+        }
+
+        private void T7_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            try
+            {
+                foreach (var item in Process_Table.ToList())
+                {
+                    if (item.Injector != 4)
+                    {
+                        bool found = false;
+                        if (listBox3.Items.Count > 0)
+                        {
+
+                            foreach (var _item in listBox3.Items)
+                            {
+                                if (_item.ToString() == "[IsShow Alarm: " + item.IsShow_Alarm + "]" + "[ProcessName: " + item.ProcessName + " ] [PID:" + item.PID + "] [ EventID:" + item.SysMonEventId8_25.ToString() 
+                                    + "] [Injector:" + item.Injector + "] [InjectorPath:" + item.Injector_Path + "]" + " [Tcp:" + item.TCPDetails2 + "]")
+                                {
+                                    found = true;
+                                    break;
+                                }
+                            }
+                            if (!found)
+                            {
+
+                                listBox3.Items.Add("[IsShow Alarm: " + item.IsShow_Alarm + "]" + "[ProcessName: " + item.ProcessName + " ] [PID:" + item.PID + "] [ EventID:" + item.SysMonEventId8_25.ToString()
+                                    + "] [Injector:" + item.Injector + "] [InjectorPath:" + item.Injector_Path + "]" + " [Tcp:" + item.TCPDetails2 + "]");
+                            }
+                        }
+                        else
+                        {
+                            listBox3.Items.Add("[IsShow Alarm: " + item.IsShow_Alarm + "]" + "[ProcessName: " + item.ProcessName + " ] [PID:" + item.PID + "] [ EventID:" + item.SysMonEventId8_25.ToString()
+                                    + "] [Injector:" + item.Injector + "] [InjectorPath:" + item.Injector_Path + "]" + " [Tcp:" + item.TCPDetails2 + "]");
+                        }
+
+
+                    }
+                }
+
+                listBox3.SelectedIndex = listBox3.Items.Count - 1;
+
+                foreach (var item in _List_All_Injection_Details_info_Filter_withoutSystem4.ToList())
+                {
+                    if (item._TargetPID != 4)
+                    {
+                        bool found = false;
+                        if (listBox4.Items.Count > 0)
+                        {
+                            foreach (var _item in listBox4.Items)
+                            {
+                                if (_item.ToString() == "(StartAddr:" + item._ThreadStartAddress.ToString() + ") [TID:" + item._RemoteThreadID.ToString() + "] " + "[Time:" + item._time_evt
+                              + "] [Target PID:" + item._TargetPID + "] [Target PIDName:" + item._TargetPID_Path + "]"
+                              + " [Injector:" + item._InjectorPID + "] [InjectorPath:" + item._InjectorPID_Path + "]")
+                                {
+                                    found = true;
+                                    break;
+                                }
+                            }
+                            if (!found)
+                            {
+                                listBox4.Items.Add("(StartAddr:" + item._ThreadStartAddress.ToString() + ") [TID:" + item._RemoteThreadID.ToString() + "] " + "[Time:" + item._time_evt
+                              + "] [Target PID:" + item._TargetPID + "] [Target PIDName:" + item._TargetPID_Path + "]"
+                              + " [Injector:" + item._InjectorPID + "] [InjectorPath:" + item._InjectorPID_Path + "]");
+                            }
+                        }
+                        else
+                        {
+
+                            listBox4.Items.Add("(StartAddr:" + item._ThreadStartAddress.ToString() + ") [TID:" + item._RemoteThreadID.ToString() + "] " + "[Time:" + item._time_evt
+                              + "] [Target PID:" + item._TargetPID + "] [Target PIDName:" + item._TargetPID_Path + "]"
+                              + " [Injector:" + item._InjectorPID + "] [InjectorPath:" + item._InjectorPID_Path + "]");
+
+                        }
+                    }
+                }
+
+                listBox4.SelectedIndex = listBox4.Items.Count - 1;
+
+                foreach (var item in _InjectedTIDList.ToList())
+                {
+                    bool found = false;
+                    if (listBox5.Items.Count > 0)
+                    {
+                        foreach (var _item in listBox5.Items)
+                        {
+                            _TableofProcess_Sysmon_Event_Counts TCP_Process = _Sysmon_Events_Counts.Find(process => process.PID == item._TargetPID && process.ProcNameANDPath.ToLower().Contains(item._TargetPIDName.ToLower()));
+
+                            if (_item.ToString() == "(StartAddr:" + item._ThreadStartAddress.ToString() + ") [TID:" + item._RemoteThreadID.ToString() + "] "
+                                + "[Bytes:" + item.Injected_Memory_Bytes.Substring(0, 50) + "...."
+                          + "] [Target PID:" + item._TargetPID + "] [Target PIDName:" + item._TargetPIDName + "]"
+                          + " [Injector:" + item._InjectorPID + "] [TCP: " + TCP_Process._LastTCP_Details + "]")
+                            {
+                                found = true;
+                                break;
+                            }
+                        }
+                        if (!found)
+                        {
+                            _TableofProcess_Sysmon_Event_Counts TCP_Process = _Sysmon_Events_Counts.Find(process => process.PID == item._TargetPID && process.ProcNameANDPath.ToLower().Contains(item._TargetPIDName.ToLower()));
+
+                            listBox5.Items.Add("(StartAddr:" + item._ThreadStartAddress.ToString() + ") [TID:" + item._RemoteThreadID.ToString() + "] "
+                                + "[Bytes:" + item.Injected_Memory_Bytes.Substring(0, 50) + "...."
+                          + "] [Target PID:" + item._TargetPID + "] [Target PIDName:" + item._TargetPIDName + "]"
+                          + " [Injector:" + item._InjectorPID + "] [TCP: " + TCP_Process._LastTCP_Details + "]");
+                        }
+                    }
+                    else
+                    {
+                        _TableofProcess_Sysmon_Event_Counts TCP_Process = _Sysmon_Events_Counts.Find(process => process.PID == item._TargetPID
+                        && process.ProcNameANDPath.ToLower().Contains(item._TargetPIDName.ToLower()));
+
+                        listBox5.Items.Add("(StartAddr:" + item._ThreadStartAddress.ToString() + ") [TID:" + item._RemoteThreadID.ToString() + "] "
+                                + "[Bytes:" + item.Injected_Memory_Bytes.Substring(0, 50) + "...."
+                          + "] [Target PID:" + item._TargetPID + "] [Target PIDName:" + item._TargetPIDName + "]"
+                          + " [Injector:" + item._InjectorPID + "] [TCP: " + TCP_Process._LastTCP_Details + "]");
+
+                    }
+                }
+                listBox5.SelectedIndex = listBox5.Items.Count - 1;
+            }
+            catch (Exception)
+            {
+
+
             }
         }
 
@@ -1533,7 +1683,7 @@ namespace SysPM2Monitor2_7
                     ThreadStart __T5_info_for_additems_to_Richtextbox1 = new ThreadStart(delegate
                     {
                         BeginInvoke(new __Additem(_Additems_str_toRichtextbox1),
-                        EventMessage + "\n\nEventID: " + "2" + "\nEventRecord_ID: " + EventMessageRecordId + "\n\n[Remote-Thread-Injection Memory Information]\n\tTID: " 
+                        EventMessage + "\n\nEventID: " + "2" + "\nEventRecord_ID: " + EventMessageRecordId + "\n\n[Remote-Thread-Injection Memory Information]\n\tTID: "
                         + TID.ToString() + "\n\tTID StartAddress: " +
                          XStartAddress.ToString() + "\n\tTID Win32StartAddress: " + i32StartAddress.ToString() + "\n\tTarget_Process PID: " + prc.ToString() +
                          "\n\nInjected Memory Bytes: " + _bytes + "\n\n" + _buf + "\n_____________________\n");
@@ -1542,19 +1692,23 @@ namespace SysPM2Monitor2_7
                     Thread _T5_for_additems_to_Richtextbox1 = new Thread(__T5_info_for_additems_to_Richtextbox1);
                     _T5_for_additems_to_Richtextbox1.Start();
 
-
-                    /// new to work... here to work
-                    _InjectedTIDList.Add(new _InjectedThreadDetails_bytes
+                    /// New Added 11 March
+                    if (_InjectedTIDList.FindIndex(startaddress => startaddress._ThreadStartAddress == XStartAddress
+                    && startaddress._InjectorPID == Convert.ToInt32(_injector)) == -1)
                     {
-                        _TargetPID = prc,
-                        _ThreadStartAddress = _i32StartAddress.ToString(),
-                        _RemoteThreadID = Convert.ToInt32(TID),
-                        Injected_Memory_Bytes = _bytes,
-                        Injected_Memory_Bytes_Hex = _buf,
-                        _InjectorPID = Convert.ToInt32(_injector),
-                        _TargetPIDName = pname
+                        /// new to work... here to work
+                        _InjectedTIDList.Add(new _InjectedThreadDetails_bytes
+                        {
+                            _TargetPID = prc,
+                            _ThreadStartAddress = _i32StartAddress.ToString(),
+                            _RemoteThreadID = Convert.ToInt32(TID),
+                            Injected_Memory_Bytes = _bytes,
+                            Injected_Memory_Bytes_Hex = _buf,
+                            _InjectorPID = Convert.ToInt32(_injector),
+                            _TargetPIDName = pname
 
-                    });
+                        });
+                    }
 
                 }
                 catch (Exception)
@@ -2062,23 +2216,28 @@ namespace SysPM2Monitor2_7
                     try
                     {
 
-
-                        Process_Table.Add(new _TableofProcess
+                        if (!Process_Table.Exists(NewProcess => NewProcess.PID == Convert.ToInt32(PName_PID)
+                        && NewProcess.ProcessName_Path == pn.Substring(13)
+                        && NewProcess.Injector == Convert.ToInt32(EventMessage.Split('\n')[4].Split(':')[1])))
                         {
+                            Process_Table.Add(new _TableofProcess
+                            {
 
-                            PID = Convert.ToInt32(PName_PID),
-                            ProcessName = pn.Substring(13),
-                            Description = EventMessage,
-                            Injector_Path = pt_injector,
-                            Injector = Convert.ToInt32(EventMessage.Split('\n')[4].Split(':')[1]),
-                            ProcessName_Path = pn.Substring(13),
-                            IsLive = true,
-                            TCPDetails = "null",
-                            IsShow = false,
-                            SysMonEventId8_25 = 8,
-                            TID = Convert.ToInt32(EventMessage.Split('\n')[9].Split(':')[1]),
-                            StartAddress_of_TID = EventMessage.Split('\n')[10].Split(':')[1]
-                        });
+                                PID = Convert.ToInt32(PName_PID),
+                                ProcessName = pn.Substring(13),
+                                Description = EventMessage,
+                                Injector_Path = pt_injector,
+                                Injector = Convert.ToInt32(EventMessage.Split('\n')[4].Split(':')[1]),
+                                ProcessName_Path = pn.Substring(13),
+                                IsLive = true,
+                                TCPDetails = "null",
+                                IsShow_Alarm = false,
+                                SysMonEventId8_25 = 8,
+                                TID = Convert.ToInt32(EventMessage.Split('\n')[9].Split(':')[1]),
+                                StartAddress_of_TID = EventMessage.Split('\n')[10].Split(':')[1],
+                                TCPDetails2 = "null"
+                            });
+                        }
                     }
                     catch (Exception ff)
                     {
@@ -2159,24 +2318,28 @@ namespace SysPM2Monitor2_7
                     string pt = EventMessage.Split('\n')[2];
                     pt = pt.Substring(0, pt.Length - 1);
 
-
-                    Process_Table.Add(new _TableofProcess
+                    if (!Process_Table.Exists(NewProcess => NewProcess.PID == Convert.ToInt32(PName_PID)
+                        && NewProcess.ProcessName_Path == pn.Substring(7)))
                     {
+                        Process_Table.Add(new _TableofProcess
+                        {
 
-                        PID = Convert.ToInt32(PName_PID),
-                        ProcessName = pn.Substring(7),
-                        Description = EventMessage,
-                        Injector_Path = "--",
-                        Injector = -1,
-                        ProcessName_Path = pn.Substring(7),
-                        IsLive = true,
-                        TCPDetails = "null",
-                        IsShow = false,
-                        SysMonEventId8_25 = 25,
-                        TID = -1,
-                        StartAddress_of_TID = "--"
+                            PID = Convert.ToInt32(PName_PID),
+                            ProcessName = pn.Substring(7),
+                            Description = EventMessage,
+                            Injector_Path = "--",
+                            Injector = -1,
+                            ProcessName_Path = pn.Substring(7),
+                            IsLive = true,
+                            TCPDetails = "null",
+                            IsShow_Alarm = false,
+                            SysMonEventId8_25 = 25,
+                            TID = -1,
+                            StartAddress_of_TID = "--",
+                            TCPDetails2 = null
 
-                    });
+                        });
+                    }
 
                     try
                     {
@@ -2498,12 +2661,48 @@ namespace SysPM2Monitor2_7
                 catch (Exception err2)
                 {
 
-                 
+
                 }
 
                 if (Process_Table.Find(x => x.PID == PID && x.ProcessName == ProcessName).TCPDetails == "null")
                 {
                     List<_TableofProcess> _Table = Process_Table.FindAll(x => x.PID == PID && x.ProcessName == ProcessName);
+
+
+                    if (Process_Table.Exists(_processname => _processname.PID == PID && _processname.ProcessName == ProcessName))
+                    {
+
+                        _TableofProcess TempStruc = new _TableofProcess();
+                        TempStruc.TCPDetails2 = _des_address_port;
+                        TempStruc.TCPDetails = Process_Table[Process_Table
+                            .FindIndex(_processname => _processname.PID == PID && _processname.ProcessName == ProcessName)].TCPDetails;
+                        TempStruc.ProcessName_Path = Process_Table[Process_Table
+                            .FindIndex(_processname => _processname.PID == PID && _processname.ProcessName == ProcessName)].ProcessName_Path;
+                        TempStruc.ProcessName = Process_Table[Process_Table
+                            .FindIndex(_processname => _processname.PID == PID && _processname.ProcessName == ProcessName)].ProcessName;
+                        TempStruc.PID = Process_Table[Process_Table
+                            .FindIndex(_processname => _processname.PID == PID && _processname.ProcessName == ProcessName)].PID;
+                        TempStruc.IsLive = Process_Table[Process_Table
+                            .FindIndex(_processname => _processname.PID == PID && _processname.ProcessName == ProcessName)].IsLive;
+                        TempStruc.Injector_Path = Process_Table[Process_Table
+                          .FindIndex(_processname => _processname.PID == PID && _processname.ProcessName == ProcessName)].Injector_Path;
+                        TempStruc.Injector = Process_Table[Process_Table
+                          .FindIndex(_processname => _processname.PID == PID && _processname.ProcessName == ProcessName)].Injector;
+                        TempStruc.Description = Process_Table[Process_Table
+                        .FindIndex(_processname => _processname.PID == PID && _processname.ProcessName == ProcessName)].Description;
+                        TempStruc.SysMonEventId8_25 = Process_Table[Process_Table
+                      .FindIndex(_processname => _processname.PID == PID && _processname.ProcessName == ProcessName)].SysMonEventId8_25;
+                        TempStruc.StartAddress_of_TID = Process_Table[Process_Table
+                    .FindIndex(_processname => _processname.PID == PID && _processname.ProcessName == ProcessName)].StartAddress_of_TID;
+                        TempStruc.TID = Process_Table[Process_Table
+                  .FindIndex(_processname => _processname.PID == PID && _processname.ProcessName == ProcessName)].TID;
+                        TempStruc.IsShow_Alarm = true;
+
+
+                        Process_Table[Process_Table.FindIndex(_processname => _processname.PID == PID && _processname.ProcessName == ProcessName)] = TempStruc;
+                    }
+
+
 
                     foreach (_TableofProcess item in _Table)
                     {
@@ -2691,7 +2890,7 @@ namespace SysPM2Monitor2_7
 
                                 _InjectedThreadDetails_bytes _injecthedthreadinfo = _InjectedTIDList.Find(_tthread => _tthread._InjectorPID == item.Injector
                                 && _tthread._RemoteThreadID == item.TID && _tthread._ThreadStartAddress == item.StartAddress_of_TID.Split('x')[1].Split('\r')[0]);
-                                string _Threadsadd = ((_InjectedThreadDetails_bytes) _injecthedthreadinfo)._ThreadStartAddress.ToString();
+                                string _Threadsadd = ((_InjectedThreadDetails_bytes)_injecthedthreadinfo)._ThreadStartAddress.ToString();
 
                                 iList2.SubItems.Add(item.ProcessName_Path +
                                     " Injected by => " +
@@ -2737,7 +2936,7 @@ namespace SysPM2Monitor2_7
                             {
                                 if (Init_to_runPEScanner_01 || Init_to_runPEScanner_02)
                                 {
-                                   
+
                                     BeginInvoke(new __Additem(_Additems_toListview2), iList2);
 
                                     if (iList2.ImageIndex == 1) { Chart_Orange++; }
@@ -2766,9 +2965,9 @@ namespace SysPM2Monitor2_7
             catch (Exception err)
             {
 
-                
+
             }
-           
+
         }
 
         public string[] executeutilities_01(string pid, string InProcessName_Path, string _injectorPathPid)
@@ -3170,11 +3369,81 @@ namespace SysPM2Monitor2_7
 
         }
 
+        public static void _Updater__List_All_Injection_Details_info_Filter_withoutSystem4(object obj)
+        {
+            try
+            {
+
+                temp_str = obj.ToString().Split('\r');
+
+                //CreateRemoteThread detected:
+                //RuleName: -
+                //UtcTime: 2022 - 03 - 12 00:37:11.738
+                //SourceProcessGuid: { 385 00005b00}
+                //SourceProcessId: 1904
+                //SourceImage: C:\Program Files(x86)\Microsoft Visual Studio\2019\Enterprise\Common7\IDE\devenv.exe
+                //TargetProcessGuid: { 38 f 5b00}
+                //TargetProcessId: 10424
+                //TargetImage: C:\net\net\bin\Debug\net.exe
+                //NewThreadId: 2924
+                //StartAddress: 0x000000007780DC70
+                //StartModule: -
+                //StartFunction: -
+                //SourceUser:   
+                //TargetUser: 
+                var _time_evt = temp_str[2].Substring(10);
+                var _InjectorPID = Convert.ToInt32(temp_str[4].Substring(17));
+                var _InjectorPID_Path = temp_str[5].Substring(14);
+                var _RemoteThreadID = Convert.ToInt32(temp_str[9].Substring(14));
+                var _ThreadStartAddress = temp_str[10].Substring(15);
+                var _TargetPID = Convert.ToInt32(temp_str[7].Substring(17));
+                var _TargetPID_Path = temp_str[8].Substring(13);
+
+
+                _List_All_Injection_Details_info_Filter_withoutSystem4.Add(new _All_Injection_Details_info_Filter_withoutSystem4
+                {
+                    _time_evt = temp_str[2].Substring(10),
+                    _InjectorPID = Convert.ToInt32(temp_str[4].Substring(17)),
+                    _InjectorPID_Path = temp_str[5].Substring(14),
+                    _RemoteThreadID = Convert.ToInt32(temp_str[9].Substring(14)),
+                    _ThreadStartAddress = temp_str[10].Substring(15),
+                    _TargetPID = Convert.ToInt32(temp_str[7].Substring(17)),
+                    _TargetPID_Path = temp_str[8].Substring(14)
+                });
+
+            }
+            catch (Exception)
+            {
+
+
+            }
+
+        }
+
         public void Watcher_EventRecordWritten(object sender, EventRecordWrittenEventArgs e)
         {
 
             try
             {
+                try
+                {
+
+                    if (e.EventRecord.FormatDescription() != tempMessage2)
+                    {
+
+                        if (e.EventRecord.Id == 8)
+                        {
+                            BeginInvoke(new __core2(_Updater__List_All_Injection_Details_info_Filter_withoutSystem4), e.EventRecord.FormatDescription().ToString());
+                        }
+
+                    }
+
+                }
+                catch (Exception)
+                {
+
+                }
+
                 tempMessage2 = e.EventRecord.FormatDescription();
 
                 if (e.EventRecord.Id == 1)
@@ -3810,7 +4079,7 @@ namespace SysPM2Monitor2_7
         private void AboutToolStripMenuItem1_Click(object sender, EventArgs e)
         {
  
-            MessageBox.Show(null, "SysPM2Monitor2 v2.7 [test version 2.7.17.59]\nCode Published by Damon Mohammadbagher , Jan 2022", "About SysPM2Monitor2 v2.7", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show(null, "SysPM2Monitor2 v2.7 [test version 2.7.18.68]\nCode Published by Damon Mohammadbagher , Jan 2022", "About SysPM2Monitor2 v2.7", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
         }
 
