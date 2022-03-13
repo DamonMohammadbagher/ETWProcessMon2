@@ -279,7 +279,7 @@ namespace ETWPM2Monitor2
         public static string _ProcessName;
         public static bool _IsProcessTab_Enabled = true;
         public static int ETWPM2Realt_timeShowMode_Level = 1;
-
+        public static string SearchInjector, SearchInjector2 = "";
         public static void _Show_Notify_Ico_Popup(object obj)
         {
             try
@@ -869,7 +869,7 @@ namespace ETWPM2Monitor2
         /// add items to Processes Tab (Process List)
         /// </summary>
         /// <param name="obj"></param>
-        public void _Additems_toTreeview1(object obj)
+        public  void _Additems_toTreeview1(object obj)
         {
             try
             {
@@ -887,8 +887,30 @@ namespace ETWPM2Monitor2
                             if (MyLviewItemsX5.SubItems[2].Text == "1") { _Imgindex2 = 0; }
                             if (MyLviewItemsX5.SubItems[2].Text == "2") { _Imgindex2 = 1; }
                             if (MyLviewItemsX5.SubItems[2].Text == "3") { _Imgindex2 = 3; }
+
                             item.Nodes.Add("", "[EventID:" + MyLviewItemsX5.SubItems[2].Text + "]" +
                                 "[" + MyLviewItemsX5.SubItems[4].Text + "] { " + MyLviewItemsX5.SubItems[5].Text + " }", _Imgindex2);
+
+                            if (MyLviewItemsX5.SubItems[2].Text == "2")
+                            {
+                                SearchInjector = MyLviewItemsX5.SubItems[5].Text.Substring(MyLviewItemsX5.SubItems[5].Text.IndexOf("[Injected by ") + 13).Split(']')[0];
+                                SearchInjector2 = "";
+
+                                if (SearchInjector.Contains(':')) { SearchInjector2 = SearchInjector.Split(':')[0]; } else { SearchInjector2 = SearchInjector; }
+
+                                if (SearchInjector2.ToLower() != "system")
+                                {
+                                     
+                                    _TableofProcess _ToP = Process_Table.Find(Proc => Proc.Injector == 
+                                    Convert.ToInt32(MyLviewItemsX5.SubItems[5].Text.Split('\n')[12].Split('>')[1])
+                                    && Proc.Injector_Path.Contains(SearchInjector2));
+
+                                    if (_ToP.PID > 0)
+                                        item.Nodes.Add("",">>>> " + _ToP.Injector_Path + " was injector for EventID2\n [Injector_ProcessID: "
+                                            + _ToP.Injector + "]\n [TargetPID with (EventID2): " + _ToP.ProcessName + ":" + _ToP.PID + "]", 1);
+
+                                }
+                            }
 
                             item.ForeColor = Color.Red;
                             xfound = true;
@@ -2117,8 +2139,7 @@ namespace ETWPM2Monitor2
                 {
                     if (!Process_Table.Exists(NewProcess => NewProcess.PID == Convert.ToInt32(PName_PID.Split(':')[1])
                      && NewProcess.ProcessName_Path == EventMessage.Substring(EventMessage.IndexOf("Target_ProcessPath:") + 20).Split('\n')[0] 
-                     && NewProcess.Injector == Convert.ToInt32(InjectorPID)))
-                      
+                     && NewProcess.Injector == Convert.ToInt32(InjectorPID)))                      
                     {
                         Process_Table.Add(new _TableofProcess
                         {
