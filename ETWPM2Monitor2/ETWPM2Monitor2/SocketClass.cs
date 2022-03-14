@@ -357,6 +357,9 @@ namespace ETWPM2Monitor2
             [DllImport("ws2_32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
             public static extern int closesocket(IntPtr s);
 
+            [DllImport("ws2_32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+            public static extern int shutdown(IntPtr s, int how);
+
             [DllImport("kernel32.dll", SetLastError = true)]
             private static extern IntPtr OpenProcess(int processAccess, bool bInheritHandle, int processId);
 

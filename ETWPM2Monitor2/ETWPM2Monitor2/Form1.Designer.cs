@@ -115,6 +115,8 @@
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.tabPage9 = new System.Windows.Forms.TabPage();
             this.listView4 = new System.Windows.Forms.ListView();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.splitContainer4 = new System.Windows.Forms.SplitContainer();
             this.listView3 = new System.Windows.Forms.ListView();
@@ -224,6 +226,7 @@
             this.toolStripStatusLabel5 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel6 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel7 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.killProcessToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip5.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -287,6 +290,7 @@
             this.groupBox6.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tabPage9.SuspendLayout();
+            this.contextMenuStrip1.SuspendLayout();
             this.tabPage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).BeginInit();
             this.splitContainer4.Panel1.SuspendLayout();
@@ -1142,6 +1146,7 @@
             // listView4
             // 
             this.listView4.AllowColumnReorder = true;
+            this.listView4.ContextMenuStrip = this.contextMenuStrip1;
             this.listView4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listView4.FullRowSelect = true;
             this.listView4.HideSelection = false;
@@ -1152,6 +1157,21 @@
             this.listView4.Sorting = System.Windows.Forms.SortOrder.Ascending;
             this.listView4.TabIndex = 0;
             this.listView4.UseCompatibleStateImageBehavior = false;
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem2,
+            this.killProcessToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(194, 48);
+            // 
+            // toolStripMenuItem2
+            // 
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(193, 22);
+            this.toolStripMenuItem2.Text = "Shutdown Connection";
+            this.toolStripMenuItem2.Click += new System.EventHandler(this.ToolStripMenuItem2_Click);
             // 
             // tabPage3
             // 
@@ -2063,6 +2083,13 @@
             this.toolStripStatusLabel7.Size = new System.Drawing.Size(145, 17);
             this.toolStripStatusLabel7.Text = "| Network Connections (0)";
             // 
+            // killProcessToolStripMenuItem
+            // 
+            this.killProcessToolStripMenuItem.Name = "killProcessToolStripMenuItem";
+            this.killProcessToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
+            this.killProcessToolStripMenuItem.Text = "Kill Process";
+            this.killProcessToolStripMenuItem.Click += new System.EventHandler(this.KillProcessToolStripMenuItem_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2142,6 +2169,7 @@
             this.groupBox6.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.tabPage9.ResumeLayout(false);
+            this.contextMenuStrip1.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
             this.splitContainer4.Panel1.ResumeLayout(false);
             this.splitContainer4.Panel2.ResumeLayout(false);
@@ -2346,6 +2374,9 @@
         private System.Windows.Forms.ToolStripMenuItem clearAllProcessesToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator14;
         private System.Windows.Forms.SplitContainer splitContainer8;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
+        private System.Windows.Forms.ToolStripMenuItem killProcessToolStripMenuItem;
     }
 }
 
