@@ -1349,6 +1349,7 @@ namespace ETWPM2Monitor2
                 listView3.Columns.Add("Memory Scanner", 200, HorizontalAlignment.Left);
 
 
+
                 listView4.SmallImageList = imageList1;
                 /// Set the view to show details.
                 listView4.View = View.Details;
@@ -1373,8 +1374,19 @@ namespace ETWPM2Monitor2
                 listView4.Columns.Add("Event Count", 77, HorizontalAlignment.Left);
                 listView4.Columns.Add("Event TTL (D:H:Minutes)", 135, HorizontalAlignment.Left);
                 listView4.Columns.Add("Event First Time", 130, HorizontalAlignment.Left);
+                listView4.Columns.Add("last State", 64, HorizontalAlignment.Left);
+                listView4.Columns.Add("ConnectionTimeMs", 64, HorizontalAlignment.Left);
+                listView4.Columns.Add("TimestampsEnabled", 64, HorizontalAlignment.Left);
+                listView4.Columns.Add("SndWnd", 64, HorizontalAlignment.Left);
+                listView4.Columns.Add("RcvWnd", 64, HorizontalAlignment.Left);
+                listView4.Columns.Add("RcvBuf", 64, HorizontalAlignment.Left);
+                listView4.Columns.Add("BytesOut", 64, HorizontalAlignment.Left);
+                listView4.Columns.Add("BytesIn", 64, HorizontalAlignment.Left);
+                listView4.Columns.Add("RttUs", 64, HorizontalAlignment.Left);
+                listView4.Columns.Add("MinRttUs", 64, HorizontalAlignment.Left);
+                listView4.Columns.Add("TimeoutEpisodes", 64, HorizontalAlignment.Left);
 
-                             
+
 
                 /// event for add Process to Alarm-Tab by ETW & Scanning Target Process by Memory Scanners
                 /// event is ready ...
@@ -1720,19 +1732,59 @@ namespace ETWPM2Monitor2
                         }
                         else if (listView4.Items[i].Name == __obj.SubItems[3].Text + sip + dip + dip_port)
                         {
-                            listView4.Items[i].SubItems[6].Text = Delta_Time(Convert.ToDateTime(__obj.SubItems[1].Text), Convert.ToDateTime(listView4.Items[i].SubItems[1].Text));
-                            listView4.Items[i].SubItems[1].Text = NetworkTCP.SubItems[1].Text;
-                            listView4.Items[i].SubItems[4].Text = sip + ":" + sip_port;
-                            NetworkConection_TCP_counts = Convert.ToInt64(listView4.Items[i].SubItems[7].Text);
-                            NetworkConection_TCP_counts++;
-                            listView4.Items[i].SubItems[7].Text = NetworkConection_TCP_counts.ToString();
-                            TimeSpan _ttl = Convert.ToDateTime(NetworkTCP.SubItems[1].Text) - Convert.ToDateTime(listView4.Items[i].SubItems[9].Text);
-                            listView4.Items[i].SubItems[8].Text = "D:" +_ttl.Days.ToString() + " , H:" + _ttl.Hours.ToString() + " , M:" + _ttl.Minutes.ToString();
-                            listView4.Refresh();                            
-                            BeginInvoke(new __Additem(_Run_ChangeColor_for_listview4), i);
-                            NetworkConection_found = true;
-                            tabPage9.Text = "Network Connections (" + listView4.Items.Count.ToString() + ")";
-                            toolStripStatusLabel7.Text= "| Network Connections (" + listView4.Items.Count.ToString() + ")";
+                            try
+                            {
+                                listView4.Items[i].SubItems[6].Text = Delta_Time(Convert.ToDateTime(__obj.SubItems[1].Text), Convert.ToDateTime(listView4.Items[i].SubItems[1].Text));
+                                listView4.Items[i].SubItems[1].Text = NetworkTCP.SubItems[1].Text;
+                                listView4.Items[i].SubItems[4].Text = sip + ":" + sip_port;
+                                NetworkConection_TCP_counts = Convert.ToInt64(listView4.Items[i].SubItems[7].Text);
+                                NetworkConection_TCP_counts++;
+                                listView4.Items[i].SubItems[7].Text = NetworkConection_TCP_counts.ToString();
+                                TimeSpan _ttl = Convert.ToDateTime(NetworkTCP.SubItems[1].Text) - Convert.ToDateTime(listView4.Items[i].SubItems[9].Text);
+                                listView4.Items[i].SubItems[8].Text = "D:" + _ttl.Days.ToString() + " , H:" + _ttl.Hours.ToString() + " , M:" + _ttl.Minutes.ToString();
+
+                                string __TargetProcess = __obj.SubItems[3].Text;
+
+                                try
+                                {
+                                    List<IntPtr> TP_Socket_intptrs = SocketClass.SocketHijacking.GetSocketsTargetProcess
+                                     (Process.GetProcessById(Convert.ToInt32(__TargetProcess.Split(':')[1])));
+
+                                    if (TP_Socket_intptrs.Count > 0)
+                                    {
+                                        SocketClass.SocketHijacking.TCP_INFO_v0 sockInfo = new SocketClass.SocketHijacking.TCP_INFO_v0();
+                                        SocketClass.SocketHijacking.GetSocketTcpInfo(TP_Socket_intptrs[0], out sockInfo);
+                                        Thread.Sleep(2);
+                                        listView4.Items[i].SubItems[10].Text = sockInfo.State.ToString();
+                                        listView4.Items[i].SubItems[11].Text = sockInfo.ConnectionTimeMs.ToString();
+                                        listView4.Items[i].SubItems[12].Text = sockInfo.TimestampsEnabled.ToString();
+                                        listView4.Items[i].SubItems[13].Text = sockInfo.SndWnd.ToString();
+                                        listView4.Items[i].SubItems[14].Text = sockInfo.RcvWnd.ToString();
+                                        listView4.Items[i].SubItems[15].Text = sockInfo.RcvBuf.ToString();
+                                        listView4.Items[i].SubItems[16].Text = sockInfo.BytesOut.ToString();
+                                        listView4.Items[i].SubItems[17].Text = sockInfo.BytesIn.ToString();
+                                        listView4.Items[i].SubItems[18].Text = sockInfo.RttUs.ToString();
+                                        listView4.Items[i].SubItems[19].Text = sockInfo.MinRttUs.ToString();
+                                        listView4.Items[i].SubItems[20].Text = sockInfo.TimeoutEpisodes.ToString();
+                                    }
+                                }
+                                catch (Exception)
+                                {
+
+
+                                }
+                                listView4.Refresh();
+                                BeginInvoke(new __Additem(_Run_ChangeColor_for_listview4), i);
+                                NetworkConection_found = true;
+                                tabPage9.Text = "Network Connections (" + listView4.Items.Count.ToString() + ")";
+                                toolStripStatusLabel7.Text = "| Network Connections (" + listView4.Items.Count.ToString() + ")";
+                            }
+                            catch (Exception)
+                            {
+
+
+                            }
+
                             break;
                         }
                     }
@@ -1751,6 +1803,36 @@ namespace ETWPM2Monitor2
                         /// event first time
                         iList4.SubItems.Add(NetworkTCP.SubItems[1].Text);
                         iList4.Name = __obj.SubItems[3].Text + sip  + dip + dip_port;
+                        string __TargetProcess = __obj.SubItems[3].Text;
+                        try
+                        {
+
+                            List<IntPtr> TP_Socket_intptrs = SocketClass.SocketHijacking.GetSocketsTargetProcess
+                                (Process.GetProcessById(Convert.ToInt32(__TargetProcess.Split(':')[1])));
+
+                            if (TP_Socket_intptrs.Count > 0)
+                            {
+                                SocketClass.SocketHijacking.TCP_INFO_v0 sockInfo = new SocketClass.SocketHijacking.TCP_INFO_v0();
+                                SocketClass.SocketHijacking.GetSocketTcpInfo(TP_Socket_intptrs[0], out sockInfo);
+                                iList4.SubItems.Add(sockInfo.State.ToString());
+                                iList4.SubItems.Add(sockInfo.ConnectionTimeMs.ToString());
+                                iList4.SubItems.Add(sockInfo.TimestampsEnabled.ToString());
+                                iList4.SubItems.Add(sockInfo.SndWnd.ToString());
+                                iList4.SubItems.Add(sockInfo.RcvWnd.ToString());
+                                iList4.SubItems.Add(sockInfo.RcvBuf.ToString());
+                                iList4.SubItems.Add(sockInfo.BytesOut.ToString());
+                                iList4.SubItems.Add(sockInfo.BytesIn.ToString());
+                                iList4.SubItems.Add(sockInfo.RttUs.ToString());
+                                iList4.SubItems.Add(sockInfo.MinRttUs.ToString());
+                                iList4.SubItems.Add(sockInfo.TimeoutEpisodes.ToString());
+                            }
+                        }
+                        catch (Exception)
+                        {
+
+
+                        }
+
                         int _i = listView4.Items.Add(iList4).Index;                        
                         BeginInvoke(new __Additem(_Run_ChangeColor_for_listview4), _i);
                         tabPage9.Text = "Network Connections (" + listView4.Items.Count.ToString() + ")";
@@ -1769,15 +1851,26 @@ namespace ETWPM2Monitor2
                     iList4.SubItems.Add("1");
                     /// event ttl
                     iList4.SubItems.Add("0");
+
                     /// event first time
                     iList4.SubItems.Add(NetworkTCP.SubItems[1].Text);
+                    iList4.SubItems.Add("0");
+                    iList4.SubItems.Add("0");
+                    iList4.SubItems.Add("0");
+                    iList4.SubItems.Add("0");
+                    iList4.SubItems.Add("0");
+                    iList4.SubItems.Add("0");
+                    iList4.SubItems.Add("0");
+                    iList4.SubItems.Add("0");
+                    iList4.SubItems.Add("0");
+                    iList4.SubItems.Add("0");
+                    iList4.SubItems.Add("0");
+                     
                     iList4.Name = __obj.SubItems[3].Text + sip  + dip + dip_port;
                     int _i = listView4.Items.Add(iList4).Index;                    
                     BeginInvoke(new __Additem(_Run_ChangeColor_for_listview4), _i);
                     tabPage9.Text = "Network Connections (" + listView4.Items.Count.ToString() + ")";
                     toolStripStatusLabel7.Text = "| Network Connections (" + listView4.Items.Count.ToString() + ")";
-
-
                 }
             }
             catch (Exception err)
@@ -1876,6 +1969,8 @@ namespace ETWPM2Monitor2
                 {
                     string commandline = tmp2.SubItems[5].Text.Split('\n')[4].ToLower();
                     string parentid = tmp2.SubItems[5].Text.Split('\n')[5].ToLower();
+                    string parentidPath = tmp2.SubItems[5].Text.Split('\n')[6].Substring(16);
+                    parentidPath = parentidPath.Substring(0, parentidPath.Length - 1);
                     string Shell_Pid = tmp2.SubItems[5].Text.Split('\n')[2].Substring(6).Split(' ')[0];
 
                     if (commandline.Contains("[commandline: " + _windir + "\\system32\\cmd.exe") || commandline.Contains("[commandline: cmd"))
@@ -1886,7 +1981,7 @@ namespace ETWPM2Monitor2
                             iList3 = new ListViewItem();
                             iList3.Name = tmp2.SubItems[5].Text;
                             iList3.SubItems.Add(tmp2.SubItems[1].Text);
-                            iList3.SubItems.Add(tmp2.SubItems[3].Text + " (with " + parentid + ")");
+                            iList3.SubItems.Add(tmp2.SubItems[3].Text + " (with ParentId [" + parentidPath + ":" + parentid.Split(':')[1] + ")");
 
                             iList3.SubItems.Add("[!] Found Shell");
                             iList3.SubItems.Add("ETW [New] event");
@@ -3865,7 +3960,7 @@ namespace ETWPM2Monitor2
 
         private void AboutToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(null, "ETWPM2Monitor2 v2.1 [test version 2.1.22.100]\nCode Published by Damon Mohammadbagher , Jul 2021", "About ETWPM2Monitor2 v2.1", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show(null, "ETWPM2Monitor2 v2.1 [test version 2.1.24.110]\nCode Published by Damon Mohammadbagher , Jul 2021", "About ETWPM2Monitor2 v2.1", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
         }
 
@@ -4250,6 +4345,43 @@ namespace ETWPM2Monitor2
         private void TreeView3_AfterSelect(object sender, TreeViewEventArgs e)
         {
             richTextBox9.Text = treeView3.SelectedNode.Text;
+        }
+
+        private void CloseConnectionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                ListViewItem listviewitems_wasselected_ihope = listView4.SelectedItems[0];
+                string __TargetProcess = listviewitems_wasselected_ihope.SubItems[2].Text;
+
+                List<IntPtr> TP_Socket_intptrs = SocketClass.SocketHijacking.GetSocketsTargetProcess
+                    (Process.GetProcessById(Convert.ToInt32(__TargetProcess.Split(':')[1])));
+
+                foreach (IntPtr item in TP_Socket_intptrs)
+                {
+                    //if (!SocketClass.SocketHijacking.IsSocketOverlapped(item))
+                    //{
+
+                    //    int a = SocketClass.SocketHijacking.closesocket(item);
+
+
+                    //}
+
+                    SocketClass.SocketHijacking.SOCKADDR_IN sockaddrTargetProcess = new SocketClass.SocketHijacking.SOCKADDR_IN();
+                    int sockaddrTargetProcessLen = Marshal.SizeOf(sockaddrTargetProcess);
+                    SocketClass.SocketHijacking.getpeername(TP_Socket_intptrs[0], ref sockaddrTargetProcess, ref sockaddrTargetProcessLen);
+                    var a = sockaddrTargetProcess.sin_addr;
+                    var b = sockaddrTargetProcess.sin_family;
+                    var c = sockaddrTargetProcess.sin_port;
+                    SocketClass.SocketHijacking.TCP_INFO_v0 sockInfo = new SocketClass.SocketHijacking.TCP_INFO_v0();
+                    SocketClass.SocketHijacking.GetSocketTcpInfo(TP_Socket_intptrs[0], out sockInfo);
+                }
+            }
+            catch (Exception)
+            {
+
+
+            }
         }
 
         private void ClearAllProcessesToolStripMenuItem_Click(object sender, EventArgs e)
