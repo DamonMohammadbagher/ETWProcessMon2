@@ -344,11 +344,11 @@ namespace ETWPM2Monitor2
             [DllImport("ws2_32.dll", CharSet = CharSet.Auto, SetLastError = true, CallingConvention = CallingConvention.StdCall)]
             private static extern IntPtr WSASocket([In] int addressFamily, [In] int socketType, [In] int protocolType, ref WSAPROTOCOL_INFO lpProtocolInfo, Int32 group1, int dwFlags);
 
-            [DllImport("ws2_32.dll", CharSet = CharSet.Auto)]
-            private static extern Int32 WSAGetLastError();
+            //[DllImport("ws2_32.dll", CharSet = CharSet.Auto)]
+            //private static extern Int32 WSAGetLastError();
 
-            [DllImport("ws2_32.dll", CharSet = CharSet.Auto, SetLastError = true, CallingConvention = CallingConvention.StdCall)]
-            public static extern int getpeername(IntPtr s, ref SOCKADDR_IN name, ref int namelen);
+            //[DllImport("ws2_32.dll", CharSet = CharSet.Auto, SetLastError = true, CallingConvention = CallingConvention.StdCall)]
+            //public static extern int getpeername(IntPtr s, ref SOCKADDR_IN name, ref int namelen);
 
             // WSAIoctl1 implementation specific for SIO_TCP_INFO control code
             [DllImport("Ws2_32.dll", CharSet = CharSet.Auto, SetLastError = true, EntryPoint = "WSAIoctl")]
@@ -379,15 +379,15 @@ namespace ETWPM2Monitor2
             [DllImport("ntdll.dll")]
             private static extern uint NtQuerySystemInformation(int SystemInformationClass, IntPtr SystemInformation, int SystemInformationLength, ref int returnLength);
 
-            [DllImport("kernel32.dll", SetLastError = true)]
-            private static extern UInt32 WaitForSingleObject(IntPtr hHandle, UInt32 dwMilliseconds);
+            //[DllImport("kernel32.dll", SetLastError = true)]
+            //private static extern UInt32 WaitForSingleObject(IntPtr hHandle, UInt32 dwMilliseconds);
 
-            [DllImport("ntdll.dll")]
-            private static extern int NtCreateEvent(ref IntPtr EventHandle, int DesiredAccess, IntPtr ObjectAttributes, int EventType, bool InitialState);
+            //[DllImport("ntdll.dll")]
+            //private static extern int NtCreateEvent(ref IntPtr EventHandle, int DesiredAccess, IntPtr ObjectAttributes, int EventType, bool InitialState);
 
             // NtDeviceIoControlFile1 implementation specific for IOCTL_AFD_GET_CONTEXT IoControlCode
-            [DllImport("ntdll.dll", EntryPoint = "NtDeviceIoControlFile")]
-            private static extern int NtDeviceIoControlFile1(IntPtr FileHandle, IntPtr Event, IntPtr ApcRoutine, IntPtr ApcContext, ref IO_STATUS_BLOCK IoStatusBlock, uint IoControlCode, IntPtr InputBuffer, int InputBufferLength, ref SOCKET_CONTEXT OutputBuffer, int OutputBufferLength);
+            //[DllImport("ntdll.dll", EntryPoint = "NtDeviceIoControlFile")]
+            //private static extern int NtDeviceIoControlFile1(IntPtr FileHandle, IntPtr Event, IntPtr ApcRoutine, IntPtr ApcContext, ref IO_STATUS_BLOCK IoStatusBlock, uint IoControlCode, IntPtr InputBuffer, int InputBufferLength, ref SOCKET_CONTEXT OutputBuffer, int OutputBufferLength);
 
 
             //helper method with "dynamic" buffer allocation

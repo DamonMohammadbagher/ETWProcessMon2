@@ -117,6 +117,7 @@
             this.listView4 = new System.Windows.Forms.ListView();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.killProcessToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.splitContainer4 = new System.Windows.Forms.SplitContainer();
             this.listView3 = new System.Windows.Forms.ListView();
@@ -226,7 +227,8 @@
             this.toolStripStatusLabel5 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel6 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel7 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.killProcessToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.listView5 = new System.Windows.Forms.ListView();
+            this.splitContainer9 = new System.Windows.Forms.SplitContainer();
             this.contextMenuStrip5.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -301,15 +303,20 @@
             this.statusStrip1.SuspendLayout();
             this.contextMenuStrip4.SuspendLayout();
             this.statusStrip2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer9)).BeginInit();
+            this.splitContainer9.Panel1.SuspendLayout();
+            this.splitContainer9.Panel2.SuspendLayout();
+            this.splitContainer9.SuspendLayout();
             this.SuspendLayout();
             // 
             // richTextBox1
             // 
+            this.richTextBox1.BackColor = System.Drawing.Color.LightCyan;
             this.richTextBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.richTextBox1.Location = new System.Drawing.Point(3, 3);
+            this.richTextBox1.Location = new System.Drawing.Point(0, 0);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.ReadOnly = true;
-            this.richTextBox1.Size = new System.Drawing.Size(1085, 356);
+            this.richTextBox1.Size = new System.Drawing.Size(747, 356);
             this.richTextBox1.TabIndex = 0;
             this.richTextBox1.Text = "";
             // 
@@ -372,7 +379,7 @@
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage1.Size = new System.Drawing.Size(1091, 362);
             this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "ETWPM2 (Realtime events)";
+            this.tabPage1.Text = "ETWPM2 (Realtime Events)";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // splitContainer2
@@ -699,13 +706,13 @@
             // 
             // tabPage2
             // 
-            this.tabPage2.Controls.Add(this.richTextBox1);
+            this.tabPage2.Controls.Add(this.splitContainer9);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage2.Size = new System.Drawing.Size(1091, 362);
             this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "ETWPM2 (Realtime events, text)";
+            this.tabPage2.Text = "ETWPM2 (Injection Events)";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // tabPage4
@@ -1172,6 +1179,13 @@
             this.toolStripMenuItem2.Size = new System.Drawing.Size(193, 22);
             this.toolStripMenuItem2.Text = "Shutdown Connection";
             this.toolStripMenuItem2.Click += new System.EventHandler(this.ToolStripMenuItem2_Click);
+            // 
+            // killProcessToolStripMenuItem
+            // 
+            this.killProcessToolStripMenuItem.Name = "killProcessToolStripMenuItem";
+            this.killProcessToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
+            this.killProcessToolStripMenuItem.Text = "Kill Process";
+            this.killProcessToolStripMenuItem.Click += new System.EventHandler(this.KillProcessToolStripMenuItem_Click);
             // 
             // tabPage3
             // 
@@ -2083,12 +2097,33 @@
             this.toolStripStatusLabel7.Size = new System.Drawing.Size(145, 17);
             this.toolStripStatusLabel7.Text = "| Network Connections (0)";
             // 
-            // killProcessToolStripMenuItem
+            // listView5
             // 
-            this.killProcessToolStripMenuItem.Name = "killProcessToolStripMenuItem";
-            this.killProcessToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
-            this.killProcessToolStripMenuItem.Text = "Kill Process";
-            this.killProcessToolStripMenuItem.Click += new System.EventHandler(this.KillProcessToolStripMenuItem_Click);
+            this.listView5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listView5.HideSelection = false;
+            this.listView5.Location = new System.Drawing.Point(0, 0);
+            this.listView5.Name = "listView5";
+            this.listView5.Size = new System.Drawing.Size(334, 356);
+            this.listView5.TabIndex = 1;
+            this.listView5.UseCompatibleStateImageBehavior = false;
+            this.listView5.SelectedIndexChanged += new System.EventHandler(this.ListView5_SelectedIndexChanged);
+            // 
+            // splitContainer9
+            // 
+            this.splitContainer9.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer9.Location = new System.Drawing.Point(3, 3);
+            this.splitContainer9.Name = "splitContainer9";
+            // 
+            // splitContainer9.Panel1
+            // 
+            this.splitContainer9.Panel1.Controls.Add(this.listView5);
+            // 
+            // splitContainer9.Panel2
+            // 
+            this.splitContainer9.Panel2.Controls.Add(this.richTextBox1);
+            this.splitContainer9.Size = new System.Drawing.Size(1085, 356);
+            this.splitContainer9.SplitterDistance = 334;
+            this.splitContainer9.TabIndex = 2;
             // 
             // Form1
             // 
@@ -2183,6 +2218,10 @@
             this.contextMenuStrip4.ResumeLayout(false);
             this.statusStrip2.ResumeLayout(false);
             this.statusStrip2.PerformLayout();
+            this.splitContainer9.Panel1.ResumeLayout(false);
+            this.splitContainer9.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer9)).EndInit();
+            this.splitContainer9.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -2377,6 +2416,8 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
         private System.Windows.Forms.ToolStripMenuItem killProcessToolStripMenuItem;
+        private System.Windows.Forms.ListView listView5;
+        private System.Windows.Forms.SplitContainer splitContainer9;
     }
 }
 
