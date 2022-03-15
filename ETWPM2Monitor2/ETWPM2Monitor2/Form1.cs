@@ -1724,13 +1724,14 @@ namespace ETWPM2Monitor2
                 {
                     System.Threading.Thread.Sleep(25);
                     /// for sure check all index ;)
-                    for (int ii = 0; ii < listView4.Items.Count; ii++)
+                    listView4.BeginInvoke((MethodInvoker)delegate
                     {
-
-                        listView4.Items[ii].BackColor = Color.White;
-
-                    }
-                    listView4.Refresh();
+                        for (int ii = 0; ii < listView4.Items.Count; ii++)
+                        {
+                            listView4.Items[ii].BackColor = Color.White;
+                        }
+                        listView4.Refresh();
+                    });
 
                 }
                 catch (Exception)
@@ -1738,6 +1739,7 @@ namespace ETWPM2Monitor2
 
 
                 }
+
                 t4_1.Enabled = false;
             });
         }
