@@ -36,6 +36,7 @@ namespace SysPM2Monitor2_7
         public static System.Timers.Timer t5 = new System.Timers.Timer(10000);
         public static System.Timers.Timer t6 = new System.Timers.Timer(5000);
         public static System.Timers.Timer t7 = new System.Timers.Timer(5000);
+        public static System.Timers.Timer t8 = new System.Timers.Timer(5000);
 
         public static uint NTReadTmpRef = 0;
         public static EventLogQuery SysmonPM2Query;
@@ -292,6 +293,9 @@ namespace SysPM2Monitor2_7
         public static string[] Evt8_ProcessName = null;
         public static string[] Evt25_ProcessName = null;
         public static string[] Evt3_ProcessName = null;
+        public static int _PPID_For_TimerScanner01 = -1;
+        public static string _PPIDPath_For_TimerScanner01 = "";
+
 
         /// <summary>
         /// event for adding event logs to listView6 for all Sysmon/Etw Detection logs.
@@ -705,6 +709,9 @@ namespace SysPM2Monitor2_7
                 t7.Enabled = true;
                 t7.Start();
 
+                t8.Elapsed += T8_Elapsed; ;
+                t8.Enabled = false; 
+
                 listView1.Columns.Add(" ", 20, HorizontalAlignment.Left);
                 listView1.Columns.Add("Time", 130, HorizontalAlignment.Left);
                 listView1.Columns.Add("EventID", 55, HorizontalAlignment.Left);
@@ -806,8 +813,32 @@ namespace SysPM2Monitor2_7
                 listView6.Columns.Add("Status", 130, HorizontalAlignment.Left);
                 listView6.Columns.Add("Detection by Sysmon:ETW", 150, HorizontalAlignment.Left);
                 listView6.Columns.Add("Action Scanned:Suspended:Terminated", 220, HorizontalAlignment.Left);
-                listView6.Columns.Add("Memory Scanner", 200, HorizontalAlignment.Left);
-                
+                listView6.Columns.Add("Memory Scanner", 270, HorizontalAlignment.Left);
+
+                listView4.SmallImageList = imageList1;
+                /// Set the view to show details.
+                listView4.View = View.Details;
+                /// Allow the user to edit item text.
+                listView4.LabelEdit = false;
+                /// Allow the user to rearrange columns.
+                listView4.AllowColumnReorder = true;
+                /// Display check boxes.
+                listView4.CheckBoxes = false;
+                /// Select the item and subitems when selection is made.
+                listView4.FullRowSelect = true;
+                /// Display grid lines.
+                listView4.GridLines = false;
+                listView4.Sorting = SortOrder.Ascending;
+
+                listView4.SmallImageList = imageList1;
+
+                listView4.Columns.Add(" ", 5, HorizontalAlignment.Left);
+                listView4.Columns.Add("Target Process", 110, HorizontalAlignment.Left);
+                listView4.Columns.Add("Injector Process", 110, HorizontalAlignment.Left);
+                listView4.Columns.Add("Start Module/Function", 130, HorizontalAlignment.Left);
+                listView4.Columns.Add("Time of Detection", 120, HorizontalAlignment.Left);
+
+
 
                 /// event for add Process to Alarm-Tab by ETW & scanning Target Process by Memory Scanners
                 /// event is ready ...
@@ -876,6 +907,55 @@ namespace SysPM2Monitor2_7
             {
                 MessageBox.Show(err.Message);
             }
+        }
+
+        private void T8_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            try
+            {
+
+
+                for (int i = 0; i < 2; i++)
+                {
+
+
+                    /// check sub processes                                              
+                    foreach (_TableofProcess_NewProcess_evt ___item in NewProcess_Table.FindAll(SubProc =>
+                    SubProc.PPID == _PPID_For_TimerScanner01))
+                    {
+                        ///"[ParentID Path: C:\\Windows\\SysWOW64\\notepad.exe]"
+
+                        if (___item.PPID_Path.ToLower() ==
+                            _PPIDPath_For_TimerScanner01.ToLower())
+                        {
+                            try
+                            {
+                                if (Process.GetProcesses().ToList().FindIndex(x => x.Id == ___item.PID) != -1)
+                                {
+                                    Process.GetProcessById(___item.PID).Kill();
+                                }
+                            }
+                            catch (Exception)
+                            {
+
+
+                            }
+
+                        }
+                    }
+
+                    Thread.Sleep(2000);
+                }
+            }
+            catch (Exception)
+            {
+
+
+            }
+            _PPID_For_TimerScanner01 = -1;
+            _PPIDPath_For_TimerScanner01 = "";
+            t8.Enabled = false;
+            t8.Stop();
         }
 
         private void T7_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
@@ -1503,7 +1583,26 @@ namespace SysPM2Monitor2_7
                         iList6.SubItems.Add(tmp.SubItems[5].Text);
                     }
 
-                    iList6.SubItems.Add("PESieve & HollowsHunter.exe");
+                    string Detectionstring = "";
+                    if (Convert.ToInt32(string.Join("", ("0" + tmp.SubItems[6].Text).ToCharArray().Where(char.IsDigit)).ToString()) > 0)
+                    {
+                        Detectionstring = "[true & ";
+                    }
+                    else
+                    {
+                        Detectionstring = "[false & ";
+                    }
+
+                    if (tmp.SubItems[7].Text.Contains(">>Detected"))
+                    {
+                        Detectionstring += "true]";
+                    }
+                    else
+                    {
+                        Detectionstring += "false]";
+                    }
+
+                    iList6.SubItems.Add("Pe-Sieve64.exe & Hollows_Hunter64.exe" + " " + Detectionstring);
                     iList6.ImageIndex = tmp.ImageIndex;
 
                     ThreadStart __T41_info_for_additems_to_Listview6 = new ThreadStart(delegate { BeginInvoke(new __Additem(_Additems_toListview6), iList6); });
@@ -1602,7 +1701,6 @@ namespace SysPM2Monitor2_7
                                        
                                     }
 
-                                    //if(Process.GetProcesses().ToList().Find(x => x.Id == Convert.ToInt32(item.Text.Split(':')[1])) == null)
 
                                     if (!found_prc)
                                     {
@@ -1610,7 +1708,10 @@ namespace SysPM2Monitor2_7
                                         if (!item.Text.Contains("Process Exited!?"))
                                         {
                                             item.Text = item.Text + " <<Process Exited!?>>";
+                                            item.BackColor = Color.LightGoldenrodYellow;
+                                            Thread.Sleep(100);
                                             item.ForeColor = Color.DarkBlue;
+                                            item.BackColor = Color.White;
                                             BeginInvoke(new __Additem(_Additems_toTreeview2), item);
                                             item.Remove();
 
@@ -1742,23 +1843,28 @@ namespace SysPM2Monitor2_7
                 await new TaskFactory().StartNew(() =>
                 {
 
-
-                    foreach (TreeNode item in treeView2.Nodes)
+                    treeView2.BeginInvoke((MethodInvoker)delegate
                     {
-                        Thread.Sleep(1);
-                        if (item.Text == ((TreeNode)obj).Text)
+                        foreach (TreeNode item in treeView2.Nodes)
                         {
-                            found = true;
-                            break;
+                            Thread.Sleep(1);
+                            if (item.Text == ((TreeNode)obj).Text)
+                            {
+                                found = true;
+                                break;
+                            }
                         }
-                    }
+                    });
                 });
 
                 if (!found)
                 {
-                    object _obj = ((TreeNode)obj).Clone();
-
-                    treeView2.Nodes.Add(((TreeNode)_obj));
+                   
+                    treeView2.BeginInvoke((MethodInvoker)delegate
+                    {
+                        object _obj = ((TreeNode)obj).Clone();
+                        treeView2.Nodes.Add(((TreeNode)_obj));
+                    });
 
                 }
 
@@ -1797,8 +1903,11 @@ namespace SysPM2Monitor2_7
                                 if (MyLviewItemsX5.SubItems[2].Text == "8" || MyLviewItemsX5.SubItems[2].Text == "25") { _Imgindex2 = 1; }
                                 if (MyLviewItemsX5.SubItems[2].Text == "3") { _Imgindex2 = 3; }
 
-                                item.Nodes.Add("", "[EventID:" + MyLviewItemsX5.SubItems[2].Text + "]" +
+                                treeView1.BeginInvoke((MethodInvoker)delegate
+                                {
+                                    item.Nodes.Add("", "[EventID:" + MyLviewItemsX5.SubItems[2].Text + "]" +
                                     "[" + MyLviewItemsX5.SubItems[4].Text + "] { " + MyLviewItemsX5.SubItems[5].Text + " }", _Imgindex2);
+                                });
 
                                 item.ForeColor = Color.Red;
                                 xfound = true;
@@ -1817,8 +1926,11 @@ namespace SysPM2Monitor2_7
                                 if (MyLviewItemsX5.SubItems[2].Text == "8" || MyLviewItemsX5.SubItems[2].Text == "25") { _Imgindex2 = 1; }
                                 if (MyLviewItemsX5.SubItems[2].Text == "3") { _Imgindex2 = 3; }
 
-                                item.Nodes.Add("", "[EventID:" + MyLviewItemsX5.SubItems[2].Text + "]" +
+                                treeView1.BeginInvoke((MethodInvoker)delegate
+                                {
+                                    item.Nodes.Add("", "[EventID:" + MyLviewItemsX5.SubItems[2].Text + "]" +
                                     "[" + MyLviewItemsX5.SubItems[4].Text + "] { " + MyLviewItemsX5.SubItems[5].Text + " }", _Imgindex2);
+                                });
 
                                 item.ForeColor = Color.Red;
                                 xfound = true;
@@ -1836,23 +1948,29 @@ namespace SysPM2Monitor2_7
                         if (MyLviewItemsX5.SubItems[2].Text == "3") { _Imgindex = 3; }
 
                         if (MyLviewItemsX5.SubItems[2].Text != "3")
-                            treeView1.Nodes.Add("", MyLviewItemsX5.SubItems[3].Text, _Imgindex).Nodes.Add("", "[EventID:" + MyLviewItemsX5.SubItems[2].Text + "]"
+                        {
+                            treeView1.BeginInvoke((MethodInvoker)delegate
+                            {
+                                treeView1.Nodes.Add("", MyLviewItemsX5.SubItems[3].Text, _Imgindex).Nodes.Add("", "[EventID:" + MyLviewItemsX5.SubItems[2].Text + "]"
                             + "[" + MyLviewItemsX5.SubItems[4].Text + "] { " + MyLviewItemsX5.SubItems[5].Text + " }", _Imgindex).Parent.ImageIndex = _Imgindex;
-
+                            });
+                        }
                         if (MyLviewItemsX5.SubItems[2].Text == "3")
                         {
                             try
                             {
-
-                                treeView1.Nodes.Add("", MyLviewItemsX5.SubItems[3].Text, _Imgindex).Nodes.Add("", "[EventID:" + MyLviewItemsX5.SubItems[2].Text + "]"
+                                treeView1.BeginInvoke((MethodInvoker)delegate
+                                {
+                                    treeView1.Nodes.Add("", MyLviewItemsX5.SubItems[3].Text, _Imgindex).Nodes.Add("", "[EventID:" + MyLviewItemsX5.SubItems[2].Text + "]"
                                + "[" + MyLviewItemsX5.SubItems[4].Text + "] { " + MyLviewItemsX5.SubItems[5].Text + " }", _Imgindex).Parent.ImageIndex = _Imgindex;
+                                });
                             }
                             catch (Exception)
                             {
 
-                               
+
                             }
-                          
+
                         }
                     }
 
@@ -1881,10 +1999,13 @@ namespace SysPM2Monitor2_7
                     {
                         if (MyLviewItemsX1.Name != evtstring)
                         {
-                            listView1.BeginUpdate();
-                            listView1.Items.Add(MyLviewItemsX1);
-                            listView1.Update();
-                            listView1.EndUpdate();
+                            //listView1.BeginUpdate();
+                            listView1.BeginInvoke((MethodInvoker)delegate
+                            {
+                                listView1.Items.Add(MyLviewItemsX1);
+                            });
+                            // listView1.Update();
+                            // listView1.EndUpdate();
                             evtstring = MyLviewItemsX1.Name;
                             Thread.Sleep(5);
                         }
@@ -1894,10 +2015,13 @@ namespace SysPM2Monitor2_7
                     {
                         if (MyLviewItemsX1.Name != evtstring)
                         {
-                            listView1.BeginUpdate();
-                            listView1.Items.Add(MyLviewItemsX1);
-                            listView1.Update();
-                            listView1.EndUpdate();
+                            //listView1.BeginUpdate();
+                            listView1.BeginInvoke((MethodInvoker)delegate
+                            {
+                                listView1.Items.Add(MyLviewItemsX1);
+                            });
+                            // listView1.Update();
+                            // listView1.EndUpdate();
                             evtstring = MyLviewItemsX1.Name;
                             Thread.Sleep(5);
                             InjectionMemoryInfoDetails_torichtectbox(MyLviewItemsX1.SubItems[5].Text);
@@ -1909,10 +2033,13 @@ namespace SysPM2Monitor2_7
                     {
                         if (MyLviewItemsX1.Name != evtstring)
                         {
-                            listView1.BeginUpdate();
-                            listView1.Items.Add(MyLviewItemsX1);
-                            listView1.Update();
-                            listView1.EndUpdate();
+                            //listView1.BeginUpdate();
+                            listView1.BeginInvoke((MethodInvoker)delegate
+                            {
+                                listView1.Items.Add(MyLviewItemsX1);
+                            });
+                            //listView1.Update();
+                            //listView1.EndUpdate();
                             evtstring = MyLviewItemsX1.Name;
                             Thread.Sleep(5);
                         }
@@ -1947,7 +2074,10 @@ namespace SysPM2Monitor2_7
                             MyLviewItemsX1.ImageIndex = 0;
                         }
 
-                        listView1.Items.Add(MyLviewItemsX1);
+                        listView1.BeginInvoke((MethodInvoker)delegate
+                        {
+                            listView1.Items.Add(MyLviewItemsX1);
+                        });
 
                     }
                 }
@@ -2072,10 +2202,23 @@ namespace SysPM2Monitor2_7
         {
             try
             {
-                Thread.Sleep(1);
-                richTextBox1.Text += str.ToString();
-                Thread.Sleep(10);
                 
+                string Eventmessage = str.ToString();
+                string[] events = Eventmessage.Split('\r');
+
+                string TargetProcess = events[8].Substring(13) + ":" + events[7].Substring(18);
+                string Injector = events[5].Substring(13) + ":" + events[4].Substring(18);
+                string Module_Function = "[" + events[11].Substring(14) + "] [" + events[12].Substring(16) + "]";
+                string evettime = events[2].Substring(9);
+
+                ListViewItem xiList4 = new ListViewItem();
+                xiList4.SubItems.Add(TargetProcess);
+                xiList4.SubItems.Add(Injector);
+                xiList4.SubItems.Add(Module_Function);
+                xiList4.SubItems.Add(evettime);
+                xiList4.Name = Eventmessage;
+                listView4.Items.Add(xiList4);
+
             }
             catch (Exception)
             {
@@ -2674,28 +2817,28 @@ namespace SysPM2Monitor2_7
 
                         _TableofProcess TempStruc = new _TableofProcess();
                         TempStruc.TCPDetails2 = _des_address_port;
-                        TempStruc.TCPDetails = Process_Table[Process_Table
-                            .FindIndex(_processname => _processname.PID == PID && _processname.ProcessName == ProcessName)].TCPDetails;
-                        TempStruc.ProcessName_Path = Process_Table[Process_Table
-                            .FindIndex(_processname => _processname.PID == PID && _processname.ProcessName == ProcessName)].ProcessName_Path;
-                        TempStruc.ProcessName = Process_Table[Process_Table
-                            .FindIndex(_processname => _processname.PID == PID && _processname.ProcessName == ProcessName)].ProcessName;
-                        TempStruc.PID = Process_Table[Process_Table
-                            .FindIndex(_processname => _processname.PID == PID && _processname.ProcessName == ProcessName)].PID;
-                        TempStruc.IsLive = Process_Table[Process_Table
-                            .FindIndex(_processname => _processname.PID == PID && _processname.ProcessName == ProcessName)].IsLive;
-                        TempStruc.Injector_Path = Process_Table[Process_Table
-                          .FindIndex(_processname => _processname.PID == PID && _processname.ProcessName == ProcessName)].Injector_Path;
-                        TempStruc.Injector = Process_Table[Process_Table
-                          .FindIndex(_processname => _processname.PID == PID && _processname.ProcessName == ProcessName)].Injector;
-                        TempStruc.Description = Process_Table[Process_Table
-                        .FindIndex(_processname => _processname.PID == PID && _processname.ProcessName == ProcessName)].Description;
-                        TempStruc.SysMonEventId8_25 = Process_Table[Process_Table
-                      .FindIndex(_processname => _processname.PID == PID && _processname.ProcessName == ProcessName)].SysMonEventId8_25;
-                        TempStruc.StartAddress_of_TID = Process_Table[Process_Table
-                    .FindIndex(_processname => _processname.PID == PID && _processname.ProcessName == ProcessName)].StartAddress_of_TID;
-                        TempStruc.TID = Process_Table[Process_Table
-                  .FindIndex(_processname => _processname.PID == PID && _processname.ProcessName == ProcessName)].TID;
+                        TempStruc.TCPDetails = Process_Table[Process_Table.FindIndex(_processname => _processname.PID == PID 
+                        && _processname.ProcessName == ProcessName)].TCPDetails;
+                        TempStruc.ProcessName_Path = Process_Table[Process_Table.FindIndex(_processname => _processname.PID == PID 
+                        && _processname.ProcessName == ProcessName)].ProcessName_Path;
+                        TempStruc.ProcessName = Process_Table[Process_Table.FindIndex(_processname => _processname.PID == PID 
+                        && _processname.ProcessName == ProcessName)].ProcessName;
+                        TempStruc.PID = Process_Table[Process_Table.FindIndex(_processname => _processname.PID == PID
+                        && _processname.ProcessName == ProcessName)].PID;
+                        TempStruc.IsLive = Process_Table[Process_Table.FindIndex(_processname => _processname.PID == PID
+                        && _processname.ProcessName == ProcessName)].IsLive;
+                        TempStruc.Injector_Path = Process_Table[Process_Table.FindIndex(_processname => _processname.PID == PID
+                        && _processname.ProcessName == ProcessName)].Injector_Path;
+                        TempStruc.Injector = Process_Table[Process_Table.FindIndex(_processname => _processname.PID == PID
+                        && _processname.ProcessName == ProcessName)].Injector;
+                        TempStruc.Description = Process_Table[Process_Table.FindIndex(_processname => _processname.PID == PID
+                        && _processname.ProcessName == ProcessName)].Description;
+                        TempStruc.SysMonEventId8_25 = Process_Table[Process_Table.FindIndex(_processname => _processname.PID == PID
+                        && _processname.ProcessName == ProcessName)].SysMonEventId8_25;
+                        TempStruc.StartAddress_of_TID = Process_Table[Process_Table.FindIndex(_processname => _processname.PID == PID
+                        && _processname.ProcessName == ProcessName)].StartAddress_of_TID;
+                        TempStruc.TID = Process_Table[Process_Table.FindIndex(_processname => _processname.PID == PID
+                        && _processname.ProcessName == ProcessName)].TID;
                         TempStruc.IsShow_Alarm = true;
 
 
@@ -2855,18 +2998,84 @@ namespace SysPM2Monitor2_7
                                 {
                                     try
                                     {
-                                        Process.GetProcessById(PID).Kill();
-                                        _finalresult_Scanned_02[2] = "Terminated";
-                                        IsTargetProcessTerminatedbyETWPM2monitor = true;
+                                        try
+                                        {
+                                            try
+                                            {
+                                                _PPID_For_TimerScanner01 = PID;
+                                                _PPIDPath_For_TimerScanner01 = Process.GetProcessById(PID).MainModule.FileName.ToLower();
+                                            }
+                                            catch (Exception)
+                                            {
 
+
+                                            }
+
+                                            t8.Enabled = true;
+                                            t8.Start();
+
+                                            /// check sub processes                                              
+                                            foreach (_TableofProcess_NewProcess_evt ___item in NewProcess_Table.FindAll(SubProc =>
+                                            SubProc.PPID == PID))
+                                            {
+                                                ///"[ParentID Path: C:\\Windows\\SysWOW64\\notepad.exe]"
+
+                                                if (___item.PPID_Path.ToLower() ==
+                                                    Process.GetProcessById(PID).MainModule.FileName.ToLower())
+                                                {
+                                                    if (Process.GetProcesses().ToList().FindIndex(x => x.Id == ___item.PID) != -1)
+                                                        Process.GetProcessById(___item.PID).Kill();
+                                                }
+                                            }
+                                        }
+                                        catch (Exception)
+                                        {
+
+
+                                        }
+
+                                        try
+                                        {
+                                            /// check sockets for shutdown
+                                            List<IntPtr> TP_Socket_intptrs = SocketClass.SocketHijacking.GetSocketsTargetProcess
+                                                (Process.GetProcessById(PID));
+
+                                            foreach (IntPtr _____item in TP_Socket_intptrs.ToList())
+                                            {
+                                                SocketClass.SocketHijacking.shutdown(_____item, 2);
+                                            }
+
+                                            /// check target process                                          
+                                            try
+                                            {
+                                                if (Process.GetProcesses().ToList().FindIndex(x => x.Id == PID) != -1)
+                                                    Process.GetProcessById(PID).Kill();
+                                            }
+                                            catch (Exception err2)
+                                            {
+
+
+                                            }
+
+                                        }
+                                        catch (Exception err)
+                                        {
+
+
+                                        }
+                                      
+                                       
                                     }
                                     catch (Exception)
                                     {
 
 
                                     }
-
+                                    _finalresult_Scanned_02[2] = "Terminated";
+                                    IsTargetProcessTerminatedbyETWPM2monitor = true;
                                 }
+
+                                
 
                             }
 
@@ -3205,6 +3414,8 @@ namespace SysPM2Monitor2_7
                         }
                         else if (HollowHunterLevel == 2)
                         {
+                           
+
                             outputs2.StartInfo.Arguments = "/kill /pid " + pid;
                             finalresult_Scanned_02[2] = "Scanned";
                         }
@@ -3239,6 +3450,70 @@ namespace SysPM2Monitor2_7
                                 {
                                     Chart_Terminate++;
                                     finalresult_Scanned_02[2] = "Terminated";
+
+                                    /// time to check subprocesses & connections for closing....
+                                    try
+                                    {
+                                        try
+                                        {
+                                            try
+                                            {
+                                                _PPID_For_TimerScanner01 = Convert.ToInt32(pid);
+                                                _PPIDPath_For_TimerScanner01 = Process.GetProcessById(Convert.ToInt32(pid)).MainModule.FileName.ToLower();
+                                            }
+                                            catch (Exception)
+                                            {
+
+
+                                            }
+                                            t8.Enabled = true;
+                                            t8.Start();
+
+                                            /// check sub processes                                              
+                                            foreach (_TableofProcess_NewProcess_evt ___item in NewProcess_Table.FindAll(SubProc =>
+                                            SubProc.PPID == Convert.ToInt32(pid)))
+                                            {
+                                                ///"[ParentID Path: C:\\Windows\\SysWOW64\\notepad.exe]"
+
+                                                if (___item.PPID_Path.ToLower() ==
+                                                    Process.GetProcessById(Convert.ToInt32(pid)).MainModule.FileName.ToLower())
+                                                {
+                                                    if (Process.GetProcesses().ToList().FindIndex(x => x.Id == ___item.PID) != -1)
+                                                        Process.GetProcessById(___item.PID).Kill();
+                                                }
+                                            }
+                                        }
+                                        catch (Exception)
+                                        {
+
+
+                                        }
+
+
+                                        try
+                                        {
+                                            /// check sockets for shutdown
+                                            List<IntPtr> TP_Socket_intptrs = SocketClass.SocketHijacking.GetSocketsTargetProcess
+                                                (Process.GetProcessById(Convert.ToInt32(pid)));
+
+                                            foreach (IntPtr _____item in TP_Socket_intptrs.ToList())
+                                            {
+                                                SocketClass.SocketHijacking.shutdown(_____item, 2);
+                                            }
+ 
+                                        }
+                                        catch (Exception err)
+                                        {
+
+
+                                        }
+
+                                    }
+                                    catch (Exception)
+                                    {
+
+
+                                    }
                                 }
                                 else if (HollowHunterLevel == 1)
                                 {
@@ -4079,7 +4354,7 @@ namespace SysPM2Monitor2_7
         private void AboutToolStripMenuItem1_Click(object sender, EventArgs e)
         {
  
-            MessageBox.Show(null, "SysPM2Monitor2 v2.7 [test version 2.7.18.68]\nCode Published by Damon Mohammadbagher , Jan 2022", "About SysPM2Monitor2 v2.7", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show(null, "SysPM2Monitor2 v2.7 [test version 2.7.20.70]\nCode Published by Damon Mohammadbagher , Jan 2022", "About SysPM2Monitor2 v2.7", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
         }
 
@@ -4350,6 +4625,183 @@ namespace SysPM2Monitor2_7
             dontDumpPEOfilterToolStripMenuItem.Text = "don't dump the modified PEs, but save the report [on]";
             dontDumpAnyFilesToolStripMenuItem.Text = "don't dump any files [off]";
             hollowshunter_DumpSwitches = 1;
+        }
+
+        private void ShutdownConnectionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                ListViewItem listviewitems_wasselected_ihope = listView3.SelectedItems[0];
+                string __TargetProcess = listviewitems_wasselected_ihope.SubItems[2].Text;
+
+                List<IntPtr> TP_Socket_intptrs = SocketClass.SocketHijacking.GetSocketsTargetProcess
+                    (Process.GetProcessById(Convert.ToInt32(__TargetProcess.Split(':')[1])));
+
+                foreach (IntPtr item in TP_Socket_intptrs.ToList())
+                {
+                    SocketClass.SocketHijacking.shutdown(item, 2);
+
+                }
+            }
+            catch (Exception err)
+            {
+                MessageBox.Show(err.Message);
+
+            }
+            try
+            {
+                /// Checking TCP Connections....
+                IPGlobalProperties _GetIPGlobalProperties = IPGlobalProperties.GetIPGlobalProperties();
+                TcpConnectionInformation[] _TCPConnections = _GetIPGlobalProperties.GetActiveTcpConnections();
+
+                ListViewItem listviewitems_wasselected_ihope2 = listView3.SelectedItems[0];
+                string __TargetProcess2 = listviewitems_wasselected_ihope2.SubItems[2].Text;
+                string sip_port = listviewitems_wasselected_ihope2.SubItems[4].Text;
+                string dip_port = listviewitems_wasselected_ihope2.SubItems[5].Text;
+                foreach (TcpConnectionInformation t in _TCPConnections)
+                {
+                    if (t.LocalEndPoint.Address.ToString() + ":" + t.LocalEndPoint.Port.ToString() + t.RemoteEndPoint.Address.ToString()
+                                + ":" + t.RemoteEndPoint.Port.ToString() == sip_port + dip_port && t.State.ToString().ToLower() == "established")
+                    {
+                        MessageBox.Show("Warning\nConnection Not Closed!\nmaybe this Connection made by some dll/modules (in background) for this process?", "Connection Not Closed!?", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+
+
+            }
+        }
+
+        private void KillProcessToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                /// check sub processes 
+                ListViewItem listviewitems_wasselected_ihope = listView3.SelectedItems[0];
+                string __TargetProcess = listviewitems_wasselected_ihope.SubItems[2].Text;
+
+                foreach (_TableofProcess_NewProcess_evt item in NewProcess_Table.FindAll(SubProc =>
+                SubProc.PPID == Convert.ToInt32(__TargetProcess.Split(':')[1])))
+                {
+                    ///"[ParentID Path: C:\\Windows\\SysWOW64\\notepad.exe]"
+                    string g = item.PPID_Path;
+                    if (item.PPID_Path.ToLower() ==
+                        Process.GetProcessById(Convert.ToInt32(__TargetProcess.Split(':')[1])).MainModule.FileName.ToLower())
+                    {
+                        if (Process.GetProcesses().ToList().FindIndex(x => x.Id == item.PID) != -1)
+                            Process.GetProcessById(item.PID).Kill();
+                    }
+                }
+            }
+            catch (Exception)
+            {
+
+
+            }
+
+
+            try
+            {
+                /// check sockets for shutdown
+                ListViewItem listviewitems_wasselected_ihope = listView3.SelectedItems[0];
+                string __TargetProcess = listviewitems_wasselected_ihope.SubItems[2].Text;
+
+                List<IntPtr> TP_Socket_intptrs = SocketClass.SocketHijacking.GetSocketsTargetProcess
+                    (Process.GetProcessById(Convert.ToInt32(__TargetProcess.Split(':')[1])));
+
+                foreach (IntPtr item in TP_Socket_intptrs.ToList())
+                {
+                    SocketClass.SocketHijacking.shutdown(item, 2);
+                }
+
+                try
+                {
+                    if (Process.GetProcesses().ToList().FindIndex(x => x.Id == Convert.ToInt32(__TargetProcess.Split(':')[1])) != -1)
+                        Process.GetProcessById(Convert.ToInt32(__TargetProcess.Split(':')[1])).Kill();
+                }
+                catch (Exception err2)
+                {
+
+
+                }
+
+            }
+            catch (Exception err)
+            {
+
+
+            }
+
+            try
+            {
+                /// Checking TCP Connections....
+                IPGlobalProperties _GetIPGlobalProperties = IPGlobalProperties.GetIPGlobalProperties();
+                TcpConnectionInformation[] _TCPConnections = _GetIPGlobalProperties.GetActiveTcpConnections();
+
+                ListViewItem listviewitems_wasselected_ihope2 = listView3.SelectedItems[0];
+                string __TargetProcess2 = listviewitems_wasselected_ihope2.SubItems[2].Text;
+                string sip_port = listviewitems_wasselected_ihope2.SubItems[4].Text;
+                string dip_port = listviewitems_wasselected_ihope2.SubItems[5].Text;
+                foreach (TcpConnectionInformation t in _TCPConnections)
+                {
+                    if (t.LocalEndPoint.Address.ToString() + ":" + t.LocalEndPoint.Port.ToString() + t.RemoteEndPoint.Address.ToString()
+                                + ":" + t.RemoteEndPoint.Port.ToString() == sip_port + dip_port && t.State.ToString().ToLower() == "established")
+                    {
+                        MessageBox.Show("Warning\nProcess Killed but Connection Not Closed!\nmaybe this Connection made by some dll/modules (in background) for this process?", "Connection Not Closed!?", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+
+
+            }
+        }
+
+        public async void _Run_Async_Changedindexof_listview_4()
+        {
+            await _Run_Async_Changedindexof_listview_4_method();
+        }
+
+        public async Task _Run_Async_Changedindexof_listview_4_method()
+        {
+            try
+            {
+                await Task.Run(() =>
+                {
+                    Invoke(new Action(() =>
+                    {
+                        richTextBox1.Text = listView4.SelectedItems[0].Name.ToString();
+                    }));
+                });
+            }
+            catch (Exception)
+            {
+
+
+            }
+        }
+
+        private void ListView4_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+
+                ThreadStart __T7_for_show_Details_info = new ThreadStart(delegate
+                {
+                    BeginInvoke(new __Obj_Updater_to_WinForm(_Run_Async_Changedindexof_listview_4));
+                });
+
+                Thread _T7_for_show_Details_info_ = new Thread(__T7_for_show_Details_info);
+                _T7_for_show_Details_info_.Start();
+            }
+            catch (Exception)
+            {
+
+
+            }
         }
 
         private void DontDumpAnyFilesToolStripMenuItem_Click(object sender, EventArgs e)
