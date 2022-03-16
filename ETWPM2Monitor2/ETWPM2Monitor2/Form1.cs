@@ -283,7 +283,7 @@ namespace ETWPM2Monitor2
         public static string SearchInjector, SearchInjector2 = "";
         public static int _PPID_For_TimerScanner01 = -1;
         public static string _PPIDPath_For_TimerScanner01 = "";
-
+        public static int _Imgindex , _Imgindex2 = 0;
         public static void _Show_Notify_Ico_Popup(object obj)
         {
             try
@@ -488,39 +488,43 @@ namespace ETWPM2Monitor2
         public void __Additems_toListview1__2_Method(object _obj)
         {
             ListViewItem _obj_ = (ListViewItem)_obj;
-            if (listView1.Items.Count > 0)
-            {
-                bool _found = false;
-                for (int i = 0; i < listView1.Items.Count; i++)
-                {
-                   
-                    if (listView1.Items[i].SubItems[3].Text == _obj_.SubItems[3].Text)
-                    {
-                        listView1.Items[i].SubItems[0] = _obj_.SubItems[0];
-                        listView1.Items[i].SubItems[1] = _obj_.SubItems[1];
-                        listView1.Items[i].SubItems[2] = _obj_.SubItems[2];
-                        listView1.Items[i].SubItems[3] = _obj_.SubItems[3];
-                        listView1.Items[i].SubItems[4] = _obj_.SubItems[4];
-                        listView1.Items[i].SubItems[5] = _obj_.SubItems[5];
-                        listView1.Items[i].Name = _obj_.Name;
-                        listView1.Items[i].ImageIndex = _obj_.ImageIndex;
-                        _found = true;
-                        listView1.Items[i].ForeColor = Color.OrangeRed;                       
-                        break;
-                    }
-                }
 
-                if (!_found)
+            listView1.BeginInvoke((MethodInvoker)delegate
+            {
+                if (listView1.Items.Count > 0)
+                {
+                    bool _found = false;
+                    for (int i = 0; i < listView1.Items.Count; i++)
+                    {
+
+                        if (listView1.Items[i].SubItems[3].Text == _obj_.SubItems[3].Text)
+                        {
+                            listView1.Items[i].SubItems[0] = _obj_.SubItems[0];
+                            listView1.Items[i].SubItems[1] = _obj_.SubItems[1];
+                            listView1.Items[i].SubItems[2] = _obj_.SubItems[2];
+                            listView1.Items[i].SubItems[3] = _obj_.SubItems[3];
+                            listView1.Items[i].SubItems[4] = _obj_.SubItems[4];
+                            listView1.Items[i].SubItems[5] = _obj_.SubItems[5];
+                            listView1.Items[i].Name = _obj_.Name;
+                            listView1.Items[i].ImageIndex = _obj_.ImageIndex;
+                            _found = true;
+                            listView1.Items[i].ForeColor = Color.OrangeRed;
+                            break;
+                        }
+                    }
+
+                    if (!_found)
+                    {
+                        listView1.Items.Add(_obj_).ForeColor = Color.OrangeRed;
+                        Thread.Sleep(5);
+                    }
+
+                }
+                else
                 {
                     listView1.Items.Add(_obj_).ForeColor = Color.OrangeRed;
-                    Thread.Sleep(5);                  
                 }
-
-            }
-            else
-            {
-                listView1.Items.Add(_obj_).ForeColor = Color.OrangeRed;
-            }
+            });
         }
 
         public void _Additems_toListview1__2(object obj)
@@ -549,8 +553,6 @@ namespace ETWPM2Monitor2
                             if (MyLviewItemsX1.SubItems[5].Text.Split('\n')[6].Contains("[dport:4444]"))
                             {
                                 MyLviewItemsX1.BackColor = Color.Gray;
-                                //MyLviewItemsX1.ForeColor = Color.White;
-
                             }
 
                             MyLviewItemsX1.SubItems[5].Text += "\n\n#This Description Added by ETWPM2Monitor2 tool#\n##Warning Description: Packet with [size:160] maybe was for Meterpreter Session which will send every 1 min between Client/Server##\n" +
@@ -563,7 +565,6 @@ namespace ETWPM2Monitor2
                         else if (MyLviewItemsX1.SubItems[5].Text.Split('\n')[6].Contains("[dport:4444]"))
                         {
                             MyLviewItemsX1.BackColor = Color.LightSlateGray;
-                            //MyLviewItemsX1.ForeColor = Color.White;
 
                             MyLviewItemsX1.SubItems[5].Text += "\n\n#This Description Added by ETWPM2Monitor2 tool#\n##Warning Description: Packet with [size:160] maybe was for Meterpreter Session which will send every 1 min between Client/Server##\n" +
                                "##Warning Description: Packet with [size:192] is for meterpreter session which will send before every command excution from/to server##\n" +
@@ -571,7 +572,6 @@ namespace ETWPM2Monitor2
                             System_Detection_Log_events2.Invoke((object)MyLviewItemsX1, null);
                         }
 
-                        //  listView1.Items.Add(MyLviewItemsX1);
                         BeginInvoke(new __Additem(__Additems_toListview1__2_Method), MyLviewItemsX1);
                     }
 
@@ -598,14 +598,12 @@ namespace ETWPM2Monitor2
                             MyLviewItemsX1.ImageIndex = 0;
                         }
 
-                        //listView1.Items.Add(MyLviewItemsX1);
                         BeginInvoke(new __Additem(__Additems_toListview1__2_Method), MyLviewItemsX1);
 
                     }
                     /// EventID 2 = Injection
                     if (MyLviewItemsX1.SubItems[2].Text == "2")
                     {
-                        //listView1.Items.Add(MyLviewItemsX1);
                         BeginInvoke(new __Additem(__Additems_toListview1__2_Method), MyLviewItemsX1);
 
                     }
@@ -736,19 +734,20 @@ namespace ETWPM2Monitor2
                 Thread.Sleep(1);
                 bool found = false;
                 if (MyLviewItemsX2 != null)
-                {
-
-                   
+                {                   
                     if (MyLviewItemsX2.SubItems[9].Text == "")
                     {
                         if (MyLviewItemsX2.SubItems[5].Text.Contains("Terminated") || MyLviewItemsX2.SubItems[5].Text.Contains("Suspended"))
                         {
                             if (MyLviewItemsX2.Name != tmpitemListview2)
                             {
-                                listView2.Items.Add(MyLviewItemsX2);
+                                listView2.BeginInvoke((MethodInvoker)delegate
+                                {
+                                    listView2.Items.Add(MyLviewItemsX2);
+                                });
+
                                 BeginInvoke(new __core2(_SaveNewETW_Alarms_to_WinEventLog), MyLviewItemsX2);
 
-                                //_SaveNewETW_Alarms_to_WinEventLog(MyLviewItemsX2);
                                 Thread.Sleep(10);
                                 tabPage4.Text = "Alarms by ETW " + "(" + listView2.Items.Count.ToString() + ")";
                                 toolStripStatusLabel6.Text = "| Alarms by ETW " + "(" + listView2.Items.Count.ToString() + ")";
@@ -769,10 +768,13 @@ namespace ETWPM2Monitor2
                     {
                         if (MyLviewItemsX2.Name != tmpitemListview2)
                         {
-                            listView2.Items.Add(MyLviewItemsX2);
+                            listView2.BeginInvoke((MethodInvoker)delegate
+                            {
+                                listView2.Items.Add(MyLviewItemsX2);
+                            });
+
                             BeginInvoke(new __core2(_SaveNewETW_Alarms_to_WinEventLog), MyLviewItemsX2);
 
-                            //_SaveNewETW_Alarms_to_WinEventLog(MyLviewItemsX2);
                             Thread.Sleep(10);
                             tabPage4.Text = "Alarms by ETW " + "(" + listView2.Items.Count.ToString() + ")";
                             toolStripStatusLabel6.Text = "| Alarms by ETW " + "(" + listView2.Items.Count.ToString() + ")";
@@ -809,21 +811,13 @@ namespace ETWPM2Monitor2
                     {
                         _DumpMemoryInfo_Injected_Bytes(_itemX._ThreadStartAddress, _itemX._RemoteThreadID, _itemX._TargetPID, _itemX._InjectorPID.ToString());
 
-                    }
-
-                 
-
+                    }                
                 }
-
-
-
             }
             catch (Exception ee)
             {
 
-
             }
-
         }
 
         /// <summary>
@@ -841,11 +835,12 @@ namespace ETWPM2Monitor2
                 {
                     if (MyLviewItemsX6.Name != evtstring3)
                     {
-
-                        listView3.BeginUpdate();
-                        listView3.Items.Add(MyLviewItemsX6);
-                        listView3.Update();
-                        listView3.EndUpdate();
+                         
+                        listView3.BeginInvoke((MethodInvoker)delegate
+                        {
+                            listView3.Items.Add(MyLviewItemsX6);
+                        });
+                        
                         evtstring3 = MyLviewItemsX6.Name;
                         Thread.Sleep(50);
 
@@ -873,13 +868,14 @@ namespace ETWPM2Monitor2
         /// add items to Processes Tab (Process List)
         /// </summary>
         /// <param name="obj"></param>
-        public  void _Additems_toTreeview1(object obj)
+        public void _Additems_toTreeview1(object obj)
         {
             try
             {
 
                 if (obj != null)
                 {
+
                     ListViewItem MyLviewItemsX5 = (ListViewItem)obj;
 
                     bool xfound = false;
@@ -887,13 +883,16 @@ namespace ETWPM2Monitor2
                     {
                         if (item.Text == MyLviewItemsX5.SubItems[3].Text)
                         {
-                            int _Imgindex2 = 0;
+                            _Imgindex2 = 0;
                             if (MyLviewItemsX5.SubItems[2].Text == "1") { _Imgindex2 = 0; }
                             if (MyLviewItemsX5.SubItems[2].Text == "2") { _Imgindex2 = 1; }
                             if (MyLviewItemsX5.SubItems[2].Text == "3") { _Imgindex2 = 3; }
 
-                            item.Nodes.Add("", "[EventID:" + MyLviewItemsX5.SubItems[2].Text + "]" +
+                            treeView1.BeginInvoke((MethodInvoker)delegate
+                            {
+                                item.Nodes.Add("", "[EventID:" + MyLviewItemsX5.SubItems[2].Text + "]" +
                                 "[" + MyLviewItemsX5.SubItems[4].Text + "] { " + MyLviewItemsX5.SubItems[5].Text + " }", _Imgindex2);
+                            });
 
                             if (MyLviewItemsX5.SubItems[2].Text == "2")
                             {
@@ -904,15 +903,19 @@ namespace ETWPM2Monitor2
 
                                 if (SearchInjector2.ToLower() != "system")
                                 {
-                                     
-                                    _TableofProcess _ToP = Process_Table.Find(Proc => Proc.Injector == 
+
+                                    _TableofProcess _ToP = Process_Table.Find(Proc => Proc.Injector ==
                                     Convert.ToInt32(MyLviewItemsX5.SubItems[5].Text.Split('\n')[12].Split('>')[1])
                                     && Proc.Injector_Path.Contains(SearchInjector2));
 
                                     if (_ToP.PID > 0)
-                                        item.Nodes.Add("",">>>> " + _ToP.Injector_Path + " was injector for EventID2\n [Injector_ProcessID: "
+                                    {
+                                        treeView1.BeginInvoke((MethodInvoker)delegate
+                                        {
+                                            item.Nodes.Add("", ">>>> " + _ToP.Injector_Path + " was injector for EventID2\n [Injector_ProcessID: "
                                             + _ToP.Injector + "]\n [TargetPID with (EventID2): " + _ToP.ProcessName + ":" + _ToP.PID + "]", 1);
-
+                                        });
+                                    }
                                 }
                             }
 
@@ -925,16 +928,19 @@ namespace ETWPM2Monitor2
 
                     if (!xfound)
                     {
-                        int _Imgindex = 0;
+                        _Imgindex = 0;
                         if (MyLviewItemsX5.SubItems[2].Text == "1") { _Imgindex = 0; }
                         if (MyLviewItemsX5.SubItems[2].Text == "2") { _Imgindex = 1; }
                         if (MyLviewItemsX5.SubItems[2].Text == "3") { _Imgindex = 3; }
 
-                        treeView1.Nodes.Add("", MyLviewItemsX5.SubItems[3].Text, _Imgindex).Nodes.Add("", "[EventID:" + MyLviewItemsX5.SubItems[2].Text + "]"
+                        treeView1.BeginInvoke((MethodInvoker)delegate
+                        {
+                            treeView1.Nodes.Add("", MyLviewItemsX5.SubItems[3].Text, _Imgindex).Nodes.Add("", "[EventID:" + MyLviewItemsX5.SubItems[2].Text + "]"
                             + "[" + MyLviewItemsX5.SubItems[4].Text + "] { " + MyLviewItemsX5.SubItems[5].Text + " }", _Imgindex).Parent.ImageIndex = _Imgindex;
+                        });
 
                     }
-
+                    
                 }
 
 
@@ -950,27 +956,33 @@ namespace ETWPM2Monitor2
         {
             try
             {
+              
                 bool found = false;
                 await new TaskFactory().StartNew(() =>
                 {
 
-
-                    foreach (TreeNode item in treeView2.Nodes)
+                    treeView2.BeginInvoke((MethodInvoker)delegate
                     {
-                        Thread.Sleep(1);
-                        if (item.Text == ((TreeNode)obj).Text)
+                        foreach (TreeNode item in treeView2.Nodes)
                         {
-                            found = true;
-                            break;
+                            Thread.Sleep(1);
+                            if (item.Text == ((TreeNode)obj).Text)
+                            {
+                                found = true;
+                                break;
+                            }
                         }
-                    }
+                    });
                 });
 
                 if (!found)
                 {
-                    object _obj = ((TreeNode)obj).Clone();
+                    treeView2.BeginInvoke((MethodInvoker)delegate
+                    {
+                        object _obj = ((TreeNode)obj).Clone();
 
-                    treeView2.Nodes.Add(((TreeNode)_obj));
+                        treeView2.Nodes.Add(((TreeNode)_obj));
+                    });
 
                 }
                  
@@ -990,7 +1002,7 @@ namespace ETWPM2Monitor2
                     Thread.Sleep(25);
                     foreach (TreeNode item in treeView1.Nodes)
                     {
-                        //Thread.Sleep(2);
+                       
 
                         try
                         {
@@ -1023,11 +1035,14 @@ namespace ETWPM2Monitor2
 
                                     if (!found_prc)
                                     {
-                                        //Thread.Sleep(10);
+                                       
                                         if (!item.Text.Contains("Process Exited!?"))
                                         {
                                             item.Text = item.Text + " <<Process Exited!?>>";
+                                            item.BackColor = Color.LightGoldenrodYellow;
+                                            Thread.Sleep(100);
                                             item.ForeColor = Color.DarkBlue;
+                                            item.BackColor = Color.White;
                                             BeginInvoke(new __Additem(_Additems_toTreeview2), item);
                                             item.Remove();
                                            
