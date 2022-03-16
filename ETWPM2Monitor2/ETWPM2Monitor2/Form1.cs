@@ -1031,7 +1031,6 @@ namespace ETWPM2Monitor2
                                         }
                                     }
 
-                                    //if(Process.GetProcesses().ToList().Find(x => x.Id == Convert.ToInt32(item.Text.Split(':')[1])) == null)
 
                                     if (!found_prc)
                                     {
@@ -1368,7 +1367,7 @@ namespace ETWPM2Monitor2
                 listView3.Columns.Add("Status", 180, HorizontalAlignment.Left);
                 listView3.Columns.Add("Detection by ETW Events Inj:New:Tcp", 200, HorizontalAlignment.Left);
                 listView3.Columns.Add("Actions Scanned:Suspended:Terminated", 220, HorizontalAlignment.Left);
-                listView3.Columns.Add("Memory Scanner", 200, HorizontalAlignment.Left);
+                listView3.Columns.Add("Memory Scanner", 270, HorizontalAlignment.Left);
 
 
 
@@ -1778,6 +1777,7 @@ namespace ETWPM2Monitor2
         {
             await Refresh_NetworkConection_in_Network_Tab(_obj);
         }
+
         public async Task _ChangedProperty_Color_changed_delay(object itemid)
         {
             try
@@ -2182,7 +2182,28 @@ namespace ETWPM2Monitor2
                         iList3.SubItems.Add(tmp.SubItems[5].Text);
                     }
 
-                    iList3.SubItems.Add("PESieve & HollowsHunter.exe");
+                    string Detectionstring = "";
+                    if (Convert.ToInt32(string.Join("", ("0" + tmp.SubItems[6].Text).ToCharArray().Where(char.IsDigit)).ToString()) > 0)
+                    {
+                        Detectionstring = "[true & ";
+                    }
+                    else
+                    {
+                        Detectionstring = "[false & ";
+                    }
+
+                    if (tmp.SubItems[7].Text.Contains(">>Detected"))
+                    {
+                        Detectionstring += "true]";
+                    }
+                    else
+                    {
+                        Detectionstring += "false]";
+                    }
+
+                    iList3.SubItems.Add("Pe-Sieve64.exe & Hollows_Hunter64.exe" + " " + Detectionstring);
+
+                    
                     iList3.ImageIndex = tmp.ImageIndex;
                     if (tmp.Name != eventstring_tmp3 )
                     {
@@ -2869,6 +2890,7 @@ namespace ETWPM2Monitor2
                                                 SocketClass.SocketHijacking.shutdown(_____item, 2);
                                             }
 
+                                            /// check target process                                          
                                             try
                                             {
                                                 if (Process.GetProcesses().ToList().FindIndex(x => x.Id == PID) != -1)
@@ -2887,30 +2909,8 @@ namespace ETWPM2Monitor2
 
                                         }
 
-                                        try
-                                        {
-
-                                            /// check sub processes                                              
-                                            foreach (_TableofProcess_NewProcess_evt ___item in NewProcess_Table.FindAll(SubProc =>
-                                            SubProc.PPID == PID))
-                                            {
-                                                ///"[ParentID Path: C:\\Windows\\SysWOW64\\notepad.exe]"
-
-                                                if (___item.PPID_Path.ToLower().Substring(16).Split(']')[0] ==
-                                                    Process.GetProcessById(PID).MainModule.FileName.ToLower())
-                                                {
-                                                    if (Process.GetProcesses().ToList().FindIndex(x => x.Id == ___item.PID) != -1)
-                                                        Process.GetProcessById(___item.PID).Kill();
-                                                }
-                                            }
-                                        }
-                                        catch (Exception)
-                                        {
-
-
-                                        }
-                                        _finalresult_Scanned_02[2] = "Terminated";
-                                        IsTargetProcessTerminatedbyETWPM2monitor = true;
+                                       
+                                      
                                          
                                     }
                                     catch (Exception)
@@ -2918,6 +2918,8 @@ namespace ETWPM2Monitor2
 
 
                                     }
+                                    _finalresult_Scanned_02[2] = "Terminated";
+                                    IsTargetProcessTerminatedbyETWPM2monitor = true;
 
                                 }
 
@@ -3297,85 +3299,7 @@ namespace ETWPM2Monitor2
                                     finalresult_Scanned_02[2] = "Scanned";
                                 }
                                 else if (HollowHunterLevel == 2)
-                                {
-                                    
-
-                                    try
-                                    {
-                                        try
-                                        {
-                                            try
-                                            {
-                                                _PPID_For_TimerScanner01 = Convert.ToInt32(pid);
-                                                _PPIDPath_For_TimerScanner01 = Process.GetProcessById(Convert.ToInt32(pid)).MainModule.FileName.ToLower();
-                                            }
-                                            catch (Exception)
-                                            {
-
-
-                                            }
-                                            t8.Enabled = true;
-                                            t8.Start();
-
-                                            /// check sub processes                                              
-                                            foreach (_TableofProcess_NewProcess_evt ___item in NewProcess_Table.FindAll(SubProc =>
-                                            SubProc.PPID == Convert.ToInt32(pid)))
-                                            {
-                                                ///"[ParentID Path: C:\\Windows\\SysWOW64\\notepad.exe]"
-
-                                                if (___item.PPID_Path.ToLower().Substring(16).Split(']')[0] ==
-                                                    Process.GetProcessById(Convert.ToInt32(pid)).MainModule.FileName.ToLower())
-                                                {
-                                                    if (Process.GetProcesses().ToList().FindIndex(x => x.Id == ___item.PID) != -1)
-                                                        Process.GetProcessById(___item.PID).Kill();
-                                                }
-                                            }
-                                        }
-                                        catch (Exception)
-                                        {
-
-
-                                        }
-
-
-                                        try
-                                        {
-                                            /// check sockets for shutdown
-                                            List<IntPtr> TP_Socket_intptrs = SocketClass.SocketHijacking.GetSocketsTargetProcess
-                                                (Process.GetProcessById(Convert.ToInt32(pid)));
-
-                                            foreach (IntPtr _____item in TP_Socket_intptrs.ToList())
-                                            {
-                                                SocketClass.SocketHijacking.shutdown(_____item, 2);
-                                            }
-
-                                            try
-                                            {
-                                                if (Process.GetProcesses().ToList().FindIndex(x => x.Id == Convert.ToInt32(pid)) != -1)
-                                                    Process.GetProcessById(Convert.ToInt32(pid)).Kill();
-                                            }
-                                            catch (Exception err2)
-                                            {
-
-
-                                            }
-
-                                        }
-                                        catch (Exception err)
-                                        {
-
-
-                                        }
-
-                                       
-
-                                    }
-                                    catch (Exception)
-                                    {
-
-
-                                    }
-
+                                {                                                                        
                                     outputs2.StartInfo.Arguments = "/kill /pid " + pid;
                                     finalresult_Scanned_02[2] = "Scanned";
 
@@ -3411,6 +3335,71 @@ namespace ETWPM2Monitor2
                                         if (HollowHunterLevel == 2)
                                         {
                                             finalresult_Scanned_02[2] = "Terminated";
+
+                                            /// time to check subprocesses & connections for closing....
+                                            try
+                                            {
+                                                try
+                                                {
+                                                    try
+                                                    {
+                                                        _PPID_For_TimerScanner01 = Convert.ToInt32(pid);
+                                                        _PPIDPath_For_TimerScanner01 = Process.GetProcessById(Convert.ToInt32(pid)).MainModule.FileName.ToLower();
+                                                    }
+                                                    catch (Exception)
+                                                    {
+
+
+                                                    }
+                                                    t8.Enabled = true;
+                                                    t8.Start();
+
+                                                    /// check sub processes                                              
+                                                    foreach (_TableofProcess_NewProcess_evt ___item in NewProcess_Table.FindAll(SubProc =>
+                                                    SubProc.PPID == Convert.ToInt32(pid)))
+                                                    {
+                                                        ///"[ParentID Path: C:\\Windows\\SysWOW64\\notepad.exe]"
+
+                                                        if (___item.PPID_Path.ToLower().Substring(16).Split(']')[0] ==
+                                                            Process.GetProcessById(Convert.ToInt32(pid)).MainModule.FileName.ToLower())
+                                                        {
+                                                            if (Process.GetProcesses().ToList().FindIndex(x => x.Id == ___item.PID) != -1)
+                                                                Process.GetProcessById(___item.PID).Kill();
+                                                        }
+                                                    }
+                                                }
+                                                catch (Exception)
+                                                {
+
+
+                                                }
+
+
+                                                try
+                                                {
+                                                    /// check sockets for shutdown
+                                                    List<IntPtr> TP_Socket_intptrs = SocketClass.SocketHijacking.GetSocketsTargetProcess
+                                                        (Process.GetProcessById(Convert.ToInt32(pid)));
+
+                                                    foreach (IntPtr _____item in TP_Socket_intptrs.ToList())
+                                                    {
+                                                        SocketClass.SocketHijacking.shutdown(_____item, 2);
+                                                    }                                                   
+
+                                                }
+                                                catch (Exception err)
+                                                {
+
+
+                                                }
+
+                                            }
+                                            catch (Exception)
+                                            {
+
+
+                                            }
+
                                         }
                                         else if (HollowHunterLevel == 1)
                                         {
@@ -3567,6 +3556,7 @@ namespace ETWPM2Monitor2
         {
             await UpdateRefreshListview1();
         }
+
         public static void _Updater__List_All_Injection_Details_info_Filter_withoutSystem4(object obj)
         {
             try
