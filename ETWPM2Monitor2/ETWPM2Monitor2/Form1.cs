@@ -881,7 +881,7 @@ namespace ETWPM2Monitor2
                     bool xfound = false;
                     foreach (TreeNode item in treeView1.Nodes)
                     {
-                        if (item.Text == MyLviewItemsX5.SubItems[3].Text)
+                        if (item.Text.ToLower() == MyLviewItemsX5.SubItems[3].Text.ToLower())
                         {
                             _Imgindex2 = 0;
                             if (MyLviewItemsX5.SubItems[2].Text == "1") { _Imgindex2 = 0; }
@@ -4632,18 +4632,22 @@ namespace ETWPM2Monitor2
                 ListViewItem listviewitems_wasselected_ihope = listView4.SelectedItems[0];
                 string __TargetProcess = listviewitems_wasselected_ihope.SubItems[2].Text;
 
-                List<IntPtr> TP_Socket_intptrs = SocketClass.SocketHijacking.GetSocketsTargetProcess
-                    (Process.GetProcessById(Convert.ToInt32(__TargetProcess.Split(':')[1])));
+                
+                    List<IntPtr> TP_Socket_intptrs = SocketClass.SocketHijacking.GetSocketsTargetProcess
+                        (Process.GetProcessById(Convert.ToInt32(__TargetProcess.Split(':')[1])));
 
-                foreach (IntPtr item in TP_Socket_intptrs.ToList())
-                {
-                    SocketClass.SocketHijacking.shutdown(item, 2);
+                    foreach (IntPtr item in TP_Socket_intptrs.ToList())
+                    {
+                        SocketClass.SocketHijacking.shutdown(item, 2);
 
-                }
+                    }
+              
             }
             catch (Exception err)
             {
+
                 MessageBox.Show(err.Message);
+
 
             }
             try
