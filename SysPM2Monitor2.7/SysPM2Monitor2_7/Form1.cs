@@ -1894,8 +1894,8 @@ namespace SysPM2Monitor2_7
                         if (MyLviewItemsX5.SubItems[2].Text == "3" || MyLviewItemsX5.SubItems[2].Text == "8" || MyLviewItemsX5.SubItems[2].Text == "25")
                         {
                             ///"C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe\r:9908\r"                                                       
-
-                            if (MyLviewItemsX5.SubItems[3].Text.Split(':')[0].Contains(item.Text.ToLower().Split(':')[0])
+                            /// 
+                            if (MyLviewItemsX5.SubItems[3].Text.Split(':')[0].ToLower().Contains(item.Text.ToLower().Split(':')[0])
                                 && item.Text.Split(':')[1] == MyLviewItemsX5.SubItems[3].Text.Split(':')[1])
                             {
                                 int _Imgindex2 = 0;
@@ -1918,7 +1918,7 @@ namespace SysPM2Monitor2_7
                         else
                         {
 
-                            if (MyLviewItemsX5.SubItems[3].Text.Split(':')[0].Contains(item.Text.ToLower().ToLower().Split(':')[0]) 
+                            if (MyLviewItemsX5.SubItems[3].Text.Split(':')[0].ToLower().Contains(item.Text.ToLower().ToLower().Split(':')[0]) 
                                 && item.Text.Split(':')[1] == MyLviewItemsX5.SubItems[3].Text.Split(':')[1])
                             {
                                 int _Imgindex2 = 0;
@@ -3049,7 +3049,11 @@ namespace SysPM2Monitor2_7
                                             try
                                             {
                                                 if (Process.GetProcesses().ToList().FindIndex(x => x.Id == PID) != -1)
+                                                {
                                                     Process.GetProcessById(PID).Kill();
+                                                    Thread.Sleep(5);
+                                                    //Chart_Terminate++;
+                                                }
                                             }
                                             catch (Exception err2)
                                             {
@@ -3127,7 +3131,7 @@ namespace SysPM2Monitor2_7
                             {
 
                                 // BeginInvoke(new __Additem(_Additems_toListview2), iList2);
-
+                                Chart_Terminate++;
                                 System_Detection_Log_events.Invoke((object)iList2, null);
                             }
 
@@ -3413,9 +3417,7 @@ namespace SysPM2Monitor2_7
                             finalresult_Scanned_02[2] = "Scanned";
                         }
                         else if (HollowHunterLevel == 2)
-                        {
-                           
-
+                        {                          
                             outputs2.StartInfo.Arguments = "/kill /pid " + pid;
                             finalresult_Scanned_02[2] = "Scanned";
                         }
