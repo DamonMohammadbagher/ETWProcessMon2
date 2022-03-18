@@ -24,6 +24,7 @@ Video1 : https://www.youtube.com/watch?v=E7mB1we9GhU
 
 Video2 : https://www.youtube.com/watch?v=Q8fSpUXR2kw
 
+Related Article : https://damonmohammadbagher.github.io/Posts/18mar2022x.html
 
 md5 info:
                
