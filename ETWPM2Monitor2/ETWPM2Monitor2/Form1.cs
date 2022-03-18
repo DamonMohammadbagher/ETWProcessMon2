@@ -744,13 +744,15 @@ namespace ETWPM2Monitor2
                                 listView2.BeginInvoke((MethodInvoker)delegate
                                 {
                                     listView2.Items.Add(MyLviewItemsX2);
+                                    tabPage4.Text = "Alarms by ETW " + "(" + listView2.Items.Count.ToString() + ")";
+                                    toolStripStatusLabel6.Text = "| Alarms by ETW " + "(" + listView2.Items.Count.ToString() + ")";
                                 });
 
                                 BeginInvoke(new __core2(_SaveNewETW_Alarms_to_WinEventLog), MyLviewItemsX2);
 
                                 Thread.Sleep(10);
-                                tabPage4.Text = "Alarms by ETW " + "(" + listView2.Items.Count.ToString() + ")";
-                                toolStripStatusLabel6.Text = "| Alarms by ETW " + "(" + listView2.Items.Count.ToString() + ")";
+                                //tabPage4.Text = "Alarms by ETW " + "(" + listView2.Items.Count.ToString() + ")";
+                                //toolStripStatusLabel6.Text = "| Alarms by ETW " + "(" + listView2.Items.Count.ToString() + ")";
                             }
 
                             if (MyLviewItemsX2.ImageIndex == 1) { Chart_Orange++; }
@@ -771,13 +773,14 @@ namespace ETWPM2Monitor2
                             listView2.BeginInvoke((MethodInvoker)delegate
                             {
                                 listView2.Items.Add(MyLviewItemsX2);
+                                tabPage4.Text = "Alarms by ETW " + "(" + listView2.Items.Count.ToString() + ")";
+                                toolStripStatusLabel6.Text = "| Alarms by ETW " + "(" + listView2.Items.Count.ToString() + ")";
                             });
 
                             BeginInvoke(new __core2(_SaveNewETW_Alarms_to_WinEventLog), MyLviewItemsX2);
 
                             Thread.Sleep(10);
-                            tabPage4.Text = "Alarms by ETW " + "(" + listView2.Items.Count.ToString() + ")";
-                            toolStripStatusLabel6.Text = "| Alarms by ETW " + "(" + listView2.Items.Count.ToString() + ")";
+                           
                         }
                         if (MyLviewItemsX2.ImageIndex == 1) { Chart_Orange++; }
                         else if (MyLviewItemsX2.ImageIndex == 2) { Chart_Redflag++; }
@@ -839,6 +842,8 @@ namespace ETWPM2Monitor2
                         listView3.BeginInvoke((MethodInvoker)delegate
                         {
                             listView3.Items.Add(MyLviewItemsX6);
+                            tabPage3.Text = "System/Detection Logs " + "(" + listView3.Items.Count.ToString() + ")";
+                            toolStripStatusLabel5.Text = "| System/Detection Logs " + "(" + listView3.Items.Count.ToString() + ")";
                         });
                         
                         evtstring3 = MyLviewItemsX6.Name;
@@ -853,8 +858,8 @@ namespace ETWPM2Monitor2
                         }
                     }
                 }
-                tabPage3.Text = "System/Detection Logs " + "(" + listView3.Items.Count.ToString() + ")";
-                toolStripStatusLabel5.Text = "| System/Detection Logs " + "(" + listView3.Items.Count.ToString() + ")";
+                //tabPage3.Text = "System/Detection Logs " + "(" + listView3.Items.Count.ToString() + ")";
+                //toolStripStatusLabel5.Text = "| System/Detection Logs " + "(" + listView3.Items.Count.ToString() + ")";
 
             }
             catch (Exception ee)
