@@ -26,8 +26,8 @@ Video2 : https://www.youtube.com/watch?v=Q8fSpUXR2kw
 
 
 md5 info:
-       
-       35a7f4d43f-8492c140e2-37b610f26fa3 => SysPM2Monitor2_7.exe [v2.7.17.59]
+               
+       0d128b9e1a-77e145fed2-b1b6b4ff1aba => SysPM2Monitor2_7.exe [v2.7.20.70]
        5ee176af45-524d29ea3e-b89fe0c3e928 => VirtualMemAllocMon.exe (v1.1)
 
 
