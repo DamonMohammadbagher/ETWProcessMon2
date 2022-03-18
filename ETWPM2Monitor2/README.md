@@ -14,6 +14,8 @@ Note: if you want new v2.1 you should Re-compile this project with new Source co
 
 Note: I will Publish Article & Help Documents for this tool soon... 
 
+Related Article : https://damonmohammadbagher.github.io/Posts/18mar2022x.html
+
 Related Article: https://www.linkedin.com/pulse/etwpm2monitor2-remote-thread-injection-detection-etw-mohammadbagher
 
 Related Article: https://damonmohammadbagher.github.io/Posts/12aug2021x.html
