@@ -72,6 +72,9 @@ namespace SysPM2Monitor2_7
             public int PID;
             public int PPID;
             public string PPID_Path;
+            public string MD5;
+            private bool IsDetected_as_Injector;           
+            public bool _IsDetected_as_Injector { get { return IsDetected_as_Injector; } set { IsDetected_as_Injector = value; } }
         }
         public struct _TableofProcess
         {
@@ -962,6 +965,34 @@ namespace SysPM2Monitor2_7
         {
             try
             {
+                foreach (var __item in NewProcess_Table.FindAll(search => search._IsDetected_as_Injector == true))
+                {
+                    bool found = false;
+                    if (listBox6.Items.Count > 0)
+                    {
+                        foreach (var item in listBox6.Items)
+                        {
+                            if (item.ToString() == "[Detected Injector: " + __item._IsDetected_as_Injector + "]" + "[ProcessName: " + __item.ProcessName + " ] [PID:" + __item.PID + "] [ Path:" + __item.ProcessName_Path.ToString()
+                                  + "] [Process File MD5:" + __item.MD5 + "]")
+                            {
+                                found = true;
+                                break;
+                            }
+                            if (!found)
+                            {
+                                listBox6.Items.Add("[Detected Injector: " + __item._IsDetected_as_Injector + "]" + "[ProcessName: " + __item.ProcessName + " ] [PID:" + __item.PID + "] [ Path:" + __item.ProcessName_Path.ToString()
+                                + "] [Process File MD5:" + __item.MD5 + "]");
+                            }
+                        }
+                    }
+                    else
+                    {
+                        listBox6.Items.Add("[Detected Injector: " + __item._IsDetected_as_Injector + "]" + "[ProcessName: " + __item.ProcessName + " ] [PID:" + __item.PID + "] [ Path:" + __item.ProcessName_Path.ToString()
+                                  + "] [Process File MD5:" + __item.MD5 + "]");
+                    }
+                }
+                listBox6.SelectedIndex = listBox6.Items.Count - 1;
+
                 foreach (var item in Process_Table.ToList())
                 {
                     if (item.Injector != 4)
@@ -2603,6 +2634,10 @@ namespace SysPM2Monitor2_7
                     PPID = Convert.ToInt32(all[20].Split(':')[1].Split('\r')[0])
                     ,
                     PPID_Path = ___PPID_Path
+                    ,
+                    MD5 = all[18].Split(',')[0].Split('=')[1]
+                    ,
+                    _IsDetected_as_Injector = false
                 });
 
 
@@ -3096,10 +3131,24 @@ namespace SysPM2Monitor2_7
                             iList2.SubItems.Add(_finalresult_Scanned_02[0]);
 
 
+                         
+
                             /// injection description && / || [bug] (fiXed)
                             if (item.SysMonEventId8_25 == 8)
                             {
+                                /// set NewProcessEvent true flag as injector process (was detected)
                                 _TableofProcess_NewProcess_evt FindingInjectorInfo = NewProcess_Table.Find(x => x.PID == item.Injector || x.ProcessName_Path == item.Injector_Path);
+
+                                _TableofProcess_NewProcess_evt Process_IsDetected_as_Injector = new _TableofProcess_NewProcess_evt();
+                                Process_IsDetected_as_Injector._IsDetected_as_Injector = true;
+                                Process_IsDetected_as_Injector.MD5 = NewProcess_Table[NewProcess_Table.FindIndex(x => x.PID == item.Injector || x.ProcessName_Path == item.Injector_Path)].MD5;
+                                Process_IsDetected_as_Injector.PID = NewProcess_Table[NewProcess_Table.FindIndex(x => x.PID == item.Injector || x.ProcessName_Path == item.Injector_Path)].PID;
+                                Process_IsDetected_as_Injector.PPID_Path = NewProcess_Table[NewProcess_Table.FindIndex(x => x.PID == item.Injector || x.ProcessName_Path == item.Injector_Path)].PPID_Path;
+                                Process_IsDetected_as_Injector.ProcessName = NewProcess_Table[NewProcess_Table.FindIndex(x => x.PID == item.Injector || x.ProcessName_Path == item.Injector_Path)].ProcessName;
+                                Process_IsDetected_as_Injector.ProcessName_Path = NewProcess_Table[NewProcess_Table.FindIndex(x => x.PID == item.Injector || x.ProcessName_Path == item.Injector_Path)].ProcessName_Path;
+                                Process_IsDetected_as_Injector.CommandLine = NewProcess_Table[NewProcess_Table.FindIndex(x => x.PID == item.Injector || x.ProcessName_Path == item.Injector_Path)].CommandLine;
+                                NewProcess_Table[NewProcess_Table.FindIndex(x => x.PID == item.Injector || x.ProcessName_Path == item.Injector_Path)] = Process_IsDetected_as_Injector;
+
 
                                 _InjectedThreadDetails_bytes _injecthedthreadinfo = _InjectedTIDList.Find(_tthread => _tthread._InjectorPID == item.Injector
                                 && _tthread._RemoteThreadID == item.TID && _tthread._ThreadStartAddress == item.StartAddress_of_TID.Split('x')[1].Split('\r')[0]);
@@ -4998,8 +5047,19 @@ namespace SysPM2Monitor2_7
                     line1 += "\n-------------------------------------------------------\n";
                     int counter = 0;
                     line1 += "Target Process & Injector Details:\n";
-                    //string last_tid = "";
+                    string InjectorProcessInTable,InjectorMD5, Injector_Flag_IsDetectedAsInjector ="";
+                    InjectorMD5 = "";
+                    try
+                    {
+                        InjectorProcessInTable = listView2.SelectedItems[0].SubItems[9].Text.Split('\n')[5].Substring(13).Split('\r')[0];
 
+                        InjectorMD5 = NewProcess_Table.Find(_NewProcess => _NewProcess.ProcessName_Path == InjectorProcessInTable).MD5;
+                    }
+                    catch (Exception)
+                    {
+
+                        
+                    }
 
                     try
                     {
@@ -5009,6 +5069,7 @@ namespace SysPM2Monitor2_7
                         line1 += "[" + counter.ToString() + "] " + "Injection by InjectorPID:" + listView2.SelectedItems[0].SubItems[9].Text.Split('\n')[4].Substring(17).Replace('\r', ' ') + "===>==TID:" +
                         listView2.SelectedItems[0].SubItems[9].Text.Split('\n')[9].Substring(13).Replace('\r', ' ') + "==>==Injected into====>" + listView2.SelectedItems[0].SubItems[9].Text.Split('\n')[8].Substring(13).Replace('\r', ' ') + ":" + PID + "\n";
                         line1 += "InjectorProcessName: " + listView2.SelectedItems[0].SubItems[9].Text.Split('\n')[5].Substring(13).Replace('\r', ' ');
+                        line1 += "\nInjector Hash MD5: " + InjectorMD5.ToString();
                         line1 += "\n\nTarget Process More Details:"
                         + "\nTarget Process Path:" + listView2.SelectedItems[0].SubItems[9].Text.Split('\n')[8].Substring(13).Replace('\r', ' ')
                         + "\n"

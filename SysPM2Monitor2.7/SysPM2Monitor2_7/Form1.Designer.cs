@@ -62,12 +62,18 @@
             this.tabPage15 = new System.Windows.Forms.TabPage();
             this.splitContainer7 = new System.Windows.Forms.SplitContainer();
             this.groupBox16 = new System.Windows.Forms.GroupBox();
+            this.splitContainer12 = new System.Windows.Forms.SplitContainer();
+            this.groupBox21 = new System.Windows.Forms.GroupBox();
             this.listBox3 = new System.Windows.Forms.ListBox();
+            this.groupBox22 = new System.Windows.Forms.GroupBox();
+            this.listBox6 = new System.Windows.Forms.ListBox();
             this.groupBox17 = new System.Windows.Forms.GroupBox();
             this.listBox4 = new System.Windows.Forms.ListBox();
             this.groupBox20 = new System.Windows.Forms.GroupBox();
             this.listBox5 = new System.Windows.Forms.ListBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.splitContainer11 = new System.Windows.Forms.SplitContainer();
+            this.listView4 = new System.Windows.Forms.ListView();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.listView2 = new System.Windows.Forms.ListView();
@@ -109,6 +115,9 @@
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.tabPage10 = new System.Windows.Forms.TabPage();
             this.listView3 = new System.Windows.Forms.ListView();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.shutdownConnectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.killProcessToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.listView5 = new System.Windows.Forms.ListView();
@@ -192,11 +201,6 @@
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.contextMenuStrip4 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.dumpTIDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.shutdownConnectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.killProcessToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.splitContainer11 = new System.Windows.Forms.SplitContainer();
-            this.listView4 = new System.Windows.Forms.ListView();
             this.contextMenuStrip5.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -234,9 +238,19 @@
             this.splitContainer7.Panel2.SuspendLayout();
             this.splitContainer7.SuspendLayout();
             this.groupBox16.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer12)).BeginInit();
+            this.splitContainer12.Panel1.SuspendLayout();
+            this.splitContainer12.Panel2.SuspendLayout();
+            this.splitContainer12.SuspendLayout();
+            this.groupBox21.SuspendLayout();
+            this.groupBox22.SuspendLayout();
             this.groupBox17.SuspendLayout();
             this.groupBox20.SuspendLayout();
             this.tabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer11)).BeginInit();
+            this.splitContainer11.Panel1.SuspendLayout();
+            this.splitContainer11.Panel2.SuspendLayout();
+            this.splitContainer11.SuspendLayout();
             this.tabPage4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -266,6 +280,7 @@
             this.groupBox6.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tabPage10.SuspendLayout();
+            this.contextMenuStrip1.SuspendLayout();
             this.tabPage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
@@ -285,11 +300,6 @@
             this.menuStrip3.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.contextMenuStrip4.SuspendLayout();
-            this.contextMenuStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer11)).BeginInit();
-            this.splitContainer11.Panel1.SuspendLayout();
-            this.splitContainer11.Panel2.SuspendLayout();
-            this.splitContainer11.SuspendLayout();
             this.SuspendLayout();
             // 
             // richTextBox1
@@ -673,7 +683,7 @@
             // groupBox16
             // 
             this.groupBox16.BackColor = System.Drawing.SystemColors.Control;
-            this.groupBox16.Controls.Add(this.listBox3);
+            this.groupBox16.Controls.Add(this.splitContainer12);
             this.groupBox16.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox16.Location = new System.Drawing.Point(0, 0);
             this.groupBox16.Name = "groupBox16";
@@ -681,6 +691,34 @@
             this.groupBox16.TabIndex = 3;
             this.groupBox16.TabStop = false;
             this.groupBox16.Text = "Table of Processes (Details)";
+            // 
+            // splitContainer12
+            // 
+            this.splitContainer12.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer12.Location = new System.Drawing.Point(3, 16);
+            this.splitContainer12.Name = "splitContainer12";
+            // 
+            // splitContainer12.Panel1
+            // 
+            this.splitContainer12.Panel1.Controls.Add(this.groupBox21);
+            // 
+            // splitContainer12.Panel2
+            // 
+            this.splitContainer12.Panel2.Controls.Add(this.groupBox22);
+            this.splitContainer12.Size = new System.Drawing.Size(1048, 94);
+            this.splitContainer12.SplitterDistance = 573;
+            this.splitContainer12.TabIndex = 2;
+            // 
+            // groupBox21
+            // 
+            this.groupBox21.Controls.Add(this.listBox3);
+            this.groupBox21.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox21.Location = new System.Drawing.Point(0, 0);
+            this.groupBox21.Name = "groupBox21";
+            this.groupBox21.Size = new System.Drawing.Size(573, 94);
+            this.groupBox21.TabIndex = 1;
+            this.groupBox21.TabStop = false;
+            this.groupBox21.Text = "Target Process (Infected Processes)";
             // 
             // listBox3
             // 
@@ -690,8 +728,32 @@
             this.listBox3.HorizontalScrollbar = true;
             this.listBox3.Location = new System.Drawing.Point(3, 16);
             this.listBox3.Name = "listBox3";
-            this.listBox3.Size = new System.Drawing.Size(1048, 94);
+            this.listBox3.ScrollAlwaysVisible = true;
+            this.listBox3.Size = new System.Drawing.Size(567, 75);
             this.listBox3.TabIndex = 0;
+            // 
+            // groupBox22
+            // 
+            this.groupBox22.Controls.Add(this.listBox6);
+            this.groupBox22.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox22.Location = new System.Drawing.Point(0, 0);
+            this.groupBox22.Name = "groupBox22";
+            this.groupBox22.Size = new System.Drawing.Size(471, 94);
+            this.groupBox22.TabIndex = 2;
+            this.groupBox22.TabStop = false;
+            this.groupBox22.Text = "Injector Processes (for EventID8 only)";
+            // 
+            // listBox6
+            // 
+            this.listBox6.BackColor = System.Drawing.Color.Beige;
+            this.listBox6.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listBox6.FormattingEnabled = true;
+            this.listBox6.HorizontalScrollbar = true;
+            this.listBox6.Location = new System.Drawing.Point(3, 16);
+            this.listBox6.Name = "listBox6";
+            this.listBox6.ScrollAlwaysVisible = true;
+            this.listBox6.Size = new System.Drawing.Size(465, 75);
+            this.listBox6.TabIndex = 1;
             // 
             // groupBox17
             // 
@@ -713,6 +775,7 @@
             this.listBox4.HorizontalScrollbar = true;
             this.listBox4.Location = new System.Drawing.Point(3, 16);
             this.listBox4.Name = "listBox4";
+            this.listBox4.ScrollAlwaysVisible = true;
             this.listBox4.Size = new System.Drawing.Size(1048, 92);
             this.listBox4.TabIndex = 2;
             // 
@@ -736,6 +799,7 @@
             this.listBox5.HorizontalScrollbar = true;
             this.listBox5.Location = new System.Drawing.Point(3, 16);
             this.listBox5.Name = "listBox5";
+            this.listBox5.ScrollAlwaysVisible = true;
             this.listBox5.Size = new System.Drawing.Size(1048, 99);
             this.listBox5.TabIndex = 0;
             // 
@@ -749,6 +813,37 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "SysPM2 (Injection Events)";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // splitContainer11
+            // 
+            this.splitContainer11.BackColor = System.Drawing.Color.DarkGray;
+            this.splitContainer11.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer11.Location = new System.Drawing.Point(3, 3);
+            this.splitContainer11.Name = "splitContainer11";
+            // 
+            // splitContainer11.Panel1
+            // 
+            this.splitContainer11.Panel1.Controls.Add(this.listView4);
+            // 
+            // splitContainer11.Panel2
+            // 
+            this.splitContainer11.Panel2.Controls.Add(this.richTextBox1);
+            this.splitContainer11.Size = new System.Drawing.Size(1068, 378);
+            this.splitContainer11.SplitterDistance = 460;
+            this.splitContainer11.TabIndex = 1;
+            // 
+            // listView4
+            // 
+            this.listView4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listView4.HideSelection = false;
+            this.listView4.Location = new System.Drawing.Point(0, 0);
+            this.listView4.MultiSelect = false;
+            this.listView4.Name = "listView4";
+            this.listView4.ShowItemToolTips = true;
+            this.listView4.Size = new System.Drawing.Size(460, 378);
+            this.listView4.TabIndex = 0;
+            this.listView4.UseCompatibleStateImageBehavior = false;
+            this.listView4.SelectedIndexChanged += new System.EventHandler(this.ListView4_SelectedIndexChanged);
             // 
             // tabPage4
             // 
@@ -1198,6 +1293,28 @@
             this.listView3.Size = new System.Drawing.Size(1054, 193);
             this.listView3.TabIndex = 0;
             this.listView3.UseCompatibleStateImageBehavior = false;
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.shutdownConnectionToolStripMenuItem,
+            this.killProcessToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(194, 48);
+            // 
+            // shutdownConnectionToolStripMenuItem
+            // 
+            this.shutdownConnectionToolStripMenuItem.Name = "shutdownConnectionToolStripMenuItem";
+            this.shutdownConnectionToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
+            this.shutdownConnectionToolStripMenuItem.Text = "Shutdown Connection";
+            this.shutdownConnectionToolStripMenuItem.Click += new System.EventHandler(this.ShutdownConnectionToolStripMenuItem_Click);
+            // 
+            // killProcessToolStripMenuItem
+            // 
+            this.killProcessToolStripMenuItem.Name = "killProcessToolStripMenuItem";
+            this.killProcessToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
+            this.killProcessToolStripMenuItem.Text = "Kill Process";
+            this.killProcessToolStripMenuItem.Click += new System.EventHandler(this.KillProcessToolStripMenuItem_Click);
             // 
             // tabPage3
             // 
@@ -1942,59 +2059,6 @@
             this.dumpTIDToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
             this.dumpTIDToolStripMenuItem.Text = "Injected TID Memory info";
             // 
-            // contextMenuStrip1
-            // 
-            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.shutdownConnectionToolStripMenuItem,
-            this.killProcessToolStripMenuItem});
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(194, 48);
-            // 
-            // shutdownConnectionToolStripMenuItem
-            // 
-            this.shutdownConnectionToolStripMenuItem.Name = "shutdownConnectionToolStripMenuItem";
-            this.shutdownConnectionToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
-            this.shutdownConnectionToolStripMenuItem.Text = "Shutdown Connection";
-            this.shutdownConnectionToolStripMenuItem.Click += new System.EventHandler(this.ShutdownConnectionToolStripMenuItem_Click);
-            // 
-            // killProcessToolStripMenuItem
-            // 
-            this.killProcessToolStripMenuItem.Name = "killProcessToolStripMenuItem";
-            this.killProcessToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
-            this.killProcessToolStripMenuItem.Text = "Kill Process";
-            this.killProcessToolStripMenuItem.Click += new System.EventHandler(this.KillProcessToolStripMenuItem_Click);
-            // 
-            // splitContainer11
-            // 
-            this.splitContainer11.BackColor = System.Drawing.Color.DarkGray;
-            this.splitContainer11.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer11.Location = new System.Drawing.Point(3, 3);
-            this.splitContainer11.Name = "splitContainer11";
-            // 
-            // splitContainer11.Panel1
-            // 
-            this.splitContainer11.Panel1.Controls.Add(this.listView4);
-            // 
-            // splitContainer11.Panel2
-            // 
-            this.splitContainer11.Panel2.Controls.Add(this.richTextBox1);
-            this.splitContainer11.Size = new System.Drawing.Size(1068, 378);
-            this.splitContainer11.SplitterDistance = 460;
-            this.splitContainer11.TabIndex = 1;
-            // 
-            // listView4
-            // 
-            this.listView4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listView4.HideSelection = false;
-            this.listView4.Location = new System.Drawing.Point(0, 0);
-            this.listView4.MultiSelect = false;
-            this.listView4.Name = "listView4";
-            this.listView4.ShowItemToolTips = true;
-            this.listView4.Size = new System.Drawing.Size(460, 378);
-            this.listView4.TabIndex = 0;
-            this.listView4.UseCompatibleStateImageBehavior = false;
-            this.listView4.SelectedIndexChanged += new System.EventHandler(this.ListView4_SelectedIndexChanged);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2047,9 +2111,19 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer7)).EndInit();
             this.splitContainer7.ResumeLayout(false);
             this.groupBox16.ResumeLayout(false);
+            this.splitContainer12.Panel1.ResumeLayout(false);
+            this.splitContainer12.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer12)).EndInit();
+            this.splitContainer12.ResumeLayout(false);
+            this.groupBox21.ResumeLayout(false);
+            this.groupBox22.ResumeLayout(false);
             this.groupBox17.ResumeLayout(false);
             this.groupBox20.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
+            this.splitContainer11.Panel1.ResumeLayout(false);
+            this.splitContainer11.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer11)).EndInit();
+            this.splitContainer11.ResumeLayout(false);
             this.tabPage4.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
@@ -2079,6 +2153,7 @@
             this.groupBox6.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.tabPage10.ResumeLayout(false);
+            this.contextMenuStrip1.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
             this.splitContainer2.Panel1.ResumeLayout(false);
             this.splitContainer2.Panel2.ResumeLayout(false);
@@ -2100,11 +2175,6 @@
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.contextMenuStrip4.ResumeLayout(false);
-            this.contextMenuStrip1.ResumeLayout(false);
-            this.splitContainer11.Panel1.ResumeLayout(false);
-            this.splitContainer11.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer11)).EndInit();
-            this.splitContainer11.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -2278,6 +2348,10 @@
         private System.Windows.Forms.ToolStripMenuItem killProcessToolStripMenuItem;
         private System.Windows.Forms.SplitContainer splitContainer11;
         private System.Windows.Forms.ListView listView4;
+        private System.Windows.Forms.SplitContainer splitContainer12;
+        private System.Windows.Forms.ListBox listBox6;
+        private System.Windows.Forms.GroupBox groupBox21;
+        private System.Windows.Forms.GroupBox groupBox22;
     }
 }
 
