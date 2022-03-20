@@ -31,7 +31,7 @@ namespace SysPM2Monitor2_7
         public static System.Timers.Timer t = new System.Timers.Timer(1500);
         public static System.Timers.Timer t2 = new System.Timers.Timer(5000);
         public static System.Timers.Timer t3 = new System.Timers.Timer(5000);
-        public static System.Timers.Timer t4 = new System.Timers.Timer(6000);
+        public static System.Timers.Timer t4 = new System.Timers.Timer(2700);
         public static System.Timers.Timer t4_1 = new System.Timers.Timer(1500);
         public static System.Timers.Timer t5 = new System.Timers.Timer(10000);
         public static System.Timers.Timer t6 = new System.Timers.Timer(5000);
@@ -694,9 +694,9 @@ namespace SysPM2Monitor2_7
                 t3.Elapsed += T3_Elapsed;
                 t3.Enabled = true;
                 t3.Start();
-                //t4.Elapsed += T4_Elapsed;
-                //t4.Enabled = true;
-                //t4.Start();
+                t4.Elapsed += T4_Elapsed;
+                t4.Enabled = true;
+                t4.Start();
                 t4_1.Elapsed += T4_1_Elapsed; ;
                 t4_1.Enabled = true;
                 t4_1.Start();
@@ -912,6 +912,28 @@ namespace SysPM2Monitor2_7
             }
         }
 
+        private void T4_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            
+            try
+            {
+                Process IsActiveETWMemoryscanner = Process.GetProcessById(_ETWProcess_PID);
+                toolStripStatusLabel5.ForeColor = Color.DarkKhaki;
+                toolStripStatusLabel5.Text = "| VirtualMemAllocMon is on";
+
+            }
+            catch (Exception)
+            {
+                toolStripStatusLabel5.ForeColor = Color.Red;
+                toolStripStatusLabel5.Text = "| VirtualMemAllocMon is off";
+                toolStripMenuItem1.ForeColor = Color.Red;
+                toolStripMenuItem1.Text = "VirtualMemAllocMon.exe [off] (Disabled!)";
+                t4.Enabled = false;
+                t4.Stop();
+            }
+         
+        }
+
         private void T8_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
             try
@@ -973,7 +995,7 @@ namespace SysPM2Monitor2_7
                         foreach (var item in listBox6.Items)
                         {
                             if (item.ToString() == "[Detected Injector: " + __item._IsDetected_as_Injector + "]" + "[ProcessName: " + __item.ProcessName + " ] [PID:" + __item.PID + "] [ Path:" + __item.ProcessName_Path.ToString()
-                                  + "] [Process File MD5:" + __item.MD5 + "]")
+                                  + "] [Injector Process File MD5:" + __item.MD5 + "]")
                             {
                                 found = true;
                                 break;
@@ -981,14 +1003,14 @@ namespace SysPM2Monitor2_7
                             if (!found)
                             {
                                 listBox6.Items.Add("[Detected Injector: " + __item._IsDetected_as_Injector + "]" + "[ProcessName: " + __item.ProcessName + " ] [PID:" + __item.PID + "] [ Path:" + __item.ProcessName_Path.ToString()
-                                + "] [Process File MD5:" + __item.MD5 + "]");
+                                + "] [Injector Process File MD5:" + __item.MD5 + "]");
                             }
                         }
                     }
                     else
                     {
                         listBox6.Items.Add("[Detected Injector: " + __item._IsDetected_as_Injector + "]" + "[ProcessName: " + __item.ProcessName + " ] [PID:" + __item.PID + "] [ Path:" + __item.ProcessName_Path.ToString()
-                                  + "] [Process File MD5:" + __item.MD5 + "]");
+                                  + "] [Injector Process File MD5:" + __item.MD5 + "]");
                     }
                 }
                 listBox6.SelectedIndex = listBox6.Items.Count - 1;
