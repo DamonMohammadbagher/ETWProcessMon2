@@ -13,6 +13,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Management;
+using System.Security.Cryptography;
 
 namespace ETWPM2Monitor2
 {
@@ -25,7 +27,10 @@ namespace ETWPM2Monitor2
         /// NewProcess events + RemoteThreadInjection events + TCPIP Send events will monitor by ETWProcessMon2 with logname ETWPM2 which by this tool "ETWPM2Monitor" you can watch them "realtime"
         /// also RemoteThreadInjection events + VirtualMemAlloc events will save by ETWProcessMon2 into text logfile "ETWProcessMonlog.txt" at the same time.
         /// Note: in this version some Memory Scanner will add to code which made by others ...
-        /// </summary>
+        /// </summary>         
+
+        /// this System.Management should add to "References" in the project
+
         public static bool is_system4_excluded = true;
         public Int64 i6 = 0;
         public static System.Timers.Timer t = new System.Timers.Timer(10000);
@@ -37,7 +42,7 @@ namespace ETWPM2Monitor2
         public static System.Timers.Timer t6 = new System.Timers.Timer(10000);
         public static System.Timers.Timer t7 = new System.Timers.Timer(5000);
         public static System.Timers.Timer t8 = new System.Timers.Timer(5000);
-
+        public static System.Timers.Timer t9 = new System.Timers.Timer(1000);
 
         public static uint NTReadTmpRef = 0;
         public static EventLog ETW2MON;
@@ -67,6 +72,7 @@ namespace ETWPM2Monitor2
         public delegate void __Obj_Updater_to_WinForm();
         public delegate void __Obj_Updater_to_WinForm2(string obj1 , TreeView obj2);
         public delegate void __Obj_Updater_to_WinForm3(string obj1, int obj2);
+        public delegate void __FSWatch_Object_Add(System.IO.FileSystemEventArgs _e);
 
 
 
@@ -257,6 +263,19 @@ namespace ETWPM2Monitor2
             public string CommandLine { set; get; }
         }
 
+        public struct _Table_of_FileSystem_for_Processes_Watcher
+        {
+            private string _File_MD5;
+            public string Eventtime { set; get; }
+            public string FileName { set; get; }
+            public string FileName_Path { set; get; }
+
+            public string ProcessCommandLine { set; get; }
+            public string File_MD5 { get { return _File_MD5; } set { _File_MD5 = value; } }
+
+        }
+        public static List<_Table_of_FileSystem_for_Processes_Watcher> Processes_FileSystemList = new List<_Table_of_FileSystem_for_Processes_Watcher>();
+
         public static List<_TableofProcess_ETW_Event_Counts> _ETW_Events_Counts = new List<_TableofProcess_ETW_Event_Counts>();
         public static _TableofProcess_ETW_Event_Counts Temp_Table_structure;
         public static string evtstring2, evtstring3 = "";
@@ -284,6 +303,36 @@ namespace ETWPM2Monitor2
         public static int _PPID_For_TimerScanner01 = -1;
         public static string _PPIDPath_For_TimerScanner01 = "";
         public static int _Imgindex , _Imgindex2 = 0;
+
+        public static string _Get_MD5(string filenamePath)
+        {
+            string result = "";
+
+            try
+            {
+                if (filenamePath != null)
+                {
+                    byte[] myHash;
+                    using (var md5 = MD5.Create())
+                    using (var stream = File.OpenRead(filenamePath))
+                        myHash = md5.ComputeHash(stream);
+
+                    for (int i = 0; i < myHash.Length; i++)
+                    {
+                        result += myHash[i].ToString("x2");
+                    }
+                }
+                return result;
+            }
+            catch (Exception)
+            {
+
+
+            }
+
+            return result;
+        }
+
         public static void _Show_Notify_Ico_Popup(object obj)
         {
             try
@@ -880,72 +929,73 @@ namespace ETWPM2Monitor2
 
                 if (obj != null)
                 {
-
-                    ListViewItem MyLviewItemsX5 = (ListViewItem)obj;
-
-                    bool xfound = false;
-                    foreach (TreeNode item in treeView1.Nodes)
+                    treeView1.BeginInvoke((MethodInvoker)delegate
                     {
-                        if (item.Text.ToLower() == MyLviewItemsX5.SubItems[3].Text.ToLower())
+                        ListViewItem MyLviewItemsX5 = (ListViewItem)obj;
+
+                        bool xfound = false;
+                        foreach (TreeNode item in treeView1.Nodes)
                         {
-                            _Imgindex2 = 0;
-                            if (MyLviewItemsX5.SubItems[2].Text == "1") { _Imgindex2 = 0; }
-                            if (MyLviewItemsX5.SubItems[2].Text == "2") { _Imgindex2 = 1; }
-                            if (MyLviewItemsX5.SubItems[2].Text == "3") { _Imgindex2 = 3; }
-
-                            treeView1.BeginInvoke((MethodInvoker)delegate
+                            if (item.Text.ToLower() == MyLviewItemsX5.SubItems[3].Text.ToLower())
                             {
-                                item.Nodes.Add("", "[EventID:" + MyLviewItemsX5.SubItems[2].Text + "]" +
-                                "[" + MyLviewItemsX5.SubItems[4].Text + "] { " + MyLviewItemsX5.SubItems[5].Text + " }", _Imgindex2);
-                            });
+                                _Imgindex2 = 0;
+                                if (MyLviewItemsX5.SubItems[2].Text == "1") { _Imgindex2 = 0; }
+                                if (MyLviewItemsX5.SubItems[2].Text == "2") { _Imgindex2 = 1; }
+                                if (MyLviewItemsX5.SubItems[2].Text == "3") { _Imgindex2 = 3; }
 
-                            if (MyLviewItemsX5.SubItems[2].Text == "2")
-                            {
-                                SearchInjector = MyLviewItemsX5.SubItems[5].Text.Substring(MyLviewItemsX5.SubItems[5].Text.IndexOf("[Injected by ") + 13).Split(']')[0];
-                                SearchInjector2 = "";
+                                //treeView1.BeginInvoke((MethodInvoker)delegate
+                                //{
+                                    item.Nodes.Add("", "[EventID:" + MyLviewItemsX5.SubItems[2].Text + "]" +
+                                    "[" + MyLviewItemsX5.SubItems[4].Text + "] { " + MyLviewItemsX5.SubItems[5].Text + " }", _Imgindex2);
+                                //});
 
-                                if (SearchInjector.Contains(':')) { SearchInjector2 = SearchInjector.Split(':')[0]; } else { SearchInjector2 = SearchInjector; }
-
-                                if (SearchInjector2.ToLower() != "system")
+                                if (MyLviewItemsX5.SubItems[2].Text == "2")
                                 {
+                                    SearchInjector = MyLviewItemsX5.SubItems[5].Text.Substring(MyLviewItemsX5.SubItems[5].Text.IndexOf("[Injected by ") + 13).Split(']')[0];
+                                    SearchInjector2 = "";
 
-                                    _TableofProcess _ToP = Process_Table.Find(Proc => Proc.Injector ==
-                                    Convert.ToInt32(MyLviewItemsX5.SubItems[5].Text.Split('\n')[12].Split('>')[1])
-                                    && Proc.Injector_Path.Contains(SearchInjector2));
+                                    if (SearchInjector.Contains(':')) { SearchInjector2 = SearchInjector.Split(':')[0]; } else { SearchInjector2 = SearchInjector; }
 
-                                    if (_ToP.PID > 0)
+                                    if (SearchInjector2.ToLower() != "system")
                                     {
-                                        treeView1.BeginInvoke((MethodInvoker)delegate
+
+                                        _TableofProcess _ToP = Process_Table.Find(Proc => Proc.Injector ==
+                                        Convert.ToInt32(MyLviewItemsX5.SubItems[5].Text.Split('\n')[12].Split('>')[1])
+                                        && Proc.Injector_Path.Contains(SearchInjector2));
+
+                                        if (_ToP.PID > 0)
                                         {
-                                            item.Nodes.Add("", ">>>> " + _ToP.Injector_Path + " was injector for EventID2\n [Injector_ProcessID: "
-                                            + _ToP.Injector + "]\n [TargetPID with (EventID2): " + _ToP.ProcessName + ":" + _ToP.PID + "]", 1);
-                                        });
+                                            //treeView1.BeginInvoke((MethodInvoker)delegate
+                                            //{
+                                                item.Nodes.Add("", ">>>> " + _ToP.Injector_Path + " was injector for EventID2\n [Injector_ProcessID: "
+                                                + _ToP.Injector + "]\n [TargetPID with (EventID2): " + _ToP.ProcessName + ":" + _ToP.PID + "]", 1);
+                                            //});
+                                        }
                                     }
                                 }
+
+                                item.ForeColor = Color.Red;
+                                xfound = true;
+
+                                break;
                             }
-
-                            item.ForeColor = Color.Red;
-                            xfound = true;
-
-                            break;
                         }
-                    }
 
-                    if (!xfound)
-                    {
-                        _Imgindex = 0;
-                        if (MyLviewItemsX5.SubItems[2].Text == "1") { _Imgindex = 0; }
-                        if (MyLviewItemsX5.SubItems[2].Text == "2") { _Imgindex = 1; }
-                        if (MyLviewItemsX5.SubItems[2].Text == "3") { _Imgindex = 3; }
-
-                        treeView1.BeginInvoke((MethodInvoker)delegate
+                        if (!xfound)
                         {
-                            treeView1.Nodes.Add("", MyLviewItemsX5.SubItems[3].Text, _Imgindex).Nodes.Add("", "[EventID:" + MyLviewItemsX5.SubItems[2].Text + "]"
-                            + "[" + MyLviewItemsX5.SubItems[4].Text + "] { " + MyLviewItemsX5.SubItems[5].Text + " }", _Imgindex).Parent.ImageIndex = _Imgindex;
-                        });
+                            _Imgindex = 0;
+                            if (MyLviewItemsX5.SubItems[2].Text == "1") { _Imgindex = 0; }
+                            if (MyLviewItemsX5.SubItems[2].Text == "2") { _Imgindex = 1; }
+                            if (MyLviewItemsX5.SubItems[2].Text == "3") { _Imgindex = 3; }
 
-                    }
-                    
+                            //treeView1.BeginInvoke((MethodInvoker)delegate
+                            //{
+                                treeView1.Nodes.Add("", MyLviewItemsX5.SubItems[3].Text, _Imgindex).Nodes.Add("", "[EventID:" + MyLviewItemsX5.SubItems[2].Text + "]"
+                                + "[" + MyLviewItemsX5.SubItems[4].Text + "] { " + MyLviewItemsX5.SubItems[5].Text + " }", _Imgindex).Parent.ImageIndex = _Imgindex;
+                            //});
+
+                        }
+                    });
                 }
 
 
@@ -961,7 +1011,19 @@ namespace ETWPM2Monitor2
         {
             try
             {
-              
+                try
+                {
+                    string ClosedProcName = ((TreeNode)obj).Text.Split('<')[0];
+                    ClosedProcName = ClosedProcName.Substring(0, ClosedProcName.Length - 1);
+                    Processes_FileSystemList.Remove(Processes_FileSystemList.Find(x => x.FileName == ClosedProcName));
+                }
+                catch (Exception)
+                {
+
+                   
+                }
+                
+
                 bool found = false;
                 await new TaskFactory().StartNew(() =>
                 {
@@ -1215,6 +1277,99 @@ namespace ETWPM2Monitor2
            
         }
 
+        public async Task RealtimeWatchProcess()
+        {
+            await Task.Run(() =>
+            {
+                bool init = false;
+                
+
+                if (!init)
+                {
+
+                    var wmiQueryString = "SELECT ProcessId, ExecutablePath, CommandLine FROM Win32_Process";
+                    /// this System.Management should add to "References" in the project
+                    using (var searcher = new ManagementObjectSearcher(wmiQueryString))
+                    using (var results = searcher.Get())
+                    {
+                        var query = from _Process in Process.GetProcesses()
+                                    join Obj in results.Cast<ManagementObject>()
+                                    on _Process.Id equals (int)(uint)Obj["ProcessId"]
+                                    select new
+                                    {
+                                        Process = _Process,
+                                        Path = (string)Obj["ExecutablePath"],
+                                        CommandLine = (string)Obj["CommandLine"],
+
+                                    };
+                        foreach (var item in query)
+                        {
+                            Thread.Sleep(10);
+                            Processes_FileSystemList.Add(new _Table_of_FileSystem_for_Processes_Watcher
+                            {
+                                Eventtime = DateTime.Now.ToString(),
+                                FileName = item.Process.ProcessName + ":" + item.Process.Id,
+                                FileName_Path = item.Path,
+                                File_MD5 = _Get_MD5(item.Path),
+                                ProcessCommandLine = item.CommandLine
+                            });
+                        }
+                    }
+                    init = true;
+                }
+
+            step1:
+                Thread.Sleep(500);
+                try
+                {
+
+
+                    var wmiQueryString2 = "SELECT ProcessId, ExecutablePath, CommandLine FROM Win32_Process";
+                    using (var searcher = new ManagementObjectSearcher(wmiQueryString2))
+                    using (var results = searcher.Get())
+                    {
+                        /// this System.Management should add to "References" in the project
+                        var query = from _Process in Process.GetProcesses()
+                                    join Obj in results.Cast<ManagementObject>()
+                                    on _Process.Id equals (int)(uint)Obj["ProcessId"]
+                                    select new
+                                    {
+                                        Process = _Process,
+                                        Path = (string)Obj["ExecutablePath"],
+                                        CommandLine = (string)Obj["CommandLine"],
+
+                                    };
+                        foreach (var item in query)
+                        {
+                            if (Processes_FileSystemList.FindIndex(x => x.FileName == item.Process.ProcessName + ":" + item.Process.Id) == -1)
+                            {
+                                Processes_FileSystemList.Add(new _Table_of_FileSystem_for_Processes_Watcher
+                                {
+                                    Eventtime = DateTime.Now.ToString(),
+                                    FileName = item.Process.ProcessName + ":" + item.Process.Id,
+                                    FileName_Path = item.Path,
+                                    File_MD5 = _Get_MD5(item.Path),
+                                    ProcessCommandLine = item.CommandLine
+                                });
+                            }
+                        }
+                    }
+                    goto step1;
+                }
+                catch (Exception)
+                {
+
+
+                }
+                 
+            });
+        }
+        public async void RealtimeWatchProcess_run()
+
+        {
+            await RealtimeWatchProcess();
+        }
+
         private void Form1_Load(object sender, EventArgs e)
         {
             try
@@ -1222,7 +1377,8 @@ namespace ETWPM2Monitor2
                 /// very important  
                 Form.CheckForIllegalCrossThreadCalls = false;
 
-
+                BeginInvoke(new __Obj_Updater_to_WinForm(RealtimeWatchProcess_run));
+                
                 ThreadStart Core = new ThreadStart(delegate { BeginInvoke(new __Obj_Updater_to_WinForm(_Core)); });
                 Thread _T1_Core1 = new Thread(Core);
                 _T1_Core1.Priority = ThreadPriority.Highest;
@@ -1316,6 +1472,10 @@ namespace ETWPM2Monitor2
 
                 t8.Elapsed += T8_Elapsed;
                 t8.Enabled = false;
+
+                //t9.Elapsed += T9_Elapsed;
+                //t9.Enabled = true;
+                //t9.Start();
 
                 listView1.Columns.Add(" ", 20, HorizontalAlignment.Left);
                 listView1.Columns.Add("Time", 130, HorizontalAlignment.Left);
@@ -1478,7 +1638,10 @@ namespace ETWPM2Monitor2
 
             }
         }
+
        
+
+
         /// <summary>
         /// this timer will check child processes of target process to terminate after (delay 2 sec) 
         /// </summary>       
@@ -2332,7 +2495,6 @@ namespace ETWPM2Monitor2
                         BeginInvoke(new __Additem(_Additems_toListview1__2), MyLviewItemsX);
 
                     }
-                    //BeginInvoke(new __Additem(_Additems_toListview1), MyLviewItemsX);
 
                 }
             }
@@ -2609,7 +2771,6 @@ namespace ETWPM2Monitor2
         {
             try
             {
-
                 string PName_PID = sender.ToString().Split('@')[0];
                 string tcpdetails = sender.ToString().Split('@')[1];
 
@@ -2661,24 +2822,24 @@ namespace ETWPM2Monitor2
                         _TableofProcess TempStruc = new _TableofProcess();
                         TempStruc.TCPDetails2 = _des_address_port;
                         TempStruc.TCPDetails = Process_Table[Process_Table
-                            .FindIndex(_processname => _processname.PID == PID && _processname.ProcessName == ProcessName)].TCPDetails;
+                            .FindLastIndex(_processname => _processname.PID == PID && _processname.ProcessName == ProcessName)].TCPDetails;
                         TempStruc.ProcessName_Path = Process_Table[Process_Table
-                            .FindIndex(_processname => _processname.PID == PID && _processname.ProcessName == ProcessName)].ProcessName_Path;
+                            .FindLastIndex(_processname => _processname.PID == PID && _processname.ProcessName == ProcessName)].ProcessName_Path;
                         TempStruc.ProcessName = Process_Table[Process_Table
-                            .FindIndex(_processname => _processname.PID == PID && _processname.ProcessName == ProcessName)].ProcessName;
+                            .FindLastIndex(_processname => _processname.PID == PID && _processname.ProcessName == ProcessName)].ProcessName;
                         TempStruc.PID = Process_Table[Process_Table
-                            .FindIndex(_processname => _processname.PID == PID && _processname.ProcessName == ProcessName)].PID;
+                            .FindLastIndex(_processname => _processname.PID == PID && _processname.ProcessName == ProcessName)].PID;
                         TempStruc.IsLive = Process_Table[Process_Table
-                            .FindIndex(_processname => _processname.PID == PID && _processname.ProcessName == ProcessName)].IsLive;
+                            .FindLastIndex(_processname => _processname.PID == PID && _processname.ProcessName == ProcessName)].IsLive;
                         TempStruc.Injector_Path = Process_Table[Process_Table
-                          .FindIndex(_processname => _processname.PID == PID && _processname.ProcessName == ProcessName)].Injector_Path;
+                          .FindLastIndex(_processname => _processname.PID == PID && _processname.ProcessName == ProcessName)].Injector_Path;
                         TempStruc.Injector = Process_Table[Process_Table
-                          .FindIndex(_processname => _processname.PID == PID && _processname.ProcessName == ProcessName)].Injector;
+                          .FindLastIndex(_processname => _processname.PID == PID && _processname.ProcessName == ProcessName)].Injector;
                         TempStruc.Description = Process_Table[Process_Table
-                        .FindIndex(_processname => _processname.PID == PID && _processname.ProcessName == ProcessName)].Description;
+                        .FindLastIndex(_processname => _processname.PID == PID && _processname.ProcessName == ProcessName)].Description;
                         TempStruc.IsShow_Alarm = true;
 
-                        Process_Table[Process_Table.FindIndex(_processname => _processname.PID == PID && _processname.ProcessName == ProcessName)] = TempStruc;
+                        Process_Table[Process_Table.FindLastIndex(_processname => _processname.PID == PID && _processname.ProcessName == ProcessName)] = TempStruc;
                     }
 
                     _StopLoopingScan_Exec_01 = false;
@@ -2690,7 +2851,6 @@ namespace ETWPM2Monitor2
                         {
                             _finalresult_Scanned_02[2] = "--";
                             iList2 = new ListViewItem();
-
 
                             if (!_StopLoopingScan_Exec_01)
                             {
@@ -4923,8 +5083,8 @@ namespace ETWPM2Monitor2
 
                      try
                      {
-                        temp_get_InjectorPN_from_description = listView2.SelectedItems[0].SubItems[8].Text
-                      .Split('>')[1].Split('[')[1].Split(']')[0].Split(':')[0].Substring(1);
+                         temp_get_InjectorPN_from_description = listView2.SelectedItems[0].SubItems[8].Text
+                       .Split('>')[1].Split('[')[1].Split(']')[0].Split(':')[0].Substring(1);
                      }
                      catch (Exception)
                      {
@@ -4981,6 +5141,19 @@ namespace ETWPM2Monitor2
 
                                      if (!error)
                                      {
+                                         string injector_path = "\nInjector Path:" + NewProcess_Table.Find(_w => _w.PID == item._InjectorPID).ProcessName_Path;
+                                         
+                                         
+
+                                         if (injector_path.Contains("Process Exited"))
+                                         {
+                                             if (Processes_FileSystemList.FindIndex(_fs => _fs.FileName_Path.ToLower().Contains(temp_get_InjectorPN_from_description.ToLower())) != -1)
+                                             {
+                                                 var FS_FullPath = Processes_FileSystemList.Find(_fs => _fs.FileName_Path.ToLower().Contains(temp_get_InjectorPN_from_description.ToLower())).FileName_Path;
+                                                 injector_path = "\nInjector Path:" + FS_FullPath;
+                                             }
+ 
+                                         }
                                          counter++;
                                          richTextBox3.Text += "[" + counter.ToString() + "] " + "Remote Thread Injection Detected!" + "\n";
                                          richTextBox3.Text += "[" + counter.ToString() + "] " + "Injection by InjectorPID:" + item._InjectorPID.ToString() + "===>==TID:" +
@@ -4988,7 +5161,8 @@ namespace ETWPM2Monitor2
 
                                         + "\nInjector More Details:"
                                         + "\nInjector CommandLine:" + NewProcess_Table.Find(_w => (_w.PID == item._InjectorPID && _w.CommandLine.Contains(temp_get_InjectorPN_from_description))).CommandLine.Substring(13)
-                                        + "\nInjector Path:" + NewProcess_Table.Find(_w => _w.PID == item._InjectorPID).ProcessName_Path
+                                        //+ "\nInjector Path:" + NewProcess_Table.Find(_w => _w.PID == item._InjectorPID).ProcessName_Path
+                                        + injector_path                                         
                                         + "\nInjector PPID:" + NewProcess_Table.Find(_w => _w.PID == item._InjectorPID).PPID_Path
                                         + "\nTarget Process More Details:"
                                         + "\nTarget Process Path:" + NewProcess_Table.Find(_w => _w.ProcessName.Substring(1) == item._TargetPIDName && _w.PID == item._TargetPID).ProcessName_Path
@@ -5523,6 +5697,8 @@ namespace ETWPM2Monitor2
             [DllImport("kernel32.dll", SetLastError = true)]
             static extern bool CloseHandle(UIntPtr hObject);
 
+            [DllImport("Kernel32.dll")]
+            public static extern uint QueryFullProcessImageName(IntPtr hProcess, uint flags, StringBuilder str, out uint size);
             public enum ProcessAccessFlags : uint
             {
                 Terminate = 0x00000001,
