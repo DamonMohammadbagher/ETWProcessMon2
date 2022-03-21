@@ -2016,7 +2016,7 @@ namespace ETWPM2Monitor2
                                     listView4.Items[i].SubItems[7].Text = NetworkConection_TCP_counts.ToString();
                                     TimeSpan _ttl = Convert.ToDateTime(NetworkTCP.SubItems[1].Text) - Convert.ToDateTime(listView4.Items[i].SubItems[9].Text);
                                     listView4.Items[i].SubItems[8].Text = "D:" + _ttl.Days.ToString() + " , H:" + _ttl.Hours.ToString() + " , M:" + _ttl.Minutes.ToString();
-
+                                    
                                     string __TargetProcess = __obj.SubItems[3].Text;
 
                                     try
@@ -5129,7 +5129,7 @@ namespace ETWPM2Monitor2
                                      bool error = false;
                                      try
                                      {
-                                         var a = NewProcess_Table.Find(_w => (_w.PID == item._InjectorPID && _w.CommandLine.Contains(temp_get_InjectorPN_from_description))).CommandLine.Substring(13);
+                                         var a = NewProcess_Table.Find(_w => (_w.PID == item._InjectorPID && _w.CommandLine.Contains(temp_get_InjectorPN_from_description))).CommandLine;
                                          var b = NewProcess_Table.Find(_w => _w.PID == item._InjectorPID).ProcessName_Path;
                                          var c = NewProcess_Table.Find(_w => _w.PID == item._InjectorPID).PPID_Path;
                                          var d = NewProcess_Table.Find(_w => _w.ProcessName.Substring(1) == item._TargetPIDName && _w.PID == item._TargetPID).ProcessName_Path;
@@ -5142,9 +5142,7 @@ namespace ETWPM2Monitor2
                                      if (!error)
                                      {
                                          string injector_path = "\nInjector Path:" + NewProcess_Table.Find(_w => _w.PID == item._InjectorPID).ProcessName_Path;
-                                         
-                                         
-
+                                                                                  
                                          if (injector_path.Contains("Process Exited"))
                                          {
                                              if (Processes_FileSystemList.FindIndex(_fs => _fs.FileName_Path.ToLower().Contains(temp_get_InjectorPN_from_description.ToLower())) != -1)
@@ -5160,10 +5158,9 @@ namespace ETWPM2Monitor2
                                         item._RemoteThreadID.ToString() + "==>==Injected into====>" + PIDName + ":" + PID
 
                                         + "\nInjector More Details:"
-                                        + "\nInjector CommandLine:" + NewProcess_Table.Find(_w => (_w.PID == item._InjectorPID && _w.CommandLine.Contains(temp_get_InjectorPN_from_description))).CommandLine.Substring(13)
-                                        //+ "\nInjector Path:" + NewProcess_Table.Find(_w => _w.PID == item._InjectorPID).ProcessName_Path
+                                        + "\n" + NewProcess_Table.Find(_w => (_w.PID == item._InjectorPID && _w.CommandLine.Contains(temp_get_InjectorPN_from_description))).CommandLine                                        
                                         + injector_path                                         
-                                        + "\nInjector PPID:" + NewProcess_Table.Find(_w => _w.PID == item._InjectorPID).PPID_Path
+                                        + "\n" + NewProcess_Table.Find(_w => _w.PID == item._InjectorPID).PPID_Path
                                         + "\nTarget Process More Details:"
                                         + "\nTarget Process Path:" + NewProcess_Table.Find(_w => _w.ProcessName.Substring(1) == item._TargetPIDName && _w.PID == item._TargetPID).ProcessName_Path
                                         + "\n"
