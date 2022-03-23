@@ -48,7 +48,7 @@ Video [3], [Video-3 of Chapter15-Part2]: (video is about C# + ETW vs Process Hol
    link2 => https://share.vidyard.com/watch/4kB2Xy1bLfhRxaTD6pwaLD
 
 -----------------------------------------------------------    
-### VirtualMemAllocMon.exe
+### VirtualMemAllocMon.exe v1.1 & VirtualMemAllocMon.exe v2.0
 
 VirtualMemAllocMon is for Monitoring VirtualMemAlloc Event via ETW, when some Native APIs like "VirtualAllocEx" called by your code this event will happen via ETW. (Payload Detection by VirtualMemAlloc Events [in-memory] for All Processes).
 
