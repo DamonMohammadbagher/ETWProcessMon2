@@ -58,8 +58,12 @@ md5 info:
 
     5ee176a-f45524d29-ea3eb89fe-0c3e928 => VirtualMemAllocMon.exe (v1.1)
 
- ### VirtualMemAllocMon & VirtualMemAlloc Event + Memory Address (ProcessHacker & Pe Header) 
+ ### VirtualMemAllocMon v2.0 & VirtualMemAlloc ETW Event  
+   ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/VirtualMemAllocMon/VirtualMemAllocMon2/Pictures/VirtualMemAllocMonv2.png)
+   
+ ### VirtualMemAllocMon v1.1 & VirtualMemAlloc ETW Event + Memory Address (ProcessHacker & Pe Header) 
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/Pics/w10.png)
+   
    
 For more Information & Details with Picture about this Code => https://github.com/DamonMohammadbagher/ETWProcessMon2/tree/main/VirtualMemAllocMon 
 
