@@ -10,7 +10,7 @@ Note: for this code you need to install Nuget [Microsoft.Diagnostics.Tracing.Tra
 
 link: https://www.nuget.org/packages/Microsoft.Diagnostics.Tracing.TraceEvent
 
-### VirtualMemAllocMon.exe
+### VirtualMemAllocMon.exe [v2.0.0.0]
 
  usage:  
     
