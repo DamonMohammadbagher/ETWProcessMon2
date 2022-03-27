@@ -556,6 +556,7 @@ namespace ETWPM2Monitor2
                 if (listView1.Items.Count > 0)
                 {
                     bool _found = false;
+                     
                     for (int i = 0; i < listView1.Items.Count; i++)
                     {
 
@@ -1473,6 +1474,7 @@ namespace ETWPM2Monitor2
             {
                 /// very important  
                 Form.CheckForIllegalCrossThreadCalls = false;
+               
 
                 BeginInvoke(new __Obj_Updater_to_WinForm(RealtimeWatchProcess_run));
 
@@ -2000,15 +2002,19 @@ namespace ETWPM2Monitor2
         {
             try
             {
-                Process[] p = Process.GetProcesses();
-                foreach (ListViewItem item in listView1.Items)
+                listView4.BeginInvoke((MethodInvoker)delegate
                 {
-                    if (p.ToList().Find(pid => pid.Id == Convert.ToInt32(item.SubItems[3].Text.Split(':')[1])
-                     && pid.ProcessName.ToLower() == item.SubItems[3].Text.Split(':')[0].ToLower()) == null)
+                    Process[] p = Process.GetProcesses();
+                    foreach (ListViewItem item in listView1.Items)
                     {
-                        item.Remove();
+                        if (p.ToList().Find(pid => pid.Id == Convert.ToInt32(item.SubItems[3].Text.Split(':')[1])
+                         && pid.ProcessName.ToLower() == item.SubItems[3].Text.Split(':')[0].ToLower()) == null)
+                        {
+
+                            item.Remove();
+                        }
                     }
-                }
+                });
             }
             catch (Exception)
             {
@@ -3991,12 +3997,15 @@ namespace ETWPM2Monitor2
                 {
 
                     listView1.BeginInvoke((MethodInvoker)delegate
-                    {
+                    {                         
                         t.Interval = 6000;
                         foreach (ListViewItem item in listView1.Items)
                         {
-                            item.ForeColor = Color.Black;
-
+                            if (item.ForeColor != Color.Black)
+                            {
+                                item.ForeColor = Color.Black;
+                                 
+                            }
                         }
                         listView1.Refresh();
                     });
@@ -5247,6 +5256,25 @@ namespace ETWPM2Monitor2
 
 
             }
+        }
+
+        private void ToolStripStatusLabel7_Click(object sender, EventArgs e)
+        {
+            tabControl1.SelectedIndex = 3;
+            tabControl2.SelectedIndex = 3;
+        }
+
+        private void ToolStripStatusLabel5_Click(object sender, EventArgs e)
+        {
+           
+            tabControl1.SelectedIndex = 4;
+           
+        }
+
+        private void ToolStripStatusLabel6_Click(object sender, EventArgs e)
+        {
+            tabControl2.SelectedIndex = 2;
+            tabControl1.SelectedIndex = 3;
         }
 
         private void ListView5_SelectedIndexChanged(object sender, EventArgs e)

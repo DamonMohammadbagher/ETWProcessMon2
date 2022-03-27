@@ -325,7 +325,7 @@
             this.listView1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.listView1.ContextMenuStrip = this.contextMenuStrip5;
             this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listView1.HideSelection = false;
+            this.listView1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.listView1.Location = new System.Drawing.Point(0, 0);
             this.listView1.MultiSelect = false;
             this.listView1.Name = "listView1";
@@ -2108,23 +2108,33 @@
             // toolStripStatusLabel5
             // 
             this.toolStripStatusLabel5.ForeColor = System.Drawing.Color.Lavender;
+            this.toolStripStatusLabel5.IsLink = true;
+            this.toolStripStatusLabel5.LinkColor = System.Drawing.Color.Lavender;
             this.toolStripStatusLabel5.Name = "toolStripStatusLabel5";
             this.toolStripStatusLabel5.Size = new System.Drawing.Size(152, 17);
             this.toolStripStatusLabel5.Text = "| System/Detection Logs (0)";
+            this.toolStripStatusLabel5.Click += new System.EventHandler(this.ToolStripStatusLabel5_Click);
             // 
             // toolStripStatusLabel6
             // 
             this.toolStripStatusLabel6.ForeColor = System.Drawing.Color.Lavender;
+            this.toolStripStatusLabel6.IsLink = true;
+            this.toolStripStatusLabel6.LinkColor = System.Drawing.Color.Lavender;
             this.toolStripStatusLabel6.Name = "toolStripStatusLabel6";
             this.toolStripStatusLabel6.Size = new System.Drawing.Size(109, 17);
             this.toolStripStatusLabel6.Text = "| Alarms by ETW (0)";
+            this.toolStripStatusLabel6.Click += new System.EventHandler(this.ToolStripStatusLabel6_Click);
             // 
             // toolStripStatusLabel7
             // 
             this.toolStripStatusLabel7.ForeColor = System.Drawing.Color.Lavender;
+            this.toolStripStatusLabel7.ImageTransparentColor = System.Drawing.Color.Lavender;
+            this.toolStripStatusLabel7.IsLink = true;
+            this.toolStripStatusLabel7.LinkColor = System.Drawing.Color.Lavender;
             this.toolStripStatusLabel7.Name = "toolStripStatusLabel7";
             this.toolStripStatusLabel7.Size = new System.Drawing.Size(145, 17);
             this.toolStripStatusLabel7.Text = "| Network Connections (0)";
+            this.toolStripStatusLabel7.Click += new System.EventHandler(this.ToolStripStatusLabel7_Click);
             // 
             // Form1
             // 
