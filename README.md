@@ -1,7 +1,7 @@
 # ETWProcessMon2 `(v2.1)`
 ETWProcessMon2 (ver2) is for Monitoring Process/Thread/Memory/Imageloads/TCPIP via ETW + Detection for Remote-Thread-Injection & Payload Detection by VirtualMemAlloc Events (in-memory) etc.
 
-`Note: ETWProcessMon2.1 (v2.1) is new version of code, in this new version VirtualMemAlloc Events removed from source code & now Code Performance is very fast/good (this version ETWProcessMon2.1 will work with ETWPM2Monitor2 v2.1 very good for Technique/Payload Detection via ETW Events)`
+Note: `ETWProcessMon2.1 (v2.1) is new version of code, in this new version VirtualMemAlloc Events removed from source code & now Code Performance is very fast/good (this version ETWProcessMon2.1 will work with ETWPM2Monitor2 v2.1 very good for Technique/Payload Detection via ETW Events)`
 
 Note: `if your "Windows Defender Anti-virus" have/had problem with ETWPM2Monitor2.exe you should Disable AV to use this Tool (Real-time should be off also Tamper Protection should be off, ...)`, Sometimes ETWPM2Monitor2.exe crashed by AVs so you should test these tools (ETWPM2Monitor2.1 , SysPM2Monitor2.7) in windows without Antivirus (Disabled AV)
 
