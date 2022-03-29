@@ -202,6 +202,8 @@
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.excludeSYSTEM4EventsFromRealtimeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.includeSYSTEM4EventsFromRealtimeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator16 = new System.Windows.Forms.ToolStripSeparator();
+            this.excludeWebBrowsersFromScanningViaHullowsHunterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.removeRealtimeRecordsAfter500RecordsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.removeRealtimeRecordsAfter1000RecordsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -325,6 +327,7 @@
             this.listView1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.listView1.ContextMenuStrip = this.contextMenuStrip5;
             this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listView1.HideSelection = false;
             this.listView1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.listView1.Location = new System.Drawing.Point(0, 0);
             this.listView1.MultiSelect = false;
@@ -1823,6 +1826,8 @@
             this.toolStripSeparator4,
             this.excludeSYSTEM4EventsFromRealtimeToolStripMenuItem,
             this.includeSYSTEM4EventsFromRealtimeToolStripMenuItem,
+            this.toolStripSeparator16,
+            this.excludeWebBrowsersFromScanningViaHullowsHunterToolStripMenuItem,
             this.toolStripSeparator5,
             this.removeRealtimeRecordsAfter500RecordsToolStripMenuItem,
             this.removeRealtimeRecordsAfter1000RecordsToolStripMenuItem,
@@ -1839,7 +1844,7 @@
             // 
             this.allEventsIDs123ToolStripMenuItem.CheckOnClick = true;
             this.allEventsIDs123ToolStripMenuItem.Name = "allEventsIDs123ToolStripMenuItem";
-            this.allEventsIDs123ToolStripMenuItem.Size = new System.Drawing.Size(351, 22);
+            this.allEventsIDs123ToolStripMenuItem.Size = new System.Drawing.Size(360, 22);
             this.allEventsIDs123ToolStripMenuItem.Text = "All EventIDs 1,2,3";
             this.allEventsIDs123ToolStripMenuItem.Click += new System.EventHandler(this.AllEventsIDs123ToolStripMenuItem_Click);
             // 
@@ -1847,7 +1852,7 @@
             // 
             this.eventID12ToolStripMenuItem.CheckOnClick = true;
             this.eventID12ToolStripMenuItem.Name = "eventID12ToolStripMenuItem";
-            this.eventID12ToolStripMenuItem.Size = new System.Drawing.Size(351, 22);
+            this.eventID12ToolStripMenuItem.Size = new System.Drawing.Size(360, 22);
             this.eventID12ToolStripMenuItem.Text = "EventID 1,2 [NewProcess + [RemoteThreadInjection ]";
             this.eventID12ToolStripMenuItem.ToolTipText = "Warning: Alarm by ETW \"Tab\", is \"disabled\" by selecting this Filter";
             this.eventID12ToolStripMenuItem.Click += new System.EventHandler(this.EventID12ToolStripMenuItem_Click);
@@ -1856,7 +1861,7 @@
             // 
             this.eventID13ToolStripMenuItem.CheckOnClick = true;
             this.eventID13ToolStripMenuItem.Name = "eventID13ToolStripMenuItem";
-            this.eventID13ToolStripMenuItem.Size = new System.Drawing.Size(351, 22);
+            this.eventID13ToolStripMenuItem.Size = new System.Drawing.Size(360, 22);
             this.eventID13ToolStripMenuItem.Text = "EventID 1,3 [NewProcess + TCPIP]";
             this.eventID13ToolStripMenuItem.ToolTipText = "Warning: Alarm by ETW \"Tab\", is \"disabled\" by selecting this Filter";
             this.eventID13ToolStripMenuItem.Click += new System.EventHandler(this.EventID13ToolStripMenuItem_Click);
@@ -1865,7 +1870,7 @@
             // 
             this.eventID23InjectionTCPIPToolStripMenuItem.CheckOnClick = true;
             this.eventID23InjectionTCPIPToolStripMenuItem.Name = "eventID23InjectionTCPIPToolStripMenuItem";
-            this.eventID23InjectionTCPIPToolStripMenuItem.Size = new System.Drawing.Size(351, 22);
+            this.eventID23InjectionTCPIPToolStripMenuItem.Size = new System.Drawing.Size(360, 22);
             this.eventID23InjectionTCPIPToolStripMenuItem.Text = "EventID 2,3 [RemoteThreadInjection + TCPIP]";
             this.eventID23InjectionTCPIPToolStripMenuItem.Click += new System.EventHandler(this.EventID23InjectionTCPIPToolStripMenuItem_Click);
             // 
@@ -1873,7 +1878,7 @@
             // 
             this.eventID1ToolStripMenuItem.CheckOnClick = true;
             this.eventID1ToolStripMenuItem.Name = "eventID1ToolStripMenuItem";
-            this.eventID1ToolStripMenuItem.Size = new System.Drawing.Size(351, 22);
+            this.eventID1ToolStripMenuItem.Size = new System.Drawing.Size(360, 22);
             this.eventID1ToolStripMenuItem.Text = "EventID 1 [NewProcess event]";
             this.eventID1ToolStripMenuItem.ToolTipText = "Warning: Alarm by ETW \"Tab\", is \"disabled\" by selecting this Filter";
             this.eventID1ToolStripMenuItem.Click += new System.EventHandler(this.EventID1ToolStripMenuItem_Click);
@@ -1882,7 +1887,7 @@
             // 
             this.eventID2ToolStripMenuItem.CheckOnClick = true;
             this.eventID2ToolStripMenuItem.Name = "eventID2ToolStripMenuItem";
-            this.eventID2ToolStripMenuItem.Size = new System.Drawing.Size(351, 22);
+            this.eventID2ToolStripMenuItem.Size = new System.Drawing.Size(360, 22);
             this.eventID2ToolStripMenuItem.Text = "EventID 2 [RemoteThreadInjection event]";
             this.eventID2ToolStripMenuItem.ToolTipText = "Warning: Alarm by ETW \"Tab\", is \"disabled\" by selecting this Filter";
             this.eventID2ToolStripMenuItem.Click += new System.EventHandler(this.EventID2ToolStripMenuItem_Click);
@@ -1891,7 +1896,7 @@
             // 
             this.eventID3ToolStripMenuItem.CheckOnClick = true;
             this.eventID3ToolStripMenuItem.Name = "eventID3ToolStripMenuItem";
-            this.eventID3ToolStripMenuItem.Size = new System.Drawing.Size(351, 22);
+            this.eventID3ToolStripMenuItem.Size = new System.Drawing.Size(360, 22);
             this.eventID3ToolStripMenuItem.Text = "EventID 3 [TCPIP Send event]";
             this.eventID3ToolStripMenuItem.ToolTipText = "Warning: Alarm by ETW \"Tab\", is \"disabled\" by selecting this Filter";
             this.eventID3ToolStripMenuItem.Click += new System.EventHandler(this.EventID3ToolStripMenuItem_Click);
@@ -1899,7 +1904,7 @@
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(348, 6);
+            this.toolStripSeparator4.Size = new System.Drawing.Size(357, 6);
             // 
             // excludeSYSTEM4EventsFromRealtimeToolStripMenuItem
             // 
@@ -1907,7 +1912,7 @@
             this.excludeSYSTEM4EventsFromRealtimeToolStripMenuItem.CheckOnClick = true;
             this.excludeSYSTEM4EventsFromRealtimeToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.excludeSYSTEM4EventsFromRealtimeToolStripMenuItem.Name = "excludeSYSTEM4EventsFromRealtimeToolStripMenuItem";
-            this.excludeSYSTEM4EventsFromRealtimeToolStripMenuItem.Size = new System.Drawing.Size(351, 22);
+            this.excludeSYSTEM4EventsFromRealtimeToolStripMenuItem.Size = new System.Drawing.Size(360, 22);
             this.excludeSYSTEM4EventsFromRealtimeToolStripMenuItem.Text = "Exclude \"SYSTEM:4\" Events from Realtime";
             this.excludeSYSTEM4EventsFromRealtimeToolStripMenuItem.Click += new System.EventHandler(this.ExcludeSYSTEM4EventsFromRealtimeToolStripMenuItem_Click);
             // 
@@ -1915,20 +1920,32 @@
             // 
             this.includeSYSTEM4EventsFromRealtimeToolStripMenuItem.CheckOnClick = true;
             this.includeSYSTEM4EventsFromRealtimeToolStripMenuItem.Name = "includeSYSTEM4EventsFromRealtimeToolStripMenuItem";
-            this.includeSYSTEM4EventsFromRealtimeToolStripMenuItem.Size = new System.Drawing.Size(351, 22);
+            this.includeSYSTEM4EventsFromRealtimeToolStripMenuItem.Size = new System.Drawing.Size(360, 22);
             this.includeSYSTEM4EventsFromRealtimeToolStripMenuItem.Text = "Include \"SYSTEM:4\" Events";
             this.includeSYSTEM4EventsFromRealtimeToolStripMenuItem.Click += new System.EventHandler(this.IncludeSYSTEM4EventsFromRealtimeToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator16
+            // 
+            this.toolStripSeparator16.Name = "toolStripSeparator16";
+            this.toolStripSeparator16.Size = new System.Drawing.Size(357, 6);
+            // 
+            // excludeWebBrowsersFromScanningViaHullowsHunterToolStripMenuItem
+            // 
+            this.excludeWebBrowsersFromScanningViaHullowsHunterToolStripMenuItem.Name = "excludeWebBrowsersFromScanningViaHullowsHunterToolStripMenuItem";
+            this.excludeWebBrowsersFromScanningViaHullowsHunterToolStripMenuItem.Size = new System.Drawing.Size(360, 22);
+            this.excludeWebBrowsersFromScanningViaHullowsHunterToolStripMenuItem.Text = "Exclude WebBrowsers for Scanning via HollowsHunter";
+            this.excludeWebBrowsersFromScanningViaHullowsHunterToolStripMenuItem.Click += new System.EventHandler(this.ExcludeWebBrowsersFromScanningViaHullowsHunterToolStripMenuItem_Click);
             // 
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(348, 6);
+            this.toolStripSeparator5.Size = new System.Drawing.Size(357, 6);
             // 
             // removeRealtimeRecordsAfter500RecordsToolStripMenuItem
             // 
             this.removeRealtimeRecordsAfter500RecordsToolStripMenuItem.CheckOnClick = true;
             this.removeRealtimeRecordsAfter500RecordsToolStripMenuItem.Name = "removeRealtimeRecordsAfter500RecordsToolStripMenuItem";
-            this.removeRealtimeRecordsAfter500RecordsToolStripMenuItem.Size = new System.Drawing.Size(351, 22);
+            this.removeRealtimeRecordsAfter500RecordsToolStripMenuItem.Size = new System.Drawing.Size(360, 22);
             this.removeRealtimeRecordsAfter500RecordsToolStripMenuItem.Text = "Remove Realtime Records after (500 records)";
             this.removeRealtimeRecordsAfter500RecordsToolStripMenuItem.Click += new System.EventHandler(this.RemoveRealtimeRecordsAfter500RecordsToolStripMenuItem_Click);
             // 
@@ -1936,7 +1953,7 @@
             // 
             this.removeRealtimeRecordsAfter1000RecordsToolStripMenuItem.CheckOnClick = true;
             this.removeRealtimeRecordsAfter1000RecordsToolStripMenuItem.Name = "removeRealtimeRecordsAfter1000RecordsToolStripMenuItem";
-            this.removeRealtimeRecordsAfter1000RecordsToolStripMenuItem.Size = new System.Drawing.Size(351, 22);
+            this.removeRealtimeRecordsAfter1000RecordsToolStripMenuItem.Size = new System.Drawing.Size(360, 22);
             this.removeRealtimeRecordsAfter1000RecordsToolStripMenuItem.Text = "Remove Realtime Records after (1000 records)";
             this.removeRealtimeRecordsAfter1000RecordsToolStripMenuItem.Click += new System.EventHandler(this.RemoveRealtimeRecordsAfter1000RecordsToolStripMenuItem_Click);
             // 
@@ -1944,7 +1961,7 @@
             // 
             this.removeRealtimeRecordsAfter2000RecordsToolStripMenuItem.CheckOnClick = true;
             this.removeRealtimeRecordsAfter2000RecordsToolStripMenuItem.Name = "removeRealtimeRecordsAfter2000RecordsToolStripMenuItem";
-            this.removeRealtimeRecordsAfter2000RecordsToolStripMenuItem.Size = new System.Drawing.Size(351, 22);
+            this.removeRealtimeRecordsAfter2000RecordsToolStripMenuItem.Size = new System.Drawing.Size(360, 22);
             this.removeRealtimeRecordsAfter2000RecordsToolStripMenuItem.Text = "Remove Realtime Records after (2000 records)";
             this.removeRealtimeRecordsAfter2000RecordsToolStripMenuItem.Click += new System.EventHandler(this.RemoveRealtimeRecordsAfter2000RecordsToolStripMenuItem_Click);
             // 
@@ -1952,7 +1969,7 @@
             // 
             this.removeRealtimeRecordsAfter3000RecordsToolStripMenuItem.CheckOnClick = true;
             this.removeRealtimeRecordsAfter3000RecordsToolStripMenuItem.Name = "removeRealtimeRecordsAfter3000RecordsToolStripMenuItem";
-            this.removeRealtimeRecordsAfter3000RecordsToolStripMenuItem.Size = new System.Drawing.Size(351, 22);
+            this.removeRealtimeRecordsAfter3000RecordsToolStripMenuItem.Size = new System.Drawing.Size(360, 22);
             this.removeRealtimeRecordsAfter3000RecordsToolStripMenuItem.Text = "Remove Realtime Records after (3000 records)";
             this.removeRealtimeRecordsAfter3000RecordsToolStripMenuItem.Click += new System.EventHandler(this.RemoveRealtimeRecordsAfter3000RecordsToolStripMenuItem_Click);
             // 
@@ -1960,19 +1977,19 @@
             // 
             this.removeRealtimeRecordsAfter5000RecordsToolStripMenuItem.CheckOnClick = true;
             this.removeRealtimeRecordsAfter5000RecordsToolStripMenuItem.Name = "removeRealtimeRecordsAfter5000RecordsToolStripMenuItem";
-            this.removeRealtimeRecordsAfter5000RecordsToolStripMenuItem.Size = new System.Drawing.Size(351, 22);
+            this.removeRealtimeRecordsAfter5000RecordsToolStripMenuItem.Size = new System.Drawing.Size(360, 22);
             this.removeRealtimeRecordsAfter5000RecordsToolStripMenuItem.Text = "Remove Realtime Records after (5000 records)";
             this.removeRealtimeRecordsAfter5000RecordsToolStripMenuItem.Click += new System.EventHandler(this.RemoveRealtimeRecordsAfter5000RecordsToolStripMenuItem_Click);
             // 
             // toolStripSeparator9
             // 
             this.toolStripSeparator9.Name = "toolStripSeparator9";
-            this.toolStripSeparator9.Size = new System.Drawing.Size(348, 6);
+            this.toolStripSeparator9.Size = new System.Drawing.Size(357, 6);
             // 
             // realTimeSearchFiltersToolStripMenuItem
             // 
             this.realTimeSearchFiltersToolStripMenuItem.Name = "realTimeSearchFiltersToolStripMenuItem";
-            this.realTimeSearchFiltersToolStripMenuItem.Size = new System.Drawing.Size(351, 22);
+            this.realTimeSearchFiltersToolStripMenuItem.Size = new System.Drawing.Size(360, 22);
             this.realTimeSearchFiltersToolStripMenuItem.Text = "RealTime Search/Filters";
             this.realTimeSearchFiltersToolStripMenuItem.Click += new System.EventHandler(this.RealTimeSearchFiltersToolStripMenuItem_Click);
             // 
@@ -2429,6 +2446,8 @@
         private System.Windows.Forms.ToolStripMenuItem killProcessToolStripMenuItem;
         private System.Windows.Forms.ListView listView5;
         private System.Windows.Forms.SplitContainer splitContainer9;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator16;
+        private System.Windows.Forms.ToolStripMenuItem excludeWebBrowsersFromScanningViaHullowsHunterToolStripMenuItem;
     }
 }
 
