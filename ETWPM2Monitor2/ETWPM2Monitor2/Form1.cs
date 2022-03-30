@@ -298,6 +298,47 @@ namespace ETWPM2Monitor2
         }
         public static List<_Table_of_FileSystem_for_Processes_Watcher> Processes_FileSystemList = new List<_Table_of_FileSystem_for_Processes_Watcher>();
 
+        public struct _TCPConnection_Struc
+        {
+            private DateTime Time;
+            public DateTime _Time { get { return Time; } set { Time = value; } }
+
+            private string Process;
+            public string _Process { get { return Process; } set { Process = value; } }
+
+            private string Status;
+            public string _Status { get { return Status; } set { Status = value; } }
+
+            private string SIP;
+            public string _SIP { get { return SIP; } set { SIP = value; } }
+
+            private string DIP;
+            public string _DIP { get { return DIP; } set { DIP = value; } }
+
+            private string DeltaTime;
+            public string _DeltaTime { get { return DeltaTime; } set { DeltaTime = value; } }
+
+            private Int64 EventCount;
+            public Int64 _EventCount { get { return EventCount; } set { EventCount = value; } }
+
+            private string EventTTL;
+            public string _EventTTL { get { return EventTTL; } set { EventTTL = value; } }
+
+            private DateTime Event_FirstTime;
+            public DateTime _Event_FirstTime { get { return Event_FirstTime; } set { Event_FirstTime = value; } }
+
+            private string SUID;
+            public string _SUID { get { return SUID; } set { SUID = value; } }
+
+            private Int32 Update_Events;
+            public Int32 _Update_Events { get { return Update_Events; } set { Update_Events = value; } }
+
+
+        }
+
+        public static List<_TCPConnection_Struc> TCPConnectionTable_To_Show = new List<_TCPConnection_Struc>();
+
+
         public static List<_TableofProcess_ETW_Event_Counts> _ETW_Events_Counts = new List<_TableofProcess_ETW_Event_Counts>();
         public static _TableofProcess_ETW_Event_Counts Temp_Table_structure;
         public static string evtstring2, evtstring3 = "";
@@ -327,7 +368,9 @@ namespace ETWPM2Monitor2
         public static int _Imgindex, _Imgindex2 = 0;
         public ListViewItem xiList2 = new ListViewItem();
         public static List<string> _ExcludeProcessList = new List<string>();
-        public static bool ExcludeWebBrowsersFromScanningViaHullowsHunter = false;
+        public static bool ExcludeWebBrowsersFromScanningViaHullowsHunter = true;
+        public static bool IsDontShow_ETWPM2_Realt_time_Enabled = false;
+        public static bool IsDontShow_NetworkConnection_Enabled = false;
 
         public static string _Get_MD5(string filenamePath)
         {
@@ -609,8 +652,10 @@ namespace ETWPM2Monitor2
         {
             try
             {
-                ListViewItem MyLviewItemsX1 = (ListViewItem)obj;
-                Thread.Sleep(5);
+                if (!IsDontShow_ETWPM2_Realt_time_Enabled)
+                { }
+                    ListViewItem MyLviewItemsX1 = (ListViewItem)obj;
+                    Thread.Sleep(5);
 
                 if (MyLviewItemsX1 != null)
                 {
@@ -649,8 +694,11 @@ namespace ETWPM2Monitor2
                                "##Warning Description: DestinationPort [dport:4444] is Default port for Meterpreter session##";
                             System_Detection_Log_events2.Invoke((object)MyLviewItemsX1, null);
                         }
+                        if (!IsDontShow_ETWPM2_Realt_time_Enabled)
+                        {
+                            BeginInvoke(new __Additem(__Additems_toListview1__2_Method), MyLviewItemsX1);
+                        }
 
-                        BeginInvoke(new __Additem(__Additems_toListview1__2_Method), MyLviewItemsX1);
                     }
 
                     /// EventID 1 = Create New Process
@@ -676,23 +724,29 @@ namespace ETWPM2Monitor2
                             MyLviewItemsX1.ImageIndex = 0;
                         }
 
-                        BeginInvoke(new __Additem(__Additems_toListview1__2_Method), MyLviewItemsX1);
+                        if (!IsDontShow_ETWPM2_Realt_time_Enabled)
+                        {
+                            BeginInvoke(new __Additem(__Additems_toListview1__2_Method), MyLviewItemsX1);
+                        }
 
                     }
                     /// EventID 2 = Injection
                     if (MyLviewItemsX1.SubItems[2].Text == "2")
                     {
-                        BeginInvoke(new __Additem(__Additems_toListview1__2_Method), MyLviewItemsX1);
-
+                        if (!IsDontShow_ETWPM2_Realt_time_Enabled)
+                        {
+                            BeginInvoke(new __Additem(__Additems_toListview1__2_Method), MyLviewItemsX1);
+                        }
                     }
 
                     evtstring = MyLviewItemsX1.Name;
                 }
+                
             }
             catch (Exception)
             {
 
-                //throw;
+                
             }
 
         }
@@ -754,7 +808,10 @@ namespace ETWPM2Monitor2
                             System_Detection_Log_events2.Invoke((object)MyLviewItemsX1, null);
                         }
 
-                        listView1.Items.Add(MyLviewItemsX1);
+                        if (!IsDontShow_ETWPM2_Realt_time_Enabled)
+                        {
+                            listView1.Items.Add(MyLviewItemsX1);
+                        }
                     }
 
                     /// EventID 1 = Create New Process
@@ -779,19 +836,24 @@ namespace ETWPM2Monitor2
                             MyLviewItemsX1.ForeColor = Color.Black;
                             MyLviewItemsX1.ImageIndex = 0;
                         }
-
-                        listView1.Items.Add(MyLviewItemsX1);
-
+                        if (!IsDontShow_ETWPM2_Realt_time_Enabled)
+                        {
+                            listView1.Items.Add(MyLviewItemsX1);
+                        }
                     }
                     /// EventID 2 = Injection
                     if (MyLviewItemsX1.SubItems[2].Text == "2")
                     {
-                        listView1.Items.Add(MyLviewItemsX1);
+                        if (!IsDontShow_ETWPM2_Realt_time_Enabled)
+                        {
+                            listView1.Items.Add(MyLviewItemsX1);
+                        }
                     }
 
                     evtstring = MyLviewItemsX1.Name;
 
                 }
+
 
             }
             catch (Exception ee)
@@ -2252,232 +2314,396 @@ namespace ETWPM2Monitor2
             await _ChangedProperty_Color_changed_delay(_item);
         }
 
+
+
         /// <summary>
         /// add and refresh all tcp events to networ connection Tab
         /// </summary>
         public async Task Refresh_NetworkConection_in_Network_Tab(object obj)
         {
-             await Task.Run(() =>
-            {
+            await Task.Run(() =>
+           {
 
-                try
-                {
-                   
-                    ListViewItem NetworkTCP = (ListViewItem)obj;
-                    ListViewItem __obj = (ListViewItem)obj;
-                    string sip = __obj.SubItems[5].Text.Split('\n')[6].Split(']')[2].Split(':')[1];
-                    string sip_port = __obj.SubItems[5].Text.Split('\n')[6].Split(']')[4].Split(':')[1];
-                    string dip = __obj.SubItems[5].Text.Split('\n')[6].Split(']')[1].Split(':')[1];
-                    string dip_port = __obj.SubItems[5].Text.Split('\n')[6].Split(']')[3].Split(':')[1];
-                    NetworkTCP.Name = __obj.SubItems[3].Text + sip + sip_port + dip + dip_port;
-                    iList4 = new ListViewItem();
-                    init_removeItems = false;
-                    if (listView4.Items.Count > 0)
-                    {
-                        for (int i = 0; i < listView4.Items.Count; i++)
-                        { 
+               try
+               {
 
-                            
-                            if (listView4.Items[i].Name != __obj.SubItems[3].Text + sip + dip + dip_port)
-                            {
-                                NetworkConection_found = false;
+                   ListViewItem NetworkTCP = (ListViewItem)obj;
+                   ListViewItem __obj = (ListViewItem)obj;
+                   string sip = __obj.SubItems[5].Text.Split('\n')[6].Split(']')[2].Split(':')[1];
+                   string sip_port = __obj.SubItems[5].Text.Split('\n')[6].Split(']')[4].Split(':')[1];
+                   string dip = __obj.SubItems[5].Text.Split('\n')[6].Split(']')[1].Split(':')[1];
+                   string dip_port = __obj.SubItems[5].Text.Split('\n')[6].Split(']')[3].Split(':')[1];
+                   NetworkTCP.Name = __obj.SubItems[3].Text + sip + dip + dip_port;
+                   iList4 = new ListViewItem();
+                   init_removeItems = false;
 
-                            }
-                            else if (listView4.Items[i].Name == __obj.SubItems[3].Text + sip + dip + dip_port)
-                            {
-                                try
-                                {
-                                    listView4.Items[i].SubItems[6].Text = Delta_Time(Convert.ToDateTime(__obj.SubItems[1].Text), Convert.ToDateTime(listView4.Items[i].SubItems[1].Text));
-                                    listView4.Items[i].SubItems[1].Text = NetworkTCP.SubItems[1].Text;
-                                    listView4.Items[i].SubItems[4].Text = sip + ":" + sip_port;
-                                    NetworkConection_TCP_counts = Convert.ToInt64(listView4.Items[i].SubItems[7].Text);
-                                    NetworkConection_TCP_counts++;
-                                    listView4.Items[i].SubItems[7].Text = NetworkConection_TCP_counts.ToString();
-                                    TimeSpan _ttl = Convert.ToDateTime(NetworkTCP.SubItems[1].Text) - Convert.ToDateTime(listView4.Items[i].SubItems[9].Text);
-                                    listView4.Items[i].SubItems[8].Text = "D:" + _ttl.Days.ToString() + " , H:" + _ttl.Hours.ToString() + " , M:" + _ttl.Minutes.ToString();
+                   if (listView4.Items.Count > 0)
+                   {
+                       for (int i = 0; i < listView4.Items.Count; i++)
+                       {
 
-                                    string __TargetProcess = __obj.SubItems[3].Text;
+                           string __TargetProcess = "";
 
-                                    try
-                                    {
-                                        List<IntPtr> TP_Socket_intptrs = null;
-                                        if (!Process.GetProcessById(Convert.ToInt32(__TargetProcess.Split(':')[1])).HasExited)
-                                        {
-                                            TP_Socket_intptrs = SocketClass.SocketHijacking.GetSocketsTargetProcess
-                                        (Process.GetProcessById(Convert.ToInt32(__TargetProcess.Split(':')[1])));
-                                        }
+                           if (listView4.Items[i].Name != __obj.SubItems[3].Text + sip + dip + dip_port)
+                           {
+                               NetworkConection_found = false;
+                           }
+                           else if (listView4.Items[i].Name == __obj.SubItems[3].Text + sip + dip + dip_port)
+                           {
+                               try
+                               {
 
-                                        if (TP_Socket_intptrs.Count > 0)
-                                        {
-                                            SocketClass.SocketHijacking.TCP_INFO_v0 sockInfo = new SocketClass.SocketHijacking.TCP_INFO_v0();
-                                            SocketClass.SocketHijacking.GetSocketTcpInfo(TP_Socket_intptrs[0], out sockInfo);
-                                            Thread.Sleep(2);
-                                            listView4.Items[i].SubItems[10].Text = sockInfo.State.ToString();
-                                            listView4.Items[i].SubItems[11].Text = sockInfo.ConnectionTimeMs.ToString();
-                                            listView4.Items[i].SubItems[12].Text = sockInfo.TimestampsEnabled.ToString();
-                                            listView4.Items[i].SubItems[13].Text = sockInfo.SndWnd.ToString();
-                                            listView4.Items[i].SubItems[14].Text = sockInfo.RcvWnd.ToString();
-                                            listView4.Items[i].SubItems[15].Text = sockInfo.RcvBuf.ToString();
-                                            listView4.Items[i].SubItems[16].Text = sockInfo.BytesOut.ToString();
-                                            listView4.Items[i].SubItems[17].Text = sockInfo.BytesIn.ToString();
-                                            listView4.Items[i].SubItems[18].Text = sockInfo.RttUs.ToString();
-                                            listView4.Items[i].SubItems[19].Text = sockInfo.MinRttUs.ToString();
-                                            listView4.Items[i].SubItems[20].Text = sockInfo.TimeoutEpisodes.ToString();
-                                        }
-                                    }
-                                    catch (Exception)
-                                    {
+                                   Int32 IndexofTCPRecord = TCPConnectionTable_To_Show.FindIndex(index => index._SUID == __obj.SubItems[3].Text + sip + dip + dip_port);
+                                   bool timetoshow = false;
+                                   if (IndexofTCPRecord != -1)
+                                   {
+                                       TimeSpan _1min = TCPConnectionTable_To_Show[IndexofTCPRecord]._Time - Convert.ToDateTime(listView4.Items[i].SubItems[1].Text);
 
+                                       if (_1min.Minutes >= 1) timetoshow = true;
 
-                                    }
-                                    listView4.Refresh();
-                                    BeginInvoke(new __Additem(_Run_ChangeColor_for_listview4), i);
-                                    NetworkConection_found = true;
-                                    tabPage9.Text = "Network Connections (" + listView4.Items.Count.ToString() + ")";
-                                    toolStripStatusLabel7.Text = "| Network Connections (" + listView4.Items.Count.ToString() + ")";
-                                }
-                                catch (Exception)
-                                {
+                                       if (_1min.Minutes >= 1 && TCPConnectionTable_To_Show[IndexofTCPRecord]._Update_Events >= 2) timetoshow = true;
 
+                                       _TCPConnection_Struc TempTCPstruc = new _TCPConnection_Struc();
 
-                                }
+                                       TempTCPstruc._Time = Convert.ToDateTime(NetworkTCP.SubItems[1].Text);
+                                       TempTCPstruc._Process = TCPConnectionTable_To_Show[IndexofTCPRecord]._Process;
+                                       TempTCPstruc._Status = "Connected";
+                                       TempTCPstruc._SIP = sip + ":" + sip_port;
+                                       TempTCPstruc._DIP = TCPConnectionTable_To_Show[IndexofTCPRecord]._DIP;
+                                       TempTCPstruc._DeltaTime = Delta_Time(Convert.ToDateTime(NetworkTCP.SubItems[1].Text), TCPConnectionTable_To_Show[IndexofTCPRecord]._Time);
 
-                                break;
-                            }
-                        }
+                                       Int64 __Tempcount = Convert.ToInt64(TCPConnectionTable_To_Show[IndexofTCPRecord]._EventCount);
+                                       __Tempcount++;
+                                       TempTCPstruc._EventCount = __Tempcount;
 
-                        if (!NetworkConection_found)
-                        {
-                            iList4.SubItems.Add(NetworkTCP.SubItems[1].Text);
-                            iList4.SubItems.Add(NetworkTCP.SubItems[3].Text);
-                            iList4.SubItems.Add("Connected");
-                            iList4.SubItems.Add(sip + ":" + sip_port);
-                            iList4.SubItems.Add(dip + ":" + dip_port);
-                            iList4.SubItems.Add("0");
-                            iList4.SubItems.Add("1");
-                            /// event ttl
-                            iList4.SubItems.Add("0");
-                            /// event first time
-                            iList4.SubItems.Add(NetworkTCP.SubItems[1].Text);
-                            iList4.Name = __obj.SubItems[3].Text + sip + dip + dip_port;
-                            string __TargetProcess = __obj.SubItems[3].Text;
-                            try
-                            {
-                                List<IntPtr> TP_Socket_intptrs = null;
-                                if (!Process.GetProcessById(Convert.ToInt32(__TargetProcess.Split(':')[1])).HasExited)
-                                {
-                                    TP_Socket_intptrs = SocketClass.SocketHijacking.GetSocketsTargetProcess
-                                (Process.GetProcessById(Convert.ToInt32(__TargetProcess.Split(':')[1])));
+                                       TimeSpan __ttl = Convert.ToDateTime(NetworkTCP.SubItems[1].Text) - TCPConnectionTable_To_Show[IndexofTCPRecord]._Event_FirstTime;
+                                       TempTCPstruc._EventTTL = "D:" + __ttl.Days.ToString() + " , H:" + __ttl.Hours.ToString() + " , M:" + __ttl.Minutes.ToString();
 
-                                }
+                                       TempTCPstruc._Event_FirstTime = TCPConnectionTable_To_Show[IndexofTCPRecord]._Event_FirstTime;
+                                       TempTCPstruc._SUID = TCPConnectionTable_To_Show[IndexofTCPRecord]._SUID;
 
-                                if (TP_Socket_intptrs.Count > 0)
-                                {
-                                    SocketClass.SocketHijacking.TCP_INFO_v0 sockInfo = new SocketClass.SocketHijacking.TCP_INFO_v0();
-                                    SocketClass.SocketHijacking.GetSocketTcpInfo(TP_Socket_intptrs[0], out sockInfo);
-                                    iList4.SubItems.Add(sockInfo.State.ToString());
-                                    iList4.SubItems.Add(sockInfo.ConnectionTimeMs.ToString());
-                                    iList4.SubItems.Add(sockInfo.TimestampsEnabled.ToString());
-                                    iList4.SubItems.Add(sockInfo.SndWnd.ToString());
-                                    iList4.SubItems.Add(sockInfo.RcvWnd.ToString());
-                                    iList4.SubItems.Add(sockInfo.RcvBuf.ToString());
-                                    iList4.SubItems.Add(sockInfo.BytesOut.ToString());
-                                    iList4.SubItems.Add(sockInfo.BytesIn.ToString());
-                                    iList4.SubItems.Add(sockInfo.RttUs.ToString());
-                                    iList4.SubItems.Add(sockInfo.MinRttUs.ToString());
-                                    iList4.SubItems.Add(sockInfo.TimeoutEpisodes.ToString());
-                                }
-                            }
-                            catch (Exception)
-                            {
+                                       Int32 _tempupdate = Convert.ToInt32(TCPConnectionTable_To_Show[IndexofTCPRecord]._Update_Events);
+
+                                       if (_tempupdate <= 4)
+                                       {
+                                           _tempupdate++;
+                                           TempTCPstruc._Update_Events = _tempupdate;
+                                           TCPConnectionTable_To_Show[IndexofTCPRecord] = TempTCPstruc;
+                                       }
+                                       else if (_tempupdate > 4)
+                                       {
+                                           if (_1min.Minutes >= 1)
+                                           {
+                                               timetoshow = true;
+
+                                               _tempupdate = 1;
+
+                                           }
+
+                                           TempTCPstruc._Update_Events = _tempupdate;
+                                           TCPConnectionTable_To_Show[IndexofTCPRecord] = TempTCPstruc;
+                                       }
 
 
-                            }
+                                       if (_1min.Minutes >= 1) timetoshow = true;
 
-                            if (iList4.SubItems[2].Text.Contains(':') && iList4.SubItems[3].Text == "Connected")
-                            {
-                                bool xfound = false;
-                                foreach (ListViewItem xitem in listView4.Items)
-                                {
-                                   // if (xitem.SubItems[2].Text == iList4.SubItems[2].Text && xitem.SubItems[4].Text == iList4.SubItems[4].Text)
-                                 if (xitem.SubItems[2].Text == iList4.SubItems[2].Text)
-                                    {
-                                        xfound = true;
-                                        break;
-                                    }
-                                }
+                                       if (_1min.Minutes >= 1 && TCPConnectionTable_To_Show[IndexofTCPRecord]._Update_Events >= 2) timetoshow = true;
+                                   }
 
-                                if (!xfound)
-                                {
-                                    int _i = listView4.Items.Add(iList4).Index;
-                                    BeginInvoke(new __Additem(_Run_ChangeColor_for_listview4), _i);
-                                }
-                            }
-                            tabPage9.Text = "Network Connections (" + listView4.Items.Count.ToString() + ")";
-                            toolStripStatusLabel7.Text = "| Network Connections (" + listView4.Items.Count.ToString() + ")";
 
-                        }
-                    }
-                    else if (listView4.Items.Count <= 0)
-                    {
-                        iList4.SubItems.Add(NetworkTCP.SubItems[1].Text);
-                        iList4.SubItems.Add(NetworkTCP.SubItems[3].Text);
-                        iList4.SubItems.Add("Connected");
-                        iList4.SubItems.Add(sip + ":" + sip_port);
-                        iList4.SubItems.Add(dip + ":" + dip_port);
-                        iList4.SubItems.Add("0");
-                        iList4.SubItems.Add("1");
-                        /// event ttl
-                        iList4.SubItems.Add("0");
+                                   if (timetoshow)
+                                   {
+                                       try
+                                       {
 
-                        /// event first time
-                        iList4.SubItems.Add(NetworkTCP.SubItems[1].Text);
-                        iList4.SubItems.Add("0");
-                        iList4.SubItems.Add("0");
-                        iList4.SubItems.Add("0");
-                        iList4.SubItems.Add("0");
-                        iList4.SubItems.Add("0");
-                        iList4.SubItems.Add("0");
-                        iList4.SubItems.Add("0");
-                        iList4.SubItems.Add("0");
-                        iList4.SubItems.Add("0");
-                        iList4.SubItems.Add("0");
-                        iList4.SubItems.Add("0");
+                                           listView4.Items[i].SubItems[6].Text = TCPConnectionTable_To_Show[IndexofTCPRecord]._DeltaTime;
+                                           listView4.Items[i].SubItems[1].Text = TCPConnectionTable_To_Show[IndexofTCPRecord]._Time.ToString();
+                                           listView4.Items[i].SubItems[4].Text = TCPConnectionTable_To_Show[IndexofTCPRecord]._SIP;
+                                           NetworkConection_TCP_counts = Convert.ToInt64(listView4.Items[i].SubItems[7].Text);
+                                           NetworkConection_TCP_counts++;
+                                           listView4.Items[i].SubItems[7].Text = TCPConnectionTable_To_Show[IndexofTCPRecord]._EventCount.ToString();
+                                           listView4.Items[i].SubItems[8].Text = TCPConnectionTable_To_Show[IndexofTCPRecord]._EventTTL;
+                                           __TargetProcess = TCPConnectionTable_To_Show[IndexofTCPRecord]._Process;
 
-                        iList4.Name = __obj.SubItems[3].Text + sip + dip + dip_port;
-                        int _i = 0;
+                                       }
+                                       catch (Exception)
+                                       {
 
-                        if (iList4.SubItems[2].Text.Contains(':') && iList4.SubItems[3].Text == "Connected")
-                        {
-                            bool xfound = false;
-                            foreach (ListViewItem xitem in listView4.Items)
-                            {
-                                if (xitem.SubItems[2].Text == iList4.SubItems[2].Text)
-                                {
-                                    xfound = true;
-                                    break;
-                                }
-                            }
 
-                            if (!xfound)
-                            {
-                                _i = listView4.Items.Add(iList4).Index;
+                                       }
 
-                                BeginInvoke(new __Additem(_Run_ChangeColor_for_listview4), _i);
-                            }
-                        }
-                        tabPage9.Text = "Network Connections (" + listView4.Items.Count.ToString() + ")";
-                        toolStripStatusLabel7.Text = "| Network Connections (" + listView4.Items.Count.ToString() + ")";
-                    }
-                }
-                catch (Exception err)
-                {
-                     
 
-                }
-                init_removeItems = true;
-            });
-          
+                                       try
+                                       {
+                                           List<IntPtr> TP_Socket_intptrs = null;
+                                           if (!Process.GetProcessById(Convert.ToInt32(__TargetProcess.Split(':')[1])).HasExited)
+                                           {
+                                               TP_Socket_intptrs = SocketClass.SocketHijacking.GetSocketsTargetProcess
+                                           (Process.GetProcessById(Convert.ToInt32(__TargetProcess.Split(':')[1])));
+                                           }
+
+                                           if (TP_Socket_intptrs.Count > 0)
+                                           {
+                                               SocketClass.SocketHijacking.TCP_INFO_v0 sockInfo = new SocketClass.SocketHijacking.TCP_INFO_v0();
+                                               SocketClass.SocketHijacking.GetSocketTcpInfo(TP_Socket_intptrs[0], out sockInfo);
+                                               Thread.Sleep(2);
+                                               listView4.Items[i].SubItems[10].Text = sockInfo.State.ToString();
+                                               listView4.Items[i].SubItems[11].Text = sockInfo.ConnectionTimeMs.ToString();
+                                               listView4.Items[i].SubItems[12].Text = sockInfo.TimestampsEnabled.ToString();
+                                               listView4.Items[i].SubItems[13].Text = sockInfo.SndWnd.ToString();
+                                               listView4.Items[i].SubItems[14].Text = sockInfo.RcvWnd.ToString();
+                                               listView4.Items[i].SubItems[15].Text = sockInfo.RcvBuf.ToString();
+                                               listView4.Items[i].SubItems[16].Text = sockInfo.BytesOut.ToString();
+                                               listView4.Items[i].SubItems[17].Text = sockInfo.BytesIn.ToString();
+                                               listView4.Items[i].SubItems[18].Text = sockInfo.RttUs.ToString();
+                                               listView4.Items[i].SubItems[19].Text = sockInfo.MinRttUs.ToString();
+                                               listView4.Items[i].SubItems[20].Text = sockInfo.TimeoutEpisodes.ToString();
+                                           }
+                                       }
+                                       catch (Exception)
+                                       {
+
+
+                                       }
+                                       listView4.Refresh();
+                                       BeginInvoke(new __Additem(_Run_ChangeColor_for_listview4), i);
+                                       NetworkConection_found = true;
+                                       tabPage9.Text = "Network Connections (" + listView4.Items.Count.ToString() + ")";
+                                       toolStripStatusLabel7.Text = "| Network Connections (" + listView4.Items.Count.ToString() + ")";
+                                   }
+                               }
+                               catch (Exception)
+                               {
+
+
+                               }
+
+                               break;
+                           }
+                       }
+
+                       if (!NetworkConection_found)
+                       {
+                           try
+                           {
+
+
+                               int IndexofTCPRecord2 = TCPConnectionTable_To_Show.FindIndex(index => index._SUID == __obj.SubItems[3].Text + sip + dip + dip_port);
+                               if (IndexofTCPRecord2 == -1)
+                               {
+                                   TCPConnectionTable_To_Show.Add(new _TCPConnection_Struc
+                                   {
+                                       _Time = Convert.ToDateTime(__obj.SubItems[1].Text),
+                                       _Process = __obj.SubItems[3].Text,
+                                       _Status = "Connected",
+                                       _SIP = sip + ":" + sip_port,
+                                       _DIP = dip + ":" + dip_port,
+                                       _DeltaTime = "0",
+                                       _EventCount = 1,
+                                       _EventTTL = "0",
+                                       _Event_FirstTime = Convert.ToDateTime(NetworkTCP.SubItems[1].Text),
+                                       _SUID = __obj.SubItems[3].Text + sip + dip + dip_port,
+                                       _Update_Events = 1
+
+                                   });
+                               }
+                           }
+                           catch (Exception)
+                           {
+
+
+                           }
+
+
+                           try
+                           {
+
+                               bool founditem = false;
+
+                               for (int j = 0; j < listView4.Items.Count; j++)
+                               {
+                                   if (listView4.Items[j].Name == NetworkTCP.SubItems[3].Text + sip + dip + dip_port) founditem = true;
+                                   break;
+                               }
+
+                               if (!founditem)
+                               {
+                                   try
+                                   {
+
+                                       iList4 = new ListViewItem();
+                                       iList4.SubItems.Add(NetworkTCP.SubItems[1].Text);
+                                       iList4.SubItems.Add(NetworkTCP.SubItems[3].Text);
+                                       iList4.SubItems.Add("Connected");
+                                       iList4.SubItems.Add(sip + ":" + sip_port);
+                                       iList4.SubItems.Add(dip + ":" + dip_port);
+                                       iList4.SubItems.Add("0");
+                                       iList4.SubItems.Add("1");
+                                       /// event ttl
+                                       iList4.SubItems.Add("0");
+                                       /// event first time
+                                       iList4.SubItems.Add(NetworkTCP.SubItems[1].Text);
+                                       iList4.Name = __obj.SubItems[3].Text + sip + dip + dip_port;
+                                       string __TargetProcess = __obj.SubItems[3].Text;
+
+                                       List<IntPtr> TP_Socket_intptrs = null;
+                                       if (!Process.GetProcessById(Convert.ToInt32(__TargetProcess.Split(':')[1])).HasExited)
+                                       {
+                                           TP_Socket_intptrs = SocketClass.SocketHijacking.GetSocketsTargetProcess
+                                       (Process.GetProcessById(Convert.ToInt32(__TargetProcess.Split(':')[1])));
+
+                                       }
+
+                                       if (TP_Socket_intptrs.Count > 0)
+                                       {
+                                           SocketClass.SocketHijacking.TCP_INFO_v0 sockInfo = new SocketClass.SocketHijacking.TCP_INFO_v0();
+                                           SocketClass.SocketHijacking.GetSocketTcpInfo(TP_Socket_intptrs[0], out sockInfo);
+                                           iList4.SubItems.Add(sockInfo.State.ToString());
+                                           iList4.SubItems.Add(sockInfo.ConnectionTimeMs.ToString());
+                                           iList4.SubItems.Add(sockInfo.TimestampsEnabled.ToString());
+                                           iList4.SubItems.Add(sockInfo.SndWnd.ToString());
+                                           iList4.SubItems.Add(sockInfo.RcvWnd.ToString());
+                                           iList4.SubItems.Add(sockInfo.RcvBuf.ToString());
+                                           iList4.SubItems.Add(sockInfo.BytesOut.ToString());
+                                           iList4.SubItems.Add(sockInfo.BytesIn.ToString());
+                                           iList4.SubItems.Add(sockInfo.RttUs.ToString());
+                                           iList4.SubItems.Add(sockInfo.MinRttUs.ToString());
+                                           iList4.SubItems.Add(sockInfo.TimeoutEpisodes.ToString());
+                                       }
+                                       else
+                                       {
+                                           iList4.SubItems.Add("0");
+                                           iList4.SubItems.Add("0");
+                                           iList4.SubItems.Add("0");
+                                           iList4.SubItems.Add("0");
+                                           iList4.SubItems.Add("0");
+                                           iList4.SubItems.Add("0");
+                                           iList4.SubItems.Add("0");
+                                           iList4.SubItems.Add("0");
+                                           iList4.SubItems.Add("0");
+                                           iList4.SubItems.Add("0");
+                                           iList4.SubItems.Add("0");
+                                       }
+
+                                   }
+                                   catch (Exception)
+                                   {
+
+
+                                   }
+
+                               
+                                   if (iList4.SubItems[2].Text.Contains(':') && iList4.SubItems[3].Text == "Connected")
+                                   {
+                                       bool xfound = false;
+                                       if (listView4.Items.Count > 0)
+                                       {
+                                           for (int i = 0; i < listView4.Items.Count; i++)
+                                           {
+
+                                               if (listView4.Items[i].SubItems[2].Text == iList4.SubItems[2].Text)
+                                               {
+                                                   xfound = true;
+                                                   break;
+                                               }
+                                           }
+                                            
+
+                                           if (!xfound)
+                                           {
+                                               int _i = listView4.Items.Add(iList4).Index;
+                                               BeginInvoke(new __Additem(_Run_ChangeColor_for_listview4), _i);
+                                           }
+                                       }
+                                       else
+                                       {
+                                           int _i = listView4.Items.Add(iList4).Index;
+                                           BeginInvoke(new __Additem(_Run_ChangeColor_for_listview4), _i);
+
+                                       }
+                                   }
+
+                                   tabPage9.Text = "Network Connections (" + listView4.Items.Count.ToString() + ")";
+                                   toolStripStatusLabel7.Text = "| Network Connections (" + listView4.Items.Count.ToString() + ")";
+                               }
+                           }
+                           catch (Exception)
+                           {
+
+
+                           }
+                       }
+                   }
+                   else if (listView4.Items.Count <= 0)
+                   {
+                       try
+                       {
+
+                           iList4.SubItems.Add(NetworkTCP.SubItems[1].Text);
+                           iList4.SubItems.Add(NetworkTCP.SubItems[3].Text);
+                           iList4.SubItems.Add("Connected");
+                           iList4.SubItems.Add(sip + ":" + sip_port);
+                           iList4.SubItems.Add(dip + ":" + dip_port);
+                           iList4.SubItems.Add("0");
+                           iList4.SubItems.Add("1");
+                           /// event ttl
+                           iList4.SubItems.Add("0");
+
+                           /// event first time
+                           iList4.SubItems.Add(NetworkTCP.SubItems[1].Text);
+                           iList4.SubItems.Add("0");
+                           iList4.SubItems.Add("0");
+                           iList4.SubItems.Add("0");
+                           iList4.SubItems.Add("0");
+                           iList4.SubItems.Add("0");
+                           iList4.SubItems.Add("0");
+                           iList4.SubItems.Add("0");
+                           iList4.SubItems.Add("0");
+                           iList4.SubItems.Add("0");
+                           iList4.SubItems.Add("0");
+                           iList4.SubItems.Add("0");
+
+                           iList4.Name = __obj.SubItems[3].Text + sip + dip + dip_port;
+                           int _i = 0;
+
+                           if (iList4.SubItems[2].Text.Contains(':') && iList4.SubItems[3].Text == "Connected")
+                           {
+                               bool xfound = false;
+                               foreach (ListViewItem xitem in listView4.Items)
+                               {
+                                   if (xitem.SubItems[2].Text == iList4.SubItems[2].Text)
+                                   {
+                                       xfound = true;
+                                       break;
+                                   }
+                               }
+
+                               if (!xfound)
+                               {
+                                   _i = listView4.Items.Add(iList4).Index;
+
+                                   BeginInvoke(new __Additem(_Run_ChangeColor_for_listview4), _i);
+                               }
+                           }
+
+                           tabPage9.Text = "Network Connections (" + listView4.Items.Count.ToString() + ")";
+                           toolStripStatusLabel7.Text = "| Network Connections (" + listView4.Items.Count.ToString() + ")";
+                       }
+                       catch (Exception)
+                       {
+
+
+                       }
+                   }
+               }
+               catch (Exception err)
+               {
+
+
+               }
+               init_removeItems = true;
+           });
+
         }
 
         /// <summary>
@@ -4785,6 +5011,7 @@ namespace ETWPM2Monitor2
                         NewEventFrom_EventLogsCome.Invoke((object)LviewItemsX, null);
 
                         /// add to Network Connection Tab
+                        if(!IsDontShow_NetworkConnection_Enabled)
                         NewTCP_Connection_Detected.Invoke((object)LviewItemsX, null);
 
 
@@ -5878,6 +6105,36 @@ namespace ETWPM2Monitor2
                 ExcludeWebBrowsersFromScanningViaHullowsHunter = true;
             }
            
+        }
+
+        private void DontShowEventsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if(dontShowEventsToolStripMenuItem.Checked == false)
+            {
+                dontShowEventsToolStripMenuItem.Checked = true;
+                IsDontShow_ETWPM2_Realt_time_Enabled = true;
+            }
+            else if (dontShowEventsToolStripMenuItem.Checked == true)
+            {
+                dontShowEventsToolStripMenuItem.Checked = false;
+                IsDontShow_ETWPM2_Realt_time_Enabled = false;
+            }
+        }
+
+        private void ShowEventsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+            IsDontShow_NetworkConnection_Enabled = false;
+            showEventsToolStripMenuItem.Checked = true;
+            dontShowEventsToolStripMenuItem1.Checked = false;
+
+        }
+
+        private void DontShowEventsToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            IsDontShow_NetworkConnection_Enabled = true;
+            dontShowEventsToolStripMenuItem1.Checked = true;
+            showEventsToolStripMenuItem.Checked = false;
         }
 
         private void ListView5_SelectedIndexChanged(object sender, EventArgs e)

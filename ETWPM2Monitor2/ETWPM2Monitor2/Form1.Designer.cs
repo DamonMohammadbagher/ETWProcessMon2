@@ -231,6 +231,10 @@
             this.toolStripStatusLabel5 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel6 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel7 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.dontShowEventsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.networkConnectionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.showEventsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.dontShowEventsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip5.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -1382,6 +1386,7 @@
             this.scannersToolStripMenuItem,
             this.toolStripSeparator10,
             this.processesToolStripMenuItem,
+            this.networkConnectionsToolStripMenuItem,
             this.eTWPM2RealtimeToolStripMenuItem,
             this.toolStripSeparator11,
             this.showNotifyPopupToolStripMenuItem});
@@ -1778,7 +1783,8 @@
             this.eTWPM2RealtimeToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.eTWPM2RealtimeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.showEventDetailsToolStripMenuItem,
-            this.showEventDetails2ToolStripMenuItem});
+            this.showEventDetails2ToolStripMenuItem,
+            this.dontShowEventsToolStripMenuItem});
             this.eTWPM2RealtimeToolStripMenuItem.Name = "eTWPM2RealtimeToolStripMenuItem";
             this.eTWPM2RealtimeToolStripMenuItem.Size = new System.Drawing.Size(207, 22);
             this.eTWPM2RealtimeToolStripMenuItem.Text = "ETWPM2 Realtime events";
@@ -1931,6 +1937,8 @@
             // 
             // excludeWebBrowsersFromScanningViaHullowsHunterToolStripMenuItem
             // 
+            this.excludeWebBrowsersFromScanningViaHullowsHunterToolStripMenuItem.Checked = true;
+            this.excludeWebBrowsersFromScanningViaHullowsHunterToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.excludeWebBrowsersFromScanningViaHullowsHunterToolStripMenuItem.Name = "excludeWebBrowsersFromScanningViaHullowsHunterToolStripMenuItem";
             this.excludeWebBrowsersFromScanningViaHullowsHunterToolStripMenuItem.Size = new System.Drawing.Size(360, 22);
             this.excludeWebBrowsersFromScanningViaHullowsHunterToolStripMenuItem.Text = "Exclude WebBrowsers for Scanning via HollowsHunter";
@@ -2152,6 +2160,38 @@
             this.toolStripStatusLabel7.Size = new System.Drawing.Size(145, 17);
             this.toolStripStatusLabel7.Text = "| Network Connections (0)";
             this.toolStripStatusLabel7.Click += new System.EventHandler(this.ToolStripStatusLabel7_Click);
+            // 
+            // dontShowEventsToolStripMenuItem
+            // 
+            this.dontShowEventsToolStripMenuItem.Name = "dontShowEventsToolStripMenuItem";
+            this.dontShowEventsToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
+            this.dontShowEventsToolStripMenuItem.Text = "Don\'t Show Events ";
+            this.dontShowEventsToolStripMenuItem.Click += new System.EventHandler(this.DontShowEventsToolStripMenuItem_Click);
+            // 
+            // networkConnectionsToolStripMenuItem
+            // 
+            this.networkConnectionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.showEventsToolStripMenuItem,
+            this.dontShowEventsToolStripMenuItem1});
+            this.networkConnectionsToolStripMenuItem.Name = "networkConnectionsToolStripMenuItem";
+            this.networkConnectionsToolStripMenuItem.Size = new System.Drawing.Size(207, 22);
+            this.networkConnectionsToolStripMenuItem.Text = "Network Connections";
+            // 
+            // showEventsToolStripMenuItem
+            // 
+            this.showEventsToolStripMenuItem.Checked = true;
+            this.showEventsToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.showEventsToolStripMenuItem.Name = "showEventsToolStripMenuItem";
+            this.showEventsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.showEventsToolStripMenuItem.Text = "Show Events";
+            this.showEventsToolStripMenuItem.Click += new System.EventHandler(this.ShowEventsToolStripMenuItem_Click);
+            // 
+            // dontShowEventsToolStripMenuItem1
+            // 
+            this.dontShowEventsToolStripMenuItem1.Name = "dontShowEventsToolStripMenuItem1";
+            this.dontShowEventsToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.dontShowEventsToolStripMenuItem1.Text = "Dont Show Events";
+            this.dontShowEventsToolStripMenuItem1.Click += new System.EventHandler(this.DontShowEventsToolStripMenuItem1_Click);
             // 
             // Form1
             // 
@@ -2448,6 +2488,10 @@
         private System.Windows.Forms.SplitContainer splitContainer9;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator16;
         private System.Windows.Forms.ToolStripMenuItem excludeWebBrowsersFromScanningViaHullowsHunterToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem dontShowEventsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem networkConnectionsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem showEventsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem dontShowEventsToolStripMenuItem1;
     }
 }
 
