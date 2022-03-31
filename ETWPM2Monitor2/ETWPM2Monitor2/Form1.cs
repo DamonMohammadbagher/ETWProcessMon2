@@ -368,7 +368,7 @@ namespace ETWPM2Monitor2
         public static int _Imgindex, _Imgindex2 = 0;
         public ListViewItem xiList2 = new ListViewItem();
         public static List<string> _ExcludeProcessList = new List<string>();
-        public static bool ExcludeWebBrowsersFromScanningViaHullowsHunter = true;
+        public static bool ExcludeWebBrowsersFromScanningViaHollowsHunter = true;
         public static bool IsDontShow_ETWPM2_Realt_time_Enabled = false;
         public static bool IsDontShow_NetworkConnection_Enabled = false;
 
@@ -1662,7 +1662,7 @@ namespace ETWPM2Monitor2
                 listView1.Columns.Add("EventID", 55, HorizontalAlignment.Left);
                 listView1.Columns.Add("Process", 170, HorizontalAlignment.Left);
                 listView1.Columns.Add("Evt-Type", 55, HorizontalAlignment.Left);
-                listView1.Columns.Add("EventMessage", 1500, HorizontalAlignment.Left);
+                //listView1.Columns.Add("EventMessage", 1500, HorizontalAlignment.Left);
 
 
                 listView2.SmallImageList = imageList1;
@@ -2313,8 +2313,6 @@ namespace ETWPM2Monitor2
         {
             await _ChangedProperty_Color_changed_delay(_item);
         }
-
-
 
         /// <summary>
         /// add and refresh all tcp events to networ connection Tab
@@ -3741,7 +3739,7 @@ namespace ETWPM2Monitor2
                                                 {
                                                     bool ignorescan = false;
 
-                                                    if ((ExcludeWebBrowsersFromScanningViaHullowsHunter) && 
+                                                    if ((ExcludeWebBrowsersFromScanningViaHollowsHunter) && 
                                                     (_ExcludeProcessList.Exists(index => index.Contains(Process.GetProcessById(item.PID).ProcessName.ToLower()))))
                                                     { ignorescan = true; }
 
@@ -4889,7 +4887,6 @@ namespace ETWPM2Monitor2
 
         }
 
-
         /// <summary>
         /// realtime monitoring events IDs 1,2,3 from windows event log "ETWPM2"  
         /// </summary>         
@@ -5523,7 +5520,7 @@ namespace ETWPM2Monitor2
 
         private void AboutToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(null, "ETWPM2Monitor2 v2.1 [test version 2.1.27.125]\nCode Published by Damon Mohammadbagher , Jul 2021", "About ETWPM2Monitor2 v2.1", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show(null, "ETWPM2Monitor2 v2.1 [test version 2.1.28.129]\nCode Published by Damon Mohammadbagher , Jul 2021", "About ETWPM2Monitor2 v2.1", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
         }
 
@@ -6098,11 +6095,11 @@ namespace ETWPM2Monitor2
             if(excludeWebBrowsersFromScanningViaHullowsHunterToolStripMenuItem.Checked == true)
             {
                 excludeWebBrowsersFromScanningViaHullowsHunterToolStripMenuItem.Checked = false;
-                ExcludeWebBrowsersFromScanningViaHullowsHunter = false;
+                ExcludeWebBrowsersFromScanningViaHollowsHunter = false;
             }else if(excludeWebBrowsersFromScanningViaHullowsHunterToolStripMenuItem.Checked == false)
             {
                 excludeWebBrowsersFromScanningViaHullowsHunterToolStripMenuItem.Checked = true;
-                ExcludeWebBrowsersFromScanningViaHullowsHunter = true;
+                ExcludeWebBrowsersFromScanningViaHollowsHunter = true;
             }
            
         }
@@ -6111,11 +6108,13 @@ namespace ETWPM2Monitor2
         {
             if(dontShowEventsToolStripMenuItem.Checked == false)
             {
+                eTWPM2RealtimeToolStripMenuItem.Checked = false;
                 dontShowEventsToolStripMenuItem.Checked = true;
                 IsDontShow_ETWPM2_Realt_time_Enabled = true;
             }
             else if (dontShowEventsToolStripMenuItem.Checked == true)
             {
+                eTWPM2RealtimeToolStripMenuItem.Checked = true;
                 dontShowEventsToolStripMenuItem.Checked = false;
                 IsDontShow_ETWPM2_Realt_time_Enabled = false;
             }
@@ -6123,7 +6122,7 @@ namespace ETWPM2Monitor2
 
         private void ShowEventsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            networkConnectionsToolStripMenuItem.Checked = true;
             IsDontShow_NetworkConnection_Enabled = false;
             showEventsToolStripMenuItem.Checked = true;
             dontShowEventsToolStripMenuItem1.Checked = false;
@@ -6132,6 +6131,7 @@ namespace ETWPM2Monitor2
 
         private void DontShowEventsToolStripMenuItem1_Click(object sender, EventArgs e)
         {
+            networkConnectionsToolStripMenuItem.Checked = false;
             IsDontShow_NetworkConnection_Enabled = true;
             dontShowEventsToolStripMenuItem1.Checked = true;
             showEventsToolStripMenuItem.Checked = false;

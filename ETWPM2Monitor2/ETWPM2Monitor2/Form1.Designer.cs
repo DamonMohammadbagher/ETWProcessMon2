@@ -186,9 +186,13 @@
             this.toolStripSeparator15 = new System.Windows.Forms.ToolStripSeparator();
             this.clearAllProcessesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator14 = new System.Windows.Forms.ToolStripSeparator();
+            this.networkConnectionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.showEventsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.dontShowEventsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.eTWPM2RealtimeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showEventDetailsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showEventDetails2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.dontShowEventsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
             this.showNotifyPopupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.filtersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -231,10 +235,6 @@
             this.toolStripStatusLabel5 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel6 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel7 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.dontShowEventsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.networkConnectionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.showEventsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.dontShowEventsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip5.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -336,7 +336,7 @@
             this.listView1.Location = new System.Drawing.Point(0, 0);
             this.listView1.MultiSelect = false;
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(1085, 190);
+            this.listView1.Size = new System.Drawing.Size(446, 356);
             this.listView1.TabIndex = 1;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.SelectedIndexChanged += new System.EventHandler(this.ListView1_SelectedIndexChanged);
@@ -395,7 +395,6 @@
             this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer2.Location = new System.Drawing.Point(3, 3);
             this.splitContainer2.Name = "splitContainer2";
-            this.splitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
             // splitContainer2.Panel1
             // 
@@ -405,7 +404,7 @@
             // 
             this.splitContainer2.Panel2.Controls.Add(this.richTextBox6);
             this.splitContainer2.Size = new System.Drawing.Size(1085, 356);
-            this.splitContainer2.SplitterDistance = 190;
+            this.splitContainer2.SplitterDistance = 446;
             this.splitContainer2.TabIndex = 2;
             // 
             // richTextBox6
@@ -415,7 +414,7 @@
             this.richTextBox6.Location = new System.Drawing.Point(0, 0);
             this.richTextBox6.Name = "richTextBox6";
             this.richTextBox6.ReadOnly = true;
-            this.richTextBox6.Size = new System.Drawing.Size(1085, 162);
+            this.richTextBox6.Size = new System.Drawing.Size(635, 356);
             this.richTextBox6.TabIndex = 0;
             this.richTextBox6.Text = "";
             // 
@@ -1777,6 +1776,33 @@
             this.toolStripSeparator14.Name = "toolStripSeparator14";
             this.toolStripSeparator14.Size = new System.Drawing.Size(157, 6);
             // 
+            // networkConnectionsToolStripMenuItem
+            // 
+            this.networkConnectionsToolStripMenuItem.Checked = true;
+            this.networkConnectionsToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.networkConnectionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.showEventsToolStripMenuItem,
+            this.dontShowEventsToolStripMenuItem1});
+            this.networkConnectionsToolStripMenuItem.Name = "networkConnectionsToolStripMenuItem";
+            this.networkConnectionsToolStripMenuItem.Size = new System.Drawing.Size(207, 22);
+            this.networkConnectionsToolStripMenuItem.Text = "Network Connections";
+            // 
+            // showEventsToolStripMenuItem
+            // 
+            this.showEventsToolStripMenuItem.Checked = true;
+            this.showEventsToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.showEventsToolStripMenuItem.Name = "showEventsToolStripMenuItem";
+            this.showEventsToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+            this.showEventsToolStripMenuItem.Text = "Show Events";
+            this.showEventsToolStripMenuItem.Click += new System.EventHandler(this.ShowEventsToolStripMenuItem_Click);
+            // 
+            // dontShowEventsToolStripMenuItem1
+            // 
+            this.dontShowEventsToolStripMenuItem1.Name = "dontShowEventsToolStripMenuItem1";
+            this.dontShowEventsToolStripMenuItem1.Size = new System.Drawing.Size(169, 22);
+            this.dontShowEventsToolStripMenuItem1.Text = "Dont Show Events";
+            this.dontShowEventsToolStripMenuItem1.Click += new System.EventHandler(this.DontShowEventsToolStripMenuItem1_Click);
+            // 
             // eTWPM2RealtimeToolStripMenuItem
             // 
             this.eTWPM2RealtimeToolStripMenuItem.Checked = true;
@@ -1804,6 +1830,13 @@
             this.showEventDetails2ToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
             this.showEventDetails2ToolStripMenuItem.Text = "Show Event Details 2";
             this.showEventDetails2ToolStripMenuItem.Click += new System.EventHandler(this.ShowEventDetails2ToolStripMenuItem_Click);
+            // 
+            // dontShowEventsToolStripMenuItem
+            // 
+            this.dontShowEventsToolStripMenuItem.Name = "dontShowEventsToolStripMenuItem";
+            this.dontShowEventsToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
+            this.dontShowEventsToolStripMenuItem.Text = "Don\'t Show Events ";
+            this.dontShowEventsToolStripMenuItem.Click += new System.EventHandler(this.DontShowEventsToolStripMenuItem_Click);
             // 
             // toolStripSeparator11
             // 
@@ -2160,38 +2193,6 @@
             this.toolStripStatusLabel7.Size = new System.Drawing.Size(145, 17);
             this.toolStripStatusLabel7.Text = "| Network Connections (0)";
             this.toolStripStatusLabel7.Click += new System.EventHandler(this.ToolStripStatusLabel7_Click);
-            // 
-            // dontShowEventsToolStripMenuItem
-            // 
-            this.dontShowEventsToolStripMenuItem.Name = "dontShowEventsToolStripMenuItem";
-            this.dontShowEventsToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
-            this.dontShowEventsToolStripMenuItem.Text = "Don\'t Show Events ";
-            this.dontShowEventsToolStripMenuItem.Click += new System.EventHandler(this.DontShowEventsToolStripMenuItem_Click);
-            // 
-            // networkConnectionsToolStripMenuItem
-            // 
-            this.networkConnectionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.showEventsToolStripMenuItem,
-            this.dontShowEventsToolStripMenuItem1});
-            this.networkConnectionsToolStripMenuItem.Name = "networkConnectionsToolStripMenuItem";
-            this.networkConnectionsToolStripMenuItem.Size = new System.Drawing.Size(207, 22);
-            this.networkConnectionsToolStripMenuItem.Text = "Network Connections";
-            // 
-            // showEventsToolStripMenuItem
-            // 
-            this.showEventsToolStripMenuItem.Checked = true;
-            this.showEventsToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.showEventsToolStripMenuItem.Name = "showEventsToolStripMenuItem";
-            this.showEventsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.showEventsToolStripMenuItem.Text = "Show Events";
-            this.showEventsToolStripMenuItem.Click += new System.EventHandler(this.ShowEventsToolStripMenuItem_Click);
-            // 
-            // dontShowEventsToolStripMenuItem1
-            // 
-            this.dontShowEventsToolStripMenuItem1.Name = "dontShowEventsToolStripMenuItem1";
-            this.dontShowEventsToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
-            this.dontShowEventsToolStripMenuItem1.Text = "Dont Show Events";
-            this.dontShowEventsToolStripMenuItem1.Click += new System.EventHandler(this.DontShowEventsToolStripMenuItem1_Click);
             // 
             // Form1
             // 
