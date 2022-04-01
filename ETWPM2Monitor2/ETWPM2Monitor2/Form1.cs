@@ -2159,8 +2159,8 @@ namespace ETWPM2Monitor2
                     Process[] p = Process.GetProcesses();
                     foreach (ListViewItem item in listView1.Items)
                     {
-                        if (p.ToList().Find(pid => pid.Id == Convert.ToInt32(item.SubItems[3].Text.Split(':')[1])
-                         && pid.ProcessName.ToLower() == item.SubItems[3].Text.Split(':')[0].ToLower()) == null)
+                        if (p.ToList().FindIndex(pid => pid.Id == Convert.ToInt32(item.SubItems[3].Text.Split(':')[1])
+                         && pid.ProcessName.ToLower() == item.SubItems[3].Text.Split(':')[0].ToLower()) == -1)
                         {
 
                             item.Remove();
@@ -4779,50 +4779,53 @@ namespace ETWPM2Monitor2
         {
             await Task.Run(() =>
             {
-                if (ETWPM2Realt_timeShowMode_Level == 0)
+                if (!IsDontShow_ETWPM2_Realt_time_Enabled)
                 {
-                    t.Interval = 10000;
-                    try
+                    if (ETWPM2Realt_timeShowMode_Level == 0)
                     {
-                        if (i6 != listView1.Items.Count - 1)
+                        t.Interval = 10000;
+                        try
                         {
-                            try
+                            if (i6 != listView1.Items.Count - 1)
                             {
-                                listView1.FocusedItem = listView1.Items[listView1.Items.Count - 1];
-                                listView1.BeginInvoke((MethodInvoker)delegate { listView1.FocusedItem.EnsureVisible(); });
-                                i6 = listView1.Items.Count - 1;
-                            }
-                            catch (Exception)
-                            {
+                                try
+                                {
+                                    listView1.FocusedItem = listView1.Items[listView1.Items.Count - 1];
+                                    listView1.BeginInvoke((MethodInvoker)delegate { listView1.FocusedItem.EnsureVisible(); });
+                                    i6 = listView1.Items.Count - 1;
+                                }
+                                catch (Exception)
+                                {
 
 
+                                }
                             }
+
                         }
+                        catch (Exception)
+                        {
+
+
+                        }
+                    }
+                    else if (ETWPM2Realt_timeShowMode_Level == 1)
+                    {
+
+                        listView1.BeginInvoke((MethodInvoker)delegate
+                        {
+                            t.Interval = 6000;
+                            foreach (ListViewItem item in listView1.Items)
+                            {
+                                if (item.ForeColor != Color.Black)
+                                {
+                                    item.ForeColor = Color.Black;
+
+                                }
+                            }
+                            listView1.Refresh();
+                        });
 
                     }
-                    catch (Exception)
-                    {
-
-
-                    }
-                }
-                else if (ETWPM2Realt_timeShowMode_Level == 1)
-                {
-
-                    listView1.BeginInvoke((MethodInvoker)delegate
-                    {                         
-                        t.Interval = 6000;
-                        foreach (ListViewItem item in listView1.Items)
-                        {
-                            if (item.ForeColor != Color.Black)
-                            {
-                                item.ForeColor = Color.Black;
-                                 
-                            }
-                        }
-                        listView1.Refresh();
-                    });
-
                 }
             });
         }
@@ -6111,6 +6114,10 @@ namespace ETWPM2Monitor2
                 eTWPM2RealtimeToolStripMenuItem.Checked = false;
                 dontShowEventsToolStripMenuItem.Checked = true;
                 IsDontShow_ETWPM2_Realt_time_Enabled = true;
+
+                t6.Enabled = false;
+                t6.Stop();
+                listView1.Items.Clear();
             }
             else if (dontShowEventsToolStripMenuItem.Checked == true)
             {
