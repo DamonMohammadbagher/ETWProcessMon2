@@ -1942,14 +1942,14 @@
             this.onToolStripMenuItem1.Checked = true;
             this.onToolStripMenuItem1.CheckState = System.Windows.Forms.CheckState.Checked;
             this.onToolStripMenuItem1.Name = "onToolStripMenuItem1";
-            this.onToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.onToolStripMenuItem1.Size = new System.Drawing.Size(91, 22);
             this.onToolStripMenuItem1.Text = "On";
             this.onToolStripMenuItem1.Click += new System.EventHandler(this.OnToolStripMenuItem1_Click);
             // 
             // offToolStripMenuItem1
             // 
             this.offToolStripMenuItem1.Name = "offToolStripMenuItem1";
-            this.offToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.offToolStripMenuItem1.Size = new System.Drawing.Size(91, 22);
             this.offToolStripMenuItem1.Text = "Off";
             this.offToolStripMenuItem1.Click += new System.EventHandler(this.OffToolStripMenuItem1_Click);
             // 

@@ -375,18 +375,23 @@ namespace ETWPM2Monitor2
 
         public async Task _Add_SystemDeveloperLogs(string logmessage)
         {
-            await Task.Run(() =>
+            try
             {
-                System_DeveloperLogsList.Add(DateTime.Now.Hour + ":" + DateTime.Now.Minute + ":" + DateTime.Now.Second + ":" + DateTime.Now.Millisecond + " " + logmessage);
-                listBox5.BeginInvoke((MethodInvoker)delegate
+                await Task.Run(() =>
                 {
+                    System_DeveloperLogsList.Add(DateTime.Now.Hour + ":" + DateTime.Now.Minute + ":" + DateTime.Now.Second + ":" + DateTime.Now.Millisecond + " " + logmessage);
+                    listBox5.BeginInvoke((MethodInvoker)delegate
+                    {
 
-                    listBox5.Items.Add(DateTime.Now.Hour + ":" + DateTime.Now.Minute + ":" + DateTime.Now.Second + ":" + DateTime.Now.Millisecond + " " + logmessage);
-
-
-
+                        listBox5.Items.Add(DateTime.Now.Hour + ":" + DateTime.Now.Minute + ":" + DateTime.Now.Second + ":" + DateTime.Now.Millisecond + " " + logmessage);
+                    });
                 });
-            });
+            }
+            catch (Exception)
+            {
+
+
+            }
         }
 
         public async void AsyncRun__Add_SystemDeveloperLogs(object obj)
@@ -2455,7 +2460,7 @@ namespace ETWPM2Monitor2
 
                                         if (_1min.Minutes >= 1) timetoshow = true;
 
-                                        if (_1min.Minutes >= 1 && TCPConnectionTable_To_Show[IndexofTCPRecord]._Update_Events >= 2) timetoshow = true;
+                                       // if (_1min.Minutes >= 1 && TCPConnectionTable_To_Show[IndexofTCPRecord]._Update_Events >= 2) timetoshow = true;
 
                                         _TCPConnection_Struc TempTCPstruc = new _TCPConnection_Struc();
 
@@ -2501,7 +2506,7 @@ namespace ETWPM2Monitor2
 
                                         if (_1min.Minutes >= 1) timetoshow = true;
 
-                                        if (_1min.Minutes >= 1 && TCPConnectionTable_To_Show[IndexofTCPRecord]._Update_Events >= 2) timetoshow = true;
+                                       // if (_1min.Minutes >= 1 && TCPConnectionTable_To_Show[IndexofTCPRecord]._Update_Events >= 2) timetoshow = true;
                                     }
 
 
@@ -3860,24 +3865,30 @@ namespace ETWPM2Monitor2
                             try
                             {
                                 /// pe-sieve64.exe scanner
+                                
+                                string _InjectorPathPID = "";
 
-                                string _InjectorPathPID = item.Injector_Path + ":" + item.Injector.ToString();
-                                //Init_to_runPEScanner_01 = false;
-                                Init_to_runPEScanner_01 = true;
+                                if (item.Injector_Path.Contains(" Process Exited [ "))
+                                {
+                                    _InjectorPathPID = item.Injector_Path.Split('[')[1].Split(']')[0].Substring(1);
+                                }
+                                else
+                                {
+                                    _InjectorPathPID = item.Injector_Path + ":" + item.Injector.ToString();
+                                }
+
+                                Init_to_runPEScanner_01 = false;
+                                 
                                 strOutput = "";
 
                                 if (isPEScanonoff)
                                 {
                                     outputs = new System.Diagnostics.Process();
 
-                                    List<_TableofProcess_Scanned_01> resultPEScanned = Scanned_PIds.FindAll(PEScan => PEScan.PID == Convert.ToInt32(item.PID.ToString()) && PEScan.ProcNameANDPath == item.ProcessName_Path);
-                                   int _resultPEScanned01 = Scanned_PIds.FindIndex(PEScan => PEScan.PID == Convert.ToInt32(item.PID.ToString()) && PEScan.ProcNameANDPath == item.ProcessName_Path);
+                                    int _resultPEScanned01 = Scanned_PIds.FindIndex(PEScan => PEScan.PID == Convert.ToInt32(item.PID.ToString()) && PEScan.ProcNameANDPath == item.ProcessName_Path
+                                   && PEScan.injectorPathPID == _InjectorPathPID);
 
-                                    if (resultPEScanned.Count == 0)
-                                    {
-                                        /// new pe scan
-                                        Init_to_runPEScanner_01 = true;
-                                    }
+                                  
 
                                     if(_resultPEScanned01 == -1)
                                     {
@@ -3889,27 +3900,27 @@ namespace ETWPM2Monitor2
 
                                         /// check time of last scan >= 10mins or > 1hour + remove + add
                                         /// breaking loop for Scanning all PE everytimes ;) not really good code is here but is better than nothing lol
-                                        int _now_min = DateTime.Now.Minute;
-                                        int _now_Hour = DateTime.Now.Hour;
-                                        if (_now_min - resultPEScanned[0].time_min >= 10 || _now_Hour - resultPEScanned[0].time_Hour != 0)
-                                        {
-                                            Init_to_runPEScanner_01 = true;
-                                            Scanned_PIds.Remove(new _TableofProcess_Scanned_01 { PID = Convert.ToInt32(item.PID.ToString()) });
-                                        }
-                                        else if (_now_min - resultPEScanned[0].time_min < 10 || _now_Hour - resultPEScanned[0].time_Hour == 0)
-                                        {
-                                            Init_to_runPEScanner_01 = false;
-                                        }
+                                        //int _now_min = DateTime.Now.Minute;
+                                        //int _now_Hour = DateTime.Now.Hour;
+                                        //if (_now_min - resultPEScanned[0].time_min >= 10 || _now_Hour - resultPEScanned[0].time_Hour != 0)
+                                        //{
+                                        //    Init_to_runPEScanner_01 = true;
+                                        //    Scanned_PIds.Remove(new _TableofProcess_Scanned_01 { PID = Convert.ToInt32(item.PID.ToString()) });
+                                        //}
+                                        //else if (_now_min - resultPEScanned[0].time_min < 10 || _now_Hour - resultPEScanned[0].time_Hour == 0)
+                                        //{
+                                        //    Init_to_runPEScanner_01 = false;
+                                        //}
                                     }
 
                                     if (ScannerMixedMode_Pesieve)
                                     {
                                         /// remove both for sure make new pe scan
-                                        foreach (_TableofProcess_Scanned_01 xxxitem in resultPEScanned)
-                                        {
-                                            Scanned_PIds.Remove(new _TableofProcess_Scanned_01 { PID = xxxitem.PID });
-                                        }
-                                        Init_to_runPEScanner_01 = true;
+                                        //foreach (_TableofProcess_Scanned_01 xxxitem in resultPEScanned)
+                                        //{
+                                        //    Scanned_PIds.Remove(new _TableofProcess_Scanned_01 { PID = xxxitem.PID });
+                                        //}
+                                        //Init_to_runPEScanner_01 = true;
                                     }
 
                                     string result1 = "";
@@ -4017,7 +4028,8 @@ namespace ETWPM2Monitor2
                                         if (Convert.ToInt32(string.Join("", ("0" + result2).Where(char.IsDigit)).ToString()) > 0) { _Isdetected = true; }
                                         else { _Isdetected = false; }
 
-                                        if (!Scanned_PIds.Exists(scanned => scanned.PID == Convert.ToInt32(item.PID.ToString()) && scanned.ProcNameANDPath == item.ProcessName_Path))
+                                        if (!Scanned_PIds.Exists(scanned => scanned.PID == Convert.ToInt32(item.PID.ToString()) && scanned.ProcNameANDPath == item.ProcessName_Path
+                                        && scanned.injectorPathPID == _InjectorPathPID))
                                         {
                                             Scanned_PIds.Add(new _TableofProcess_Scanned_01
                                             {
@@ -4084,48 +4096,70 @@ namespace ETWPM2Monitor2
                                 {
                                     /// hollowshunter.exe scanner
 
-                                    string _InjectorPathPID = item.Injector_Path + ":" + item.Injector.ToString();
+                                    //string _InjectorPathPID = item.Injector_Path + ":" + item.Injector.ToString();
+
+                                    string _InjectorPathPID = "";
+
+                                    if (item.Injector_Path.Contains(" Process Exited [ "))
+                                    {
+                                        _InjectorPathPID = item.Injector_Path.Split('[')[1].Split(']')[0].Substring(1);
+                                    }
+                                    else
+                                    {
+                                        _InjectorPathPID = item.Injector_Path + ":" + item.Injector.ToString();
+                                    }
+
+
+                                    int _resultPEScanned02 = Scanned_PIds2.FindIndex(PEScan => PEScan.PID == Convert.ToInt32(item.PID.ToString()) && PEScan.ProcNameANDPath == item.ProcessName_Path
+                                   && PEScan.injectorPathPID == _InjectorPathPID);
+
+                                    if (_resultPEScanned02 == -1)
+                                    {
+                                        Init_to_runPEScanner_02 = true;
+                                    }
+
                                     finalresult_Scanned_02[2] = "--";
                                     string result1 = "";
                                     outputs2 = new System.Diagnostics.Process();
 
-                                    List<_TableofProcess_Scanned_02> resultPEScanned = Scanned_PIds2.FindAll(PEScan => PEScan.PID == Convert.ToInt32(item.PID.ToString()) && PEScan.ProcNameANDPath == item.ProcessName_Path && PEScan.injectorPathPID == _InjectorPathPID);
+                                   // List<_TableofProcess_Scanned_02> resultPEScanned = Scanned_PIds2.FindAll(PEScan => PEScan.PID == Convert.ToInt32(item.PID.ToString()) && PEScan.ProcNameANDPath == item.ProcessName_Path && PEScan.injectorPathPID == _InjectorPathPID);
 
-                                    if (resultPEScanned.Count == 0)
-                                    {
-                                        /// new pe scan
-                                        Init_to_runPEScanner_02 = true;
-                                    }
+                                    //if (resultPEScanned.Count == 0)
+                                    //{
+                                    //    /// new pe scan
+                                    //    Init_to_runPEScanner_02 = true;
+                                    //}
 
-                                    if (ScannerEvery10minMode_Hollowh)
-                                    {
-                                        /// check time of last scan >= 10mins or > 1hour + remove + add
-                                        /// breaking loop for Scanning all PE via HollowHunter.exe everytimes ;) not really good code is here but is better than nothing lol
-                                        int _now_min = DateTime.Now.Minute;
-                                        int _now_Hour = DateTime.Now.Hour;
-                                        if (_now_min - resultPEScanned[0].time_min >= 10 || _now_Hour - resultPEScanned[0].time_Hour != 0)
-                                        {
-                                            Init_to_runPEScanner_02 = true;
-                                            Scanned_PIds2.Remove(new _TableofProcess_Scanned_02 { PID = Convert.ToInt32(item.PID.ToString()) });
-                                        }
-                                        else if (_now_min - resultPEScanned[0].time_min < 10 || _now_Hour - resultPEScanned[0].time_Hour == 0)
-                                        {
-                                            Init_to_runPEScanner_02 = false;
-                                        }
-                                    }
+                                    //if (ScannerEvery10minMode_Hollowh)
+                                    //{
+                                    //    /// check time of last scan >= 10mins or > 1hour + remove + add
+                                    //    /// breaking loop for Scanning all PE via HollowHunter.exe everytimes ;) not really good code is here but is better than nothing lol
+                                    //    int _now_min = DateTime.Now.Minute;
+                                    //    int _now_Hour = DateTime.Now.Hour;
+                                    //    if (_now_min - resultPEScanned[0].time_min >= 10 || _now_Hour - resultPEScanned[0].time_Hour != 0)
+                                    //    {
+                                    //        Init_to_runPEScanner_02 = true;
+                                    //        Scanned_PIds2.Remove(new _TableofProcess_Scanned_02 { PID = Convert.ToInt32(item.PID.ToString()) });
+                                    //    }
+                                    //    else if (_now_min - resultPEScanned[0].time_min < 10 || _now_Hour - resultPEScanned[0].time_Hour == 0)
+                                    //    {
+                                    //        Init_to_runPEScanner_02 = false;
+                                    //    }
+                                    //}
 
-                                    if (ScannerMixedMode_Hollowh)
-                                    {
-                                        /// remove both for sure make new pe scan
-                                        foreach (_TableofProcess_Scanned_02 xxitem in resultPEScanned)
-                                        {
-                                            Scanned_PIds2.Remove(new _TableofProcess_Scanned_02 { PID = xxitem.PID });
-                                        }
-                                        Init_to_runPEScanner_02 = true;
-                                    }
+                                    //if (ScannerMixedMode_Hollowh)
+                                    //{
+                                    //    /// remove both for sure make new pe scan
+                                    //    foreach (_TableofProcess_Scanned_02 xxitem in resultPEScanned)
+                                    //    {
+                                    //        Scanned_PIds2.Remove(new _TableofProcess_Scanned_02 { PID = xxitem.PID });
+                                    //    }
+                                    //    Init_to_runPEScanner_02 = true;
+                                    //}
 
                                     if (Init_to_runPEScanner_02)
                                     {
+                                        string result2 = "";
                                         if (File.Exists("hollows_hunter64.exe"))
                                         {
                                             try
@@ -4283,7 +4317,7 @@ namespace ETWPM2Monitor2
                                                                  + " [" + strOutput2.Substring(strOutput2.IndexOf("Finished scan in:") + 8).Split('\n')[0] + "]";
                                                         }
 
-                                                        string result2 = "";
+                                                        result2 = "";
                                                         foreach (char vitem in result1)
                                                         {
                                                             if (vitem != ' ')
@@ -4338,7 +4372,8 @@ namespace ETWPM2Monitor2
 
                                         }
 
-                                        if (!Scanned_PIds2.Exists(x => x.PID == Convert.ToInt32(item.PID.ToString()) && x.ProcNameANDPath == item.ProcessName_Path))
+                                        if (!Scanned_PIds2.Exists(x => x.PID == Convert.ToInt32(item.PID.ToString()) && x.ProcNameANDPath == item.ProcessName_Path 
+                                        && x.injectorPathPID == _InjectorPathPID))
                                         {
                                             Scanned_PIds2.Add(new _TableofProcess_Scanned_02
                                             {
@@ -4346,7 +4381,10 @@ namespace ETWPM2Monitor2
                                                 time_min = DateTime.Now.Minute,
                                                 PID = Convert.ToInt32(item.PID.ToString()),
                                                 ProcNameANDPath = item.ProcessName_Path,
-                                                injectorPathPID = _InjectorPathPID
+                                                injectorPathPID = _InjectorPathPID,
+                                                Scanner02_RESULT_Int32_outputstr = result2,
+                                                ScannerResult_IsDetected = true,
+                                                ScannerStatus = "--"
                                             });
                                         }
 
