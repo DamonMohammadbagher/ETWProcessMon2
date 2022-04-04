@@ -992,6 +992,7 @@ namespace SysPM2Monitor2_7
                     bool found = false;
                     if (listBox6.Items.Count > 0)
                     {
+                        //"[Detected Injector: True][ProcessName: \"modulestomping-dll-hollowing-shellcode-injection - Copy.exe\"  2476 ] [PID:2304] [ Path:C:\\Test\\modulestomping-dll-hollowing-shellcode-injection_old\\x64\\Debug\\modulestomping-dll-hollowing-shellcode-injection - Copy.exe] [Injector Process File MD5:9520A5E5D3FA627FC0433BEE7916889A]"
                         foreach (var item in listBox6.Items)
                         {
                             if (item.ToString() == "[Detected Injector: " + __item._IsDetected_as_Injector + "]" + "[ProcessName: " + __item.ProcessName + " ] [PID:" + __item.PID + "] [ Path:" + __item.ProcessName_Path.ToString()
@@ -1000,11 +1001,12 @@ namespace SysPM2Monitor2_7
                                 found = true;
                                 break;
                             }
-                            if (!found)
-                            {
-                                listBox6.Items.Add("[Detected Injector: " + __item._IsDetected_as_Injector + "]" + "[ProcessName: " + __item.ProcessName + " ] [PID:" + __item.PID + "] [ Path:" + __item.ProcessName_Path.ToString()
-                                + "] [Injector Process File MD5:" + __item.MD5 + "]");
-                            }
+                           
+                        }
+                        if (!found)
+                        {
+                            listBox6.Items.Add("[Detected Injector: " + __item._IsDetected_as_Injector + "]" + "[ProcessName: " + __item.ProcessName + " ] [PID:" + __item.PID + "] [ Path:" + __item.ProcessName_Path.ToString()
+                            + "] [Injector Process File MD5:" + __item.MD5 + "]");
                         }
                     }
                     else
@@ -4384,7 +4386,7 @@ namespace SysPM2Monitor2_7
                                            + "Process: " + listviewitems_wasselected_ihope.SubItems[2].Text + "\n"
                                               + "Injection-Type: " + listviewitems_wasselected_ihope.SubItems[3].Text + "\n"
                                                  + "TCPSend: " + listviewitems_wasselected_ihope.SubItems[4].Text + "\n"
-                                                    + "Status: " + listviewitems_wasselected_ihope.SubItems[5].Text + " (by hollowshunter)" + "\n"
+                                                    + "Status: " + listviewitems_wasselected_ihope.SubItems[5].Text + "\n"
                                                     + "__________________________________________________________\n"
                                                        + "MemoryScanner PE-sieve Result: " + __result01 + "\n\n"
                                                        + "MemoryScanner HollowsHunter Result: " + __result02 + "\n\n"
@@ -4403,7 +4405,7 @@ namespace SysPM2Monitor2_7
                                            + "Process: " + listviewitems_wasselected_ihope.SubItems[2].Text + "\n"
                                               + "Injection-Type: " + listviewitems_wasselected_ihope.SubItems[3].Text + "\n"
                                                  + "TCPSend: " + listviewitems_wasselected_ihope.SubItems[4].Text + "\n"
-                                                    + "Status: " + listviewitems_wasselected_ihope.SubItems[5].Text + " (by hollowshunter)" + "\n"
+                                                    + "Status: " + listviewitems_wasselected_ihope.SubItems[5].Text  + "\n"
                                                     + "__________________________________________________________\n"
                                                         + "MemoryScanner PE-sieve Result: " + __result01 + "\n\n"
                                                        + "MemoryScanner HollowsHunter Result: " + __result02 + "\n\n"
