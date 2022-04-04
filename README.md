@@ -95,8 +95,8 @@ Video1 : https://www.youtube.com/watch?v=E7mB1we9GhU
 Video2 : https://www.youtube.com/watch?v=Q8fSpUXR2kw
 
 md5 info:
-               
-           0d128b9e1a-77e145fed2-b1b6b4ff1aba => SysPM2Monitor2_7.exe [v2.7.20.70]
+                          
+           3d81808d17-7d0fb89ed8-1b20e2d03f36 => SysPM2Monitor2_7.exe [v2.7.20.70]
 
 
 
@@ -146,7 +146,8 @@ Note: EventIDs 1,2,3,4,255, these events will save save by ETWPM2Monitor2.1 in W
 md5 info [ETWPM2Monitor2.exe], "exe files are not safe here in github so make your own exe files with C# source by yourself [i recommend]":
 
     
-    94eb501786-9ab3eb888f-60913c9db78b => ETWPM2Monitor2.exe (v2.1) [v2.1.24.110]
+    
+    0eba28c62d-8fc9261649-900bf20f98ee => ETWPM2Monitor2.exe (v2.1) [v2.1.29.140]
 
     
 ### ETWPM2Monitor2 v2.1 [v2.1.18.84]  
