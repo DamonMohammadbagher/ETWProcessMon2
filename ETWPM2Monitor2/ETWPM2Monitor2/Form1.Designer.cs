@@ -82,6 +82,8 @@
             this.contextMenuStrip6 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.alarmsEventsPropertiesToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAllAlarmEventsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator18 = new System.Windows.Forms.ToolStripSeparator();
+            this.checkProcessHollowingSizeChangingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl2 = new System.Windows.Forms.TabControl();
             this.tabPage5 = new System.Windows.Forms.TabPage();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
@@ -156,25 +158,7 @@
             this.defaultDumpAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dontDumpTheModifiedPEsButSaveTheReportoffToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dontDumpAnyFilesToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.hollowHunterexeOnToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.scanOnlyModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.scanSuspendToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.scanKillSuspiciousToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
-            this.dontDumpPEOfilterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.dontDumpAnyFilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.dumpAllProcessToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.hollowHunterexeoffToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.scanningConfigurationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.pesieveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.scanningTargetProcessEvery10mininBackgroundToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.mixedModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.disableAllModesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.hollowshunterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.scanningTargetProcessEvery10mininBackgroundToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.mixedModeToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.disableBothToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
             this.processesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.refresh5SecToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -811,23 +795,37 @@
             // 
             this.contextMenuStrip6.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.alarmsEventsPropertiesToolStripMenuItem1,
-            this.saveAllAlarmEventsToolStripMenuItem});
+            this.saveAllAlarmEventsToolStripMenuItem,
+            this.toolStripSeparator18,
+            this.checkProcessHollowingSizeChangingToolStripMenuItem});
             this.contextMenuStrip6.Name = "contextMenuStrip6";
-            this.contextMenuStrip6.Size = new System.Drawing.Size(205, 48);
+            this.contextMenuStrip6.Size = new System.Drawing.Size(294, 76);
             // 
             // alarmsEventsPropertiesToolStripMenuItem1
             // 
             this.alarmsEventsPropertiesToolStripMenuItem1.Name = "alarmsEventsPropertiesToolStripMenuItem1";
-            this.alarmsEventsPropertiesToolStripMenuItem1.Size = new System.Drawing.Size(204, 22);
+            this.alarmsEventsPropertiesToolStripMenuItem1.Size = new System.Drawing.Size(293, 22);
             this.alarmsEventsPropertiesToolStripMenuItem1.Text = "Alarms Events Properties";
             this.alarmsEventsPropertiesToolStripMenuItem1.Click += new System.EventHandler(this.AlarmsEventsPropertiesToolStripMenuItem1_Click);
             // 
             // saveAllAlarmEventsToolStripMenuItem
             // 
             this.saveAllAlarmEventsToolStripMenuItem.Name = "saveAllAlarmEventsToolStripMenuItem";
-            this.saveAllAlarmEventsToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
+            this.saveAllAlarmEventsToolStripMenuItem.Size = new System.Drawing.Size(293, 22);
             this.saveAllAlarmEventsToolStripMenuItem.Text = "Save All Alarm Events";
             this.saveAllAlarmEventsToolStripMenuItem.Click += new System.EventHandler(this.SaveAllAlarmEventsToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator18
+            // 
+            this.toolStripSeparator18.Name = "toolStripSeparator18";
+            this.toolStripSeparator18.Size = new System.Drawing.Size(290, 6);
+            // 
+            // checkProcessHollowingSizeChangingToolStripMenuItem
+            // 
+            this.checkProcessHollowingSizeChangingToolStripMenuItem.Name = "checkProcessHollowingSizeChangingToolStripMenuItem";
+            this.checkProcessHollowingSizeChangingToolStripMenuItem.Size = new System.Drawing.Size(293, 22);
+            this.checkProcessHollowingSizeChangingToolStripMenuItem.Text = "Check Process-Hollowing (Bytes Change)";
+            this.checkProcessHollowingSizeChangingToolStripMenuItem.Click += new System.EventHandler(this.CheckProcessHollowingSizeChangingToolStripMenuItem_Click);
             // 
             // tabControl2
             // 
@@ -1511,10 +1509,7 @@
             this.scannersToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.pesieve64exeOffToolStripMenuItem,
             this.pesieve64exeonToolStripMenuItem,
-            this.hollowHunterexeOnToolStripMenuItem,
-            this.hollowHunterexeoffToolStripMenuItem,
-            this.toolStripSeparator2,
-            this.scanningConfigurationToolStripMenuItem});
+            this.toolStripSeparator2});
             this.scannersToolStripMenuItem.Name = "scannersToolStripMenuItem";
             this.scannersToolStripMenuItem.Size = new System.Drawing.Size(207, 22);
             this.scannersToolStripMenuItem.Text = "Scanners";
@@ -1523,7 +1518,7 @@
             // 
             this.pesieve64exeOffToolStripMenuItem.Enabled = false;
             this.pesieve64exeOffToolStripMenuItem.Name = "pesieve64exeOffToolStripMenuItem";
-            this.pesieve64exeOffToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
+            this.pesieve64exeOffToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.pesieve64exeOffToolStripMenuItem.Text = "Pe-sieve.exe off";
             this.pesieve64exeOffToolStripMenuItem.Click += new System.EventHandler(this.Pesieve64exeOffToolStripMenuItem_Click);
             // 
@@ -1537,7 +1532,7 @@
             this.dontDumpTheModifiedPEsButSaveTheReportoffToolStripMenuItem,
             this.dontDumpAnyFilesToolStripMenuItem1});
             this.pesieve64exeonToolStripMenuItem.Name = "pesieve64exeonToolStripMenuItem";
-            this.pesieve64exeonToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
+            this.pesieve64exeonToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.pesieve64exeonToolStripMenuItem.Text = "Pe-sieve.exe on";
             // 
             // scanOnlyModeDefaultToolStripMenuItem
@@ -1582,158 +1577,10 @@
             this.dontDumpAnyFilesToolStripMenuItem1.Text = "don\'t dump any files [off]";
             this.dontDumpAnyFilesToolStripMenuItem1.Click += new System.EventHandler(this.DontDumpAnyFilesToolStripMenuItem1_Click);
             // 
-            // hollowHunterexeOnToolStripMenuItem
-            // 
-            this.hollowHunterexeOnToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.scanOnlyModeToolStripMenuItem,
-            this.scanSuspendToolStripMenuItem,
-            this.scanKillSuspiciousToolStripMenuItem,
-            this.toolStripSeparator8,
-            this.dontDumpPEOfilterToolStripMenuItem,
-            this.dontDumpAnyFilesToolStripMenuItem,
-            this.dumpAllProcessToolStripMenuItem});
-            this.hollowHunterexeOnToolStripMenuItem.Name = "hollowHunterexeOnToolStripMenuItem";
-            this.hollowHunterexeOnToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
-            this.hollowHunterexeOnToolStripMenuItem.Text = "HollowsHunter.exe on";
-            // 
-            // scanOnlyModeToolStripMenuItem
-            // 
-            this.scanOnlyModeToolStripMenuItem.Checked = true;
-            this.scanOnlyModeToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.scanOnlyModeToolStripMenuItem.Name = "scanOnlyModeToolStripMenuItem";
-            this.scanOnlyModeToolStripMenuItem.Size = new System.Drawing.Size(360, 22);
-            this.scanOnlyModeToolStripMenuItem.Text = "Scan only mode (Default)";
-            this.scanOnlyModeToolStripMenuItem.Click += new System.EventHandler(this.ScanOnlyModeToolStripMenuItem_Click);
-            // 
-            // scanSuspendToolStripMenuItem
-            // 
-            this.scanSuspendToolStripMenuItem.Name = "scanSuspendToolStripMenuItem";
-            this.scanSuspendToolStripMenuItem.Size = new System.Drawing.Size(360, 22);
-            this.scanSuspendToolStripMenuItem.Text = "Scan + Suspend Suspicious (Run as Admin)";
-            this.scanSuspendToolStripMenuItem.Click += new System.EventHandler(this.ScanSuspendToolStripMenuItem_Click);
-            // 
-            // scanKillSuspiciousToolStripMenuItem
-            // 
-            this.scanKillSuspiciousToolStripMenuItem.Name = "scanKillSuspiciousToolStripMenuItem";
-            this.scanKillSuspiciousToolStripMenuItem.Size = new System.Drawing.Size(360, 22);
-            this.scanKillSuspiciousToolStripMenuItem.Text = "Scan + Kill Suspicious (Run as Admin)";
-            this.scanKillSuspiciousToolStripMenuItem.Click += new System.EventHandler(this.ScanKillSuspiciousToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator8
-            // 
-            this.toolStripSeparator8.Name = "toolStripSeparator8";
-            this.toolStripSeparator8.Size = new System.Drawing.Size(357, 6);
-            // 
-            // dontDumpPEOfilterToolStripMenuItem
-            // 
-            this.dontDumpPEOfilterToolStripMenuItem.Name = "dontDumpPEOfilterToolStripMenuItem";
-            this.dontDumpPEOfilterToolStripMenuItem.Size = new System.Drawing.Size(360, 22);
-            this.dontDumpPEOfilterToolStripMenuItem.Text = "don\'t dump the modified PEs, but save the report [off]";
-            this.dontDumpPEOfilterToolStripMenuItem.Click += new System.EventHandler(this.DontDumpPEOfilterToolStripMenuItem_Click);
-            // 
-            // dontDumpAnyFilesToolStripMenuItem
-            // 
-            this.dontDumpAnyFilesToolStripMenuItem.Name = "dontDumpAnyFilesToolStripMenuItem";
-            this.dontDumpAnyFilesToolStripMenuItem.Size = new System.Drawing.Size(360, 22);
-            this.dontDumpAnyFilesToolStripMenuItem.Text = "don\'t dump any files [off]";
-            this.dontDumpAnyFilesToolStripMenuItem.Click += new System.EventHandler(this.DontDumpAnyFilesToolStripMenuItem_Click);
-            // 
-            // dumpAllProcessToolStripMenuItem
-            // 
-            this.dumpAllProcessToolStripMenuItem.Name = "dumpAllProcessToolStripMenuItem";
-            this.dumpAllProcessToolStripMenuItem.Size = new System.Drawing.Size(360, 22);
-            this.dumpAllProcessToolStripMenuItem.Text = "Default dump all Process [on]";
-            this.dumpAllProcessToolStripMenuItem.Click += new System.EventHandler(this.DumpAllProcessToolStripMenuItem_Click);
-            // 
-            // hollowHunterexeoffToolStripMenuItem
-            // 
-            this.hollowHunterexeoffToolStripMenuItem.Enabled = false;
-            this.hollowHunterexeoffToolStripMenuItem.Name = "hollowHunterexeoffToolStripMenuItem";
-            this.hollowHunterexeoffToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
-            this.hollowHunterexeoffToolStripMenuItem.Text = "HollowsHunter.exe off";
-            this.hollowHunterexeoffToolStripMenuItem.Click += new System.EventHandler(this.HollowHunterexeoffToolStripMenuItem_Click);
-            // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(190, 6);
-            // 
-            // scanningConfigurationToolStripMenuItem
-            // 
-            this.scanningConfigurationToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.pesieveToolStripMenuItem,
-            this.hollowshunterToolStripMenuItem});
-            this.scanningConfigurationToolStripMenuItem.Name = "scanningConfigurationToolStripMenuItem";
-            this.scanningConfigurationToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
-            this.scanningConfigurationToolStripMenuItem.Text = "Scan Configuration";
-            // 
-            // pesieveToolStripMenuItem
-            // 
-            this.pesieveToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.scanningTargetProcessEvery10mininBackgroundToolStripMenuItem,
-            this.mixedModeToolStripMenuItem,
-            this.disableAllModesToolStripMenuItem});
-            this.pesieveToolStripMenuItem.Name = "pesieveToolStripMenuItem";
-            this.pesieveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.pesieveToolStripMenuItem.Text = "Pe-sieve";
-            // 
-            // scanningTargetProcessEvery10mininBackgroundToolStripMenuItem
-            // 
-            this.scanningTargetProcessEvery10mininBackgroundToolStripMenuItem.Enabled = false;
-            this.scanningTargetProcessEvery10mininBackgroundToolStripMenuItem.Name = "scanningTargetProcessEvery10mininBackgroundToolStripMenuItem";
-            this.scanningTargetProcessEvery10mininBackgroundToolStripMenuItem.Size = new System.Drawing.Size(356, 22);
-            this.scanningTargetProcessEvery10mininBackgroundToolStripMenuItem.Text = "Scanning Target Process Every 10min (in background)";
-            this.scanningTargetProcessEvery10mininBackgroundToolStripMenuItem.Click += new System.EventHandler(this.ScanningTargetProcessEvery10mininBackgroundToolStripMenuItem_Click);
-            // 
-            // mixedModeToolStripMenuItem
-            // 
-            this.mixedModeToolStripMenuItem.Enabled = false;
-            this.mixedModeToolStripMenuItem.Name = "mixedModeToolStripMenuItem";
-            this.mixedModeToolStripMenuItem.Size = new System.Drawing.Size(356, 22);
-            this.mixedModeToolStripMenuItem.Text = "Mixed Mode";
-            this.mixedModeToolStripMenuItem.Click += new System.EventHandler(this.MixedModeToolStripMenuItem_Click);
-            // 
-            // disableAllModesToolStripMenuItem
-            // 
-            this.disableAllModesToolStripMenuItem.Enabled = false;
-            this.disableAllModesToolStripMenuItem.Name = "disableAllModesToolStripMenuItem";
-            this.disableAllModesToolStripMenuItem.Size = new System.Drawing.Size(356, 22);
-            this.disableAllModesToolStripMenuItem.Text = "Disable Both";
-            this.disableAllModesToolStripMenuItem.Click += new System.EventHandler(this.DisableAllModesToolStripMenuItem_Click);
-            // 
-            // hollowshunterToolStripMenuItem
-            // 
-            this.hollowshunterToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.scanningTargetProcessEvery10mininBackgroundToolStripMenuItem1,
-            this.mixedModeToolStripMenuItem1,
-            this.disableBothToolStripMenuItem});
-            this.hollowshunterToolStripMenuItem.Name = "hollowshunterToolStripMenuItem";
-            this.hollowshunterToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.hollowshunterToolStripMenuItem.Text = "Hollowshunter";
-            // 
-            // scanningTargetProcessEvery10mininBackgroundToolStripMenuItem1
-            // 
-            this.scanningTargetProcessEvery10mininBackgroundToolStripMenuItem1.Enabled = false;
-            this.scanningTargetProcessEvery10mininBackgroundToolStripMenuItem1.Name = "scanningTargetProcessEvery10mininBackgroundToolStripMenuItem1";
-            this.scanningTargetProcessEvery10mininBackgroundToolStripMenuItem1.Size = new System.Drawing.Size(356, 22);
-            this.scanningTargetProcessEvery10mininBackgroundToolStripMenuItem1.Text = "Scanning Target Process Every 10min (in background)";
-            this.scanningTargetProcessEvery10mininBackgroundToolStripMenuItem1.Click += new System.EventHandler(this.ScanningTargetProcessEvery10mininBackgroundToolStripMenuItem1_Click);
-            // 
-            // mixedModeToolStripMenuItem1
-            // 
-            this.mixedModeToolStripMenuItem1.Enabled = false;
-            this.mixedModeToolStripMenuItem1.Name = "mixedModeToolStripMenuItem1";
-            this.mixedModeToolStripMenuItem1.Size = new System.Drawing.Size(356, 22);
-            this.mixedModeToolStripMenuItem1.Text = "Mixed Mode";
-            this.mixedModeToolStripMenuItem1.Click += new System.EventHandler(this.MixedModeToolStripMenuItem1_Click);
-            // 
-            // disableBothToolStripMenuItem
-            // 
-            this.disableBothToolStripMenuItem.Enabled = false;
-            this.disableBothToolStripMenuItem.Name = "disableBothToolStripMenuItem";
-            this.disableBothToolStripMenuItem.Size = new System.Drawing.Size(356, 22);
-            this.disableBothToolStripMenuItem.Text = "Disable Both";
-            this.disableBothToolStripMenuItem.Click += new System.EventHandler(this.DisableBothToolStripMenuItem_Click);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(177, 6);
             // 
             // toolStripSeparator10
             // 
@@ -2453,17 +2300,9 @@
         private System.Windows.Forms.ToolStripMenuItem themeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem dGreyToolStripMenuItem;
         public System.Windows.Forms.RichTextBox richTextBox3;
-        private System.Windows.Forms.ToolStripMenuItem hollowHunterexeOnToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem hollowHunterexeoffToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem scanOnlyModeToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem scanSuspendToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem scanKillSuspiciousToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem defaultDumpAllToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem dontDumpTheModifiedPEsButSaveTheReportoffToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem dontDumpAnyFilesToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem dontDumpPEOfilterToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem dontDumpAnyFilesToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem dumpAllProcessToolStripMenuItem;
         private System.Windows.Forms.TabPage tabPage7;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.GroupBox groupBox7;
@@ -2508,15 +2347,6 @@
         private System.Windows.Forms.ToolStripMenuItem removeRealtimeRecordsAfter5000RecordsToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
-        private System.Windows.Forms.ToolStripMenuItem scanningConfigurationToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem pesieveToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem scanningTargetProcessEvery10mininBackgroundToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem mixedModeToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem hollowshunterToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem scanningTargetProcessEvery10mininBackgroundToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem mixedModeToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem disableAllModesToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem disableBothToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
         private System.Windows.Forms.SplitContainer splitContainer3;
@@ -2533,7 +2363,6 @@
         private System.Windows.Forms.ToolStripMenuItem scanOnlyModeDefaultToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem scanKillSuspiciousRunAsAdminToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator8;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator9;
         private System.Windows.Forms.ToolStripMenuItem realTimeSearchFiltersToolStripMenuItem;
         public System.Windows.Forms.ImageList imageList1;
@@ -2605,6 +2434,8 @@
         private System.Windows.Forms.ToolStripMenuItem systemDeveloperLogsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem onToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem offToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem checkProcessHollowingSizeChangingToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator18;
     }
 }
 
