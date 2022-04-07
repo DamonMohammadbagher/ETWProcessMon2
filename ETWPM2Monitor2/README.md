@@ -26,12 +26,12 @@ Note: the goal is talking/thinking about how can use ETW as Defender/Blue teamer
 
 Note: `if your "Windows Defender Anti-virus" have/had problem with ETWPM2Monitor2.exe you should Disable AV to use this Tool (Real-time should be off also Tamper Protection should be off, ...)` Sometimes ETWPM2Monitor2.exe crashed by AVs so you should test these tools (ETWPM2Monitor2.1 , SysPM2Monitor2.7) in windows without Antivirus (Disabled AV) 
 
-Note: in this code we have "Pe-sieve64.exe" & "Hollowshunter.exe" so to use you need to download these exe files & paste them in same folder with ETWPM2Monitor2.exe & i tested ETWPM2Monitor2 with Pe-sieve64.exe (ver 0.2.9.6) & Hollowshunter.exe (ver 0.2.9.6)
+Note: in this code we have "Pe-sieve64.exe" as memory scanner , so to use you need to download this exe file & paste them in same folder with ETWPM2Monitor2.exe & i tested ETWPM2Monitor2 with Pe-sieve64.exe (ver 0.2.9.6).
 
 Note: all alarms (Those Processes which Detected by ETWPM2Monitor2 v2.1) will save in windows eventlog name "ETWPM2Monitor2".  
 
     link1: https://github.com/hasherezade/pe-sieve
-    link2: https://github.com/hasherezade/hollows_hunter
+    
     
 Note: EventIDs 1,2,3,4,255, these events will save save by ETWPM2Monitor2.1 in Windows Eventlog Name "ETWPM2Monitor2":
 
