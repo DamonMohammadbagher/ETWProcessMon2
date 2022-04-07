@@ -2101,7 +2101,7 @@ namespace ETWPM2Monitor2
                                     && scannedproc.ProcNameANDPath == _item.ProcessName_Path);
 
                                     int obj_index = Process_Table.FindIndex(process => process.ProcessName.ToLower() + ":"
-                                     + process.PID == _item.ProcessName + ":" + _item.PID.ToString());
+                                     + process.PID == _item.ProcessName.ToLower() + ":" + _item.PID.ToString());
 
 
                                     _TableofProcess TempStruc = new _TableofProcess();
