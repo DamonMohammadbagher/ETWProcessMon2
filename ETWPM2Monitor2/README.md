@@ -12,6 +12,9 @@ Video: https://www.youtube.com/watch?v=DMtMTkAfFNo
 
 Note: if you want new v2.1 you should Re-compile this project with new Source code [compile with .NETFramework v4.5] ;), woow i had a lot bugs in code v2.0 , now fixed in v2.1, compiler says (not me), `code performance now is good and "a lot bugs" [like tcp events flooding] fixed with last source update(11) v2.1.17.74 [Feb 21, 2022]...` 
 
+`Note for update(30) v2.1.30.165: Simple Codes always is better than .... , so i decided to change core code for memory scanners (which is simpler than before) and now we have only "Pe-sieve64.exe" file for Memory Scan , it does not mean HollowsHunter has/had problem, i just think one memory scanner will make code simpler than before... also code performance will be better etc.`
+
+
 Note: I will Publish Article & Help Documents for this tool soon... 
 
 Related Article : https://damonmohammadbagher.github.io/Posts/18mar2022x.html
@@ -32,7 +35,7 @@ Note: all alarms (Those Processes which Detected by ETWPM2Monitor2 v2.1) will sa
 
     link1: https://github.com/hasherezade/pe-sieve
     
-    
+
 Note: EventIDs 1,2,3,4,255, these events will save save by ETWPM2Monitor2.1 in Windows Eventlog Name "ETWPM2Monitor2":
 
         [Information] Event ID 1 : Detected + Scanned but not found 
