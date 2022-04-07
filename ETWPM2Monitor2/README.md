@@ -12,7 +12,7 @@ Video: https://www.youtube.com/watch?v=DMtMTkAfFNo
 
 Note: if you want new v2.1 you should Re-compile this project with new Source code [compile with .NETFramework v4.5] ;), woow i had a lot bugs in code v2.0 , now fixed in v2.1, compiler says (not me), `code performance now is good and "a lot bugs" [like tcp events flooding] fixed with last source update(11) v2.1.17.74 [Feb 21, 2022]...` 
 
-`Note for update(30) v2.1.30.165: Simple Codes always is better than .... , so i decided to change core code for memory scanners (which is simpler than before) and now we have only "Pe-sieve64.exe" file for Memory Scan , it does not mean HollowsHunter has/had problem, i just think one memory scanner will make code simpler than before... also code performance will be better etc.`
+`Note for update(30) v2.1.30.165: Simple Codes always is better than .... , so i decided to change core code for memory scanners (which is simpler than before) and now we have only "Pe-sieve64.exe" file for Memory Scan , it does not mean HollowsHunter has/had problem, i just think one memory scanner will make code simpler than before... also code performance will be better etc. (Still Some Windows Forms Components in .Net like Listview & TreeNode have Very High CPU Usage and they are not very strong/good for fast refreshing without High Cpu usage etc, so i need to changes code for better performance with low CPU usage....), i think microsoft should update all windows forms Components in new ver VS.NET with BETTER performance/stability and LOW CPU USAGE which is very important ;)`
 
 
 Note: I will Publish Article & Help Documents for this tool soon... 
