@@ -61,6 +61,9 @@ Usage Steps
     Step2: ETWPM2Monitor2.exe (Run as Admin)
 
 ----------------------------------------------------------
+## ETWPM2Monitor2 v2.1 , update(30) v2.1.30.165 [Apr 07, 2022]
+   ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2/Pics/CSInject1.png)
+   
 ### ETWPM2Monitor2 v2.1 , update(22) v2.1.22.100 [Mar 11, 2022] (Processes Info Tab Added)
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2/Pics/ProcessInfo.png)
    
