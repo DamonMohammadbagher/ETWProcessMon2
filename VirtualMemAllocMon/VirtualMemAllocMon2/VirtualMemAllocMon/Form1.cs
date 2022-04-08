@@ -18,7 +18,7 @@ namespace VirtualMemAllocMon
     {       
         public static string ETW_VAx_Event_RealtimeChangedStrings = string.Empty;
         public static byte[] buf = new byte[208];
-        public static string[] Flag_to_detection_VAx = new string[5];
+        public static string[] Flag_to_detection_VAx = new string[7];
         public static string[] Flag_to_detection_Bytes = new string[4];
         public static bool VaxFound, BytesFound = false;
         public static System.Timers.Timer __t = new System.Timers.Timer(350);
@@ -39,7 +39,6 @@ namespace VirtualMemAllocMon
             try
             {
 
- 
                 VaxFound = false;
                 foreach (string item in Flag_to_detection_VAx)
                 {
@@ -50,11 +49,9 @@ namespace VirtualMemAllocMon
                     }
                 }
 
-
             }
             catch (Exception)
             {
-
                
             }
             return VaxFound;
@@ -271,19 +268,16 @@ namespace VirtualMemAllocMon
             try
             {
 
-
                 using (var KS = new TraceEventSession(KernelTraceEventParser.KernelSessionName))
                 {
                     Console.CancelKeyPress += delegate (object s, ConsoleCancelEventArgs e) { KS.Dispose(); };
 
                     KS.EnableKernelProvider(KernelTraceEventParser.Keywords.VirtualAlloc);
 
-
                     KS.Source.Kernel.MemoryVirtualAllocDCStart += Kernel_MemoryVirtualAllocDCStart;
                     KS.Source.Kernel.VirtualMemAlloc += Kernel_VirtualMemAlloc;
 
                     KS.Source.Process();
-
                 }
             }
             catch (Exception)
@@ -298,15 +292,11 @@ namespace VirtualMemAllocMon
             try
             {
 
-
-               
                 tempMemAllocInfo = "";
                 tempPIDMemoAlloca = 0;
 
-
                 if ((!initdotmemoalloc) && (tempPIDMemoAlloca != obj.ProcessID))
                 {
-
                     initdotmemoalloc = true;
                 }
 
@@ -348,8 +338,6 @@ namespace VirtualMemAllocMon
             try
             {
 
-
-                
                 tempMemAllocInfo = "";
                 tempPIDMemoAlloca = 0;
 
@@ -365,7 +353,6 @@ namespace VirtualMemAllocMon
                     initdotmemoalloc = false;
                     foreach (var item in obj.PayloadNames)
                     {
-
                         tempMemAllocInfo += "[" + item + ": " + obj.PayloadValue(_v1).ToString() + "]";
                         tempETWdetails += ":" + obj.PayloadValue(_v1).ToString();
 
@@ -381,7 +368,6 @@ namespace VirtualMemAllocMon
                     }
 
                     tempETWdetails = "";
-
                 }
             }
             catch (Exception)
@@ -393,7 +379,6 @@ namespace VirtualMemAllocMon
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
             try
             {
                
@@ -444,14 +429,19 @@ namespace VirtualMemAllocMon
             Flag_to_detection_VAx[1] = ":155648:MEM_COMMIT, MEM_RESERVE:";
             Flag_to_detection_VAx[2] = ":200704:MEM_COMMIT, MEM_RESERVE:";
             Flag_to_detection_VAx[3] = ":233472:MEM_COMMIT, MEM_RESERVE:";
-            ///
+            ///CobaltStrike (x86)
+            Flag_to_detection_VAx[4] = ":208896:MEM_COMMIT, MEM_RESERVE:";
+            Flag_to_detection_VAx[5] = ":249856:MEM_COMMIT, MEM_RESERVE:";
+            ///CobaltStrike x86
+            ///[4/8/2022 9:00:50 AM] PID:(6912) TID(6244) :82575360:208896:MEM_COMMIT, MEM_RESERVE:0x33000:0x4ef3000 [VirtualMemAlloc]
+            ///[4/8/2022 9:00:50 AM] PID:(6912) TID(524) :84148224:249856:MEM_COMMIT, MEM_RESERVE:0x3d000:0x507d000 [VirtualMemAlloc]
+
             Flag_to_detection_VAx[4] = "[Injected by ";
 
 
             Thread.Sleep(250);
             try
             {
-
                 _Event_VirtualMemAlloc_etw_evt += Program__Event_VirtualMemAlloc_etw_evt;
 
                 Bingo = new System.Threading.Thread(ETWCoreI)
@@ -474,15 +464,12 @@ namespace VirtualMemAllocMon
         {
             try
             {
-
                 ListViewItem _items_Objects = (ListViewItem)sender;
-
                 
                 _VirtualMemAllocMon = new EventLog("VirtualMemAllocMon", ".", "VirtualMemAllocMonv2");
 
                 StringBuilder st = new StringBuilder();
                 st.AppendLine(_items_Objects.Name.ToString());
-
 
                 _VirtualMemAllocMon.WriteEntry(st.ToString(), EventLogEntryType.Warning, 1);
                 
@@ -534,7 +521,6 @@ namespace VirtualMemAllocMon
         {
             MessageBox.Show(null, "VirtualMemAllocMon v2.0 [2.0.0.0]\nCode Published by Damon Mohammadbagher , Mar 2022", "About ETW VirtualMemAllocMon v2.0",
                 MessageBoxButtons.OK, MessageBoxIcon.Information);
-
         }
 
         [Flags]
