@@ -18,8 +18,8 @@ namespace VirtualMemAllocMon
     {       
         public static string ETW_VAx_Event_RealtimeChangedStrings = string.Empty;
         public static byte[] buf = new byte[208];
-        public static string[] Flag_to_detection_VAx = new string[7];
-        public static string[] Flag_to_detection_Bytes = new string[4];
+        public static string[] Flag_to_detection_VAx = new string[9];
+        public static string[] Flag_to_detection_Bytes = new string[11];
         public static bool VaxFound, BytesFound = false;
         public static System.Timers.Timer __t = new System.Timers.Timer(350);
         public static System.Threading.Thread Bingo;
@@ -70,7 +70,7 @@ namespace VirtualMemAllocMon
                     {
                         BytesFound = true;
                         count++;
-                        if (count >= 4) break;
+                        if (count >= 11) break;
                     }
                 }
             }
@@ -91,7 +91,18 @@ namespace VirtualMemAllocMon
                 Flag_to_detection_Bytes[1] = "t be run in DOS";
                 Flag_to_detection_Bytes[2] = "00000000   4D 5A 41";
                 Flag_to_detection_Bytes[3] = "00000000   4D 5A";
- 
+
+                ///CobaltStrike
+                Flag_to_detection_Bytes[4] = "B8 42 65 25 42 41 65 4D  5A 41 52 55 48 89 E5 48   ,Be%BAeMZARUH?åH";
+                Flag_to_detection_Bytes[5] = "00000040   B8 42 65 25 42 41 65 4D  5A 41 52 55 48 89 E5 48";
+
+                Flag_to_detection_Bytes[6] = "6d 20 63 61 6e 6e 6f 74  20 62 65 20 72 75 6e 20";
+                Flag_to_detection_Bytes[7] = "b8 01 4c cd 21 54 68 69  73 20 70 72 6f 67 72 61";
+
+                Flag_to_detection_Bytes[8] = "in DOS mode.";
+                Flag_to_detection_Bytes[9] = "This progra";
+                Flag_to_detection_Bytes[10] = "m cannot be run";
+
                 string _ProcessName = System.Diagnostics.Process.GetProcessById((int)Convert.ToInt32(RealtimeChangedStrings.Split('(')[1].Split(')')[0])).MainModule.FileName;
                 string __PID = RealtimeChangedStrings.Split('(')[1].Split(')')[0];
 
@@ -115,13 +126,13 @@ namespace VirtualMemAllocMon
                              + "\nDetails: [TID: " + tid + "] with BaseAddress: "
                              + RealtimeChangedStrings.Split(':')[7] + "," + RealtimeChangedStrings.Split(':')[8]
                              + "\n\n[ETW VirtualMemAlloc Event] => " + RealtimeChangedStrings.ToString() + "\n\n"
-                             + "[!] Found " + result.ToString() + " of 4"
+                             + "[!] Found " + result.ToString() + " of 11"
                              + "\nMemory Bytes: " + "\n" 
                              +  dumpmem;
                         iList5.SubItems.Add(RealtimeChangedStrings.Split(']')[0].Split('[')[1]);
                         iList5.SubItems.Add(_ProcessName + ":" + __PID);
                         iList5.SubItems.Add(tid);
-                        iList5.SubItems.Add("[!] Found " + result.ToString() + " of 4");
+                        iList5.SubItems.Add("[!] Found " + result.ToString() + " of 11");
                         iList5.SubItems.Add("VirtualMemAlloc");
                         iList5.SubItems.Add(RealtimeChangedStrings);
                         iList5.SubItems.Add("4D 5A 90 MZ Bytes Detected In Process: " + _ProcessName + " With PID: " + __PID
@@ -432,10 +443,13 @@ namespace VirtualMemAllocMon
             ///CobaltStrike (x86)
             Flag_to_detection_VAx[4] = ":208896:MEM_COMMIT, MEM_RESERVE:";
             Flag_to_detection_VAx[5] = ":249856:MEM_COMMIT, MEM_RESERVE:";
+            Flag_to_detection_VAx[6] = ":311296:MEM_COMMIT, MEM_RESERVE:";
+            Flag_to_detection_VAx[7] = ":4194304:MEM_COMMIT, MEM_RESERVE:";
             ///CobaltStrike x86
             ///[4/8/2022 9:00:50 AM] PID:(6912) TID(6244) :82575360:208896:MEM_COMMIT, MEM_RESERVE:0x33000:0x4ef3000 [VirtualMemAlloc]
             ///[4/8/2022 9:00:50 AM] PID:(6912) TID(524) :84148224:249856:MEM_COMMIT, MEM_RESERVE:0x3d000:0x507d000 [VirtualMemAlloc]
-
+            ///[4/9/2022 3:30:48 PM] PID:(6928) TID(5624) :1909840740352:311296:MEM_COMMIT, MEM_RESERVE:0x4c000:0x1bcab65c000 [VirtualMemAlloc]
+            ///[4/9/2022 3:30:48 PM] PID:(6928) TID(5624) :1909896183808:4194304:MEM_COMMIT, MEM_RESERVE:0x400000:0x1bcaeef0000 [VirtualMemAlloc]
             Flag_to_detection_VAx[4] = "[Injected by ";
 
 
