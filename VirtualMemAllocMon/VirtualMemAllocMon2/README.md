@@ -4,7 +4,7 @@ VirtualMemAllocMon is for Monitoring VirtualMemAlloc Event via ETW, when some Na
 
 
 ### VirtualMemAllocMon.exe
-"VirtualMemAllocMon" is simple tool for Monitor VirtualMemAlloc events in all Processes via ETW, with this code you can Monitor New VirtualMemAlloc Events for all Processes, the goal is Payload Detection & my focus was on "Local Create Thread" & "Remote Thread Injection" + Meterpreter payload & Pe "MZ header" in-memory. this code will useful sometimes for Defenders & Blue Teamers but Pentesters/Red Teamers can use this too.
+"VirtualMemAllocMon" is simple tool for Monitor VirtualMemAlloc events in all Processes via ETW, with this code you can Monitor New VirtualMemAlloc Events for each Process, the goal is Payload Detection & my focus was on "Local Create Thread" & "Remote Thread Injection" + Meterpreter payload & Pe "MZ header" in-memory which made by Meterpreter x64 payload or Cobaltstrike x86 payload. this code will useful sometimes for Defenders & Blue Teamers but Pentesters/Red Teamers can use this too.
 
 Note: for this code you need to install Nuget [Microsoft.Diagnostics.Tracing.TraceEvent "v2.0.71"]
 
