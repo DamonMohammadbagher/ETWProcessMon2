@@ -38,8 +38,8 @@ namespace VirtualMemAllocMon
 
         public static string ETW_VAx_Event_RealtimeChangedStrings = string.Empty;
         public static byte[] buf = new byte[208];
-        public static string[] Flag_to_detection_VAx = new string[7];
-        public static string[] Flag_to_detection_Bytes = new string[4];
+        public static string[] Flag_to_detection_VAx = new string[9];
+        public static string[] Flag_to_detection_Bytes = new string[11];
         public static bool VaxFound, BytesFound = false;
         public static System.Timers.Timer __t = new System.Timers.Timer(350);
         public static System.Threading.Thread Bingo;
@@ -91,7 +91,7 @@ namespace VirtualMemAllocMon
                 {
                     BytesFound = true;
                     count++;
-                    if (count >= 4) break;
+                    if (count >= 11) break;
                 }
             }
             }
@@ -112,6 +112,18 @@ namespace VirtualMemAllocMon
                 Flag_to_detection_Bytes[1] = "t be run in DOS";
                 Flag_to_detection_Bytes[2] = "00000000   4D 5A 41";
                 Flag_to_detection_Bytes[3] = "00000000   4D 5A";
+
+                ///CobaltStrike
+                Flag_to_detection_Bytes[4] = "B8 42 65 25 42 41 65 4D  5A 41 52 55 48 89 E5 48   ,Be%BAeMZARUH?åH";
+                Flag_to_detection_Bytes[5] = "00000040   B8 42 65 25 42 41 65 4D  5A 41 52 55 48 89 E5 48";
+
+                Flag_to_detection_Bytes[6] = "6d 20 63 61 6e 6e 6f 74  20 62 65 20 72 75 6e 20";
+                Flag_to_detection_Bytes[7] = "b8 01 4c cd 21 54 68 69  73 20 70 72 6f 67 72 61";
+
+                Flag_to_detection_Bytes[8] = "in DOS mode.";
+                Flag_to_detection_Bytes[9] = "This progra";
+                Flag_to_detection_Bytes[10] = "m cannot be run";
+                 
                 Console.ForegroundColor = ConsoleColor.DarkGreen;
                 Console.WriteLine(RealtimeChangedStrings);
 
@@ -135,13 +147,13 @@ namespace VirtualMemAllocMon
                 if (result > 0)
                 {
                     Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine("[!] Found {0} of 4", result.ToString());
+                    Console.WriteLine("[!] Found {0} of 11", result.ToString());
                     Console.WriteLine(dumpmem);
                 }
                 else
                 {
                     Console.ForegroundColor = ConsoleColor.DarkYellow;
-                    Console.WriteLine("[!] Found {0} of 4", result.ToString());
+                    Console.WriteLine("[!] Found {0} of 11", result.ToString());
                     Console.WriteLine(dumpmem);
                 }
                 CloseHandle(ph);
@@ -391,6 +403,8 @@ namespace VirtualMemAllocMon
             /// CobaltStrike (x86)
             Flag_to_detection_VAx[4] = ":208896:MEM_COMMIT, MEM_RESERVE:";
             Flag_to_detection_VAx[5] = ":249856:MEM_COMMIT, MEM_RESERVE:";
+            Flag_to_detection_VAx[6] = ":311296:MEM_COMMIT, MEM_RESERVE:";
+            Flag_to_detection_VAx[7] = ":4194304:MEM_COMMIT, MEM_RESERVE:";
             ///
             Flag_to_detection_VAx[6] = "[Injected by ";
 
