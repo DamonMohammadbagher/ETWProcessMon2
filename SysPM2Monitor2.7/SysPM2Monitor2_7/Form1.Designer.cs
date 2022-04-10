@@ -459,6 +459,7 @@
             // 
             // tabPage13
             // 
+            this.tabPage13.BackColor = System.Drawing.Color.LightGray;
             this.tabPage13.Controls.Add(this.tabControl5);
             this.tabPage13.Location = new System.Drawing.Point(4, 22);
             this.tabPage13.Name = "tabPage13";
@@ -466,7 +467,6 @@
             this.tabPage13.Size = new System.Drawing.Size(1074, 384);
             this.tabPage13.TabIndex = 6;
             this.tabPage13.Text = "Processes";
-            this.tabPage13.UseVisualStyleBackColor = true;
             this.tabPage13.Click += new System.EventHandler(this.TabPage13_Click);
             // 
             // tabControl5

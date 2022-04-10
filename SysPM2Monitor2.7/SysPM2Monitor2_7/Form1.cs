@@ -514,7 +514,7 @@ namespace SysPM2Monitor2_7
                                     if (textitems[i].Contains("Something Detected"))
                                     {
                                          
-                                        if (!(textitems[i + 1].Contains("[!] Found 0 of 4")))
+                                        if (!(textitems[i + 1].Contains("[!] Found 0 of 11")))
                                         {
                                             for (int _i = 2; _i < 15; _i++)
                                             {
@@ -2182,19 +2182,31 @@ namespace SysPM2Monitor2_7
             ListViewItem MyLviewItemsX5 = (ListViewItem)obj;
             try
             {
-                //unknown process detected via sysmon ;)
 
                 Thread.Sleep(1);
+                bool found  = false;
+                foreach (ListViewItem  v in listView5.Items)
+                {
+                    if (MyLviewItemsX5.SubItems[2].Text + MyLviewItemsX5.SubItems[3].Text + MyLviewItemsX5.SubItems[5].Text == v.SubItems[2].Text +
+                        v.SubItems[3].Text + v.SubItems[5].Text) { found = true;  break; }
+                }
+
+                if (listView5.Items.Count == 0) found = false;
+
                 if (MyLviewItemsX5 != null)
                 {
-                    if (MyLviewItemsX5.Name != evtstring2)
+                    if ((!found) && (!MyLviewItemsX5.SubItems[2].Text.ToLower().Contains("pe-sieve64.exe") 
+                        && !MyLviewItemsX5.SubItems[2].Text.ToLower().Contains("hollows_hunter64.exe")))
                     {
-                        listView5.BeginUpdate();
-                        listView5.Items.Add(MyLviewItemsX5);
-                        listView5.Update();
-                        listView5.EndUpdate();
-                        evtstring2 = MyLviewItemsX5.Name;
-                        Thread.Sleep(5);
+                        
+                            listView5.BeginUpdate();
+                            listView5.Items.Add(MyLviewItemsX5);
+                            listView5.Update();
+                            listView5.EndUpdate();
+                            //evtstring2 = MyLviewItemsX5.Name;
+                            //evtstring2 = MyLviewItemsX5.SubItems[2].Text + MyLviewItemsX5.SubItems[3].Text + MyLviewItemsX5.SubItems[5].Text;
+                            Thread.Sleep(5);
+                       
                     }
                 }
 
@@ -2225,13 +2237,17 @@ namespace SysPM2Monitor2_7
                 {
                     if (MyLviewItemsX6.Name != evtstring3)
                     {
+                        if (!MyLviewItemsX6.SubItems[2].Text.ToLower().Contains("pe-sieve64.exe")
+                           && !MyLviewItemsX6.SubItems[2].Text.ToLower().Contains("hollows_hunter64.exe"))
+                        {
 
-                        listView6.BeginUpdate();
-                        listView6.Items.Add(MyLviewItemsX6);
-                        listView6.Update();
-                        listView6.EndUpdate();
-                        evtstring3 = MyLviewItemsX6.Name;
-                        Thread.Sleep(50);
+                            listView6.BeginUpdate();
+                            listView6.Items.Add(MyLviewItemsX6);
+                            listView6.Update();
+                            listView6.EndUpdate();
+                            evtstring3 = MyLviewItemsX6.Name;
+                            Thread.Sleep(50);
+                        }
                     }
 
                     if (_isNotifyEnabled)
@@ -2308,9 +2324,9 @@ namespace SysPM2Monitor2_7
                 string _In_PID = _ETW_VirtualMemAlloc_Process_Path_PID.Substring(_b).Split(':')[1];
 
                 /// [!] Found 3 of 4
-                string _ETW_DetectionNumbers = ETW_EventMessage[2].Substring(0,17);
+                string _ETW_DetectionNumbers = ETW_EventMessage[2].Substring(0,18);
 
-                string _ETW_Payload_Detected_PE = ETW_EventMessage[2].Substring(17);            
+                string _ETW_Payload_Detected_PE = ETW_EventMessage[2].Substring(18);            
 
                 byte[] b64_str = Convert.FromBase64String(_ETW_Payload_Detected_PE);
 
@@ -4429,7 +4445,7 @@ namespace SysPM2Monitor2_7
         private void AboutToolStripMenuItem1_Click(object sender, EventArgs e)
         {
  
-            MessageBox.Show(null, "SysPM2Monitor2 v2.7 [test version 2.7.20.70]\nCode Published by Damon Mohammadbagher , Jan 2022", "About SysPM2Monitor2 v2.7", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show(null, "SysPM2Monitor2 v2.7 [test version 2.7.21.74]\nCode Published by Damon Mohammadbagher , Jan 2022", "About SysPM2Monitor2 v2.7", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
         }
 
