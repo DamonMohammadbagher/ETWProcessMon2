@@ -38,7 +38,7 @@ namespace VirtualMemAllocMon
 
         public static string ETW_VAx_Event_RealtimeChangedStrings = string.Empty;
         public static byte[] buf = new byte[208];
-        public static string[] Flag_to_detection_VAx = new string[9];
+        public static string[] Flag_to_detection_VAx = new string[11];
         public static string[] Flag_to_detection_Bytes = new string[11];
         public static bool VaxFound, BytesFound = false;
         public static System.Timers.Timer __t = new System.Timers.Timer(350);
@@ -400,14 +400,16 @@ namespace VirtualMemAllocMon
             Flag_to_detection_VAx[1] = ":155648:MEM_COMMIT, MEM_RESERVE:";
             Flag_to_detection_VAx[2] = ":200704:MEM_COMMIT, MEM_RESERVE:";
             Flag_to_detection_VAx[3] = ":233472:MEM_COMMIT, MEM_RESERVE:";
+
             /// CobaltStrike (x86)
             Flag_to_detection_VAx[4] = ":208896:MEM_COMMIT, MEM_RESERVE:";
             Flag_to_detection_VAx[5] = ":249856:MEM_COMMIT, MEM_RESERVE:";
             Flag_to_detection_VAx[6] = ":311296:MEM_COMMIT, MEM_RESERVE:";
             Flag_to_detection_VAx[7] = ":4194304:MEM_COMMIT, MEM_RESERVE:";
-            ///
-            Flag_to_detection_VAx[6] = "[Injected by ";
-
+            ///[4/11/2022 7:49:23 AM] PID:(8544) TID(8796) :145096704:241664:MEM_COMMIT, MEM_RESERVE:0x3b000:0x8a9b000 [VirtualMemAlloc]
+            Flag_to_detection_VAx[8] = ":241664:MEM_COMMIT, MEM_RESERVE:";
+            ///[4/11/2022 7:49:23 AM] PID:(8544) TID(8848) :144572416:204800:MEM_COMMIT, MEM_RESERVE:0x32000:0x8a12000 [VirtualMemAlloc]
+            Flag_to_detection_VAx[9] = ":204800:MEM_COMMIT, MEM_RESERVE:";
 
             Thread.Sleep(250);
 
