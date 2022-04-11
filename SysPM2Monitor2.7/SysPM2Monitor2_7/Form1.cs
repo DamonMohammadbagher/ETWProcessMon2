@@ -1440,13 +1440,21 @@ namespace SysPM2Monitor2_7
                 {
                     string simpledescription = "[#] Time: " + xitem.SubItems[1].Text + "\nProcess: " + xitem.SubItems[2].Text + " Detected by SysPM2Monitor2.7 (Detection High level)!\n"
                         + "------------------------------------------------------------\n";
-                    ETW2MON.WriteEntry(simpledescription + st.ToString(), EventLogEntryType.Warning, 2);
+                    if ((!xitem.SubItems[2].Text.ToLower().Contains("pe-sieve64.exe:"))
+                       && (!xitem.SubItems[2].Text.ToLower().Contains("hollows_hunter64.exe:")))
+                    {
+                        ETW2MON.WriteEntry(simpledescription + st.ToString(), EventLogEntryType.Warning, 2);
+                    }
                 }
                 else
                 {
                     string simpledescription = "[#] Time: " + xitem.SubItems[1].Text + "\nProcess: " + xitem.SubItems[2].Text + " Detected by SysPM2Monitor2.7 (Detection Medium level)!\n"
                       + "------------------------------------------------------------\n";
-                    ETW2MON.WriteEntry(simpledescription + st.ToString(), EventLogEntryType.Information, 1);
+                    if ((!xitem.SubItems[2].Text.ToLower().Contains("pe-sieve64.exe:"))
+                       && (!xitem.SubItems[2].Text.ToLower().Contains("hollows_hunter64.exe:")))
+                    {
+                        ETW2MON.WriteEntry(simpledescription + st.ToString(), EventLogEntryType.Information, 1);
+                    }
                 }
             }
             catch (Exception)
@@ -1483,13 +1491,23 @@ namespace SysPM2Monitor2_7
                 {
                     string simpledescription = "[#] Time: " + xitem.SubItems[1].Text + "\nProcess: " + xitem.SubItems[2].Text + " Detected by SysPM2Monitor2.7 (Detection High level)!\n"
                         + "------------------------------------------------------------\n";
-                    ETW2MON.WriteEntry(simpledescription + st.ToString(), EventLogEntryType.Warning, 2);
+
+                    if ((!xitem.SubItems[2].Text.ToLower().Contains("pe-sieve64.exe:"))
+                         && (!xitem.SubItems[2].Text.ToLower().Contains("hollows_hunter64.exe:")))
+                    {
+                        ETW2MON.WriteEntry(simpledescription + st.ToString(), EventLogEntryType.Warning, 2);
+                    }
                 }
                 else
                 {
                     string simpledescription = "[#] Time: " + xitem.SubItems[1].Text + "\nProcess: " + xitem.SubItems[2].Text + " Detected by SysPM2Monitor2.7 (Detection Medium level)!\n"
                       + "------------------------------------------------------------\n";
-                    ETW2MON.WriteEntry(simpledescription + st.ToString(), EventLogEntryType.Information, 1);
+
+                    if (!xitem.SubItems[2].Text.ToLower().Contains("pe-sieve64.exe:")
+                         && !xitem.SubItems[2].Text.ToLower().Contains("hollows_hunter64.exe:"))
+                    {
+                        ETW2MON.WriteEntry(simpledescription + st.ToString(), EventLogEntryType.Information, 1);
+                    }
                 }
             }
             catch (Exception)
@@ -3651,8 +3669,8 @@ namespace SysPM2Monitor2_7
                     }
                     else
                     {
-                        finalresult_Scanned_02[0] = "[error not found Hollowhunter.exe[not scanned:0]";
-                        finalresult_Scanned_02[1] = "[error not found Hollowhunter.exe[not scanned:0]";
+                        finalresult_Scanned_02[0] = "[error not found hollows_hunter64.exe[not scanned:0]";
+                        finalresult_Scanned_02[1] = "[error not found hollows_hunter64.exe[not scanned:0]";
                         finalresult_Scanned_02[2] = "error";
 
                     }
