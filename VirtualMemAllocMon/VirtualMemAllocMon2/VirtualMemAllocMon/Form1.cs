@@ -18,7 +18,7 @@ namespace VirtualMemAllocMon
     {       
         public static string ETW_VAx_Event_RealtimeChangedStrings = string.Empty;
         public static byte[] buf = new byte[208];
-        public static string[] Flag_to_detection_VAx = new string[9];
+        public static string[] Flag_to_detection_VAx = new string[11];
         public static string[] Flag_to_detection_Bytes = new string[11];
         public static bool VaxFound, BytesFound = false;
         public static System.Timers.Timer __t = new System.Timers.Timer(350);
@@ -92,10 +92,11 @@ namespace VirtualMemAllocMon
                 Flag_to_detection_Bytes[2] = "00000000   4D 5A 41";
                 Flag_to_detection_Bytes[3] = "00000000   4D 5A";
 
-                ///CobaltStrike
+                /// CobaltStrike
                 Flag_to_detection_Bytes[4] = "B8 42 65 25 42 41 65 4D  5A 41 52 55 48 89 E5 48   ,Be%BAeMZARUH?åH";
                 Flag_to_detection_Bytes[5] = "00000040   B8 42 65 25 42 41 65 4D  5A 41 52 55 48 89 E5 48";
-
+                
+                /// 
                 Flag_to_detection_Bytes[6] = "6d 20 63 61 6e 6e 6f 74  20 62 65 20 72 75 6e 20";
                 Flag_to_detection_Bytes[7] = "b8 01 4c cd 21 54 68 69  73 20 70 72 6f 67 72 61";
 
@@ -434,23 +435,23 @@ namespace VirtualMemAllocMon
             listView1.Columns.Add("ETW Event", 100, HorizontalAlignment.Left);
             listView1.Columns.Add("Event Details Size:Type:StartAddress", 560, HorizontalAlignment.Left);
             listView1.Columns.Add("EventMessage", 500, HorizontalAlignment.Left);
+
             /// x64 payloads/events (only)
             /// note: for x86 payloads your x86 payloads will have new sizes...
             Flag_to_detection_VAx[0] = ":434176:MEM_COMMIT, MEM_RESERVE:";
             Flag_to_detection_VAx[1] = ":155648:MEM_COMMIT, MEM_RESERVE:";
             Flag_to_detection_VAx[2] = ":200704:MEM_COMMIT, MEM_RESERVE:";
             Flag_to_detection_VAx[3] = ":233472:MEM_COMMIT, MEM_RESERVE:";
+
             ///CobaltStrike (x86)
             Flag_to_detection_VAx[4] = ":208896:MEM_COMMIT, MEM_RESERVE:";
             Flag_to_detection_VAx[5] = ":249856:MEM_COMMIT, MEM_RESERVE:";
             Flag_to_detection_VAx[6] = ":311296:MEM_COMMIT, MEM_RESERVE:";
-            Flag_to_detection_VAx[7] = ":4194304:MEM_COMMIT, MEM_RESERVE:";
-            ///CobaltStrike x86
-            ///[4/8/2022 9:00:50 AM] PID:(6912) TID(6244) :82575360:208896:MEM_COMMIT, MEM_RESERVE:0x33000:0x4ef3000 [VirtualMemAlloc]
-            ///[4/8/2022 9:00:50 AM] PID:(6912) TID(524) :84148224:249856:MEM_COMMIT, MEM_RESERVE:0x3d000:0x507d000 [VirtualMemAlloc]
-            ///[4/9/2022 3:30:48 PM] PID:(6928) TID(5624) :1909840740352:311296:MEM_COMMIT, MEM_RESERVE:0x4c000:0x1bcab65c000 [VirtualMemAlloc]
-            ///[4/9/2022 3:30:48 PM] PID:(6928) TID(5624) :1909896183808:4194304:MEM_COMMIT, MEM_RESERVE:0x400000:0x1bcaeef0000 [VirtualMemAlloc]
-            Flag_to_detection_VAx[4] = "[Injected by ";
+            Flag_to_detection_VAx[7] = ":4194304:MEM_COMMIT, MEM_RESERVE:";            
+            ///[4/11/2022 7:49:23 AM] PID:(8544) TID(8796) :145096704:241664:MEM_COMMIT, MEM_RESERVE:0x3b000:0x8a9b000 [VirtualMemAlloc]
+            Flag_to_detection_VAx[8] = ":241664:MEM_COMMIT, MEM_RESERVE:";
+            ///[4/11/2022 7:49:23 AM] PID:(8544) TID(8848) :144572416:204800:MEM_COMMIT, MEM_RESERVE:0x32000:0x8a12000 [VirtualMemAlloc]
+            Flag_to_detection_VAx[9] = ":204800:MEM_COMMIT, MEM_RESERVE:";
 
 
             Thread.Sleep(250);
