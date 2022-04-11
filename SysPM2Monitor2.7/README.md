@@ -41,7 +41,7 @@ Note: SysPM2Monitor2_7.exe will save all System/Detection logs to Windows eventl
 
 #### Running SysPM2Monitor2_7.exe step by step
 
-      step1: config your Sysmon rules
+      step1: config your Sysmon rules (example: sysmon64.exe -i sysmonconfig-export.xml)
       step2: make folder "c:\test"
       step3: copy/paste SysPM2Monitor2_7.exe to test folder 
       step4: download/paste memory scanners Pe-sieve64.exe/hollows_hunter64.exe to the test folder.
