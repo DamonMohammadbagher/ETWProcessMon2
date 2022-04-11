@@ -16,7 +16,7 @@ namespace ETWProcessMon2
     /// ETWProcessMon2.1 (v2.1)
     /// VirtualMemAlloc events removed from Source code in ETWProcessMon2.1 (v2.1)
     /// code performance is very fast/good... (especially for Detection via ETWPM2Monitor2.exe v2.1)
-    /// 
+    
 
     public struct _ProcessInfo<String>
     {
