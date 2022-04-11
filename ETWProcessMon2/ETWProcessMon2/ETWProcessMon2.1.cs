@@ -199,7 +199,7 @@ namespace ETWProcessMon2
                 Priority = System.Threading.ThreadPriority.Highest
             };
             Bingo.Start();
-            GC.GetTotalMemory(true);
+            //GC.GetTotalMemory(true);
         }
 
         public static void _additems1(object _str_obj)
@@ -280,7 +280,7 @@ namespace ETWProcessMon2
             /// all imageload events will be save in this outputs.txt file ;)
             /// i think it is not good idea to save these ImageLoads ETW events to event logs ;)
 
-            GC.GetTotalMemory(true);
+            //GC.GetTotalMemory(true);
 
 
             Console.ForegroundColor = ConsoleColor.DarkGray;
