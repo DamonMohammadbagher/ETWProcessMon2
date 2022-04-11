@@ -198,7 +198,7 @@ namespace ETWProcessMon2
                 Priority = System.Threading.ThreadPriority.Highest
             };
             Bingo.Start();
-            //GC.GetTotalMemory(true);
+           
         }
 
         private static void Kernel_TcpIpConnect(Microsoft.Diagnostics.Tracing.Parsers.Kernel.TcpIpConnectTraceData obj)
