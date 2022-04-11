@@ -183,7 +183,7 @@ namespace ETWProcessMon2
                 Priority = System.Threading.ThreadPriority.AboveNormal
             };
             Bingo.Start();
-            GC.GetTotalMemory(true);
+            //GC.GetTotalMemory(true);
         }
 
         private static void Program__Event_Add_ETWEvent_to_WindowsEventLog_ETWPM2(object sender, EventArgs e)
@@ -324,7 +324,7 @@ namespace ETWProcessMon2
                + "\n[ParentID Path: " + getpathPID((Int32)obj.PayloadByName("ParentID")) + "]"
                + "\nEventTime = " + obj.TimeStamp.ToString()), null);
 
-            GC.Collect();
+            //GC.Collect();
         }
         private static void Kernel_VirtualMemAlloc(Microsoft.Diagnostics.Tracing.Parsers.Kernel.VirtualAllocTraceData obj)
         {
