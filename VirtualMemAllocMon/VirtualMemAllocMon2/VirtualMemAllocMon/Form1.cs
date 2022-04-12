@@ -18,7 +18,7 @@ namespace VirtualMemAllocMon
     {       
         public static string ETW_VAx_Event_RealtimeChangedStrings = string.Empty;
         public static byte[] buf = new byte[208];
-        public static string[] Flag_to_detection_VAx = new string[11];
+        public static string[] Flag_to_detection_VAx = new string[14];
         public static string[] Flag_to_detection_Bytes = new string[11];
         public static bool VaxFound, BytesFound = false;
         public static System.Timers.Timer __t = new System.Timers.Timer(350);
@@ -97,8 +97,8 @@ namespace VirtualMemAllocMon
                 Flag_to_detection_Bytes[5] = "00000040   B8 42 65 25 42 41 65 4D  5A 41 52 55 48 89 E5 48";
                 
                 /// 
-                Flag_to_detection_Bytes[6] = "6d 20 63 61 6e 6e 6f 74  20 62 65 20 72 75 6e 20";
-                Flag_to_detection_Bytes[7] = "b8 01 4c cd 21 54 68 69  73 20 70 72 6f 67 72 61";
+                Flag_to_detection_Bytes[6] = "MZARUH";
+                Flag_to_detection_Bytes[7] = "MZARUH?";
 
                 Flag_to_detection_Bytes[8] = "in DOS mode.";
                 Flag_to_detection_Bytes[9] = "This progra";
@@ -436,7 +436,7 @@ namespace VirtualMemAllocMon
             listView1.Columns.Add("Event Details Size:Type:StartAddress", 560, HorizontalAlignment.Left);
             listView1.Columns.Add("EventMessage", 500, HorizontalAlignment.Left);
 
-            /// x64 payloads/events (only)
+            /// meterpreter x64 payloads/events (only)
             /// note: for x86 payloads your x86 payloads will have new sizes...
             Flag_to_detection_VAx[0] = ":434176:MEM_COMMIT, MEM_RESERVE:";
             Flag_to_detection_VAx[1] = ":155648:MEM_COMMIT, MEM_RESERVE:";
@@ -452,6 +452,11 @@ namespace VirtualMemAllocMon
             Flag_to_detection_VAx[8] = ":241664:MEM_COMMIT, MEM_RESERVE:";
             ///[4/11/2022 7:49:23 AM] PID:(8544) TID(8848) :144572416:204800:MEM_COMMIT, MEM_RESERVE:0x32000:0x8a12000 [VirtualMemAlloc]
             Flag_to_detection_VAx[9] = ":204800:MEM_COMMIT, MEM_RESERVE:";
+            ///CobaltStrike4.4
+            Flag_to_detection_VAx[10] = ":245760:MEM_COMMIT, MEM_RESERVE:";
+            Flag_to_detection_VAx[11] = ":253952:MEM_COMMIT, MEM_RESERVE:";
+            Flag_to_detection_VAx[12] = ":212992:MEM_COMMIT, MEM_RESERVE:";
+            Flag_to_detection_VAx[13] = ":318488:MEM_COMMIT, MEM_RESERVE:";
 
 
             Thread.Sleep(250);
