@@ -15,7 +15,7 @@ in this simple example you can see how we can use ETWProcessMon/2 v1/v1.1 or v2.
  ### ETWProcessMon.exe v1.0/v1.1 vs ETWProcessMon2.exe v2.1 for Beacon Detection via VirtualMemAlloc ETW Events....  
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/Pics/BeaconDetection2.png)
    
-in this simple example you can see how we can use ETWProcessMon2.1 + ETWPM2Monitor2 v2.1 for Technique Detection & Payload Detection via ETW Events, in this case syscall technique Detection by ETW Events & ETWPM2Monitor2 v2.1
+in this simple example you can see how we can use ETWProcessMon2.exe v2.1 + ETWPM2Monitor2.exe v2.1 for Technique Detection & Payload Detection via ETW Events, in this case syscall technique Detection by ETW Events & ETWPM2Monitor2 v2.1
 
 ### ETWProcessMon2.exe v2.1 + ETWPM2Monitor2 v2.1 for Technique Detection via ETW Events....  
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/Pics/syscall.png)
