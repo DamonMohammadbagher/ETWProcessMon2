@@ -8,7 +8,7 @@ Note: `if your "Windows Defender Anti-virus" have/had problem with ETWPM2Monitor
 ### ETWProcessMon2.exe
 "ETWProcessMon" is simple tool for Monitor Processes/Threads/Memory/Imageloads/TCPIP Events via ETW, with this code you can Monitor New Processes also you can See New Threads (Thread Started event) + Technique Detection for Remote-Thread-Injection (Which Means Your New Thread Created into Target Process by Another Process), also with this code you can Monitor VirtualMemAllocation Events in Memory for All Processes (which sometimes is very useful for Payload Detection in-memory) also you can see ImageLoads for each Process & you can see TCPIP Send Events for each Process too. 
 
-in this simple example you can see how we can use ETWProcessMon/2 v1/v1.1 or v2.1 for Payload Detection or Beacon Detection via Abnormal ETW VirtualMemAlloc Events etc.
+in this simple example you can see how we can use ETWProcessMon/2 v1/v1.1 or v2.1 for Payload Detection or Beacon Detection via Abnormal ETW VirtualMemAlloc Events & Thread Start Events .
  ### ETWProcessMon.exe v1.0/v1.1 vs ETWProcessMon2.exe v2.1 for Beacon Detection via VirtualMemAlloc ETW Events....  
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/Pics/BeaconDetection1.png)
    
