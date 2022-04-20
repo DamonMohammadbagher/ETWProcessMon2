@@ -39,7 +39,7 @@ in Pic7 you can see PoshC2 Injector was Detected very well but still we have Tar
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2.1_vs_SysPM2Monitor2.7/Pictures/Test5_8.png)
        Picture7:  
        
-in Pic8 you can see in in Pic7 you can PoshC2 Injector was Detected very well but still we have Target Process with Name "Unknown-Process"
+in Pic8 you can see PoshC2 Injector was Detected very well but still we have Target Process with Name "Unknown-Process"
 
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2.1_vs_SysPM2Monitor2.7/Pictures/Test5_8.png)
        Picture8:  
