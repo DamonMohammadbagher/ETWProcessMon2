@@ -1518,7 +1518,7 @@
             // 
             this.pesieve64exeOffToolStripMenuItem.Enabled = false;
             this.pesieve64exeOffToolStripMenuItem.Name = "pesieve64exeOffToolStripMenuItem";
-            this.pesieve64exeOffToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.pesieve64exeOffToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
             this.pesieve64exeOffToolStripMenuItem.Text = "Pe-sieve.exe off";
             this.pesieve64exeOffToolStripMenuItem.Click += new System.EventHandler(this.Pesieve64exeOffToolStripMenuItem_Click);
             // 
@@ -1532,7 +1532,7 @@
             this.dontDumpTheModifiedPEsButSaveTheReportoffToolStripMenuItem,
             this.dontDumpAnyFilesToolStripMenuItem1});
             this.pesieve64exeonToolStripMenuItem.Name = "pesieve64exeonToolStripMenuItem";
-            this.pesieve64exeonToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.pesieve64exeonToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
             this.pesieve64exeonToolStripMenuItem.Text = "Pe-sieve.exe on";
             // 
             // scanOnlyModeDefaultToolStripMenuItem
@@ -1580,7 +1580,7 @@
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(154, 6);
             // 
             // toolStripSeparator10
             // 
@@ -2081,8 +2081,8 @@
             // 
             this.toolStripStatusLabel4.ForeColor = System.Drawing.Color.GhostWhite;
             this.toolStripStatusLabel4.Name = "toolStripStatusLabel4";
-            this.toolStripStatusLabel4.Size = new System.Drawing.Size(117, 17);
-            this.toolStripStatusLabel4.Text = "| hollowshunter is on";
+            this.toolStripStatusLabel4.Size = new System.Drawing.Size(148, 17);
+            this.toolStripStatusLabel4.Text = "| hollowshunter is Disabled";
             // 
             // contextMenuStrip4
             // 
