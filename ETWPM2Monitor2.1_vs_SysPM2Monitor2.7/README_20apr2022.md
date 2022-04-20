@@ -12,7 +12,7 @@ in Pic2 you can see Target Process was Detected by ETWPM2Monitor2.1 via ETW even
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2.1_vs_SysPM2Monitor2.7/Pictures/Test5_2.png)
        Picture2:       
 
-in Pic3 you can see PoshC2 Agent was detected by ETWPM2Monitor2.1 via ETW events and you can see Network Connections with Delta time for Beacon with Sleep (5 sec) but in my tool you can see Minutes for Delta time i will add Seconds to source code soon to fix this.
+in Pic3 you can see PoshC2 Agent was detected by ETWPM2Monitor2.1 via ETW events and you can see Network Connections with Delta time for Beacon with Sleep (5 sec) but in my tool you can see Minutes for Delta time i will add Seconds to ETWPM2Monitor2.1 source code soon to fix this.
 
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2.1_vs_SysPM2Monitor2.7/Pictures/Test5_4.png)
        Picture3:
@@ -34,17 +34,17 @@ in Pic6 you can see Sysmon has/had Problem in detection for Process Name "Netsh.
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2.1_vs_SysPM2Monitor2.7/Pictures/Test5_7.png)
        Picture6:  
        
-in Pic7 you can see PoshC2 Injector was deteted very well but still we have Target Process with Name "Unknown-Process"
+in Pic7 you can see PoshC2 Injector was Detected very well but still we have Target Process with Name "Unknown-Process"
 
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2.1_vs_SysPM2Monitor2.7/Pictures/Test5_8.png)
        Picture7:  
        
-in Pic8 you can see in in Pic7 you can PoshC2 Injector was deteted very well but still we have Target Process with Name "Unknown-Process"
+in Pic8 you can see in in Pic7 you can PoshC2 Injector was Detected very well but still we have Target Process with Name "Unknown-Process"
 
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2.1_vs_SysPM2Monitor2.7/Pictures/Test5_8.png)
        Picture8:  
        
-in Pic9 you can PoshC2 Agents Delay time in (Mins) and in SysPM2Monitor2.7 we dont have Seconds Time like ETWPM2Monitor2.1 so i will add Seconds to source code soon.
+in Pic9 you can PoshC2 Agents Delay time (Mins) and in SysPM2Monitor2.7 we dont have Seconds Time like ETWPM2Monitor2.1 so i will add Seconds to SysPM2Monitor2.7 source code soon.
 
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2.1_vs_SysPM2Monitor2.7/Pictures/Test5_9.png)
        Picture9:      
