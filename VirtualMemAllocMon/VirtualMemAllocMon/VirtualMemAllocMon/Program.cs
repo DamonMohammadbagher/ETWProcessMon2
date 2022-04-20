@@ -38,7 +38,7 @@ namespace VirtualMemAllocMon
 
         public static string ETW_VAx_Event_RealtimeChangedStrings = string.Empty;
         public static byte[] buf = new byte[208];
-        public static string[] Flag_to_detection_VAx = new string[14];
+        public static string[] Flag_to_detection_VAx = new string[17];
         public static string[] Flag_to_detection_Bytes = new string[11];
         public static bool VaxFound, BytesFound = false;
         public static System.Timers.Timer __t = new System.Timers.Timer(350);
@@ -50,6 +50,7 @@ namespace VirtualMemAllocMon
         public static string dumpmem = "";
         public static int result = 0;
         public static UInt32 temp;
+
         public static bool _SearchVAxEvents(string input_to_search)
         {
             try
@@ -76,6 +77,7 @@ namespace VirtualMemAllocMon
             }
             return VaxFound;
         }
+
         public static int _SearchBytes(string input_to_search)
         {
             int count = 0;
@@ -102,6 +104,7 @@ namespace VirtualMemAllocMon
             }
             return count;
         }
+
         public static void _ShowDetailsBytes(string RealtimeChangedStrings)
         {
             try
@@ -113,12 +116,12 @@ namespace VirtualMemAllocMon
                 Flag_to_detection_Bytes[2] = "00000000   4D 5A 41";
                 Flag_to_detection_Bytes[3] = "00000000   4D 5A";
 
-                ///CobaltStrike
-                Flag_to_detection_Bytes[4] = "B8 42 65 25 42 41 65 4D  5A 41 52 55 48 89 E5 48   ,Be%BAeMZARUH?åH";
-                Flag_to_detection_Bytes[5] = "00000040   B8 42 65 25 42 41 65 4D  5A 41 52 55 48 89 E5 48";
-
+                /// CobaltStrike
+                Flag_to_detection_Bytes[4] = "MZARUH?";
+                Flag_to_detection_Bytes[5] = "DOS mode";
+                /// yeah hura ;)
                 Flag_to_detection_Bytes[6] = "MZARUH";
-                Flag_to_detection_Bytes[7] = "MZARUH?";
+                Flag_to_detection_Bytes[7] = "ARUH"; 
 
                 Flag_to_detection_Bytes[8] = "in DOS mode.";
                 Flag_to_detection_Bytes[9] = "This progra";
@@ -164,6 +167,7 @@ namespace VirtualMemAllocMon
 
             }
         }
+
         public static string HexDump(byte[] bytes, int bytesPerLine = 16)
         {
             /// hexdump output ... 
@@ -233,7 +237,6 @@ namespace VirtualMemAllocMon
             // return result.ToString();
         }
 
-
         private static void Program__Event_VirtualMemAlloc_etw_evt(object sender, EventArgs e)
         {
             try
@@ -270,15 +273,11 @@ namespace VirtualMemAllocMon
             {
                 Console.CancelKeyPress += delegate (object s, ConsoleCancelEventArgs e) { KS.Dispose(); };
 
-                KS.EnableKernelProvider(KernelTraceEventParser.Keywords.VirtualAlloc          
-                // | KernelTraceEventParser.Keywords.ImageLoad
-                 );
+                KS.EnableKernelProvider(KernelTraceEventParser.Keywords.VirtualAlloc);
 
                
                 KS.Source.Kernel.MemoryVirtualAllocDCStart += Kernel_MemoryVirtualAllocDCStart; 
-                KS.Source.Kernel.VirtualMemAlloc += Kernel_VirtualMemAlloc; 
-
-                //KS.Source.Kernel.ImageLoad += Kernel_ImageLoad;
+                KS.Source.Kernel.VirtualMemAlloc += Kernel_VirtualMemAlloc;                
 
                 KS.Source.Process();
                
@@ -291,7 +290,6 @@ namespace VirtualMemAllocMon
             {
 
 
-                //GC.Collect();
                 tempMemAllocInfo = "";
                 tempPIDMemoAlloca = 0;
 
@@ -330,7 +328,7 @@ namespace VirtualMemAllocMon
             catch (Exception)
             {
 
-               // throw;
+              
             }
 
         }
@@ -339,9 +337,7 @@ namespace VirtualMemAllocMon
         {
             try
             {
-
-
-               // GC.Collect();
+               
                 tempMemAllocInfo = "";
                 tempPIDMemoAlloca = 0;
 
@@ -353,7 +349,7 @@ namespace VirtualMemAllocMon
                 _v1 = 0;
                 if (obj.ProcessID != tempPIDMemoAlloca)
                 {
-                    /////Console.WriteLine();
+                    
                     initdotmemoalloc = false;
                     foreach (var item in obj.PayloadNames)
                     {
@@ -410,12 +406,16 @@ namespace VirtualMemAllocMon
             Flag_to_detection_VAx[8] = ":241664:MEM_COMMIT, MEM_RESERVE:";
             ///[4/11/2022 7:49:23 AM] PID:(8544) TID(8848) :144572416:204800:MEM_COMMIT, MEM_RESERVE:0x32000:0x8a12000 [VirtualMemAlloc]
             Flag_to_detection_VAx[9] = ":204800:MEM_COMMIT, MEM_RESERVE:";
-            ///CobaltStrike4.4
+            /// CobaltStrike4.4
             Flag_to_detection_VAx[10] = ":245760:MEM_COMMIT, MEM_RESERVE:";
             Flag_to_detection_VAx[11] = ":253952:MEM_COMMIT, MEM_RESERVE:";
             Flag_to_detection_VAx[12] = ":212992:MEM_COMMIT, MEM_RESERVE:";
             Flag_to_detection_VAx[13] = ":318488:MEM_COMMIT, MEM_RESERVE:";
+            Flag_to_detection_VAx[14] = ":24576:MEM_COMMIT, MEM_RESERVE:";
 
+            Flag_to_detection_VAx[15] = ":28672:MEM_COMMIT:";
+            Flag_to_detection_VAx[16] = ":24576:MEM_COMMIT:";
+           
             Thread.Sleep(250);
 
             _Event_VirtualMemAlloc_etw_evt += Program__Event_VirtualMemAlloc_etw_evt;
@@ -437,7 +437,7 @@ namespace VirtualMemAllocMon
                 Bingo.Start();
                 Thread.Sleep(1000);
 
-                GC.GetTotalMemory(true);
+               // GC.GetTotalMemory(true);
             }
 
         }
