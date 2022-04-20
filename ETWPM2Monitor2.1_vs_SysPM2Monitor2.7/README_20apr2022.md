@@ -17,7 +17,7 @@ in Pic3 you can see PoshC2 Agent was detected by ETWPM2Monitor2.1 via ETW events
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2.1_vs_SysPM2Monitor2.7/Pictures/Test5_4.png)
        Picture3:
        
-in Pic4 you can see memory Scanner result for Target Process too.
+in Pic4 you can see Memory Scanner result for Target Process too.
 
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2.1_vs_SysPM2Monitor2.7/Pictures/Test5_5.png)
        Picture4:  
