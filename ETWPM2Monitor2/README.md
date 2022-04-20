@@ -62,7 +62,7 @@ Usage Steps
 
 ----------------------------------------------------------
 
-## ETWPM2Monitor2 v2.1 , update(30) v2.1.30.165 [Apr 07, 2022]
+## ETWPM2Monitor2 v2.1 , update(31) v2.1.31.167 [Apr 20, 2022]
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2/Pics/CSInject1.png)
    
 ### ETWPM2Monitor2 v2.1 , update(22) v2.1.22.100 [Mar 11, 2022] (Processes Info Tab Added)
