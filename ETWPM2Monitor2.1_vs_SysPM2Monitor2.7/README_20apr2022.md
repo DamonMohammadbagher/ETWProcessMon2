@@ -38,15 +38,10 @@ in Pic7 you can see PoshC2 Injector was Detected very well but still we have Tar
 
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2.1_vs_SysPM2Monitor2.7/Pictures/Test5_8.png)
        Picture7:  
-       
-in Pic8 you can see PoshC2 Injector was Detected very well but still we have Target Process with Name "Unknown-Process"
-
-   ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2.1_vs_SysPM2Monitor2.7/Pictures/Test5_8.png)
-       Picture8:  
-       
-in Pic9 you can PoshC2 Agents Delay time (Mins) and in SysPM2Monitor2.7 we dont have Seconds Time like ETWPM2Monitor2.1 so i will add Seconds to SysPM2Monitor2.7 source code soon.
+              
+in Pic8 you can PoshC2 Agents Delay time (Mins) and in SysPM2Monitor2.7 we dont have Seconds Time like ETWPM2Monitor2.1 so i will add Seconds to SysPM2Monitor2.7 source code soon.
 
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2.1_vs_SysPM2Monitor2.7/Pictures/Test5_9.png)
-       Picture9:      
+       Picture8:      
        
        
