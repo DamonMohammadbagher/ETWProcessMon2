@@ -1589,8 +1589,6 @@
             // 
             // processesToolStripMenuItem
             // 
-            this.processesToolStripMenuItem.Checked = true;
-            this.processesToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.processesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.refresh5SecToolStripMenuItem,
             this.refresh10SecToolStripMenuItem,
@@ -1609,40 +1607,42 @@
             this.refresh5SecToolStripMenuItem.Checked = true;
             this.refresh5SecToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.refresh5SecToolStripMenuItem.Name = "refresh5SecToolStripMenuItem";
-            this.refresh5SecToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.refresh5SecToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.refresh5SecToolStripMenuItem.Text = "Refresh (5 sec)";
             this.refresh5SecToolStripMenuItem.Click += new System.EventHandler(this.Refresh5SecToolStripMenuItem_Click);
             // 
             // refresh10SecToolStripMenuItem
             // 
             this.refresh10SecToolStripMenuItem.Name = "refresh10SecToolStripMenuItem";
-            this.refresh10SecToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.refresh10SecToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.refresh10SecToolStripMenuItem.Text = "Refresh (10 sec)";
             this.refresh10SecToolStripMenuItem.Click += new System.EventHandler(this.Refresh10SecToolStripMenuItem_Click);
             // 
             // toolStripSeparator12
             // 
             this.toolStripSeparator12.Name = "toolStripSeparator12";
-            this.toolStripSeparator12.Size = new System.Drawing.Size(157, 6);
+            this.toolStripSeparator12.Size = new System.Drawing.Size(177, 6);
             // 
             // stopListRefreshingToolStripMenuItem
             // 
+            this.stopListRefreshingToolStripMenuItem.Checked = true;
+            this.stopListRefreshingToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.stopListRefreshingToolStripMenuItem.Name = "stopListRefreshingToolStripMenuItem";
-            this.stopListRefreshingToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.stopListRefreshingToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.stopListRefreshingToolStripMenuItem.Text = "Stop Refreshing ";
             this.stopListRefreshingToolStripMenuItem.Click += new System.EventHandler(this.StopListRefreshingToolStripMenuItem_Click);
             // 
             // startRefreshingToolStripMenuItem
             // 
             this.startRefreshingToolStripMenuItem.Name = "startRefreshingToolStripMenuItem";
-            this.startRefreshingToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.startRefreshingToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.startRefreshingToolStripMenuItem.Text = "Start Refreshing";
             this.startRefreshingToolStripMenuItem.Click += new System.EventHandler(this.StartRefreshingToolStripMenuItem_Click);
             // 
             // toolStripSeparator13
             // 
             this.toolStripSeparator13.Name = "toolStripSeparator13";
-            this.toolStripSeparator13.Size = new System.Drawing.Size(157, 6);
+            this.toolStripSeparator13.Size = new System.Drawing.Size(177, 6);
             // 
             // clearListToolStripMenuItem
             // 
@@ -1653,7 +1653,7 @@
             this.toolStripSeparator15,
             this.clearAllProcessesToolStripMenuItem});
             this.clearListToolStripMenuItem.Name = "clearListToolStripMenuItem";
-            this.clearListToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.clearListToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.clearListToolStripMenuItem.Text = "Clear List";
             // 
             // allToolStripMenuItem
@@ -1692,7 +1692,7 @@
             // toolStripSeparator14
             // 
             this.toolStripSeparator14.Name = "toolStripSeparator14";
-            this.toolStripSeparator14.Size = new System.Drawing.Size(157, 6);
+            this.toolStripSeparator14.Size = new System.Drawing.Size(177, 6);
             // 
             // networkConnectionsToolStripMenuItem
             // 
