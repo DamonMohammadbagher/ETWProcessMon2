@@ -1375,49 +1375,68 @@ namespace ETWPM2Monitor2
 
                                            item.Text = item.Text + " <<Process Exited!?>>";
                                            item.BackColor = Color.LightGoldenrodYellow;
-
-                                           //Thread.Sleep(100);                                            
-
-                                           //item.ForeColor = Color.DarkBlue;
-                                           //item.BackColor = Color.White;
-                                           //BeginInvoke(new __Additem(_Additems_toTreeview2), item);
-
-                                           //item.Remove();
-
-                                           int _start = 0;
-                                           int _ticks = 0;
-                                           bool _inttick = false;
-
+ 
+                                           var _Delay = Task.Delay(TimeSpan.FromSeconds(2));
                                            do
                                            {
+                                               Thread.Sleep(2);
+
                                                item.BackColor = Color.LightGoldenrodYellow;
-                                               Thread.Sleep(5);
-                                               if (!_inttick)
+
+                                               if (_Delay.IsCompleted)
                                                {
-                                                   _ticks = DateTime.Now.Second;
-                                                   _start = 0;
+                                                   item.ForeColor = Color.DarkBlue;
+                                                   item.BackColor = Color.White;
+
+                                                   //BeginInvoke(new __Additem(_Additems_toTreeview2), item);
+
+                                                   //item.Remove();
+
+                                                   break;
                                                }
 
-                                               if (DateTime.Now.Second + 1 > _ticks)
-                                               {
-                                                   _ticks++;
-                                                   _start++;
-                                                   if (_start >= 10)
-                                                   {
-                                                       item.ForeColor = Color.DarkBlue;
-                                                       item.BackColor = Color.White;
-                                                       BeginInvoke(new __Additem(_Additems_toTreeview2), item);
+                                           } while (!_Delay.IsCompleted);
 
-                                                       item.Remove();
+                                           BeginInvoke(new __Additem(_Additems_toTreeview2), item);
 
-                                                       break;
-                                                   }
+                                           item.Remove();
 
-                                               }
-                                               _inttick = true;
-                                               _ticks = DateTime.Now.Second;
 
-                                           } while (true);
+
+                                           //int _start = 0;
+                                           //int _ticks = 0;
+                                           //bool _inttick = false;
+
+                                           //do
+                                           //{
+                                           //    item.BackColor = Color.LightGoldenrodYellow;
+                                           //    Thread.Sleep(5);
+                                           //    if (!_inttick)
+                                           //    {
+                                           //        _ticks = DateTime.Now.Second;
+                                           //        _start = 0;
+                                           //    }
+
+                                           //    if (DateTime.Now.Second + 1 > _ticks)
+                                           //    {
+                                           //        _ticks++;
+                                           //        _start++;
+                                           //        if (_start >= 10)
+                                           //        {
+                                           //            item.ForeColor = Color.DarkBlue;
+                                           //            item.BackColor = Color.White;
+                                           //            BeginInvoke(new __Additem(_Additems_toTreeview2), item);
+
+                                           //            item.Remove();
+
+                                           //            break;
+                                           //        }
+
+                                           //    }
+                                           //    _inttick = true;
+                                           //    _ticks = DateTime.Now.Second;
+
+                                           //} while (true);
 
 
                                        }
@@ -1433,11 +1452,11 @@ namespace ETWPM2Monitor2
                    }
 
 
-               });          
+               });
             }
 
         }
-        public static bool _Action_Delay = false;
+        
         public void Update_Richtexbox8_SystemDetection_ETW_AllDetails_info()
         {
             try
@@ -2539,7 +2558,8 @@ namespace ETWPM2Monitor2
             {
                 try
                 {
-                    System.Threading.Thread.Sleep(25);
+                    Task.Delay(25);
+                    //System.Threading.Thread.Sleep(25);
                     /// for sure check all index ;)
                     listView4.BeginInvoke((MethodInvoker)delegate
                     {
