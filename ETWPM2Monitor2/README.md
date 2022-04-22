@@ -62,7 +62,7 @@ Usage Steps
 
 ----------------------------------------------------------
 
-## ETWPM2Monitor2 v2.1 , update(32) v2.1.32.174 [Apr 21, 2022] , Seconds + TotalSeconds and ... Added to the source code.
+### ETWPM2Monitor2 v2.1 , update(32) v2.1.32.174 [Apr 21, 2022] , Seconds + TotalSeconds and ... Added to the source code.
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2/Pics/Test5_10.png)
    
 ### ETWPM2Monitor2 v2.1 , update(22) v2.1.22.100 [Mar 11, 2022] (Processes Info Tab Added)
