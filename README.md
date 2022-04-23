@@ -222,7 +222,7 @@ Video link2: https://share.vidyard.com/watch/PjBybo5BNHbfCXazoLmN6f
  usage:  
     
     step1: [win, Run As Admin] ETWProcessMon2.exe > Save_all_outputs.txt
-    step2: [win] ETWPM2Monitor.exe 
+    step2: [win, Run As Admin] ETWPM2Monitor2.exe 
     
 ### ETWPM2Monitor2 v2.1 [v2.1.15.53] (last update of code & All Detection Now Will Save to Windows Event Log [ETWPM2Monitor2])
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2/Pics/EVT.png)
