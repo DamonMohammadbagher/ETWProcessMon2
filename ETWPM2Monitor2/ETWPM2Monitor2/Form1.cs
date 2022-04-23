@@ -16,6 +16,7 @@ using System.Windows.Forms;
 using System.Management;
 using System.Security.Cryptography;
 
+
 namespace ETWPM2Monitor2
 {
     public partial class Form1 : Form
@@ -1204,11 +1205,25 @@ namespace ETWPM2Monitor2
                                 if (MyLviewItemsX5.SubItems[2].Text == "1") { _Imgindex2 = 0; }
                                 if (MyLviewItemsX5.SubItems[2].Text == "2") { _Imgindex2 = 1; }
                                 if (MyLviewItemsX5.SubItems[2].Text == "3") { _Imgindex2 = 3; }
-
-                                 
+                               
                                 item.Nodes.Add("", "[EventID:" + MyLviewItemsX5.SubItems[2].Text + "]" +
                                 "[" + MyLviewItemsX5.SubItems[4].Text + "] { " + MyLviewItemsX5.SubItems[5].Text + " }", _Imgindex2);
-                                
+
+
+                                ///
+                                if (MyLviewItemsX5.SubItems[2].Text == "3")
+                                {
+                                    int last = item.Nodes.Count;
+                                    if(item.LastNode.PrevNode.Text.Contains("[EventID:3]"))                                     
+                                    {
+                                        DateTime xdt_prev = Convert.ToDateTime(item.LastNode.PrevNode.Text.Split('\n')[4].Substring(12));
+                                        DateTime xdt_current = Convert.ToDateTime(item.LastNode.Text.Split('\n')[4].Substring(12));
+
+                                        item.Nodes.Add("", ">> Delta time (Total-Seconds) between last two TCP Events is>> " + Delta_Time(xdt_current, xdt_prev), 3);
+                                    }
+                                }
+                                ///
+
 
                                 if (MyLviewItemsX5.SubItems[2].Text == "2")
                                 {
@@ -1248,11 +1263,10 @@ namespace ETWPM2Monitor2
                             if (MyLviewItemsX5.SubItems[2].Text == "2") { _Imgindex = 1; }
                             if (MyLviewItemsX5.SubItems[2].Text == "3") { _Imgindex = 3; }
 
-                            //treeView1.BeginInvoke((MethodInvoker)delegate
-                            //{
+                            
                             treeView1.Nodes.Add("", MyLviewItemsX5.SubItems[3].Text, _Imgindex).Nodes.Add("", "[EventID:" + MyLviewItemsX5.SubItems[2].Text + "]"
                             + "[" + MyLviewItemsX5.SubItems[4].Text + "] { " + MyLviewItemsX5.SubItems[5].Text + " }", _Imgindex).Parent.ImageIndex = _Imgindex;
-                            //});
+                            
 
                         }
 
@@ -1719,7 +1733,7 @@ namespace ETWPM2Monitor2
 
             await RealtimeWatchProcess();
         }
-
+        
         private void Form1_Load(object sender, EventArgs e)
         {
             try
@@ -1727,6 +1741,7 @@ namespace ETWPM2Monitor2
                 /// very important  
                 Form.CheckForIllegalCrossThreadCalls = false;
 
+                  
                 _ExcludeProcessList.AddRange(new string[4] { "msedge", "firefox", "chrome", "iexplorer" });
 
                 BeginInvoke(new __Obj_Updater_to_WinForm(RealtimeWatchProcess_run));
