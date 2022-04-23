@@ -131,8 +131,6 @@
             this.tabPage14 = new System.Windows.Forms.TabPage();
             this.listBox5 = new System.Windows.Forms.ListBox();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
-            this.contextMenuStrip3 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.fileToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip3 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -221,12 +219,11 @@
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel4 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.contextMenuStrip4 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.dumpTIDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip2 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel5 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel6 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel7 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.scanSuspendToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip5.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -303,10 +300,8 @@
             this.splitContainer4.Panel2.SuspendLayout();
             this.splitContainer4.SuspendLayout();
             this.tabPage14.SuspendLayout();
-            this.contextMenuStrip3.SuspendLayout();
             this.menuStrip3.SuspendLayout();
             this.statusStrip1.SuspendLayout();
-            this.contextMenuStrip4.SuspendLayout();
             this.statusStrip2.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -502,7 +497,6 @@
             this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeView1.Location = new System.Drawing.Point(3, 16);
             this.treeView1.Name = "treeView1";
-            this.treeView1.ShowNodeToolTips = true;
             this.treeView1.Size = new System.Drawing.Size(522, 138);
             this.treeView1.TabIndex = 0;
             this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TreeView1_AfterSelect);
@@ -1353,19 +1347,6 @@
             this.imageList1.Images.SetKeyName(12, "Danrabbit-Elementary-Button-stop.ico");
             this.imageList1.Images.SetKeyName(13, "Saki-NuoveXT-2-Actions-remove.ico");
             // 
-            // contextMenuStrip3
-            // 
-            this.contextMenuStrip3.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileToolStripMenuItem1});
-            this.contextMenuStrip3.Name = "contextMenuStrip3";
-            this.contextMenuStrip3.Size = new System.Drawing.Size(93, 26);
-            // 
-            // fileToolStripMenuItem1
-            // 
-            this.fileToolStripMenuItem1.Name = "fileToolStripMenuItem1";
-            this.fileToolStripMenuItem1.Size = new System.Drawing.Size(92, 22);
-            this.fileToolStripMenuItem1.Text = "File";
-            // 
             // menuStrip3
             // 
             this.menuStrip3.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -1518,7 +1499,7 @@
             // 
             this.pesieve64exeOffToolStripMenuItem.Enabled = false;
             this.pesieve64exeOffToolStripMenuItem.Name = "pesieve64exeOffToolStripMenuItem";
-            this.pesieve64exeOffToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.pesieve64exeOffToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.pesieve64exeOffToolStripMenuItem.Text = "Pe-sieve.exe off";
             this.pesieve64exeOffToolStripMenuItem.Click += new System.EventHandler(this.Pesieve64exeOffToolStripMenuItem_Click);
             // 
@@ -1526,13 +1507,14 @@
             // 
             this.pesieve64exeonToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.scanOnlyModeDefaultToolStripMenuItem,
+            this.scanSuspendToolStripMenuItem,
             this.scanKillSuspiciousRunAsAdminToolStripMenuItem,
             this.toolStripSeparator7,
             this.defaultDumpAllToolStripMenuItem,
             this.dontDumpTheModifiedPEsButSaveTheReportoffToolStripMenuItem,
             this.dontDumpAnyFilesToolStripMenuItem1});
             this.pesieve64exeonToolStripMenuItem.Name = "pesieve64exeonToolStripMenuItem";
-            this.pesieve64exeonToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.pesieve64exeonToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.pesieve64exeonToolStripMenuItem.Text = "Pe-sieve.exe on";
             // 
             // scanOnlyModeDefaultToolStripMenuItem
@@ -1580,7 +1562,7 @@
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(154, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(177, 6);
             // 
             // toolStripSeparator10
             // 
@@ -2084,19 +2066,6 @@
             this.toolStripStatusLabel4.Size = new System.Drawing.Size(148, 17);
             this.toolStripStatusLabel4.Text = "| hollowshunter is Disabled";
             // 
-            // contextMenuStrip4
-            // 
-            this.contextMenuStrip4.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.dumpTIDToolStripMenuItem});
-            this.contextMenuStrip4.Name = "contextMenuStrip4";
-            this.contextMenuStrip4.Size = new System.Drawing.Size(209, 26);
-            // 
-            // dumpTIDToolStripMenuItem
-            // 
-            this.dumpTIDToolStripMenuItem.Name = "dumpTIDToolStripMenuItem";
-            this.dumpTIDToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
-            this.dumpTIDToolStripMenuItem.Text = "Injected TID Memory info";
-            // 
             // statusStrip2
             // 
             this.statusStrip2.BackColor = System.Drawing.Color.Gray;
@@ -2141,6 +2110,13 @@
             this.toolStripStatusLabel7.Size = new System.Drawing.Size(145, 17);
             this.toolStripStatusLabel7.Text = "| Network Connections (0)";
             this.toolStripStatusLabel7.Click += new System.EventHandler(this.ToolStripStatusLabel7_Click);
+            // 
+            // scanSuspendToolStripMenuItem
+            // 
+            this.scanSuspendToolStripMenuItem.Name = "scanSuspendToolStripMenuItem";
+            this.scanSuspendToolStripMenuItem.Size = new System.Drawing.Size(360, 22);
+            this.scanSuspendToolStripMenuItem.Text = "Scan + Suspend Suspicious (Run as Admin)";
+            this.scanSuspendToolStripMenuItem.Click += new System.EventHandler(this.ScanSuspendToolStripMenuItem_Click_1);
             // 
             // Form1
             // 
@@ -2234,12 +2210,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).EndInit();
             this.splitContainer4.ResumeLayout(false);
             this.tabPage14.ResumeLayout(false);
-            this.contextMenuStrip3.ResumeLayout(false);
             this.menuStrip3.ResumeLayout(false);
             this.menuStrip3.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
-            this.contextMenuStrip4.ResumeLayout(false);
             this.statusStrip2.ResumeLayout(false);
             this.statusStrip2.PerformLayout();
             this.ResumeLayout(false);
@@ -2251,8 +2225,6 @@
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStrip3;
-        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem1;
         private System.Windows.Forms.MenuStrip menuStrip3;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem2;
         private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
@@ -2275,8 +2247,6 @@
         private System.Windows.Forms.ToolStripMenuItem autoScrollToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem onToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem offToolStripMenuItem;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStrip4;
-        private System.Windows.Forms.ToolStripMenuItem dumpTIDToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem memoryToolStripMenuItem;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip5;
         private System.Windows.Forms.ToolStripMenuItem injectedTIDMemoryInfoToolStripMenuItem;
@@ -2436,6 +2406,7 @@
         private System.Windows.Forms.ToolStripMenuItem offToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem checkProcessHollowingSizeChangingToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator18;
+        private System.Windows.Forms.ToolStripMenuItem scanSuspendToolStripMenuItem;
     }
 }
 

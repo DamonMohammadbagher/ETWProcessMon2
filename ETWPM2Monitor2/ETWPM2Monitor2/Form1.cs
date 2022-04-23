@@ -1112,7 +1112,7 @@ namespace ETWPM2Monitor2
                     _List_All_Injection_Details_info_Filter_withoutSystem4.FindAll(_y =>
                     _y._TargetPID == Convert.ToInt32(MyLviewItemsX2.Name.Split(':')[1].Split('>')[0]));
 
-                    foreach (_All_Injection_Details_info_Filter_withoutSystem4 _itemX in _TidDetails)
+                    foreach (_All_Injection_Details_info_Filter_withoutSystem4 _itemX in _TidDetails.ToList<_All_Injection_Details_info_Filter_withoutSystem4>())
                     {
                         _DumpMemoryInfo_Injected_Bytes(_itemX._ThreadStartAddress, _itemX._RemoteThreadID, _itemX._TargetPID, _itemX._InjectorPID.ToString());
 
@@ -1145,12 +1145,21 @@ namespace ETWPM2Monitor2
                       
                             listView3.BeginInvoke((MethodInvoker)delegate
                             {
-                                if (_ExcludeProcessList.FindIndex(index => index.ToLower() == MyLviewItemsX6.SubItems[2].Text.Split(':')[0].ToLower()) == -1)
+                                try
                                 {
-                                    listView3.Items.Add(MyLviewItemsX6);
-                                    tabPage3.Text = "System/Detection Logs " + "(" + listView3.Items.Count.ToString() + ")";
-                                    tabPage13.Text = "Detection Logs " + "(" + listView3.Items.Count.ToString() + ")";
-                                    toolStripStatusLabel5.Text = "| System/Detection Logs " + "(" + listView3.Items.Count.ToString() + ")";
+
+                                    if (_ExcludeProcessList.FindIndex(index => index.ToLower() == MyLviewItemsX6.SubItems[2].Text.Split(':')[0].ToLower()) == -1)
+                                    {
+                                        listView3.Items.Add(MyLviewItemsX6);
+                                        tabPage3.Text = "System/Detection Logs " + "(" + listView3.Items.Count.ToString() + ")";
+                                        tabPage13.Text = "Detection Logs " + "(" + listView3.Items.Count.ToString() + ")";
+                                        toolStripStatusLabel5.Text = "| System/Detection Logs " + "(" + listView3.Items.Count.ToString() + ")";
+                                    }
+                                }
+                                catch (Exception)
+                                {
+
+                                   
                                 }
                             });
 
@@ -1213,13 +1222,22 @@ namespace ETWPM2Monitor2
                                 ///
                                 if (MyLviewItemsX5.SubItems[2].Text == "3")
                                 {
-                                    int last = item.Nodes.Count;
-                                    if(item.LastNode.PrevNode.Text.Contains("[EventID:3]"))                                     
+                                    try
                                     {
-                                        DateTime xdt_prev = Convert.ToDateTime(item.LastNode.PrevNode.Text.Split('\n')[4].Substring(12));
-                                        DateTime xdt_current = Convert.ToDateTime(item.LastNode.Text.Split('\n')[4].Substring(12));
 
-                                        item.Nodes.Add("", ">> Delta time (Total-Seconds) between last two TCP Events is>> " + Delta_Time(xdt_current, xdt_prev), 3);
+                                        int last = item.Nodes.Count;
+                                        if (item.LastNode.PrevNode.Text.Contains("[EventID:3]"))
+                                        {
+                                            DateTime xdt_prev = Convert.ToDateTime(item.LastNode.PrevNode.Text.Split('\n')[4].Substring(12));
+                                            DateTime xdt_current = Convert.ToDateTime(item.LastNode.Text.Split('\n')[4].Substring(12));
+
+                                            item.Nodes.Add("", ">> Delta time (Total-Seconds) between last two Network Events is >> " + Delta_Time(xdt_current, xdt_prev), 3);
+                                        }
+                                    }
+                                    catch (Exception)
+                                    {
+
+
                                     }
                                 }
                                 ///
@@ -1227,25 +1245,34 @@ namespace ETWPM2Monitor2
 
                                 if (MyLviewItemsX5.SubItems[2].Text == "2")
                                 {
-                                    SearchInjector = MyLviewItemsX5.SubItems[5].Text.Substring(MyLviewItemsX5.SubItems[5].Text.IndexOf("[Injected by ") + 13).Split(']')[0];
-                                    SearchInjector2 = "";
-
-                                    if (SearchInjector.Contains(':')) { SearchInjector2 = SearchInjector.Split(':')[0]; } else { SearchInjector2 = SearchInjector; }
-
-                                    if (SearchInjector2.ToLower() != "system")
+                                    try
                                     {
 
-                                        _TableofProcess _ToP = Process_Table.Find(Proc => Proc.Injector ==
-                                        Convert.ToInt32(MyLviewItemsX5.SubItems[5].Text.Split('\n')[12].Split('>')[1])
-                                        && Proc.Injector_Path.Contains(SearchInjector2));
+                                        SearchInjector = MyLviewItemsX5.SubItems[5].Text.Substring(MyLviewItemsX5.SubItems[5].Text.IndexOf("[Injected by ") + 13).Split(']')[0];
+                                        SearchInjector2 = "";
 
-                                        if (_ToP.PID > 0)
+                                        if (SearchInjector.Contains(':')) { SearchInjector2 = SearchInjector.Split(':')[0]; } else { SearchInjector2 = SearchInjector; }
+
+                                        if (SearchInjector2.ToLower() != "system")
                                         {
-                                            
-                                            item.Nodes.Add("", ">>>> " + _ToP.Injector_Path + " was injector for EventID2\n [Injector_ProcessID: "
-                                            + _ToP.Injector + "]\n [TargetPID with (EventID2): " + _ToP.ProcessName + ":" + _ToP.PID + "]", 1);
-                                            
+
+                                            _TableofProcess _ToP = Process_Table.Find(Proc => Proc.Injector ==
+                                            Convert.ToInt32(MyLviewItemsX5.SubItems[5].Text.Split('\n')[12].Split('>')[1])
+                                            && Proc.Injector_Path.Contains(SearchInjector2));
+
+                                            if (_ToP.PID > 0)
+                                            {
+
+                                                item.Nodes.Add("", ">>>> " + _ToP.Injector_Path + " was injector for EventID2\n [Injector_ProcessID: "
+                                                + _ToP.Injector + "]\n [TargetPID with (EventID2): " + _ToP.ProcessName + ":" + _ToP.PID + "]", 1);
+
+                                            }
                                         }
+                                    }
+                                    catch (Exception)
+                                    {
+
+
                                     }
                                 }
 
@@ -1701,7 +1728,7 @@ namespace ETWPM2Monitor2
                                     };
                         foreach (var item in query)
                         {
-                            if (Processes_FileSystemList.FindIndex(x => x.FileName == item.Process.ProcessName + ":" + item.Process.Id) == -1)
+                            if (Processes_FileSystemList.ToList().FindIndex(x => x.FileName == item.Process.ProcessName + ":" + item.Process.Id) == -1)
                             {
                                 Processes_FileSystemList.Add(new _Table_of_FileSystem_for_Processes_Watcher
                                 {
@@ -1782,7 +1809,7 @@ namespace ETWPM2Monitor2
                 try
                 {
                     Process[] AllProcess = Process.GetProcesses();
-                    foreach (Process item in AllProcess)
+                    foreach (Process item in AllProcess.ToList())
                     {
                         treeView1.Nodes.Add(item.ProcessName + ":" + item.Id.ToString());
                     }
@@ -1858,7 +1885,7 @@ namespace ETWPM2Monitor2
                 listView1.Columns.Add("EventID", 55, HorizontalAlignment.Left);
                 listView1.Columns.Add("Process", 170, HorizontalAlignment.Left);
                 listView1.Columns.Add("Evt-Type", 55, HorizontalAlignment.Left);
-                //listView1.Columns.Add("EventMessage", 1500, HorizontalAlignment.Left);
+               
 
 
                 listView2.SmallImageList = imageList1;
@@ -1935,19 +1962,7 @@ namespace ETWPM2Monitor2
                 listView4.Columns.Add("Delta Time (Days or Hours or Minutes)", 187, HorizontalAlignment.Left);
                 listView4.Columns.Add("Event Count", 77, HorizontalAlignment.Left);
                 listView4.Columns.Add("Event TTL (D:H:Minutes)", 135, HorizontalAlignment.Left);
-                listView4.Columns.Add("Event First Time", 130, HorizontalAlignment.Left);
-
-                //listView4.Columns.Add("last State", 64, HorizontalAlignment.Left);
-                //listView4.Columns.Add("ConnectionTimeMs", 64, HorizontalAlignment.Left);
-                //listView4.Columns.Add("TimestampsEnabled", 64, HorizontalAlignment.Left);
-                //listView4.Columns.Add("SndWnd", 64, HorizontalAlignment.Left);
-                //listView4.Columns.Add("RcvWnd", 64, HorizontalAlignment.Left);
-                //listView4.Columns.Add("RcvBuf", 64, HorizontalAlignment.Left);
-                //listView4.Columns.Add("BytesOut", 64, HorizontalAlignment.Left);
-                //listView4.Columns.Add("BytesIn", 64, HorizontalAlignment.Left);
-                //listView4.Columns.Add("RttUs", 64, HorizontalAlignment.Left);
-                //listView4.Columns.Add("MinRttUs", 64, HorizontalAlignment.Left);
-                //listView4.Columns.Add("TimeoutEpisodes", 64, HorizontalAlignment.Left);
+                listView4.Columns.Add("Event First Time", 130, HorizontalAlignment.Left);              
 
                 listView5.SmallImageList = imageList1;
                 /// Set the view to show details.
@@ -2021,6 +2036,9 @@ namespace ETWPM2Monitor2
             //throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// this timer is for Update items for listView2 (Alarms by ETW Tab)
+        /// </summary>       
         private async void T9_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
          
@@ -2030,45 +2048,22 @@ namespace ETWPM2Monitor2
                 try
                 {
 
-                    List<_TableofProcess> TerminatedProcess = Process_Table.FindAll(Terminate => Terminate.Detection_Status == "Terminated");
+                    List<_TableofProcess> TerminatedProcess = Process_Table.ToList().FindAll(Terminate => Terminate.Detection_Status == "Terminated");
                     if (Chart_Terminate != TerminatedProcess.Count) Chart_Terminate = TerminatedProcess.Count;
 
-                    List<_TableofProcess> SuspendedProcess = Process_Table.FindAll(Suspended => Suspended.Detection_Status == "Suspended");
+                    List<_TableofProcess> SuspendedProcess = Process_Table.ToList().FindAll(Suspended => Suspended.Detection_Status == "Suspended");
                     if (Chart_suspend != SuspendedProcess.Count) Chart_suspend = SuspendedProcess.Count;
 
-                    Chart_Orange = Process_Table.FindAll(medium => medium.SubItems_ImageIndex == 1).Count;
-                    Chart_Redflag = Process_Table.FindAll(high => high.SubItems_ImageIndex == 2).Count;
+
+                    Chart_Orange = Process_Table.ToList().FindAll(medium => medium.SubItems_ImageIndex == 1).Count;
+                    Chart_Redflag = Process_Table.ToList().FindAll(high => high.SubItems_ImageIndex == 2).Count;
 
 
-                    List<_TableofProcess> AllDettectionItems = Process_Table.FindAll(process => process.IsShow_Alarm == true
-                      /*&& !string.IsNullOrEmpty(process.Detection_Status) && !string.IsNullOrEmpty(process.InjectionType)*/  
-                      && !process.MemoryScanner01_Result.Contains("[not scanned:0:0:0]"));
+                    List<_TableofProcess> AllDettectionItems = Process_Table.ToList().FindAll(process => process.IsShow_Alarm == true
+                         && !process.MemoryScanner01_Result.Contains("[not scanned:0:0:0]"));
                         
-
-
-                    Int32 AllDettectionItemsIndex = Process_Table.FindIndex(process => process.IsShow_Alarm == true
-                      /* && !string.IsNullOrEmpty(process.Detection_Status) && !string.IsNullOrEmpty(process.InjectionType)*/ 
-                      && !process.MemoryScanner01_Result.Contains("Skipped:[not scanned:0:0:0]"));
-
-
-
-                  //  _TableofProcess ItemWithAnErrorShouldbeRemove = Process_Table.Find(process => process.IsShow_Alarm == true
-                  //&& !string.IsNullOrEmpty(process.InjectionType) && !string.IsNullOrEmpty(process.MemoryScanner02_Result)
-                  //&& !process.MemoryScanner01_Result.Contains("Skipped:[not scanned:0:0:0]"));
-
-                  //  int ItemWithAnErrorShouldbeRemoveIndex = Process_Table.FindIndex(process => process.IsShow_Alarm == true
-                  // && !string.IsNullOrEmpty(process.InjectionType) && !string.IsNullOrEmpty(process.MemoryScanner02_Result)
-                  // && !process.MemoryScanner01_Result.Contains("Skipped:[not scanned:0:0:0]"));
-
-
-
-                    //if (ItemWithAnErrorShouldbeRemoveIndex != -1)
-                    //{
-                    //    if (ItemWithAnErrorShouldbeRemove.PID != Convert.ToInt32(string.Join("", ItemWithAnErrorShouldbeRemove.MemoryScanner02_Result.Split(',')[1].Split(':')[1].ToCharArray().Where(char.IsDigit))))
-                    //        Process_Table.Remove(ItemWithAnErrorShouldbeRemove);
-                    //}
-
-
+                    Int32 AllDettectionItemsIndex = Process_Table.ToList().FindIndex(process => process.IsShow_Alarm == true
+                         && !process.MemoryScanner01_Result.Contains("Skipped:[not scanned:0:0:0]"));
 
 
                     xiList2 = new ListViewItem();
@@ -2078,7 +2073,7 @@ namespace ETWPM2Monitor2
                     {
                         if (AllDettectionItemsIndex != -1)
                         {
-                            foreach (var _main in AllDettectionItems.ToList())
+                            foreach (var _main in AllDettectionItems.ToList<_TableofProcess>())
                             {
                                 _xfound = false;
                                 foreach (ListViewItem item in listView2.Items)
@@ -2095,10 +2090,10 @@ namespace ETWPM2Monitor2
                                     try
                                     {
 
-                                        int obj_index = Process_Table.FindIndex(process => process.ProcessName.ToLower() + ":"
+                                        int obj_index = Process_Table.ToList<_TableofProcess>().FindIndex(process => process.ProcessName.ToLower() + ":"
                                         + process.PID == _main.ProcessName + ":" + _main.PID.ToString());
 
-                                        _TableofProcess_Scanned_01 xResult = Scanned_PIds.FindLast(scannedproc => scannedproc.PID == _main.PID
+                                        _TableofProcess_Scanned_01 xResult = Scanned_PIds.ToList<_TableofProcess_Scanned_01>().FindLast(scannedproc => scannedproc.PID == _main.PID
                                      && scannedproc.ProcNameANDPath == _main.ProcessName_Path);
 
 
@@ -2119,7 +2114,7 @@ namespace ETWPM2Monitor2
                                         TempStruc.MemoryScanner01_Result = xResult.Scanner01_RESULT_Int32_outputstr;
                                         TempStruc.MemoryScanner02_Result = "Disabled";
 
-                                        _TableofProcess_NewProcess_evt xFindingInjectorInfo = NewProcess_Table.Find(x => x.PID == Process_Table[obj_index].Injector
+                                        _TableofProcess_NewProcess_evt xFindingInjectorInfo = NewProcess_Table.ToList<_TableofProcess_NewProcess_evt>().Find(x => x.PID == Process_Table[obj_index].Injector
                                         || x.ProcessName_Path == Process_Table[obj_index].Injector_Path);
 
                                         TempStruc.Descripton_Details = TempStruc.ProcessName + " Injected by => " + TempStruc.Injector_Path + " (PID:" + TempStruc.Injector.ToString()
@@ -2144,21 +2139,17 @@ namespace ETWPM2Monitor2
                                         xiList2.SubItems.Add(_main.Detection_EventTime.ToString());
                                         xiList2.SubItems.Add(_main.ProcessName + ":" + _main.PID.ToString());
 
-                                        //xiList2.SubItems.Add(_main.InjectionType.ToString());
                                         xiList2.SubItems.Add(xResult.InjectionType.ToString());
 
                                         xiList2.SubItems.Add(_main.TCPDetails2.ToString());
-                                        //xiList2.SubItems.Add(_main.Detection_Status);
                                         xiList2.SubItems.Add(xResult.Action);
 
                                         xiList2.SubItems.Add(xResult.Scanner01_RESULT_Int32_outputstr);
-                                        //xiList2.SubItems.Add(_main.MemoryScanner01_Result);
 
                                         xiList2.SubItems.Add("Disabled");
                                         xiList2.SubItems.Add(TempStruc.Descripton_Details);
                                         xiList2.SubItems.Add(_main.Description);
-                                        //xiList2.Name = TempStruc.SubItems_Name_Property;
-                                        //xiList2.Name = TempStruc.SubItems_Name_Property;
+
                                         if (_main.SubItems_Name_Property.Length > TempStruc.SubItems_Name_Property.Length)
                                         {
                                             xiList2.Name = _main.SubItems_Name_Property;
@@ -2167,8 +2158,10 @@ namespace ETWPM2Monitor2
                                         {
                                             xiList2.Name = TempStruc.SubItems_Name_Property;
                                         }
+
                                         xiList2.ImageIndex = TempStruc.SubItems_ImageIndex;
 
+                                        if (xResult.Action != "Skipped" && xResult.Scanner01_RESULT_Int32_outputstr.ToString() != string.Empty)
                                         listView2.Items.Add(xiList2);
 
                                         tabPage4.Text = "Alarms by ETW " + "(" + listView2.Items.Count.ToString() + ")";
@@ -2189,14 +2182,14 @@ namespace ETWPM2Monitor2
                     {
                         if (AllDettectionItemsIndex != -1)
                         {
-                            foreach (var _item in AllDettectionItems.ToList())
+                            foreach (var _item in AllDettectionItems.ToList<_TableofProcess>())
                             {
                                 try
                                 {
-                                    _TableofProcess_Scanned_01 xResult = Scanned_PIds.FindLast(scannedproc => scannedproc.PID == _item.PID
+                                    _TableofProcess_Scanned_01 xResult = Scanned_PIds.ToList<_TableofProcess_Scanned_01>().FindLast(scannedproc => scannedproc.PID == _item.PID
                                     && scannedproc.ProcNameANDPath == _item.ProcessName_Path);
 
-                                    int obj_index = Process_Table.FindIndex(process => process.ProcessName.ToLower() + ":"
+                                    int obj_index = Process_Table.ToList<_TableofProcess>().FindIndex(process => process.ProcessName.ToLower() + ":"
                                      + process.PID == _item.ProcessName.ToLower() + ":" + _item.PID.ToString());
 
 
@@ -2217,7 +2210,7 @@ namespace ETWPM2Monitor2
                                     TempStruc.MemoryScanner01_Result = xResult.Scanner01_RESULT_Int32_outputstr;
                                     TempStruc.MemoryScanner02_Result = "Disabled";
 
-                                    _TableofProcess_NewProcess_evt xFindingInjectorInfo = NewProcess_Table.Find(x => x.PID == Process_Table[obj_index].Injector
+                                    _TableofProcess_NewProcess_evt xFindingInjectorInfo = NewProcess_Table.ToList<_TableofProcess_NewProcess_evt>().Find(x => x.PID == Process_Table[obj_index].Injector
                                     || x.ProcessName_Path == Process_Table[obj_index].Injector_Path);
 
                                     TempStruc.Descripton_Details = TempStruc.ProcessName + " Injected by => " + TempStruc.Injector_Path + " (PID:" + TempStruc.Injector.ToString()
@@ -2242,20 +2235,17 @@ namespace ETWPM2Monitor2
                                     xiList2.SubItems.Add(_item.Detection_EventTime.ToString());
                                     xiList2.SubItems.Add(_item.ProcessName + ":" + _item.PID.ToString());
 
-                                    //xiList2.SubItems.Add(_item.InjectionType.ToString());
                                     xiList2.SubItems.Add(xResult.InjectionType.ToString());
 
                                     xiList2.SubItems.Add(_item.TCPDetails2.ToString());
-                                    // xiList2.SubItems.Add(_item.Detection_Status);
                                     xiList2.SubItems.Add(xResult.Action);
 
-                                    //xiList2.SubItems.Add(_item.MemoryScanner01_Result);
                                     xiList2.SubItems.Add(xResult.Scanner01_RESULT_Int32_outputstr);
 
                                     xiList2.SubItems.Add("Disabled");
                                     xiList2.SubItems.Add(TempStruc.Descripton_Details);
                                     xiList2.SubItems.Add(_item.Description);
-                                    //xiList2.Name = TempStruc.SubItems_Name_Property;
+
                                     if(_item.SubItems_Name_Property.Length > TempStruc.SubItems_Name_Property.Length)
                                     {
                                         xiList2.Name = _item.SubItems_Name_Property;
@@ -2264,10 +2254,11 @@ namespace ETWPM2Monitor2
                                     {
                                         xiList2.Name = TempStruc.SubItems_Name_Property;
                                     }
-                                    //xiList2.Name = _item.SubItems_Name_Property;
+
                                     xiList2.ImageIndex = TempStruc.SubItems_ImageIndex;
 
-                                    listView2.Items.Add(xiList2);
+                                    if (xResult.Action != "Skipped" && xResult.Scanner01_RESULT_Int32_outputstr.ToString() != string.Empty)
+                                        listView2.Items.Add(xiList2);
 
                                     tabPage4.Text = "Alarms by ETW " + "(" + listView2.Items.Count.ToString() + ")";
                                     toolStripStatusLabel6.Text = "| Alarms by ETW " + "(" + listView2.Items.Count.ToString() + ")";
@@ -2308,7 +2299,7 @@ namespace ETWPM2Monitor2
 
 
                     /// check sub processes                                              
-                    foreach (_TableofProcess_NewProcess_evt ___item in NewProcess_Table.FindAll(SubProc =>
+                    foreach (_TableofProcess_NewProcess_evt ___item in NewProcess_Table.ToList().FindAll(SubProc =>
                     SubProc.PPID == _PPID_For_TimerScanner01))
                     {
                         ///"[ParentID Path: C:\\Windows\\SysWOW64\\notepad.exe]"
@@ -2523,7 +2514,7 @@ namespace ETWPM2Monitor2
                         IPGlobalProperties _GetIPGlobalProperties = IPGlobalProperties.GetIPGlobalProperties();
                         TcpConnectionInformation[] _TCPConnections = _GetIPGlobalProperties.GetActiveTcpConnections();
 
-                        foreach (TcpConnectionInformation t in _TCPConnections)
+                        foreach (TcpConnectionInformation t in _TCPConnections.ToList())
                         {
 
                             ActiveTCP.Add(t.LocalEndPoint.Address.ToString() + ":" + t.LocalEndPoint.Port.ToString() + ">" + t.RemoteEndPoint.Address.ToString()
@@ -2574,7 +2565,7 @@ namespace ETWPM2Monitor2
                 try
                 {
                     Task.Delay(25);
-                    //System.Threading.Thread.Sleep(25);
+                    
                     /// for sure check all index ;)
                     listView4.BeginInvoke((MethodInvoker)delegate
                     {
@@ -3775,7 +3766,8 @@ namespace ETWPM2Monitor2
                     string result2 = "";
                     string _injtype = "Injection";
                     string _lastTargetProcessScannedInfo = "";
-                    foreach (_TableofProcess item in __Table_of_Process_to_Scan)
+
+                    foreach (_TableofProcess item in __Table_of_Process_to_Scan.ToList<_TableofProcess>())
                     {
                         if (item.ProcessName + ":" + item.PID + item.ProcessName_Path + item.Injector_Path + item.Injector.ToString() != tmplasttcpevent)
                         {
@@ -3789,7 +3781,6 @@ namespace ETWPM2Monitor2
                             if (!_StopLoopingScan_Exec_01 && IsScannedBefore == -1)
                             {
                                 /// pe-sieve64.exe scanner
-                                //_finalresult_Scanned_01 = executeutilities_01(item.PID.ToString(), item.ProcessName_Path, item.Injector_Path + ":" + item.Injector.ToString());
 
                                 try
                                 {
@@ -3833,6 +3824,11 @@ namespace ETWPM2Monitor2
                                             result2 = "";
                                             if (File.Exists("pe-sieve64.exe"))
                                             {
+                                                if (toolStripStatusLabel3.Text != "| pe-sieve is on")
+                                                {
+                                                    toolStripStatusLabel3.Text = "| pe-sieve is on";
+                                                    toolStripStatusLabel3.ForeColor = Color.GhostWhite;
+                                                }
 
                                                 try
                                                 {
@@ -3840,17 +3836,11 @@ namespace ETWPM2Monitor2
 
                                                     if (!Process.GetProcessById(Convert.ToInt32(item.PID.ToString())).HasExited)
                                                     {
-                                                        ///// Check Live Processes, if MemoryScanners Was not Running for this Pid (real-time) 
-                                                        ///// [stop looping to async scan same PID at the same time]
-                                                        //Process[] _LiveScanners = Process.GetProcesses();
-                                                        //Thread.Sleep(500);
-                                                        //int Found_LiveScanners = _LiveScanners.ToList().FindIndex(pid => pid.ProcessName.ToLower() == "pe-sieve64"
-                                                        //&& pid.StartInfo.Arguments.ToLower().Contains("/shellc /iat 2 /pid " + item.PID.ToString()));
-                                                        //Thread.Sleep(500);
+                                                        
 
                                                         /// Check Live Processes, if MemoryScanners Was not Running for this Pid (real-time) 
                                                         /// [stop looping to async scan same PID at the same time]
-                                                        if ((!_ExcludeProcessList.Exists(index => index.Contains(Process.GetProcessById(item.PID).ProcessName.ToLower())))
+                                                        if ((!_ExcludeProcessList.ToList().Exists(index => index.Contains(Process.GetProcessById(item.PID).ProcessName.ToLower())))
                                                         && (!_lastTargetProcessScannedInfo.ToLower().Contains("/shellc /iat 2 /pid " + item.PID.ToString())))
                                                         {
                                                             outputs.StartInfo.FileName = "pe-sieve64.exe";
@@ -3939,7 +3929,9 @@ namespace ETWPM2Monitor2
                                             else
                                             {
                                                 finalresult_Scanned_01[0] = "[error not found pe-sieve64.exe[not scanned:0]";
-                                                finalresult_Scanned_01[1] = "[error not found pe-sieve64.exe[not scanned:0]";
+                                                finalresult_Scanned_01[1] = "[[not scanned:0]";
+                                                toolStripStatusLabel3.Text = "| error not found pe-sieve64.exe";
+                                                toolStripStatusLabel3.ForeColor = Color.Red;
                                             }
 
                                             bool _Isdetected = false;
@@ -3955,6 +3947,12 @@ namespace ETWPM2Monitor2
                                                 iList2.ImageIndex = 1;
                                             }
 
+                                            if (Pe_sieveLevel == 1)
+                                            {
+                                                Scanner_Action = "Suspended";
+                                                iList2.ImageIndex = 2;
+                                            }
+
                                             if (Pe_sieveLevel == 2)
                                             {
                                                 Scanner_Action = "Terminated";
@@ -3967,7 +3965,7 @@ namespace ETWPM2Monitor2
                                                 iList2.ImageIndex = 1;
                                             }
 
-                                           if (!Scanned_PIds.Exists(scanned => scanned.PID == Convert.ToInt32(item.PID.ToString()) && scanned.ProcNameANDPath == item.ProcessName_Path
+                                           if (!Scanned_PIds.ToList<_TableofProcess_Scanned_01>().Exists(scanned => scanned.PID == Convert.ToInt32(item.PID.ToString()) && scanned.ProcNameANDPath == item.ProcessName_Path
                                             && scanned.injectorPathPID == _InjectorPathPID))
                                             {
                                                 string injtype = "Injection";
@@ -4121,7 +4119,23 @@ namespace ETWPM2Monitor2
                                 iList2.ImageIndex = 2;
 
                                 if (Pe_sieveLevel == 0) { iList2.ImageIndex = 2; Detection_Status_Action = "Scanned & Found!"; }
+                                else
+                                if (Pe_sieveLevel == 1)
+                                {
+                                    try
+                                    {
+                                        iList2.ImageIndex = 2;
+                                        Detection_Status_Action = "Suspended";
+                                        int _tpid = PID;
+                                        Memoryinfo.NtSuspendProcess(Process.GetProcessById(_tpid).Handle);
+                                    }
+                                    catch (Exception)
+                                    {
 
+                                       
+                                    }                                   
+                                }
+                                else
                                 if (Pe_sieveLevel == 2)
                                 {
                                     iList2.ImageIndex = 2;
@@ -4145,8 +4159,8 @@ namespace ETWPM2Monitor2
                                             t8.Start();
 
                                             /// check sub processes                                              
-                                            foreach (_TableofProcess_NewProcess_evt ___item in NewProcess_Table.FindAll(SubProc =>
-                                            SubProc.PPID == PID))
+                                            foreach (_TableofProcess_NewProcess_evt ___item in NewProcess_Table.ToList().FindAll(SubProc =>
+                                            SubProc.PPID == PID).ToList< _TableofProcess_NewProcess_evt>())
                                             {
                                                 ///"[ParentID Path: C:\\Windows\\SysWOW64\\notepad.exe]"
 
@@ -4475,7 +4489,6 @@ namespace ETWPM2Monitor2
             }
 
         }
-
 
         /// <summary>
         /// realtime monitoring events IDs 1,2,3 from windows event log "ETWPM2"  
@@ -5143,7 +5156,7 @@ namespace ETWPM2Monitor2
 
         private void AboutToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(null, "ETWPM2Monitor2 v2.1 [test version 2.1.32.174]\nCode Published by Damon Mohammadbagher , Jul 2021", "About ETWPM2Monitor2 v2.1", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show(null, "ETWPM2Monitor2 v2.1 [test version 2.1.32.187]\nCode Published by Damon Mohammadbagher , Jul 2021", "About ETWPM2Monitor2 v2.1", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
         }
 
@@ -5251,63 +5264,6 @@ namespace ETWPM2Monitor2
             removeRealtimeRecordsAfter500RecordsToolStripMenuItem.Checked = false;
         }
 
-        private void MixedModeToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ScannerMixedMode_Pesieve = true;
-            ScannerEvery10minMode_Pesieve = false;
-           
-        }
-
-        private void ScanningTargetProcessEvery10mininBackgroundToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            //mixedModeToolStripMenuItem.Checked = false;
-            //scanningTargetProcessEvery10mininBackgroundToolStripMenuItem.Checked = true;
-            //disableAllModesToolStripMenuItem.Checked = false;
-            ScannerEvery10minMode_Pesieve = true;
-            ScannerMixedMode_Pesieve = false;
-
-        }
-
-        private void DisableAllModesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ScannerMixedMode_Pesieve = false;
-            ScannerEvery10minMode_Pesieve = false;
-            //disableAllModesToolStripMenuItem.Checked = true;
-
-            //scanningTargetProcessEvery10mininBackgroundToolStripMenuItem.Checked = false;
-            //mixedModeToolStripMenuItem.Checked = false;
-
-        }
-
-        private void ScanningTargetProcessEvery10mininBackgroundToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            ScannerMixedMode_Hollowh = false;
-            ScannerEvery10minMode_Hollowh = true;
-            //scanningTargetProcessEvery10mininBackgroundToolStripMenuItem1.Checked = true;
-            //mixedModeToolStripMenuItem1.Checked = false;
-            //disableBothToolStripMenuItem.Checked = false;
-
-        }
-
-        private void MixedModeToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            ScannerMixedMode_Hollowh = true;
-            ScannerEvery10minMode_Hollowh = false;
-            //mixedModeToolStripMenuItem1.Checked = true;
-            //scanningTargetProcessEvery10mininBackgroundToolStripMenuItem1.Checked = false;
-            //disableBothToolStripMenuItem.Checked = false;
-        }
-
-        private void DisableBothToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ScannerMixedMode_Hollowh = false;
-            ScannerEvery10minMode_Hollowh = false;
-            //disableBothToolStripMenuItem.Checked = true;
-
-            //mixedModeToolStripMenuItem1.Checked = false;
-            //scanningTargetProcessEvery10mininBackgroundToolStripMenuItem1.Checked = false;
-        }
-
         private void DontDumpTheModifiedPEsButSaveTheReportoffToolStripMenuItem_Click(object sender, EventArgs e)
         {
             toolStripStatusLabel3.Text = "| pe-sieve is on";
@@ -5352,6 +5308,15 @@ namespace ETWPM2Monitor2
             Pe_sieveLevel = 0;
             scanKillSuspiciousRunAsAdminToolStripMenuItem.Checked = false;
             scanOnlyModeDefaultToolStripMenuItem.Checked = true;
+            scanSuspendToolStripMenuItem.Checked = false;
+        }
+
+        private void ScanSuspendToolStripMenuItem_Click_1(object sender, EventArgs e)
+        {
+            Pe_sieveLevel = 1;
+            scanKillSuspiciousRunAsAdminToolStripMenuItem.Checked = false;
+            scanOnlyModeDefaultToolStripMenuItem.Checked = false;
+            scanSuspendToolStripMenuItem.Checked = true;
         }
 
         private void ScanKillSuspiciousRunAsAdminToolStripMenuItem_Click(object sender, EventArgs e)
@@ -5359,6 +5324,7 @@ namespace ETWPM2Monitor2
             Pe_sieveLevel = 2;
             scanKillSuspiciousRunAsAdminToolStripMenuItem.Checked = true;
             scanOnlyModeDefaultToolStripMenuItem.Checked = false;
+            scanSuspendToolStripMenuItem.Checked = false;
         }
 
         private void RealTimeSearchFiltersToolStripMenuItem_Click(object sender, EventArgs e)
@@ -5440,13 +5406,30 @@ namespace ETWPM2Monitor2
 
         private void AllToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            bool __init1 = false;
+            bool __init2 = false;
+
+            if (t7.Enabled)
+            {
+                t7.Enabled = false;
+                t7.Stop();
+                __init1 = true;
+            }
+
+            if (_IsProcessTab_Enabled)
+            {
+                _IsProcessTab_Enabled = false;
+                __init2 = true;
+            }
+
             treeView1.Nodes.Clear();
             treeView2.Nodes.Clear();
+
             GC.Collect();
             try
             {
                 Process[] AllProcess = Process.GetProcesses();
-                foreach (Process item in AllProcess)
+                foreach (Process item in AllProcess.ToList())
                 {
                     treeView1.Nodes.Add(item.ProcessName + ":" + item.Id.ToString());
                 }
@@ -5456,16 +5439,45 @@ namespace ETWPM2Monitor2
 
 
             }
+
+            if (__init1)
+            {
+
+                t7.Enabled = true;
+
+                t7.Start();
+            }
+
+            if (__init2)
+                _IsProcessTab_Enabled = true;
+
         }
 
         private void LiveProcessesToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            bool __init1 = false;
+            bool __init2 = false;
+
+            if (t7.Enabled)
+            {
+                t7.Enabled = false;
+                t7.Stop();
+                __init1 = true;
+            }
+
+            if (_IsProcessTab_Enabled)
+            {
+                _IsProcessTab_Enabled = false;
+                __init2 = true;
+            }
+
             treeView1.Nodes.Clear();
             GC.Collect();
+
             try
             {
                 Process[] AllProcess = Process.GetProcesses();
-                foreach (Process item in AllProcess)
+                foreach (Process item in AllProcess.ToList())
                 {
                     treeView1.Nodes.Add(item.ProcessName + ":" + item.Id.ToString());
                 }
@@ -5475,6 +5487,17 @@ namespace ETWPM2Monitor2
 
 
             }
+
+            if (__init1)
+            {
+
+                t7.Enabled = true;
+
+                t7.Start();
+            }
+
+            if (__init2)
+                _IsProcessTab_Enabled = true;
         }
 
         private void ClosedProcessesToolStripMenuItem_Click(object sender, EventArgs e)
@@ -5563,7 +5586,7 @@ namespace ETWPM2Monitor2
                 string __TargetProcess2 = listviewitems_wasselected_ihope2.SubItems[2].Text;
                 string sip_port = listviewitems_wasselected_ihope2.SubItems[4].Text;
                 string dip_port = listviewitems_wasselected_ihope2.SubItems[5].Text;
-                foreach (TcpConnectionInformation t in _TCPConnections)
+                foreach (TcpConnectionInformation t in _TCPConnections.ToList())
                 {
                     if (t.LocalEndPoint.Address.ToString() + ":" + t.LocalEndPoint.Port.ToString() + t.RemoteEndPoint.Address.ToString()
                                 + ":" + t.RemoteEndPoint.Port.ToString() == sip_port + dip_port && t.State == TcpState.Established)
@@ -5591,7 +5614,7 @@ namespace ETWPM2Monitor2
                 ListViewItem listviewitems_wasselected_ihope = listView4.SelectedItems[0];
                 string __TargetProcess = listviewitems_wasselected_ihope.SubItems[2].Text;
 
-                foreach (_TableofProcess_NewProcess_evt item in NewProcess_Table.FindAll(SubProc =>
+                foreach (_TableofProcess_NewProcess_evt item in NewProcess_Table.ToList().FindAll(SubProc =>
                 SubProc.PPID == Convert.ToInt32(__TargetProcess.Split(':')[1])))
                 {
                     ///"[ParentID Path: C:\\Windows\\SysWOW64\\notepad.exe]"
@@ -5653,7 +5676,7 @@ namespace ETWPM2Monitor2
                 string __TargetProcess2 = listviewitems_wasselected_ihope2.SubItems[2].Text;
                 string sip_port = listviewitems_wasselected_ihope2.SubItems[4].Text;
                 string dip_port = listviewitems_wasselected_ihope2.SubItems[5].Text;
-                foreach (TcpConnectionInformation t in _TCPConnections)
+                foreach (TcpConnectionInformation t in _TCPConnections.ToList())
                 {
                     if (t.LocalEndPoint.Address.ToString() + ":" + t.LocalEndPoint.Port.ToString() + t.RemoteEndPoint.Address.ToString()
                                 + ":" + t.RemoteEndPoint.Port.ToString() == sip_port + dip_port && t.State == TcpState.Established)
@@ -5819,7 +5842,7 @@ namespace ETWPM2Monitor2
             }
             
         }
-
+      
         private void ListView5_SelectedIndexChanged(object sender, EventArgs e)
         {
             try
@@ -5847,26 +5870,6 @@ namespace ETWPM2Monitor2
             listBox4.Items.Clear();
         }
 
-        private void DontDumpPEOfilterToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            toolStripStatusLabel4.Text = "| hollowshunter is on";
-
-            //dumpAllProcessToolStripMenuItem.Text = "Default dump all Process [off]";
-            //dontDumpPEOfilterToolStripMenuItem.Text = "don't dump the modified PEs, but save the report [on]";
-            //dontDumpAnyFilesToolStripMenuItem.Text = "don't dump any files [off]";
-            hollowshunter_DumpSwitches = 1;
-        }
-
-        private void DontDumpAnyFilesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            toolStripStatusLabel4.Text = "| hollowshunter is on";
-
-            //dumpAllProcessToolStripMenuItem.Text = "Default dump all Process [off]";
-            //dontDumpAnyFilesToolStripMenuItem.Text = "don't dump any files [on]";
-            //dontDumpPEOfilterToolStripMenuItem.Text = "don't dump the modified PEs, but save the report [off]";
-            hollowshunter_DumpSwitches = 2;
-        }
-
         private void ExcludeSYSTEM4EventsFromRealtimeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             is_system4_excluded = true;
@@ -5877,17 +5880,7 @@ namespace ETWPM2Monitor2
         {
             is_system4_excluded = false;
             excludeSYSTEM4EventsFromRealtimeToolStripMenuItem.Checked = false;
-        }
-
-        private void DumpAllProcessToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            toolStripStatusLabel4.Text = "| hollowshunter is on";
-
-            //dumpAllProcessToolStripMenuItem.Text = "Default dump all Process [on]";
-            //dontDumpAnyFilesToolStripMenuItem.Text = "don't dump any files [off]";
-            //dontDumpPEOfilterToolStripMenuItem.Text = "don't dump the modified PEs, but save the report [off]";
-            hollowshunter_DumpSwitches = 0;
-        }
+        }    
 
         private void Pesieve64exeOffToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -5978,7 +5971,7 @@ namespace ETWPM2Monitor2
                     int counter = 0;
                     richTextBox3.Text += "Target Process & Injector Details:\n";
                     string last_tid = "";
-                    foreach (_InjectedThreadDetails_bytes item in _InjectedTIDList.FindAll(y => y._TargetPID == Convert.ToInt32(PID) && y._InjectorPID == temp_get_InjectorPID_from_eventmessage))
+                    foreach (_InjectedThreadDetails_bytes item in _InjectedTIDList.ToList< _InjectedThreadDetails_bytes>().FindAll(y => y._TargetPID == Convert.ToInt32(PID) && y._InjectorPID == temp_get_InjectorPID_from_eventmessage))
                     {
                         try
                         {
