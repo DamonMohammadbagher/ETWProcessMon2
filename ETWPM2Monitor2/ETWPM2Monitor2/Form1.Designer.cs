@@ -151,6 +151,7 @@
             this.pesieve64exeOffToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pesieve64exeonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.scanOnlyModeDefaultToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.scanSuspendToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.scanKillSuspiciousRunAsAdminToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
             this.defaultDumpAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -223,7 +224,6 @@
             this.toolStripStatusLabel5 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel6 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel7 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.scanSuspendToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip5.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -1499,7 +1499,7 @@
             // 
             this.pesieve64exeOffToolStripMenuItem.Enabled = false;
             this.pesieve64exeOffToolStripMenuItem.Name = "pesieve64exeOffToolStripMenuItem";
-            this.pesieve64exeOffToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.pesieve64exeOffToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
             this.pesieve64exeOffToolStripMenuItem.Text = "Pe-sieve.exe off";
             this.pesieve64exeOffToolStripMenuItem.Click += new System.EventHandler(this.Pesieve64exeOffToolStripMenuItem_Click);
             // 
@@ -1514,7 +1514,7 @@
             this.dontDumpTheModifiedPEsButSaveTheReportoffToolStripMenuItem,
             this.dontDumpAnyFilesToolStripMenuItem1});
             this.pesieve64exeonToolStripMenuItem.Name = "pesieve64exeonToolStripMenuItem";
-            this.pesieve64exeonToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.pesieve64exeonToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
             this.pesieve64exeonToolStripMenuItem.Text = "Pe-sieve.exe on";
             // 
             // scanOnlyModeDefaultToolStripMenuItem
@@ -1525,6 +1525,13 @@
             this.scanOnlyModeDefaultToolStripMenuItem.Size = new System.Drawing.Size(360, 22);
             this.scanOnlyModeDefaultToolStripMenuItem.Text = "Scan only mode (Default)";
             this.scanOnlyModeDefaultToolStripMenuItem.Click += new System.EventHandler(this.ScanOnlyModeDefaultToolStripMenuItem_Click);
+            // 
+            // scanSuspendToolStripMenuItem
+            // 
+            this.scanSuspendToolStripMenuItem.Name = "scanSuspendToolStripMenuItem";
+            this.scanSuspendToolStripMenuItem.Size = new System.Drawing.Size(360, 22);
+            this.scanSuspendToolStripMenuItem.Text = "Scan + Suspend Suspicious (Run as Admin)";
+            this.scanSuspendToolStripMenuItem.Click += new System.EventHandler(this.ScanSuspendToolStripMenuItem_Click_1);
             // 
             // scanKillSuspiciousRunAsAdminToolStripMenuItem
             // 
@@ -1562,7 +1569,7 @@
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(154, 6);
             // 
             // toolStripSeparator10
             // 
@@ -1572,8 +1579,8 @@
             // processesToolStripMenuItem
             // 
             this.processesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.refresh5SecToolStripMenuItem,
             this.refresh10SecToolStripMenuItem,
+            this.refresh5SecToolStripMenuItem,
             this.toolStripSeparator12,
             this.stopListRefreshingToolStripMenuItem,
             this.startRefreshingToolStripMenuItem,
@@ -1586,15 +1593,15 @@
             // 
             // refresh5SecToolStripMenuItem
             // 
-            this.refresh5SecToolStripMenuItem.Checked = true;
-            this.refresh5SecToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.refresh5SecToolStripMenuItem.Name = "refresh5SecToolStripMenuItem";
             this.refresh5SecToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.refresh5SecToolStripMenuItem.Text = "Refresh (5 sec)";
+            this.refresh5SecToolStripMenuItem.Text = "Refresh (15 sec)";
             this.refresh5SecToolStripMenuItem.Click += new System.EventHandler(this.Refresh5SecToolStripMenuItem_Click);
             // 
             // refresh10SecToolStripMenuItem
             // 
+            this.refresh10SecToolStripMenuItem.Checked = true;
+            this.refresh10SecToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.refresh10SecToolStripMenuItem.Name = "refresh10SecToolStripMenuItem";
             this.refresh10SecToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.refresh10SecToolStripMenuItem.Text = "Refresh (10 sec)";
@@ -2110,13 +2117,6 @@
             this.toolStripStatusLabel7.Size = new System.Drawing.Size(145, 17);
             this.toolStripStatusLabel7.Text = "| Network Connections (0)";
             this.toolStripStatusLabel7.Click += new System.EventHandler(this.ToolStripStatusLabel7_Click);
-            // 
-            // scanSuspendToolStripMenuItem
-            // 
-            this.scanSuspendToolStripMenuItem.Name = "scanSuspendToolStripMenuItem";
-            this.scanSuspendToolStripMenuItem.Size = new System.Drawing.Size(360, 22);
-            this.scanSuspendToolStripMenuItem.Text = "Scan + Suspend Suspicious (Run as Admin)";
-            this.scanSuspendToolStripMenuItem.Click += new System.EventHandler(this.ScanSuspendToolStripMenuItem_Click_1);
             // 
             // Form1
             // 
