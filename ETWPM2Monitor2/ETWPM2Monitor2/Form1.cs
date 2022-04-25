@@ -44,7 +44,7 @@ namespace ETWPM2Monitor2
         public static System.Timers.Timer t7 = new System.Timers.Timer(5000);
         public static System.Timers.Timer t8 = new System.Timers.Timer(5000);
         public static System.Timers.Timer t9 = new System.Timers.Timer(2000);
-        public static System.Timers.Timer t10 = new System.Timers.Timer(500);
+        public static System.Timers.Timer t10 = new System.Timers.Timer(10000);
 
         public static uint NTReadTmpRef = 0;
         public static EventLog ETW2MON;
@@ -341,6 +341,17 @@ namespace ETWPM2Monitor2
 
         public static List<_TableofProcess_ETW_Event_Counts> _ETW_Events_Counts = new List<_TableofProcess_ETW_Event_Counts>();
         public static _TableofProcess_ETW_Event_Counts Temp_Table_structure;
+
+        public struct _ListProcessObjects
+        {
+            private bool _flag;
+            public DateTime Eventtime { set; get; }             
+            public bool flag { get { return _flag; } set { _flag = value; } }
+            public object obj { set; get; }
+            public Int32 counter { set; get; }
+
+        }
+
         public static string evtstring2, evtstring3 = "";
         public static Int32 ListiveItemCount = 1000;
         public static Int32 counter_for_tcp_packets_filter = 0;
@@ -374,7 +385,8 @@ namespace ETWPM2Monitor2
         public static List<string> System_DeveloperLogsList = new List<string>();
         public static Int64 System_DeveloperLogsListIndex = 0;
         public static bool IsSystemDeveloperLogs_on = true;
-
+        public List<_ListProcessObjects> ProcessListTabObject = new List<_ListProcessObjects>();
+        public Int32 ProcessListTabObject_itemscounter01 = 0;
 
         public async Task _Add_SystemDeveloperLogs(string logmessage)
         {
@@ -703,8 +715,20 @@ namespace ETWPM2Monitor2
                 if (MyLviewItemsX1 != null)
                 {
                     if (_IsProcessTab_Enabled)
-                        BeginInvoke(new __Additem(_Additems_toTreeview1), MyLviewItemsX1);
-                    
+                    {
+
+                        // BeginInvoke(new __Additem(_Additems_toTreeview1), MyLviewItemsX1);
+
+                        ProcessListTabObject_itemscounter01 = ProcessListTabObject_itemscounter01 + 1;
+
+                        ProcessListTabObject.Add(new _ListProcessObjects
+                        {
+                            Eventtime = DateTime.Now,
+                            flag = false,
+                            obj = MyLviewItemsX1,
+                            counter = ProcessListTabObject_itemscounter01
+                        });
+                    }
                     /// EventID 3 = TCP Send Event
                     if (MyLviewItemsX1.SubItems[2].Text == "3")
                     {
@@ -813,7 +837,19 @@ namespace ETWPM2Monitor2
                     /// simple example.
 
                     if (_IsProcessTab_Enabled)
-                        BeginInvoke(new __Additem(_Additems_toTreeview1), MyLviewItemsX1);
+                    {
+                        // BeginInvoke(new __Additem(_Additems_toTreeview1), MyLviewItemsX1);
+
+                        ProcessListTabObject_itemscounter01 = ProcessListTabObject_itemscounter01 + 1;
+
+                        ProcessListTabObject.Add(new _ListProcessObjects
+                        {
+                            Eventtime = DateTime.Now,
+                            flag = false,
+                            obj = MyLviewItemsX1,
+                            counter = ProcessListTabObject_itemscounter01
+                        });
+                    }
 
                     /// EventID 3 = TCP Send Event
                     if (MyLviewItemsX1.SubItems[2].Text == "3")
@@ -2030,10 +2066,40 @@ namespace ETWPM2Monitor2
 
             }
         }
-
-        private void T10_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        
+        private async void T10_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
-            //throw new NotImplementedException();
+            await Task.Run(() =>
+            {
+                List<_ListProcessObjects> tmp = new List<_ListProcessObjects>();
+
+                do
+                {
+                    Task.Delay(10);
+
+                    if (_IsProcessTab_Enabled)
+                    {
+                        tmp = ProcessListTabObject.ToList<_ListProcessObjects>().FindAll(index => index.flag == false);
+
+                        foreach (_ListProcessObjects item in tmp.ToList<_ListProcessObjects>())
+                        {
+                            Task.Delay(10);
+                            BeginInvoke(new __Additem(_Additems_toTreeview1), item.obj);
+                            _ListProcessObjects tmpstru = new _ListProcessObjects();
+                            tmpstru.counter = item.counter;
+                            tmpstru.Eventtime = item.Eventtime;
+                            tmpstru.flag = true;
+                            tmpstru.obj = item.obj;
+                            ProcessListTabObject[ProcessListTabObject.ToList<_ListProcessObjects>().FindIndex(x => x.counter == item.counter)] = tmpstru;
+                        }
+                        
+                        break;
+                    }
+
+
+                } while (true);
+
+            });
         }
 
         /// <summary>
@@ -2582,6 +2648,7 @@ namespace ETWPM2Monitor2
                         for (int ii = 0; ii < listView4.Items.Count; ii++)
                         {
                             listView4.Items[ii].BackColor = Color.White;
+                            Task.Delay(2);
                         }
                         listView4.Refresh();
                     });
@@ -2936,13 +3003,12 @@ namespace ETWPM2Monitor2
                 await Task.Run(() =>
                 {
                     init_removeItems = false;
-                    listView4.Items[(int)itemid].BackColor = Color.Red;
-                    listView4.Items[(int)itemid].SubItems[0].Text = "*";
+                    listView4.Items[Convert.ToInt32(itemid)].BackColor = Color.Red;                    
                     listView4.Refresh();
                     ChangeColorstoDefault.Invoke((object)itemid, null);
-                    System.Threading.Thread.Sleep(5);
-                    listView4.BackColor = Color.White;
-                    //listView4.Refresh();
+
+                    Task.Delay(25);
+                    
                     init_removeItems = true;
 
                 });
@@ -5180,7 +5246,7 @@ namespace ETWPM2Monitor2
 
         private void AboutToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(null, "ETWPM2Monitor2 v2.1 [test version 2.1.32.189]\nCode Published by Damon Mohammadbagher , Jul 2021", "About ETWPM2Monitor2 v2.1", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show(null, "ETWPM2Monitor2 v2.1 [test version 2.1.33.192]\nCode Published by Damon Mohammadbagher , Jul 2021", "About ETWPM2Monitor2 v2.1", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
         }
 
@@ -5547,6 +5613,8 @@ namespace ETWPM2Monitor2
             startRefreshingToolStripMenuItem.Checked = true;
             t7.Enabled = true;
             t7.Start();
+            t10.Enabled = true;
+            t10.Start();
         }
 
         private void ShowEventDetails2ToolStripMenuItem_Click(object sender, EventArgs e)
