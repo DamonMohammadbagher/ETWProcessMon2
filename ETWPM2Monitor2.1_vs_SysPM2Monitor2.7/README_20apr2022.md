@@ -47,4 +47,9 @@ in Pic8 you can PoshC2 Agents Delay time (Mins) and in SysPM2Monitor2.7 we dont 
 in Pic9 you can PoshC2 Agents Delay time (Mins) & Seconds + TotalSeconds via ETW Events by ETWPM2Monitor2.1 , this simple code added to last source code ETWPM2Monitor2.1 [v2.1.32.174].
 
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2.1_vs_SysPM2Monitor2.7/Pictures/Test5_10.png)
-       Picture9:             
+       Picture9:  ProcrssListTabx1      
+       
+in Pic you can PoshC2 Agents Delay time (Mins) & Seconds + TotalSeconds via ETW Events by ETWPM2Monitor2.1 , this simple code added to last source code ETWPM2Monitor2.1 [v2.1.33.194].
+
+   ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2.1_vs_SysPM2Monitor2.7/Pictures/ProcrssListTabx1.png)
+       Picture10:               
