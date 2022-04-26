@@ -171,6 +171,8 @@ md5 info [ETWPM2Monitor2.exe], "exe files are not safe here in github so make yo
     
     0eba28c62d-8fc9261649-900bf20f98ee => ETWPM2Monitor2.exe (v2.1) [v2.1.29.140]
 
+### ETWPM2Monitor2 v2.1 [v2.1.33.194]  
+   ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/Pics/ProcrssListTabx1.png)
     
 ### ETWPM2Monitor2 v2.1 [v2.1.18.84]  
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/Pics/ETWPM2Monitor2.1.png)
