@@ -348,7 +348,7 @@ namespace ETWPM2Monitor2
             public DateTime Eventtime { set; get; }             
             public bool flag { get { return _flag; } set { _flag = value; } }
             public object obj { set; get; }
-            public Int32 counter { set; get; }
+            public ulong counter { set; get; }
 
         }
 
@@ -386,7 +386,7 @@ namespace ETWPM2Monitor2
         public static Int64 System_DeveloperLogsListIndex = 0;
         public static bool IsSystemDeveloperLogs_on = true;
         public List<_ListProcessObjects> ProcessListTabObject = new List<_ListProcessObjects>();
-        public Int32 ProcessListTabObject_itemscounter01 = 0;
+        public ulong ProcessListTabObject_itemscounter01 = 0;
 
         public async Task _Add_SystemDeveloperLogs(string logmessage)
         {
@@ -1267,7 +1267,7 @@ namespace ETWPM2Monitor2
                                             DateTime xdt_prev = Convert.ToDateTime(item.LastNode.PrevNode.Text.Split('\n')[4].Substring(12));
                                             DateTime xdt_current = Convert.ToDateTime(item.LastNode.Text.Split('\n')[4].Substring(12));
 
-                                            item.Nodes.Add("", ">> Delta time (Total-Seconds) between last two Network Events is >> " + Delta_Time(xdt_current, xdt_prev), 3);
+                                            item.Nodes.Add("", ">> Delta time (Total-Seconds) between last two Network Events is >> " + Delta_Time(xdt_current, xdt_prev), 3).ForeColor = Color.MediumBlue;
                                         }
                                     }
                                     catch (Exception)
@@ -1300,7 +1300,7 @@ namespace ETWPM2Monitor2
                                             {
 
                                                 item.Nodes.Add("", ">>>> " + _ToP.Injector_Path + " was injector for EventID2\n [Injector_ProcessID: "
-                                                + _ToP.Injector + "]\n [TargetPID with (EventID2): " + _ToP.ProcessName + ":" + _ToP.PID + "]", 1);
+                                                + _ToP.Injector + "]\n [TargetPID with (EventID2): " + _ToP.ProcessName + ":" + _ToP.PID + "]", 1).ForeColor = Color.MediumBlue;
 
                                             }
                                         }
@@ -2071,33 +2071,51 @@ namespace ETWPM2Monitor2
         {
             await Task.Run(() =>
             {
-                List<_ListProcessObjects> tmp = new List<_ListProcessObjects>();
-
-                do
+                try
                 {
-                    Task.Delay(10);
+                    List<_ListProcessObjects> tmp = new List<_ListProcessObjects>();
 
-                    if (_IsProcessTab_Enabled)
+                    do
                     {
-                        tmp = ProcessListTabObject.ToList<_ListProcessObjects>().FindAll(index => index.flag == false);
+                        Task.Delay(10);
 
-                        foreach (_ListProcessObjects item in tmp.ToList<_ListProcessObjects>())
+                        if (_IsProcessTab_Enabled)
                         {
-                            Task.Delay(10);
-                            BeginInvoke(new __Additem(_Additems_toTreeview1), item.obj);
-                            _ListProcessObjects tmpstru = new _ListProcessObjects();
-                            tmpstru.counter = item.counter;
-                            tmpstru.Eventtime = item.Eventtime;
-                            tmpstru.flag = true;
-                            tmpstru.obj = item.obj;
-                            ProcessListTabObject[ProcessListTabObject.ToList<_ListProcessObjects>().FindIndex(x => x.counter == item.counter)] = tmpstru;
+                            ProcessListTabObject.RemoveAll(xx => xx.flag == true);
+
+                            tmp = ProcessListTabObject.ToList<_ListProcessObjects>().FindAll(index => index.flag == false);
+                          
+                            foreach (_ListProcessObjects item in tmp.ToList<_ListProcessObjects>())
+                            {
+                                try
+                                {
+                                    Task.Delay(10);
+                                    BeginInvoke(new __Additem(_Additems_toTreeview1), item.obj);
+                                    _ListProcessObjects tmpstru = new _ListProcessObjects();
+                                    tmpstru.counter = item.counter;
+                                    tmpstru.Eventtime = item.Eventtime;
+                                    tmpstru.flag = true;
+                                    tmpstru.obj = item.obj;
+                                    ProcessListTabObject[ProcessListTabObject.ToList<_ListProcessObjects>().FindIndex(x => x.counter == item.counter)] = tmpstru;
+                                }
+                                catch (Exception)
+                                {
+
+
+                                }
+                            }
+
+                            break;
                         }
-                        
-                        break;
-                    }
 
 
-                } while (true);
+                    } while (true);
+                }
+                catch (Exception)
+                {
+
+
+                }
 
             });
         }
@@ -5246,7 +5264,7 @@ namespace ETWPM2Monitor2
 
         private void AboutToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(null, "ETWPM2Monitor2 v2.1 [test version 2.1.33.192]\nCode Published by Damon Mohammadbagher , Jul 2021", "About ETWPM2Monitor2 v2.1", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show(null, "ETWPM2Monitor2 v2.1 [test version 2.1.33.194]\nCode Published by Damon Mohammadbagher , Jul 2021", "About ETWPM2Monitor2 v2.1", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
         }
 
@@ -5482,16 +5500,18 @@ namespace ETWPM2Monitor2
 
         private void Refresh5SecToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            t3.Interval = 15000;
+            t3.Interval = 15000;           
             refresh5SecToolStripMenuItem.Checked = true;
             refresh10SecToolStripMenuItem.Checked = false;
+            t10.Interval = 15000;
         }
 
         private void Refresh10SecToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            t3.Interval = 10000;
+            t3.Interval = 10000;           
             refresh5SecToolStripMenuItem.Checked = false;
             refresh10SecToolStripMenuItem.Checked = true;
+            t10.Interval = 10000;
         }
 
         private void AllToolStripMenuItem_Click(object sender, EventArgs e)
