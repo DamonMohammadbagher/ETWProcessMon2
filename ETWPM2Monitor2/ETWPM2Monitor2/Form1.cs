@@ -5523,6 +5523,8 @@ namespace ETWPM2Monitor2
             {
                 t7.Enabled = false;
                 t7.Stop();
+                t10.Enabled = false;
+                t10.Stop();
                 __init1 = true;
             }
 
@@ -5554,8 +5556,9 @@ namespace ETWPM2Monitor2
             {
 
                 t7.Enabled = true;
-
                 t7.Start();
+                t10.Enabled = true;
+                t10.Start();
             }
 
             if (__init2)
@@ -5572,6 +5575,8 @@ namespace ETWPM2Monitor2
             {
                 t7.Enabled = false;
                 t7.Stop();
+                t10.Enabled = false;
+                t10.Stop();
                 __init1 = true;
             }
 
@@ -5602,8 +5607,9 @@ namespace ETWPM2Monitor2
             {
 
                 t7.Enabled = true;
-
                 t7.Start();
+                t10.Enabled = true;
+                t10.Start();
             }
 
             if (__init2)
@@ -5623,6 +5629,8 @@ namespace ETWPM2Monitor2
             processesToolStripMenuItem.Checked = false;
             t7.Enabled = false;
             t7.Stop();
+            t10.Enabled = false;
+            t10.Stop();
         }
 
         private void StartRefreshingToolStripMenuItem_Click(object sender, EventArgs e)
