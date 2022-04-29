@@ -124,10 +124,10 @@
             this.killProcessToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.tabControl4 = new System.Windows.Forms.TabControl();
-            this.tabPage13 = new System.Windows.Forms.TabPage();
-            this.splitContainer4 = new System.Windows.Forms.SplitContainer();
-            this.listView3 = new System.Windows.Forms.ListView();
-            this.richTextBox8 = new System.Windows.Forms.RichTextBox();
+            this.tabPage15 = new System.Windows.Forms.TabPage();
+            this.splitContainer10 = new System.Windows.Forms.SplitContainer();
+            this.listView6 = new System.Windows.Forms.ListView();
+            this.richTextBox10 = new System.Windows.Forms.RichTextBox();
             this.tabPage14 = new System.Windows.Forms.TabPage();
             this.listBox5 = new System.Windows.Forms.ListBox();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
@@ -160,8 +160,8 @@
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
             this.processesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.refresh5SecToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.refresh10SecToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.refresh5SecToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator12 = new System.Windows.Forms.ToolStripSeparator();
             this.stopListRefreshingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.startRefreshingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -221,9 +221,9 @@
             this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel4 = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusStrip2 = new System.Windows.Forms.StatusStrip();
-            this.toolStripStatusLabel5 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel6 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel7 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel9 = new System.Windows.Forms.ToolStripStatusLabel();
             this.contextMenuStrip5.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -294,11 +294,11 @@
             this.contextMenuStrip1.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.tabControl4.SuspendLayout();
-            this.tabPage13.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).BeginInit();
-            this.splitContainer4.Panel1.SuspendLayout();
-            this.splitContainer4.Panel2.SuspendLayout();
-            this.splitContainer4.SuspendLayout();
+            this.tabPage15.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer10)).BeginInit();
+            this.splitContainer10.Panel1.SuspendLayout();
+            this.splitContainer10.Panel2.SuspendLayout();
+            this.splitContainer10.SuspendLayout();
             this.tabPage14.SuspendLayout();
             this.menuStrip3.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -1240,7 +1240,7 @@
             // 
             // tabControl4
             // 
-            this.tabControl4.Controls.Add(this.tabPage13);
+            this.tabControl4.Controls.Add(this.tabPage15);
             this.tabControl4.Controls.Add(this.tabPage14);
             this.tabControl4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl4.Location = new System.Drawing.Point(3, 3);
@@ -1250,62 +1250,64 @@
             this.tabControl4.Size = new System.Drawing.Size(1085, 356);
             this.tabControl4.TabIndex = 0;
             // 
-            // tabPage13
+            // tabPage15
             // 
-            this.tabPage13.BackColor = System.Drawing.SystemColors.Control;
-            this.tabPage13.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tabPage13.Controls.Add(this.splitContainer4);
-            this.tabPage13.Location = new System.Drawing.Point(4, 22);
-            this.tabPage13.Name = "tabPage13";
-            this.tabPage13.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage13.Size = new System.Drawing.Size(1077, 330);
-            this.tabPage13.TabIndex = 0;
-            this.tabPage13.Text = "Detection Logs";
+            this.tabPage15.BackColor = System.Drawing.Color.Gainsboro;
+            this.tabPage15.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tabPage15.Controls.Add(this.splitContainer10);
+            this.tabPage15.Location = new System.Drawing.Point(4, 22);
+            this.tabPage15.Name = "tabPage15";
+            this.tabPage15.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage15.Size = new System.Drawing.Size(1077, 330);
+            this.tabPage15.TabIndex = 2;
+            this.tabPage15.Text = "ETWPM2Monitor2 Detection Event Logs";
+            this.tabPage15.ToolTipText = "Event Log Name: ETWPM2Monitor2";
             // 
-            // splitContainer4
+            // splitContainer10
             // 
-            this.splitContainer4.BackColor = System.Drawing.Color.PaleGreen;
-            this.splitContainer4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer4.Location = new System.Drawing.Point(3, 3);
-            this.splitContainer4.Name = "splitContainer4";
-            this.splitContainer4.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            this.splitContainer10.BackColor = System.Drawing.Color.PaleGreen;
+            this.splitContainer10.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer10.Location = new System.Drawing.Point(3, 3);
+            this.splitContainer10.Name = "splitContainer10";
+            this.splitContainer10.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
-            // splitContainer4.Panel1
+            // splitContainer10.Panel1
             // 
-            this.splitContainer4.Panel1.Controls.Add(this.listView3);
+            this.splitContainer10.Panel1.Controls.Add(this.listView6);
             // 
-            // splitContainer4.Panel2
+            // splitContainer10.Panel2
             // 
-            this.splitContainer4.Panel2.Controls.Add(this.richTextBox8);
-            this.splitContainer4.Size = new System.Drawing.Size(1069, 322);
-            this.splitContainer4.SplitterDistance = 150;
-            this.splitContainer4.TabIndex = 0;
+            this.splitContainer10.Panel2.Controls.Add(this.richTextBox10);
+            this.splitContainer10.Size = new System.Drawing.Size(1069, 322);
+            this.splitContainer10.SplitterDistance = 150;
+            this.splitContainer10.TabIndex = 1;
             // 
-            // listView3
+            // listView6
             // 
-            this.listView3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listView3.HideSelection = false;
-            this.listView3.Location = new System.Drawing.Point(0, 0);
-            this.listView3.MultiSelect = false;
-            this.listView3.Name = "listView3";
-            this.listView3.Size = new System.Drawing.Size(1069, 150);
-            this.listView3.TabIndex = 0;
-            this.listView3.UseCompatibleStateImageBehavior = false;
-            this.listView3.SelectedIndexChanged += new System.EventHandler(this.ListView3_SelectedIndexChanged);
+            this.listView6.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listView6.HideSelection = false;
+            this.listView6.Location = new System.Drawing.Point(0, 0);
+            this.listView6.MultiSelect = false;
+            this.listView6.Name = "listView6";
+            this.listView6.Size = new System.Drawing.Size(1069, 150);
+            this.listView6.TabIndex = 0;
+            this.listView6.UseCompatibleStateImageBehavior = false;
+            this.listView6.SelectedIndexChanged += new System.EventHandler(this.ListView6_SelectedIndexChanged);
             // 
-            // richTextBox8
+            // richTextBox10
             // 
-            this.richTextBox8.BackColor = System.Drawing.Color.LightCyan;
-            this.richTextBox8.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.richTextBox8.Location = new System.Drawing.Point(0, 0);
-            this.richTextBox8.Name = "richTextBox8";
-            this.richTextBox8.ReadOnly = true;
-            this.richTextBox8.Size = new System.Drawing.Size(1069, 168);
-            this.richTextBox8.TabIndex = 0;
-            this.richTextBox8.Text = "";
+            this.richTextBox10.BackColor = System.Drawing.Color.LightCyan;
+            this.richTextBox10.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.richTextBox10.Location = new System.Drawing.Point(0, 0);
+            this.richTextBox10.Name = "richTextBox10";
+            this.richTextBox10.ReadOnly = true;
+            this.richTextBox10.Size = new System.Drawing.Size(1069, 168);
+            this.richTextBox10.TabIndex = 0;
+            this.richTextBox10.Text = "";
             // 
             // tabPage14
             // 
+            this.tabPage14.BackColor = System.Drawing.Color.Gainsboro;
             this.tabPage14.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.tabPage14.Controls.Add(this.listBox5);
             this.tabPage14.Location = new System.Drawing.Point(4, 22);
@@ -1314,7 +1316,6 @@
             this.tabPage14.Size = new System.Drawing.Size(1077, 330);
             this.tabPage14.TabIndex = 1;
             this.tabPage14.Text = "System (Developer) Logs";
-            this.tabPage14.UseVisualStyleBackColor = true;
             // 
             // listBox5
             // 
@@ -1591,47 +1592,47 @@
             this.processesToolStripMenuItem.Size = new System.Drawing.Size(207, 22);
             this.processesToolStripMenuItem.Text = "Processes";
             // 
-            // refresh5SecToolStripMenuItem
-            // 
-            this.refresh5SecToolStripMenuItem.Name = "refresh5SecToolStripMenuItem";
-            this.refresh5SecToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.refresh5SecToolStripMenuItem.Text = "Refresh (15 sec)";
-            this.refresh5SecToolStripMenuItem.Click += new System.EventHandler(this.Refresh5SecToolStripMenuItem_Click);
-            // 
             // refresh10SecToolStripMenuItem
             // 
             this.refresh10SecToolStripMenuItem.Checked = true;
             this.refresh10SecToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.refresh10SecToolStripMenuItem.Name = "refresh10SecToolStripMenuItem";
-            this.refresh10SecToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.refresh10SecToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.refresh10SecToolStripMenuItem.Text = "Refresh (10 sec)";
             this.refresh10SecToolStripMenuItem.Click += new System.EventHandler(this.Refresh10SecToolStripMenuItem_Click);
+            // 
+            // refresh5SecToolStripMenuItem
+            // 
+            this.refresh5SecToolStripMenuItem.Name = "refresh5SecToolStripMenuItem";
+            this.refresh5SecToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.refresh5SecToolStripMenuItem.Text = "Refresh (15 sec)";
+            this.refresh5SecToolStripMenuItem.Click += new System.EventHandler(this.Refresh5SecToolStripMenuItem_Click);
             // 
             // toolStripSeparator12
             // 
             this.toolStripSeparator12.Name = "toolStripSeparator12";
-            this.toolStripSeparator12.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator12.Size = new System.Drawing.Size(157, 6);
             // 
             // stopListRefreshingToolStripMenuItem
             // 
             this.stopListRefreshingToolStripMenuItem.Checked = true;
             this.stopListRefreshingToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.stopListRefreshingToolStripMenuItem.Name = "stopListRefreshingToolStripMenuItem";
-            this.stopListRefreshingToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.stopListRefreshingToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.stopListRefreshingToolStripMenuItem.Text = "Stop Refreshing ";
             this.stopListRefreshingToolStripMenuItem.Click += new System.EventHandler(this.StopListRefreshingToolStripMenuItem_Click);
             // 
             // startRefreshingToolStripMenuItem
             // 
             this.startRefreshingToolStripMenuItem.Name = "startRefreshingToolStripMenuItem";
-            this.startRefreshingToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.startRefreshingToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.startRefreshingToolStripMenuItem.Text = "Start Refreshing";
             this.startRefreshingToolStripMenuItem.Click += new System.EventHandler(this.StartRefreshingToolStripMenuItem_Click);
             // 
             // toolStripSeparator13
             // 
             this.toolStripSeparator13.Name = "toolStripSeparator13";
-            this.toolStripSeparator13.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator13.Size = new System.Drawing.Size(157, 6);
             // 
             // clearListToolStripMenuItem
             // 
@@ -1642,7 +1643,7 @@
             this.toolStripSeparator15,
             this.clearAllProcessesToolStripMenuItem});
             this.clearListToolStripMenuItem.Name = "clearListToolStripMenuItem";
-            this.clearListToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.clearListToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.clearListToolStripMenuItem.Text = "Clear List";
             // 
             // allToolStripMenuItem
@@ -1681,7 +1682,7 @@
             // toolStripSeparator14
             // 
             this.toolStripSeparator14.Name = "toolStripSeparator14";
-            this.toolStripSeparator14.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator14.Size = new System.Drawing.Size(157, 6);
             // 
             // networkConnectionsToolStripMenuItem
             // 
@@ -2077,25 +2078,15 @@
             // 
             this.statusStrip2.BackColor = System.Drawing.Color.Gray;
             this.statusStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripStatusLabel5,
             this.toolStripStatusLabel6,
-            this.toolStripStatusLabel7});
+            this.toolStripStatusLabel7,
+            this.toolStripStatusLabel9});
             this.statusStrip2.Location = new System.Drawing.Point(0, 412);
             this.statusStrip2.Name = "statusStrip2";
             this.statusStrip2.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
             this.statusStrip2.Size = new System.Drawing.Size(1099, 22);
             this.statusStrip2.TabIndex = 8;
             this.statusStrip2.Text = "statusStrip2";
-            // 
-            // toolStripStatusLabel5
-            // 
-            this.toolStripStatusLabel5.ForeColor = System.Drawing.Color.Lavender;
-            this.toolStripStatusLabel5.IsLink = true;
-            this.toolStripStatusLabel5.LinkColor = System.Drawing.Color.Lavender;
-            this.toolStripStatusLabel5.Name = "toolStripStatusLabel5";
-            this.toolStripStatusLabel5.Size = new System.Drawing.Size(152, 17);
-            this.toolStripStatusLabel5.Text = "| System/Detection Logs (0)";
-            this.toolStripStatusLabel5.Click += new System.EventHandler(this.ToolStripStatusLabel5_Click);
             // 
             // toolStripStatusLabel6
             // 
@@ -2117,6 +2108,17 @@
             this.toolStripStatusLabel7.Size = new System.Drawing.Size(145, 17);
             this.toolStripStatusLabel7.Text = "| Network Connections (0)";
             this.toolStripStatusLabel7.Click += new System.EventHandler(this.ToolStripStatusLabel7_Click);
+            // 
+            // toolStripStatusLabel9
+            // 
+            this.toolStripStatusLabel9.ForeColor = System.Drawing.Color.Lavender;
+            this.toolStripStatusLabel9.ImageTransparentColor = System.Drawing.Color.Lavender;
+            this.toolStripStatusLabel9.IsLink = true;
+            this.toolStripStatusLabel9.LinkColor = System.Drawing.Color.Lavender;
+            this.toolStripStatusLabel9.Name = "toolStripStatusLabel9";
+            this.toolStripStatusLabel9.Size = new System.Drawing.Size(240, 17);
+            this.toolStripStatusLabel9.Text = "| ETWPM2Monitor2 Detection Event Logs (0)";
+            this.toolStripStatusLabel9.Click += new System.EventHandler(this.ToolStripStatusLabel9_Click);
             // 
             // Form1
             // 
@@ -2204,11 +2206,11 @@
             this.contextMenuStrip1.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
             this.tabControl4.ResumeLayout(false);
-            this.tabPage13.ResumeLayout(false);
-            this.splitContainer4.Panel1.ResumeLayout(false);
-            this.splitContainer4.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).EndInit();
-            this.splitContainer4.ResumeLayout(false);
+            this.tabPage15.ResumeLayout(false);
+            this.splitContainer10.Panel1.ResumeLayout(false);
+            this.splitContainer10.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer10)).EndInit();
+            this.splitContainer10.ResumeLayout(false);
             this.tabPage14.ResumeLayout(false);
             this.menuStrip3.ResumeLayout(false);
             this.menuStrip3.PerformLayout();
@@ -2325,9 +2327,6 @@
         private System.Windows.Forms.RichTextBox richTextBox7;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
         private System.Windows.Forms.TabPage tabPage3;
-        private System.Windows.Forms.SplitContainer splitContainer4;
-        private System.Windows.Forms.ListView listView3;
-        private System.Windows.Forms.RichTextBox richTextBox8;
         private System.Windows.Forms.TabPage tabPage9;
         private System.Windows.Forms.ListView listView4;
         private System.Windows.Forms.ToolStripMenuItem scanOnlyModeDefaultToolStripMenuItem;
@@ -2339,7 +2338,6 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator10;
         private System.Windows.Forms.ToolStripMenuItem showNotifyPopupToolStripMenuItem;
         private System.Windows.Forms.StatusStrip statusStrip2;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel5;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel6;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel7;
         private System.Windows.Forms.TabPage tabPage10;
@@ -2397,7 +2395,6 @@
         private System.Windows.Forms.ToolStripMenuItem showEventsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem dontShowEventsToolStripMenuItem1;
         private System.Windows.Forms.TabControl tabControl4;
-        private System.Windows.Forms.TabPage tabPage13;
         private System.Windows.Forms.TabPage tabPage14;
         private System.Windows.Forms.ListBox listBox5;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator17;
@@ -2407,6 +2404,11 @@
         private System.Windows.Forms.ToolStripMenuItem checkProcessHollowingSizeChangingToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator18;
         private System.Windows.Forms.ToolStripMenuItem scanSuspendToolStripMenuItem;
+        private System.Windows.Forms.TabPage tabPage15;
+        private System.Windows.Forms.SplitContainer splitContainer10;
+        private System.Windows.Forms.ListView listView6;
+        private System.Windows.Forms.RichTextBox richTextBox10;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel9;
     }
 }
 
