@@ -61,7 +61,7 @@ Usage Steps
     Step2 (Run as Admin) : ETWPM2Monitor2.exe
 
 ----------------------------------------------------------
-### ETWPM2Monitor2 v2.1 , update(35) v2.1.35.210 [Apr 30, 2022] , New Detection Event Logs Added to the source code.
+### ETWPM2Monitor2 v2.1 , update(35) v2.1.35.215 [Apr 30, 2022] , New Detection Event Logs Added to the source code.
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2/Pics/DetectionEventLogs.png)
 
 ### ETWPM2Monitor2 v2.1 , update(32) v2.1.32.187 [Apr 23, 2022] , Seconds + TotalSeconds and ... Added to the source code.
