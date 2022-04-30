@@ -1753,8 +1753,7 @@
             // 
             // showNotifyPopupToolStripMenuItem
             // 
-            this.showNotifyPopupToolStripMenuItem.Checked = true;
-            this.showNotifyPopupToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.showNotifyPopupToolStripMenuItem.Enabled = false;
             this.showNotifyPopupToolStripMenuItem.Name = "showNotifyPopupToolStripMenuItem";
             this.showNotifyPopupToolStripMenuItem.Size = new System.Drawing.Size(207, 22);
             this.showNotifyPopupToolStripMenuItem.Text = "Show Notify Popup";
