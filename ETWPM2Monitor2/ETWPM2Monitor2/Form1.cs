@@ -47,6 +47,7 @@ namespace ETWPM2Monitor2
         public static System.Timers.Timer t10 = new System.Timers.Timer(10000);
         public static System.Timers.Timer t11 = new System.Timers.Timer(5000);
 
+        public static TimeSpan tt = new TimeSpan();
         public static uint NTReadTmpRef = 0;
         public static EventLog ETW2MON;
         public static EventLogQuery ETWPM2Query;
@@ -1278,101 +1279,102 @@ namespace ETWPM2Monitor2
                      {
                          treeView1.BeginInvoke((MethodInvoker)delegate
                          {
-
-                             ListViewItem MyLviewItemsX5 = (ListViewItem)obj;
-
-                             bool xfound = false;
-                             foreach (TreeNode item in treeView1.Nodes)
+                             if (obj != null)
                              {
-                                 Task.Delay(10);
+                                 ListViewItem MyLviewItemsX5 = (ListViewItem)obj;
 
-                                 if (item.Text.ToLower() == MyLviewItemsX5.SubItems[3].Text.ToLower())
+                                 bool xfound = false;
+                                 foreach (TreeNode item in treeView1.Nodes)
                                  {
-                                     _Imgindex2 = 0;
-                                     if (MyLviewItemsX5.SubItems[2].Text == "1") { _Imgindex2 = 0; }
-                                     if (MyLviewItemsX5.SubItems[2].Text == "2") { _Imgindex2 = 1; }
-                                     if (MyLviewItemsX5.SubItems[2].Text == "3") { _Imgindex2 = 3; }
+                                     Task.Delay(10);
 
-                                     item.Nodes.Add("", "[EventID:" + MyLviewItemsX5.SubItems[2].Text + "]" +
-                                     "[" + MyLviewItemsX5.SubItems[4].Text + "] { " + MyLviewItemsX5.SubItems[5].Text + " }", _Imgindex2);
-                                      
-                                     
-                                     if (MyLviewItemsX5.SubItems[2].Text == "3")
+                                     if (item.Text.ToLower() == MyLviewItemsX5.SubItems[3].Text.ToLower())
                                      {
-                                         try
+                                         _Imgindex2 = 0;
+                                         if (MyLviewItemsX5.SubItems[2].Text == "1") { _Imgindex2 = 0; }
+                                         if (MyLviewItemsX5.SubItems[2].Text == "2") { _Imgindex2 = 1; }
+                                         if (MyLviewItemsX5.SubItems[2].Text == "3") { _Imgindex2 = 3; }
+
+                                         item.Nodes.Add("", "[EventID:" + MyLviewItemsX5.SubItems[2].Text + "]" +
+                                         "[" + MyLviewItemsX5.SubItems[4].Text + "] { " + MyLviewItemsX5.SubItems[5].Text + " }", _Imgindex2);
+
+
+                                         if (MyLviewItemsX5.SubItems[2].Text == "3")
                                          {
-
-                                             int last = item.Nodes.Count;
-                                             if (item.LastNode.PrevNode.Text.Contains("[EventID:3]"))
-                                             {
-                                                 DateTime xdt_prev = Convert.ToDateTime(item.LastNode.PrevNode.Text.Split('\n')[4].Substring(12));
-                                                 DateTime xdt_current = Convert.ToDateTime(item.LastNode.Text.Split('\n')[4].Substring(12));
-
-                                                 item.Nodes.Add("", ">> Delta time (Total-Seconds) between last two Network Events is >> " + Delta_Time(xdt_current, xdt_prev), 3).ForeColor = Color.MediumBlue;
-                                                  
-                                             }
-                                         }
-                                         catch (Exception)
-                                         {
-
-
-                                         }
-                                     }
-                                    
-
-                                    if (MyLviewItemsX5.SubItems[2].Text == "2")
-                                     {
-                                         try
-                                         {
-
-                                             SearchInjector = MyLviewItemsX5.SubItems[5].Text.Substring(MyLviewItemsX5.SubItems[5].Text.IndexOf("[Injected by ") + 13).Split(']')[0];
-                                             SearchInjector2 = "";
-
-                                             if (SearchInjector.Contains(':')) { SearchInjector2 = SearchInjector.Split(':')[0]; } else { SearchInjector2 = SearchInjector; }
-
-                                             if (SearchInjector2.ToLower() != "system")
+                                             try
                                              {
 
-                                                 _TableofProcess _ToP = Process_Table.Find(Proc => Proc.Injector ==
-                                                 Convert.ToInt32(MyLviewItemsX5.SubItems[5].Text.Split('\n')[12].Split('>')[1])
-                                                 && Proc.Injector_Path.Contains(SearchInjector2));
-
-                                                 if (_ToP.PID > 0)
+                                                 int last = item.Nodes.Count;
+                                                 if (item.LastNode.PrevNode.Text.Contains("[EventID:3]"))
                                                  {
+                                                     DateTime xdt_prev = Convert.ToDateTime(item.LastNode.PrevNode.Text.Split('\n')[4].Substring(12));
+                                                     DateTime xdt_current = Convert.ToDateTime(item.LastNode.Text.Split('\n')[4].Substring(12));
 
-                                                     item.Nodes.Add("", ">>>> " + _ToP.Injector_Path + " was injector for EventID2\n [Injector_ProcessID: "
-                                                     + _ToP.Injector + "]\n [TargetPID with (EventID2): " + _ToP.ProcessName + ":" + _ToP.PID + "]", 1).ForeColor = Color.MediumBlue;
-                                                    
+                                                     item.Nodes.Add("", ">> Delta time (Total-Seconds) between last two Network Events is >> " + Delta_Time(xdt_current, xdt_prev), 3).ForeColor = Color.MediumBlue;
+
                                                  }
                                              }
+                                             catch (Exception)
+                                             {
+
+
+                                             }
                                          }
-                                         catch (Exception)
+
+
+                                         if (MyLviewItemsX5.SubItems[2].Text == "2")
                                          {
+                                             try
+                                             {
+
+                                                 SearchInjector = MyLviewItemsX5.SubItems[5].Text.Substring(MyLviewItemsX5.SubItems[5].Text.IndexOf("[Injected by ") + 13).Split(']')[0];
+                                                 SearchInjector2 = "";
+
+                                                 if (SearchInjector.Contains(':')) { SearchInjector2 = SearchInjector.Split(':')[0]; } else { SearchInjector2 = SearchInjector; }
+
+                                                 if (SearchInjector2.ToLower() != "system")
+                                                 {
+
+                                                     _TableofProcess _ToP = Process_Table.Find(Proc => Proc.Injector ==
+                                                     Convert.ToInt32(MyLviewItemsX5.SubItems[5].Text.Split('\n')[12].Split('>')[1])
+                                                     && Proc.Injector_Path.Contains(SearchInjector2));
+
+                                                     if (_ToP.PID > 0)
+                                                     {
+
+                                                         item.Nodes.Add("", ">>>> " + _ToP.Injector_Path + " was injector for EventID2\n [Injector_ProcessID: "
+                                                         + _ToP.Injector + "]\n [TargetPID with (EventID2): " + _ToP.ProcessName + ":" + _ToP.PID + "]", 1).ForeColor = Color.MediumBlue;
+
+                                                     }
+                                                 }
+                                             }
+                                             catch (Exception)
+                                             {
 
 
+                                             }
                                          }
+
+                                         item.ForeColor = Color.Red;
+                                         xfound = true;
+
+                                         break;
                                      }
+                                 }
 
-                                     item.ForeColor = Color.Red;
-                                     xfound = true;
+                                 if (!xfound)
+                                 {
+                                     _Imgindex = 0;
+                                     if (MyLviewItemsX5.SubItems[2].Text == "1") { _Imgindex = 0; }
+                                     if (MyLviewItemsX5.SubItems[2].Text == "2") { _Imgindex = 1; }
+                                     if (MyLviewItemsX5.SubItems[2].Text == "3") { _Imgindex = 3; }
 
-                                     break;
+
+                                     treeView1.Nodes.Add("", MyLviewItemsX5.SubItems[3].Text, _Imgindex).Nodes.Add("", "[EventID:" + MyLviewItemsX5.SubItems[2].Text + "]"
+                                     + "[" + MyLviewItemsX5.SubItems[4].Text + "] { " + MyLviewItemsX5.SubItems[5].Text + " }", _Imgindex).Parent.ImageIndex = _Imgindex;
+
                                  }
                              }
-
-                             if (!xfound)
-                             {
-                                 _Imgindex = 0;
-                                 if (MyLviewItemsX5.SubItems[2].Text == "1") { _Imgindex = 0; }
-                                 if (MyLviewItemsX5.SubItems[2].Text == "2") { _Imgindex = 1; }
-                                 if (MyLviewItemsX5.SubItems[2].Text == "3") { _Imgindex = 3; }
-
-
-                                 treeView1.Nodes.Add("", MyLviewItemsX5.SubItems[3].Text, _Imgindex).Nodes.Add("", "[EventID:" + MyLviewItemsX5.SubItems[2].Text + "]"
-                                 + "[" + MyLviewItemsX5.SubItems[4].Text + "] { " + MyLviewItemsX5.SubItems[5].Text + " }", _Imgindex).Parent.ImageIndex = _Imgindex;                                 
-
-                             }
-
                          });
                      }
 
@@ -2710,7 +2712,14 @@ namespace ETWPM2Monitor2
                             {
                                 if (Process.GetProcesses().ToList().FindIndex(x => x.Id == ___item.PID) != -1)
                                 {
-                                    Process.GetProcessById(___item.PID).Kill();
+                                    //Process.GetProcessById(___item.PID).Kill();
+
+                                    IntPtr TintPtr = Process.GetProcessById(___item.PID).Handle;
+                                    uint ExitCode = 0;
+
+                                    Memoryinfo.GetExitCodeProcess(TintPtr, out ExitCode);
+
+                                    Memoryinfo.TerminateProcess(TintPtr, ExitCode);
                                 }
                             }
                             catch (Exception)
@@ -4621,7 +4630,26 @@ namespace ETWPM2Monitor2
                                                     Process.GetProcessById(PID).MainModule.FileName.ToLower())
                                                 {
                                                     if (Process.GetProcesses().ToList().FindIndex(x => x.Id == ___item.PID) != -1)
-                                                        Process.GetProcessById(___item.PID).Kill();
+                                                    {
+                                                        try
+                                                        {
+
+
+                                                            //   Process.GetProcessById(___item.PID).Kill();
+
+                                                            IntPtr TintPtr = Process.GetProcessById(___item.PID).Handle;
+                                                            uint ExitCode = 0;
+
+                                                            Memoryinfo.GetExitCodeProcess(TintPtr, out ExitCode);
+
+                                                            Memoryinfo.TerminateProcess(TintPtr, ExitCode);
+                                                        }
+                                                        catch (Exception j)
+                                                        {
+
+                                                          
+                                                        }
+                                                    }
                                                 }
                                             }
                                         }
@@ -4646,7 +4674,25 @@ namespace ETWPM2Monitor2
                                             try
                                             {
                                                 if (Process.GetProcesses().ToList().FindIndex(x => x.Id == PID) != -1)
-                                                    Process.GetProcessById(PID).Kill();
+                                                {
+                                                    try
+                                                    {
+                                                        //   Process.GetProcessById(PID).Kill();
+
+                                                        IntPtr TintPtr = Process.GetProcessById(PID).Handle;
+                                                        uint ExitCode = 0;
+
+                                                        Memoryinfo.GetExitCodeProcess(TintPtr, out ExitCode);
+
+                                                        Memoryinfo.TerminateProcess(TintPtr, ExitCode);
+                                                    }
+                                                    catch (Exception j)
+                                                    {
+
+                                                       
+                                                    }
+                                                   
+                                                }
 
                                                 int obj_index = Process_Table.FindIndex(process => process.ProcessName.ToLower() + ":" + process.PID == item.ProcessName.ToLower() + ":" + item.PID);
 
@@ -4867,12 +4913,37 @@ namespace ETWPM2Monitor2
 
                     listView1.BeginInvoke((MethodInvoker)delegate
                     {
+                        
                         t.Interval = 6000;
                         foreach (ListViewItem item in listView1.Items)
                         {
-                            if (item.ForeColor != Color.Black)
+                            try
                             {
-                                item.ForeColor = Color.Black;
+
+
+                                if (item.ForeColor != Color.Black)
+                                {
+                                    if (item.ForeColor == Color.OrangeRed)
+                                        item.ForeColor = Color.Black;
+                                }
+                                else if (item.ForeColor == Color.Black)
+                                {
+                                    tt = DateTime.Now - Convert.ToDateTime(item.SubItems[1].Text);
+
+                                    if (tt.TotalSeconds <= 120)
+                                    {
+                                        item.ForeColor = Color.Black;
+                                    }
+                                    else
+                                    {
+                                        item.ForeColor = Color.Gray;
+                                    }
+                                    
+                                }
+                            }
+                            catch (Exception)
+                            {
+
 
                             }
                         }
@@ -6090,7 +6161,26 @@ namespace ETWPM2Monitor2
                         Process.GetProcessById(Convert.ToInt32(__TargetProcess.Split(':')[1])).MainModule.FileName.ToLower())
                     {
                         if (Process.GetProcesses().ToList().FindIndex(x => x.Id == item.PID) != -1)
-                            Process.GetProcessById(item.PID).Kill();
+                        {
+                            try
+                            {
+                                //   Process.GetProcessById(item.PID).Kill();
+
+                                IntPtr TintPtr = Process.GetProcessById(item.PID).Handle;
+                                uint ExitCode = 0;
+
+                                Memoryinfo.GetExitCodeProcess(TintPtr, out ExitCode);
+
+                                Memoryinfo.TerminateProcess(TintPtr, ExitCode);
+                            }
+                            catch (Exception j)
+                            {
+
+                                
+                            }
+                           
+
+                        }
                     }
                 }
             }
@@ -6118,7 +6208,24 @@ namespace ETWPM2Monitor2
                 try
                 {
                     if (Process.GetProcesses().ToList().FindIndex(x => x.Id == Convert.ToInt32(__TargetProcess.Split(':')[1])) != -1)
-                        Process.GetProcessById(Convert.ToInt32(__TargetProcess.Split(':')[1])).Kill();
+                    {
+                        try
+                        {
+                            //    Process.GetProcessById(Convert.ToInt32(__TargetProcess.Split(':')[1])).Kill();
+                            IntPtr TintPtr = Process.GetProcessById(Convert.ToInt32(__TargetProcess.Split(':')[1])).Handle;
+                            uint ExitCode = 0;
+
+                            Memoryinfo.GetExitCodeProcess(TintPtr, out ExitCode);
+
+                            Memoryinfo.TerminateProcess(TintPtr, ExitCode);
+                        }
+                        catch (Exception j)
+                        {
+
+                           
+                        }
+                      
+                    }
                 }
                 catch (Exception err2)
                 {
@@ -6915,6 +7022,12 @@ namespace ETWPM2Monitor2
 
         public static class Memoryinfo
         {
+            [DllImport("kernel32.dll")]
+            public static extern bool TerminateProcess(IntPtr hprocess, in uint uExitCode);
+
+            [DllImport("kernel32.dll")]
+            public static extern bool GetExitCodeProcess(IntPtr hprocess, out uint lpExitCode);
+
             [DllImport("kernelbase.dll")]
             public static extern bool CloseHandle(IntPtr hObject);
 
