@@ -169,7 +169,7 @@ namespace ETWPM2Monitor2
             public string Injector_Path;
             public string ProcessName;
             public string ProcessName_Path;
-            public bool IsLive;
+            public bool IsLive { set; get; }
             public bool IsShow_Alarm { set; get; }
             public DateTime Detection_EventTime;
             public string Detection_Status;
@@ -511,7 +511,7 @@ namespace ETWPM2Monitor2
         {
             foreach (TreeNode node in nodes)
             {
-                Thread.Sleep(10);
+               
                 if (node.Text.IndexOf(Search, StringComparison.CurrentCultureIgnoreCase) >= 0)
                 {
                     yield return node;
@@ -522,8 +522,8 @@ namespace ETWPM2Monitor2
                 }
             }
         }
-      
-        public void __SearchStrings_in_ProcessesTab(string search, TreeView targetProcesses)
+
+        public async void __SearchStrings_in_ProcessesTab(string search, TreeView targetProcesses)
         {
 
             try
@@ -531,7 +531,7 @@ namespace ETWPM2Monitor2
 
                 foreach (TreeNode node in targetProcesses.Nodes)
                 {
-                    Thread.Sleep(10);
+
                     if (node.Text.IndexOf(search, StringComparison.CurrentCultureIgnoreCase) >= 0)
                     {
                         object mainobj = node.Clone();
@@ -543,7 +543,7 @@ namespace ETWPM2Monitor2
                         string lastnode = "";
                         foreach (var subNode in _FindSubsNode(node.Nodes, search))
                         {
-                            Thread.Sleep(10);
+
                             object obj = subNode.Parent.Clone();
 
                             ((TreeNode)obj).ForeColor = Color.Black;
@@ -564,7 +564,6 @@ namespace ETWPM2Monitor2
 
 
             }
-
 
 
         }
@@ -1397,6 +1396,37 @@ namespace ETWPM2Monitor2
                     string ClosedProcName = ((TreeNode)obj).Text.Split('<')[0];
                     ClosedProcName = ClosedProcName.Substring(0, ClosedProcName.Length - 1);
                     Processes_FileSystemList.Remove(Processes_FileSystemList.Find(x => x.FileName == ClosedProcName));
+
+                    Int32 closed_pid = Convert.ToInt32(ClosedProcName.Split(':')[1]);
+                    string _ClosedProcessname = ClosedProcName.Split(':')[0];
+
+
+                    Int32 ClosedPID_Index = Process_Table.FindIndex(index => index.ProcessName.ToLower() == _ClosedProcessname.ToLower()
+                    && index.PID == closed_pid);
+
+
+                    _TableofProcess TempStruc = new _TableofProcess();
+                    TempStruc.IsLive = false;                    
+                    TempStruc.TCPDetails2 = Process_Table[ClosedPID_Index].TCPDetails2;
+                    TempStruc.TCPDetails = Process_Table[ClosedPID_Index].TCPDetails;
+                    TempStruc.ProcessName_Path = Process_Table[ClosedPID_Index].ProcessName_Path;
+                    TempStruc.ProcessName = Process_Table[ClosedPID_Index].ProcessName;
+                    TempStruc.PID = Process_Table[ClosedPID_Index].PID;                    
+                    TempStruc.Injector_Path = Process_Table[ClosedPID_Index].Injector_Path;
+                    TempStruc.Injector = Process_Table[ClosedPID_Index].Injector;
+                    TempStruc.Description = Process_Table[ClosedPID_Index].Description;
+                    TempStruc.IsShow_Alarm = Process_Table[ClosedPID_Index].IsShow_Alarm;
+                    TempStruc.Detection_Status = Process_Table[ClosedPID_Index].Detection_Status;
+                    TempStruc.Detection_EventTime = Process_Table[ClosedPID_Index].Detection_EventTime;
+                    TempStruc.InjectionType = Process_Table[ClosedPID_Index].InjectionType;
+                    TempStruc.MemoryScanner01_Result = Process_Table[ClosedPID_Index].MemoryScanner01_Result;
+                    TempStruc.MemoryScanner02_Result = Process_Table[ClosedPID_Index].MemoryScanner02_Result;
+                    TempStruc.Descripton_Details = Process_Table[ClosedPID_Index].Descripton_Details;
+                    TempStruc.SubItems_Name_Property = Process_Table[ClosedPID_Index].SubItems_Name_Property;
+                    TempStruc.SubItems_ImageIndex = Process_Table[ClosedPID_Index].SubItems_ImageIndex;
+                    Process_Table[ClosedPID_Index] = TempStruc;
+
+
                 }
                 catch (Exception)
                 {
@@ -2751,42 +2781,42 @@ namespace ETWPM2Monitor2
             {
                 try
                 {
-                    foreach (var item in Process_Table.ToList())
-                    {
-                        if (item.Injector != 4)
-                        {
-                            bool found = false;
-                            if (listBox2.Items.Count > 0)
-                            {
+                    //foreach (var item in Process_Table.ToList<_TableofProcess>().FindAll(showalarms => showalarms.IsShow_Alarm == true || showalarms.IsLive == false))
+                    //{
+                    //    if (item.Injector != 4)
+                    //    {
+                    //        bool found = false;
+                    //        if (listBox2.Items.Count > 0)
+                    //        {
 
-                                foreach (var _item in listBox2.Items)
-                                {
-                                    Task.Delay(5);
-                                    if (_item.ToString() == "[IsShow Alarm: " + item.IsShow_Alarm + "]" + "[ProcessName: " + item.ProcessName + " ] [PID:" + item.PID + "] [Injector:" + item.Injector
-                                        + "] [InjectorPath:" + item.Injector_Path + "]" + " [Tcp:" + item.TCPDetails2 + "]")
-                                    {
-                                        found = true;
-                                        break;
-                                    }
-                                }
-                                if (!found)
-                                {
+                    //            foreach (var _item in listBox2.Items)
+                    //            {
+                    //                Task.Delay(5);
+                    //                if (_item.ToString() == "[IsShow Alarm: " + item.IsShow_Alarm + "]" + "[ProcessName: " + item.ProcessName + " ] [PID:" + item.PID + "] [Injector:" + item.Injector
+                    //                    + "] [InjectorPath:" + item.Injector_Path + "]" + " [Tcp:" + item.TCPDetails2 + "]")
+                    //                {
+                    //                    found = true;
+                    //                    break;
+                    //                }
+                    //            }
+                    //            if (!found)
+                    //            {
 
-                                    listBox2.Items.Add("[IsShow Alarm: " + item.IsShow_Alarm + "]" + "[ProcessName: " + item.ProcessName + " ] [PID:" + item.PID + "] [Injector:" + item.Injector
-                                        + "] [InjectorPath:" + item.Injector_Path + "]" + " [Tcp:" + item.TCPDetails2 + "]");
-                                }
-                            }
-                            else
-                            {
-                                listBox2.Items.Add("[IsShow Alarm: " + item.IsShow_Alarm + "]" + "[ProcessName: " + item.ProcessName + " ] [PID:" + item.PID + "] [Injector:" + item.Injector
-                                        + "] [InjectorPath:" + item.Injector_Path + "]" + " [Tcp:" + item.TCPDetails2 + "]");
-                            }
+                    //                listBox2.Items.Add("[IsShow Alarm: " + item.IsShow_Alarm + "]" + "[ProcessName: " + item.ProcessName + " ] [PID:" + item.PID + "] [Injector:" + item.Injector
+                    //                    + "] [InjectorPath:" + item.Injector_Path + "]" + " [Tcp:" + item.TCPDetails2 + "]");
+                    //            }
+                    //        }
+                    //        else
+                    //        {
+                    //            listBox2.Items.Add("[IsShow Alarm: " + item.IsShow_Alarm + "]" + "[ProcessName: " + item.ProcessName + " ] [PID:" + item.PID + "] [Injector:" + item.Injector
+                    //                    + "] [InjectorPath:" + item.Injector_Path + "]" + " [Tcp:" + item.TCPDetails2 + "]");
+                    //        }
 
 
-                        }
-                    }
+                    //    }
+                    //}
 
-                    listBox2.SelectedIndex = listBox2.Items.Count - 1;
+                    //listBox2.SelectedIndex = listBox2.Items.Count - 1;
 
                     foreach (var item in _List_All_Injection_Details_info_Filter_withoutSystem4.ToList())
                     {
@@ -2872,7 +2902,7 @@ namespace ETWPM2Monitor2
 
                         }
                     }
-                    listBox4.SelectedIndex = listBox4.Items.Count - 1;
+                   // listBox4.SelectedIndex = listBox4.Items.Count - 1;
                 }
                 catch (Exception)
                 {
@@ -4936,7 +4966,7 @@ namespace ETWPM2Monitor2
                                     }
                                     else
                                     {
-                                        item.ForeColor = Color.Gray;
+                                        item.ForeColor = Color.LightSlateGray;
                                     }
                                     
                                 }
@@ -5681,7 +5711,7 @@ namespace ETWPM2Monitor2
 
         private void AboutToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(null, "ETWPM2Monitor2 v2.1 [test version 2.1.35.215]\nCode Published by Damon Mohammadbagher , Jul 2021", "About ETWPM2Monitor2 v2.1", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show(null, "ETWPM2Monitor2 v2.1 [test version 2.1.35.223]\nCode Published by Damon Mohammadbagher , Jul 2021", "About ETWPM2Monitor2 v2.1", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
         }
 
@@ -6401,6 +6431,65 @@ namespace ETWPM2Monitor2
             tabControl4.SelectedIndex = 0;
         }
 
+        private void ListBox4_SelectedIndexChanged(object sender, EventArgs e)
+        {
+           
+            try
+            {
+                BeginInvoke(new __Obj_Updater_to_WinForm(_ShowProcessDetailsInfo));
+            }
+            catch (Exception)
+            {
+
+              
+            }
+        }
+
+        public async void _ShowProcessDetailsInfo()
+        {
+            await Task.Run(() =>
+            {
+                try
+                {                                        
+                    string _ProcessName = listBox4.SelectedItems[0].ToString().Split('[')[4].Substring(15).Split(']')[0];
+                    Int32 _PID = Convert.ToInt32(listBox4.SelectedItems[0].ToString().Split('[')[3].Substring(11).Split(']')[0]);
+                   
+                    Int32 Index = Process_Table.FindIndex(i => i.PID == _PID && i.ProcessName == _ProcessName);                    
+                     
+                    richTextBox8.Text = "";
+                    richTextBox8.Text += "[#] ProcessName: " + Process_Table[Index].ProcessName;
+                    richTextBox8.Text += "\n[#] ProcessName_Path: " + Process_Table[Index].ProcessName_Path;
+                    richTextBox8.Text += "\n[#] PID: " +  Process_Table[Index].PID;
+                    richTextBox8.Text += "\n[#] IsLive: " + Process_Table[Index].IsLive;
+                    richTextBox8.Text += "\n-------------------------------------------------------------";
+                    richTextBox8.Text += "\n[#] InjectorPID: " + Process_Table[Index].Injector;
+                    richTextBox8.Text += "\n[#] Injector_Path: " + Process_Table[Index].Injector_Path;
+                    richTextBox8.Text += "\n\n[#] IsShow_Alarm: " + Process_Table[Index].IsShow_Alarm;                    
+                    richTextBox8.Text += "\n-------------------------------------------------------------";
+                    richTextBox8.Text += "\n[#] InjectionType: " + Process_Table[Index].InjectionType;
+                    richTextBox8.Text += "\n[#] Detection_Status: " + Process_Table[Index].Detection_Status;
+                    richTextBox8.Text += "\n[#] Detection_EventTime: " + Process_Table[Index].Detection_EventTime;
+                    richTextBox8.Text += "\n-------------------------------------------------------------";
+                    richTextBox8.Text += "\n[#] TCPDetails2: " + Process_Table[Index].TCPDetails2;
+                    richTextBox8.Text += "\n[#] TCPDetails: " + Process_Table[Index].TCPDetails;
+                    richTextBox8.Text += "\n-------------------------------------------------------------";
+                    richTextBox8.Text += "\n[#] Description (ETW Event Message):\n" + Process_Table[Index].Description;
+                    richTextBox8.Text += "\n\n[#] Descripton_Details:\n" + Process_Table[Index].Descripton_Details;
+                    richTextBox8.Text += "\n-------------------------------------------------------------";
+                    richTextBox8.Text += "\n[#] Memory Scanner Result: " + Process_Table[Index].MemoryScanner01_Result.Replace('\n', ' ');
+                    richTextBox8.Text += "\n-------------------------------------------------------------";
+                    richTextBox8.Text += "\n[#] Memory Scanner Result Details:\n" + Process_Table[Index].SubItems_Name_Property;
+                   
+                    //richTextBox8.Text += Process_Table[Index].SubItems_ImageIndex;
+                   
+                }
+                catch (Exception)
+                {
+
+
+                }
+            });
+        }
         private void OnToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             IsSystemDeveloperLogs_on = true;
@@ -6474,7 +6563,7 @@ namespace ETWPM2Monitor2
 
         private void ClearAllProcessesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            listBox2.Items.Clear();
+            //listBox2.Items.Clear();
             listBox3.Items.Clear();
             listBox4.Items.Clear();
         }
@@ -6535,118 +6624,148 @@ namespace ETWPM2Monitor2
                     int temp_get_InjectorPID_from_eventmessage = 0;
                     string temp_get_InjectorPN_from_description = "";
 
+                    bool _error = true;
+
+                    //TargetProcess [mspaint:9488] Injection History with Debug info:
+                    //mspaint:9488>
+                    //PID: 9488
                     try
                     {
+                        string __PIDName = listView2.SelectedItems[0].Name.Split('>')[0].Split(':')[0];
+                        string __PID = listView2.SelectedItems[0].Name.Split('>')[0].Split(':')[1];
 
-                        richTextBox2.Text = listView2.SelectedItems[0].Name;
-                        richTextBox4.Text = listView2.SelectedItems[0].SubItems[9].Text;
-                        richTextBox5.Text = listView2.SelectedItems[0].SubItems[8].Text;
-                        temp_get_InjectorPID_from_eventmessage = Convert.ToInt32(listView2.SelectedItems[0].SubItems[9].Text.Split('\n')[12].Split('>')[1]);
+                        _error = listView2.SelectedItems[0].SubItems[2].Text.ToLower() == __PIDName.ToLower() + ":" + __PID ? false : true;
                     }
                     catch (Exception)
                     {
 
-                    }
-
-
-                    try
-                    {
-                        temp_get_InjectorPN_from_description = listView2.SelectedItems[0].SubItems[8].Text
-                      .Split('>')[1].Split('[')[1].Split(']')[0].Split(':')[0].Substring(1);
-                    }
-                    catch (Exception)
-                    {
-
-                        temp_get_InjectorPN_from_description = listView2.SelectedItems[0].SubItems[8].Text
-                       .Split('>')[1].Substring(listView2.SelectedItems[0].SubItems[8].Text
-                       .Split('>')[1].IndexOf("Injector-CommandLine:")).Substring(21);
-                        if (temp_get_InjectorPN_from_description == " ")
-                        {
-                            temp_get_InjectorPN_from_description = "";
-                        }
+                        _error = true;
 
                     }
+                  
 
-
-                    richTextBox3.Text = "";
-
-                    string PIDName = listView2.SelectedItems[0].Name.Split('>')[0].Split(':')[0];
-                    string PID = listView2.SelectedItems[0].Name.Split('>')[0].Split(':')[1];
-
-                    BeginInvoke(new __core2(_MemoryScanner_Pesieve_ShowObjects), (object)PID);
-
-                    richTextBox3.Text += "TargetProcess [" + PIDName + ":" + PID + "] Injection History with Debug info:\n";
-                    richTextBox3.Text += "\n-------------------------------------------------------\n";
-                    int counter = 0;
-                    richTextBox3.Text += "Target Process & Injector Details:\n";
-                    string last_tid = "";
-                    foreach (_InjectedThreadDetails_bytes item in _InjectedTIDList.ToList< _InjectedThreadDetails_bytes>().FindAll(y => y._TargetPID == Convert.ToInt32(PID) && y._InjectorPID == temp_get_InjectorPID_from_eventmessage))
+                     
+                    if (!_error)
                     {
                         try
                         {
 
-                            if (!temptids.Exists(___t => ___t == item._RemoteThreadID))
-                            {
-                                temptids.Add(item._RemoteThreadID);
-                            }
-                            Thread.Sleep(1);
-                            if (item._RemoteThreadID.ToString() != last_tid)
-                            {
-                                if (NewProcess_Table.Exists(_w => _w.PID == item._InjectorPID))
-                                {
-                                    bool error = false;
-                                    try
-                                    {
-                                        var a = NewProcess_Table.Find(_w => (_w.PID == item._InjectorPID && _w.CommandLine.Contains(temp_get_InjectorPN_from_description))).CommandLine;
-                                        var b = NewProcess_Table.Find(_w => _w.PID == item._InjectorPID).ProcessName_Path;
-                                        var c = NewProcess_Table.Find(_w => _w.PID == item._InjectorPID).PPID_Path;
-                                        var d = NewProcess_Table.Find(_w => _w.ProcessName.Substring(1) == item._TargetPIDName && _w.PID == item._TargetPID).ProcessName_Path;
-                                    }
-                                    catch (Exception)
-                                    {
-                                        error = true;
-                                    }
-
-                                    if (!error)
-                                    {
-                                        string injector_path = "\nInjector Path:" + NewProcess_Table.Find(_w => _w.PID == item._InjectorPID).ProcessName_Path;
-
-                                        if (injector_path.Contains("Process Exited"))
-                                        {
-                                            if (Processes_FileSystemList.FindIndex(_fs => _fs.FileName_Path != null && _fs.FileName_Path.ToLower().Contains(temp_get_InjectorPN_from_description.ToLower())) != -1)
-                                            {
-                                                var FS_FullPath = Processes_FileSystemList.Find(_fs => _fs.FileName_Path != null && _fs.FileName_Path.ToLower().Contains(temp_get_InjectorPN_from_description.ToLower())).FileName_Path;
-                                                injector_path = "\nInjector Path:" + FS_FullPath;
-                                            }
-
-                                        }
-                                        counter++;
-                                        richTextBox3.Text += "[" + counter.ToString() + "] " + "Remote Thread Injection Detected!" + "\n";
-                                        richTextBox3.Text += "[" + counter.ToString() + "] " + "Injection by InjectorPID:" + item._InjectorPID.ToString() + "===>==TID:" +
-                                       item._RemoteThreadID.ToString() + "==>==Injected into====>" + PIDName + ":" + PID
-
-                                       + "\nInjector More Details:"
-                                       + "\n" + NewProcess_Table.Find(_w => (_w.PID == item._InjectorPID && _w.CommandLine.Contains(temp_get_InjectorPN_from_description))).CommandLine
-                                       + injector_path
-                                       + "\n" + NewProcess_Table.Find(_w => _w.PID == item._InjectorPID).PPID_Path
-                                       + "\nTarget Process More Details:"
-                                       + "\nTarget Process Path:" + NewProcess_Table.Find(_w => _w.ProcessName.Substring(1) == item._TargetPIDName && _w.PID == item._TargetPID).ProcessName_Path
-                                       + "\n"
-                                       + "Injected Bytes:  (TID: " + item._RemoteThreadID.ToString() + ") " + " (StartAddress: " + item._ThreadStartAddress.ToString() + ")\n" + item.Injected_Memory_Bytes_Hex + "\n";
-                                    }
-                                }
-                                last_tid = item._RemoteThreadID.ToString();
-                            }
-
-
+                            richTextBox2.Text = listView2.SelectedItems[0].Name;
+                            richTextBox4.Text = listView2.SelectedItems[0].SubItems[9].Text;
+                            richTextBox5.Text = listView2.SelectedItems[0].SubItems[8].Text;
+                            temp_get_InjectorPID_from_eventmessage = Convert.ToInt32(listView2.SelectedItems[0].SubItems[9].Text.Split('\n')[12].Split('>')[1]);
                         }
                         catch (Exception)
                         {
 
                         }
-                    }
 
-                    temptids.Clear();
+
+                        try
+                        {
+                            temp_get_InjectorPN_from_description = listView2.SelectedItems[0].SubItems[8].Text
+                          .Split('>')[1].Split('[')[1].Split(']')[0].Split(':')[0].Substring(1);
+                        }
+                        catch (Exception)
+                        {
+
+                            temp_get_InjectorPN_from_description = listView2.SelectedItems[0].SubItems[8].Text
+                           .Split('>')[1].Substring(listView2.SelectedItems[0].SubItems[8].Text
+                           .Split('>')[1].IndexOf("Injector-CommandLine:")).Substring(21);
+                            if (temp_get_InjectorPN_from_description == " ")
+                            {
+                                temp_get_InjectorPN_from_description = "";
+                            }
+
+                        }
+
+
+                        richTextBox3.Text = "";
+
+                        string PIDName = listView2.SelectedItems[0].Name.Split('>')[0].Split(':')[0];
+                        string PID = listView2.SelectedItems[0].Name.Split('>')[0].Split(':')[1];
+
+                        BeginInvoke(new __core2(_MemoryScanner_Pesieve_ShowObjects), (object)PID);
+
+                        richTextBox3.Text += "TargetProcess [" + PIDName + ":" + PID + "] Injection History with Debug info:\n";
+                        richTextBox3.Text += "\n-------------------------------------------------------\n";
+                        int counter = 0;
+                        richTextBox3.Text += "Target Process & Injector Details:\n";
+                        string last_tid = "";
+                        foreach (_InjectedThreadDetails_bytes item in _InjectedTIDList.ToList<_InjectedThreadDetails_bytes>().FindAll(y => y._TargetPID == Convert.ToInt32(PID) && y._InjectorPID == temp_get_InjectorPID_from_eventmessage))
+                        {
+                            try
+                            {
+
+                                if (!temptids.Exists(___t => ___t == item._RemoteThreadID))
+                                {
+                                    temptids.Add(item._RemoteThreadID);
+                                }
+                                Thread.Sleep(1);
+                                if (item._RemoteThreadID.ToString() != last_tid)
+                                {
+                                    if (NewProcess_Table.Exists(_w => _w.PID == item._InjectorPID))
+                                    {
+                                        bool error = false;
+                                        try
+                                        {
+                                            var a = NewProcess_Table.Find(_w => (_w.PID == item._InjectorPID && _w.CommandLine.Contains(temp_get_InjectorPN_from_description))).CommandLine;
+                                            var b = NewProcess_Table.Find(_w => _w.PID == item._InjectorPID).ProcessName_Path;
+                                            var c = NewProcess_Table.Find(_w => _w.PID == item._InjectorPID).PPID_Path;
+                                            var d = NewProcess_Table.Find(_w => _w.ProcessName.Substring(1) == item._TargetPIDName && _w.PID == item._TargetPID).ProcessName_Path;
+                                        }
+                                        catch (Exception)
+                                        {
+                                            error = true;
+                                        }
+
+                                        if (!error)
+                                        {
+                                            string injector_path = "\nInjector Path:" + NewProcess_Table.Find(_w => _w.PID == item._InjectorPID).ProcessName_Path;
+
+                                            if (injector_path.Contains("Process Exited"))
+                                            {
+                                                if (Processes_FileSystemList.FindIndex(_fs => _fs.FileName_Path != null && _fs.FileName_Path.ToLower().Contains(temp_get_InjectorPN_from_description.ToLower())) != -1)
+                                                {
+                                                    var FS_FullPath = Processes_FileSystemList.Find(_fs => _fs.FileName_Path != null && _fs.FileName_Path.ToLower().Contains(temp_get_InjectorPN_from_description.ToLower())).FileName_Path;
+                                                    injector_path = "\nInjector Path:" + FS_FullPath;
+                                                }
+
+                                            }
+                                            counter++;
+                                            richTextBox3.Text += "[" + counter.ToString() + "] " + "Remote Thread Injection Detected!" + "\n";
+                                            richTextBox3.Text += "[" + counter.ToString() + "] " + "Injection by InjectorPID:" + item._InjectorPID.ToString() + "===>==TID:" +
+                                           item._RemoteThreadID.ToString() + "==>==Injected into====>" + PIDName + ":" + PID
+
+                                           + "\nInjector More Details:"
+                                           + "\n" + NewProcess_Table.Find(_w => (_w.PID == item._InjectorPID && _w.CommandLine.Contains(temp_get_InjectorPN_from_description))).CommandLine
+                                           + injector_path
+                                           + "\n" + NewProcess_Table.Find(_w => _w.PID == item._InjectorPID).PPID_Path
+                                           + "\nTarget Process More Details:"
+                                           + "\nTarget Process Path:" + NewProcess_Table.Find(_w => _w.ProcessName.Substring(1) == item._TargetPIDName && _w.PID == item._TargetPID).ProcessName_Path
+                                           + "\n"
+                                           + "Injected Bytes:  (TID: " + item._RemoteThreadID.ToString() + ") " + " (StartAddress: " + item._ThreadStartAddress.ToString() + ")\n" + item.Injected_Memory_Bytes_Hex + "\n";
+                                        }
+                                    }
+                                    last_tid = item._RemoteThreadID.ToString();
+                                }
+
+
+                            }
+                            catch (Exception)
+                            {
+
+                            }
+                        }
+
+                        temptids.Clear();
+                    }
+                    else
+                    {
+                        richTextBox2.Text = "";
+                        richTextBox3.Text = "";
+                        
+                    }
                 }));
 
             }
