@@ -36,6 +36,7 @@ namespace ETWPM2Monitor2
         public static ListViewItem MyLviewItemsX = new ListViewItem();
         public static Form1 _Form1 = new Form1();
         public static bool ALT_F4 = false;
+        public static bool _StopFilter = false;
 
         public static void GetRowsTODataTable(DateTime _Time, string _EventID, Int32 _PID, string _Process, string _EventMessage )
         {
@@ -112,6 +113,7 @@ namespace ETWPM2Monitor2
             button1.Enabled = false;
             button2.Enabled = false;
             button4.Enabled = false;
+            button5.Enabled = false;
         }
 
         public async void _RunSearch()
@@ -188,6 +190,7 @@ namespace ETWPM2Monitor2
                                     button1.Enabled = true;
                                     button2.Enabled = true;
                                     button4.Enabled = true;
+                                    button5.Enabled = true;
                                     listView1.Enabled = true;
                                     break;
                                 }
@@ -200,6 +203,7 @@ namespace ETWPM2Monitor2
                             button1.Enabled = true;
                             button2.Enabled = true;
                             button4.Enabled = true;
+                            button5.Enabled = true;
                             listView1.Enabled = true;
                             textBox1.Enabled = true;
 
@@ -271,6 +275,7 @@ namespace ETWPM2Monitor2
                                     button1.Enabled = true;
                                     button2.Enabled = true;
                                     button4.Enabled = true;
+                                    button5.Enabled = true;
                                     listView1.Enabled = true;
                                     break;
                                 }
@@ -283,6 +288,7 @@ namespace ETWPM2Monitor2
                             button1.Enabled = true;
                             button2.Enabled = true;
                             button4.Enabled = true;
+                            button5.Enabled = true;
                             listView1.Enabled = true;
                             textBox1.Enabled = true;
 
@@ -350,6 +356,7 @@ namespace ETWPM2Monitor2
                                     button1.Enabled = true;
                                     button2.Enabled = true;
                                     button4.Enabled = true;
+                                    button5.Enabled = true;
                                     listView1.Enabled = true;
                                     break;
                                 }
@@ -363,6 +370,7 @@ namespace ETWPM2Monitor2
                             button1.Enabled = true;
                             button2.Enabled = true;
                             button4.Enabled = true;
+                            button5.Enabled = true;
                             listView1.Enabled = true;
                             textBox1.Enabled = true;
                         }
@@ -417,6 +425,8 @@ namespace ETWPM2Monitor2
         {
             try
             {
+                _StopFilter = false;
+                button4.Enabled = false;
                 listView1.Items.Clear();
                 listView1.Enabled = false;
                 richTextBox2.Text = "";
@@ -427,6 +437,16 @@ namespace ETWPM2Monitor2
                    
                     foreach (DataRow item in DT)
                     {
+                        if (_StopFilter)
+                        {
+                            textBox2.Enabled = true;
+                            listView1.Enabled = true;
+                            button4.Enabled = true;
+                            button1.Enabled = true;
+                            button3.Enabled = true;
+                            button2.Enabled = true;
+                            break;
+                        }
                         MyLviewItemsX = new ListViewItem();
 
                         MyLviewItemsX.SubItems.Add(item[0].ToString());
@@ -438,13 +458,21 @@ namespace ETWPM2Monitor2
                     }
                 });
                 textBox2.Enabled = true;
-                listView1.Enabled = true;
+                listView1.Enabled = true;              
+                button4.Enabled = true;
+                button1.Enabled = true;
+                button3.Enabled = true;
+                button2.Enabled = true;
             }
             catch (Exception error)
             {
                 richTextBox2.Text = error.Message;
                 textBox2.Enabled = true;
                 listView1.Enabled = true;
+                button4.Enabled = true;
+                button1.Enabled = true;
+                button3.Enabled = true;
+                button2.Enabled = true;
             }
         }
 
@@ -458,7 +486,10 @@ namespace ETWPM2Monitor2
                 });
                 Thread _Thread_02 = new Thread(__SearchItems_Addtolistview1_filter);
                 _Thread_02.Priority = ThreadPriority.Highest;
-                _Thread_02.Start();                              
+                _Thread_02.Start();
+                button1.Enabled = false;
+                button3.Enabled = false;
+                button2.Enabled = false;
             }
             catch (Exception error)
             {
@@ -722,7 +753,14 @@ namespace ETWPM2Monitor2
                 Form1.IsSearchFormActived = false;
             }
         }
-              
+
+        private void Button5_Click(object sender, EventArgs e)
+        {
+            _StopFilter = true;
+            button1.Enabled = true;
+            button3.Enabled = true;
+        }
+
         private void CheckBox3_CheckedChanged(object sender, EventArgs e)
         {
 
@@ -740,6 +778,7 @@ namespace ETWPM2Monitor2
                 button3.Enabled = true;
                 button4.Enabled = true;
                 button2.Enabled = true;
+                button5.Enabled = true;
             }
             catch (Exception)
             {
@@ -750,6 +789,7 @@ namespace ETWPM2Monitor2
                 button3.Enabled = true;
                 button4.Enabled = true;
                 button2.Enabled = true;
+                button5.Enabled = true;
             }
            
         }

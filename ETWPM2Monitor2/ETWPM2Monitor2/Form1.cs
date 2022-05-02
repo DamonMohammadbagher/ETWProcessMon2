@@ -362,11 +362,11 @@ namespace ETWPM2Monitor2
         public static bool IsSearchFormActived = false;
         public static bool show_tcp_packets_filter = false;
         public static bool _StopLoopingScan_Exec_01 = false;
-        public static bool _StopLoopingScan_Exec_02 = false;
-        public static bool ScannerMixedMode_Pesieve = false;
         public static bool ScannerEvery10minMode_Pesieve = false;
-        public static bool ScannerMixedMode_Hollowh = false;
-        public static bool ScannerEvery10minMode_Hollowh = false;
+        // public static bool _StopLoopingScan_Exec_02 = false;
+        // public static bool ScannerMixedMode_Pesieve = false;
+        // public static bool ScannerMixedMode_Hollowh = false;
+        // public static bool ScannerEvery10minMode_Hollowh = false;
         public static string eventstring_tmp3 = "";
         public static bool NetworkConection_found = false;
         public static Int64 NetworkConection_TCP_counts = 0;
@@ -843,7 +843,7 @@ namespace ETWPM2Monitor2
 
                             if (MyLviewItemsX1.SubItems[5].Text.Split('\n')[6].Contains("[dport:4444]"))
                             {
-                                MyLviewItemsX1.BackColor = Color.Gray;
+                                MyLviewItemsX1.BackColor = Color.Gainsboro;
                             }
 
                             MyLviewItemsX1.SubItems[5].Text += "\n\n#This Description Added by ETWPM2Monitor2 tool#\n##Warning Description: Packet with [size:160] maybe was for Meterpreter Session which will send every 1 min between Client/Server##\n" +
@@ -4196,7 +4196,7 @@ namespace ETWPM2Monitor2
                     }
 
                     _StopLoopingScan_Exec_01 = false;
-                    _StopLoopingScan_Exec_02 = false;
+                    //_StopLoopingScan_Exec_02 = false;
 
 
                     int _IndexScannedPids = Scanned_PIds.FindIndex(TargetPid => TargetPid.PID == PID
@@ -4517,7 +4517,7 @@ namespace ETWPM2Monitor2
                             if (_resultPEScanned != -1)
                             {
 
-                                _StopLoopingScan_Exec_02 = true;
+                                //_StopLoopingScan_Exec_02 = true;
                             }
 
                             iList2.Name = item.ProcessName + ":" + item.PID + ">\n" + _finalresult_Scanned_01[1] + _finalresult_Scanned_02[1]
@@ -4551,10 +4551,12 @@ namespace ETWPM2Monitor2
 
                                 }
 
+                                /// these if should change to better codes ...  
+                                ///
 
                                 if (_finalresult_Scanned_01[0].Contains("Replaced:0"))
                                 {
-
+                                    
                                     iList2.ImageIndex = 1;
                                     if (!_finalresult_Scanned_01[0].Contains("PE:0") && !_finalresult_Scanned_01[0].Contains("shc:0"))
                                     {
@@ -4600,7 +4602,10 @@ namespace ETWPM2Monitor2
                                 }
 
                             }
- 
+
+                            ///
+                            /// these if should change to better codes ...  
+                            
                             IsTargetProcessTerminatedbyETWPM2monitor = false;
                             string Detection_Status_Action = "";
                             iList2.ImageIndex = 1;
@@ -4647,6 +4652,7 @@ namespace ETWPM2Monitor2
 
                                             }
 
+                                            /// timer to terminate sub processes     
                                             t8.Enabled = true;
                                             t8.Start();
 
@@ -4815,7 +4821,8 @@ namespace ETWPM2Monitor2
 
                             /// if mixed mode disabled for memoryscanner02, need this to show new event in system/detection logs Tab & alarms by ETW Tab
                             /// bug was here
-                            if ((!ScannerMixedMode_Hollowh) && (IsTargetProcessTerminatedbyETWPM2monitor))
+                            //if ((!ScannerMixedMode_Hollowh) && (IsTargetProcessTerminatedbyETWPM2monitor))
+                            if (IsTargetProcessTerminatedbyETWPM2monitor)
                             {
 
                                 System_Detection_Log_events.Invoke((object)iList2, null);
@@ -5711,7 +5718,7 @@ namespace ETWPM2Monitor2
 
         private void AboutToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(null, "ETWPM2Monitor2 v2.1 [test version 2.1.35.223]\nCode Published by Damon Mohammadbagher , Jul 2021", "About ETWPM2Monitor2 v2.1", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show(null, "ETWPM2Monitor2 v2.1 [test version 2.1.35.228]\nCode Published by Damon Mohammadbagher , Jul 2021", "About ETWPM2Monitor2 v2.1", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
         }
 
@@ -7411,20 +7418,20 @@ namespace ETWPM2Monitor2
                     long vms64_2p = Process.GetProcessById(pid).PagedMemorySize64 / 1024;
 
 
-                    byte[] targetprocessbytes_orginal = null;
+                    byte[] targetprocessbytes_original = null;
 
                     Thread.Sleep(1200);
 
-                    targetprocessbytes_orginal = Scan_Process_Memory(Process.GetProcessById(pid));
+                    targetprocessbytes_original = Scan_Process_Memory(Process.GetProcessById(pid));
 
 
                     NtSuspendProcess(Process.GetProcessById(pid).Handle);
 
 
-                    result += "Same Source Process Bytes:\n" + HexDump2(targetprocessbytes_orginal);
+                    result += "Same Source Process Bytes:\n" + HexDump2(targetprocessbytes_original);
 
                     result += "Target Process Memory (bytes Size):" + targetprocessbytes.Length / 1024
-                        + ",  Same Source Process Memory (bytes Size):" + targetprocessbytes_orginal.Length / 1024;
+                        + ",  Same Source Process Memory (bytes Size):" + targetprocessbytes_original.Length / 1024;
 
                     result += "\nTarget Process PrivateMemorySize64:" + vms64
                        + ",  Same Source Process PrivateMemorySize64:" + vms64_2;

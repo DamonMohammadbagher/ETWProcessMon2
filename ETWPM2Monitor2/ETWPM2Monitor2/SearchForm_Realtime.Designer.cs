@@ -74,6 +74,7 @@
             this.checkBox_ID3_EventMessage = new System.Windows.Forms.CheckBox();
             this.checkBox_ID3_PIDPath = new System.Windows.Forms.CheckBox();
             this.checkBox_ID3_Target_Process = new System.Windows.Forms.CheckBox();
+            this.button5 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -185,6 +186,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.button5);
             this.panel1.Controls.Add(this.splitter1);
             this.panel1.Controls.Add(this.textBox2);
             this.panel1.Controls.Add(this.textBox1);
@@ -269,7 +271,7 @@
             this.button2.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.button2.Location = new System.Drawing.Point(342, 61);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(70, 96);
+            this.button2.Size = new System.Drawing.Size(70, 48);
             this.button2.TabIndex = 4;
             this.button2.Text = "Run Filter";
             this.button2.UseVisualStyleBackColor = true;
@@ -519,6 +521,17 @@
             this.checkBox_ID3_Target_Process.UseVisualStyleBackColor = true;
             this.checkBox_ID3_Target_Process.CheckedChanged += new System.EventHandler(this.CheckBox_ID3_Target_Process_CheckedChanged);
             // 
+            // button5
+            // 
+            this.button5.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.button5.Location = new System.Drawing.Point(342, 109);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(70, 48);
+            this.button5.TabIndex = 16;
+            this.button5.Text = "Stop";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.Button5_Click);
+            // 
             // SearchForm_Realtime
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -596,5 +609,6 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Splitter splitter1;
         private System.Windows.Forms.SplitContainer splitContainer3;
+        private System.Windows.Forms.Button button5;
     }
 }
