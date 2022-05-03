@@ -382,8 +382,7 @@ namespace ETWPM2Monitor2
         public static string _PPIDPath_For_TimerScanner01 = "";
         public static int _Imgindex, _Imgindex2 = 0;
         public ListViewItem xiList2 = new ListViewItem();
-        public static List<string> _ExcludeProcessList = new List<string>();
-        public static bool ExcludeWebBrowsersFromScanningViaHullowsHunter = true;
+        public static List<string> _ExcludeProcessList = new List<string>();        
         public static bool IsDontShow_ETWPM2_Realt_time_Enabled = false;
         public static bool IsDontShow_NetworkConnection_Enabled = false;
         public static List<string> System_DeveloperLogsList = new List<string>();
@@ -397,6 +396,7 @@ namespace ETWPM2Monitor2
         public int _orangeDetection = 0;
         public int _RedflagDetection = 0;
         public List<string> _List_of__RedflagDetection_Raised = new List<string>();
+        public bool IsFilterSystem4Enabled_ETWPM2_Realtime = false;
 
         public async Task _Add_SystemDeveloperLogs(string logmessage)
         {
@@ -763,39 +763,87 @@ namespace ETWPM2Monitor2
 
             listView1.BeginInvoke((MethodInvoker)delegate
             {
-                if (listView1.Items.Count > 0)
+                if (IsFilterSystem4Enabled_ETWPM2_Realtime == false)
                 {
-                    bool _found = false;
 
-                    for (int i = 0; i < listView1.Items.Count; i++)
+                    if (listView1.Items.Count > 0)
                     {
 
-                        if (listView1.Items[i].SubItems[3].Text == _obj_.SubItems[3].Text)
-                        {
-                            listView1.Items[i].SubItems[0] = _obj_.SubItems[0];
-                            listView1.Items[i].SubItems[1] = _obj_.SubItems[1];
-                            listView1.Items[i].SubItems[2] = _obj_.SubItems[2];
-                            listView1.Items[i].SubItems[3] = _obj_.SubItems[3];
-                            listView1.Items[i].SubItems[4] = _obj_.SubItems[4];
-                            listView1.Items[i].SubItems[5] = _obj_.SubItems[5];
-                            listView1.Items[i].Name = _obj_.Name;
-                            listView1.Items[i].ImageIndex = _obj_.ImageIndex;
-                            _found = true;
-                            listView1.Items[i].ForeColor = Color.OrangeRed;
-                            break;
-                        }
-                    }
+                        bool _found = false;
 
-                    if (!_found)
+                        for (int i = 0; i < listView1.Items.Count; i++)
+                        {
+
+                            if (listView1.Items[i].SubItems[3].Text == _obj_.SubItems[3].Text)
+                            {
+                                listView1.Items[i].SubItems[0] = _obj_.SubItems[0];
+                                listView1.Items[i].SubItems[1] = _obj_.SubItems[1];
+                                listView1.Items[i].SubItems[2] = _obj_.SubItems[2];
+                                listView1.Items[i].SubItems[3] = _obj_.SubItems[3];
+                                listView1.Items[i].SubItems[4] = _obj_.SubItems[4];
+                                listView1.Items[i].SubItems[5] = _obj_.SubItems[5];
+                                listView1.Items[i].Name = _obj_.Name;
+                                listView1.Items[i].ImageIndex = _obj_.ImageIndex;
+                                _found = true;
+                                listView1.Items[i].ForeColor = Color.OrangeRed;
+                                break;
+                            }
+                        }
+
+                        if (!_found)
+                        {
+                            listView1.Items.Add(_obj_).ForeColor = Color.OrangeRed;
+                            Thread.Sleep(5);
+                        }
+
+                    }
+                    else
                     {
                         listView1.Items.Add(_obj_).ForeColor = Color.OrangeRed;
-                        Thread.Sleep(5);
                     }
-
                 }
-                else
+
+                if (IsFilterSystem4Enabled_ETWPM2_Realtime == true)
                 {
-                    listView1.Items.Add(_obj_).ForeColor = Color.OrangeRed;
+                    if (!_obj_.SubItems[5].Text.Split('\n')[5].Contains(":4[Injected by System]"))
+                    {
+                        if (listView1.Items.Count > 0)
+                        {
+
+                            bool _found = false;
+
+                            for (int i = 0; i < listView1.Items.Count; i++)
+                            {
+
+                                if (listView1.Items[i].SubItems[3].Text == _obj_.SubItems[3].Text)
+                                {
+                                    listView1.Items[i].SubItems[0] = _obj_.SubItems[0];
+                                    listView1.Items[i].SubItems[1] = _obj_.SubItems[1];
+                                    listView1.Items[i].SubItems[2] = _obj_.SubItems[2];
+                                    listView1.Items[i].SubItems[3] = _obj_.SubItems[3];
+                                    listView1.Items[i].SubItems[4] = _obj_.SubItems[4];
+                                    listView1.Items[i].SubItems[5] = _obj_.SubItems[5];
+                                    listView1.Items[i].Name = _obj_.Name;
+                                    listView1.Items[i].ImageIndex = _obj_.ImageIndex;
+                                    _found = true;
+                                    listView1.Items[i].ForeColor = Color.OrangeRed;
+                                    break;
+                                }
+                            }
+
+                            if (!_found)
+                            {
+                                listView1.Items.Add(_obj_).ForeColor = Color.OrangeRed;
+                                Thread.Sleep(5);
+                            }
+
+                        }
+                        else
+                        {
+                            listView1.Items.Add(_obj_).ForeColor = Color.OrangeRed;
+                        }
+
+                    }
                 }
             });
         }
@@ -959,6 +1007,7 @@ namespace ETWPM2Monitor2
                     /// EventID 3 = TCP Send Event
                     if (MyLviewItemsX1.SubItems[2].Text == "3")
                     {
+
                         /// size 160 , 192 was about Meterpreter traffic wich will send send for each 1 min [sleep(1000) default] 
                         /// also 192 will send before every command packets  meterpreter backdoor
                         /// that was my test ;)
@@ -969,8 +1018,8 @@ namespace ETWPM2Monitor2
 
                             if (MyLviewItemsX1.SubItems[5].Text.Split('\n')[6].Contains("[dport:4444]"))
                             {
-                                MyLviewItemsX1.BackColor = Color.Gray;
-                                MyLviewItemsX1.ForeColor = Color.White;
+                                MyLviewItemsX1.BackColor = Color.Gainsboro;
+                                MyLviewItemsX1.ForeColor = Color.Black;
 
                             }
 
@@ -1030,7 +1079,18 @@ namespace ETWPM2Monitor2
                     {
                         if (!IsDontShow_ETWPM2_Realt_time_Enabled)
                         {
-                            listView1.Items.Add(MyLviewItemsX1);
+                            if (IsFilterSystem4Enabled_ETWPM2_Realtime == false)
+                            {
+                                listView1.Items.Add(MyLviewItemsX1);
+                            }
+
+                            if (IsFilterSystem4Enabled_ETWPM2_Realtime == true)
+                            {
+                                if (!MyLviewItemsX1.SubItems[5].Text.Split('\n')[5].Contains(":4[Injected by System]"))
+                                {
+                                    listView1.Items.Add(MyLviewItemsX1);
+                                }
+                            }
                         }
                     }
 
@@ -4875,7 +4935,7 @@ namespace ETWPM2Monitor2
                             lastshow = item.ProcessName + ":" + item.PID.ToString() + _des_address_port + _finalresult_Scanned_01[0] +
                                 item.ProcessName_Path + " Injected by => " + item.Injector_Path + " (PID:" + item.Injector.ToString() + ") ";
 
-                            excludeWebBrowsersFromScanningViaHullowsHunterToolStripMenuItem.Enabled = true;
+                            
                         }
                     }
                 }
@@ -5718,7 +5778,7 @@ namespace ETWPM2Monitor2
 
         private void AboutToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(null, "ETWPM2Monitor2 v2.1 [test version 2.1.35.228]\nCode Published by Damon Mohammadbagher , Jul 2021", "About ETWPM2Monitor2 v2.1", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show(null, "ETWPM2Monitor2 v2.1 [test version 2.1.36.230]\nCode Published by Damon Mohammadbagher , Jul 2021", "About ETWPM2Monitor2 v2.1", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
         }
 
@@ -6347,21 +6407,6 @@ namespace ETWPM2Monitor2
             tabControl1.SelectedIndex = 3;
         }
 
-        private void ExcludeWebBrowsersFromScanningViaHullowsHunterToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (excludeWebBrowsersFromScanningViaHullowsHunterToolStripMenuItem.Checked == true)
-            {
-                excludeWebBrowsersFromScanningViaHullowsHunterToolStripMenuItem.Checked = false;
-                ExcludeWebBrowsersFromScanningViaHullowsHunter = false;
-            }
-            else if (excludeWebBrowsersFromScanningViaHullowsHunterToolStripMenuItem.Checked == false)
-            {
-                excludeWebBrowsersFromScanningViaHullowsHunterToolStripMenuItem.Checked = true;
-                ExcludeWebBrowsersFromScanningViaHullowsHunter = true;
-            }
-
-        }
-
         private void DontShowEventsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (dontShowEventsToolStripMenuItem.Checked == false)
@@ -6497,6 +6542,25 @@ namespace ETWPM2Monitor2
                 }
             });
         }
+      
+        private void FilterExcludeInjectionBySystem4ToolStripMenuItem_Click(object sender, EventArgs e)
+        {           
+
+            if(filterExcludeInjectionBySystem4ToolStripMenuItem.Checked == false)
+            {
+                filterExcludeInjectionBySystem4ToolStripMenuItem.Checked = true;
+                IsFilterSystem4Enabled_ETWPM2_Realtime = true;
+                toolStripStatusLabel5.Text = "Filter: Exclude Injection by System:4 is on";
+                toolStripStatusLabel5.ForeColor = Color.Red;
+            }else if (filterExcludeInjectionBySystem4ToolStripMenuItem.Checked == true)
+            {
+                filterExcludeInjectionBySystem4ToolStripMenuItem.Checked = false;
+                IsFilterSystem4Enabled_ETWPM2_Realtime = false;
+                toolStripStatusLabel5.Text = "Filter: Exclude Injection by System:4 is off";
+                toolStripStatusLabel5.ForeColor = Color.Black;
+            }
+        }
+
         private void OnToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             IsSystemDeveloperLogs_on = true;
@@ -6854,73 +6918,6 @@ namespace ETWPM2Monitor2
 
 
             }
-
-        }
-
-        private void HollowHunterexeoffToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            toolStripStatusLabel4.Text = "| hollowshunter is off";
-
-            isHollowHunteronoff = false;
-            //hollowHunterexeoffToolStripMenuItem.Text = "HollowsHunter.exe [off]";
-            //hollowHunterexeOnToolStripMenuItem.Text = "HollowsHunter.exe on";
-            //scanOnlyModeToolStripMenuItem.Text = "Scan only mode (Default)";
-            //scanSuspendToolStripMenuItem.Text = "Scan + Suspend Suspicious (Run as Admin)";
-            //scanKillSuspiciousToolStripMenuItem.Text = "Scan + Kill Suspicious (Run as Admin)";
-            if (isHollowHunteronoff == false && isPEScanonoff == false)
-                MessageBox.Show("\"Alarms by ETW\" TAB is disable now, because all memory-scanners are OFF\n" + "you need to set \"ON\" at least one of them");
-
-        }
-
-        private void ScanOnlyModeToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            toolStripStatusLabel4.Text = "| hollowshunter is on";
-            isHollowHunteronoff = true;
-            HollowHunterLevel = 0;
-            //hollowHunterexeOnToolStripMenuItem.Text = "HollowsHunter.exe [on]";
-            //scanOnlyModeToolStripMenuItem.Text = "Scan only mode (Default) [on]";
-            //scanOnlyModeToolStripMenuItem.Checked = true;
-            //scanSuspendToolStripMenuItem.Checked = false;
-            //scanKillSuspiciousToolStripMenuItem.Checked = false;
-            //scanSuspendToolStripMenuItem.Text = "Scan + Suspend Suspicious (Run as Admin)";
-            //scanKillSuspiciousToolStripMenuItem.Text = "Scan + Kill Suspicious (Run as Admin)";
-            //hollowHunterexeoffToolStripMenuItem.Text = "HollowsHunter.exe off";
-
-        }
-
-        private void ScanSuspendToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            toolStripStatusLabel4.Text = "| hollowshunter is on";
-
-            isHollowHunteronoff = true;
-            HollowHunterLevel = 1;
-            //hollowHunterexeOnToolStripMenuItem.Text = "HollowsHunter.exe [on]";
-            //scanSuspendToolStripMenuItem.Text = "Scan + Suspend Suspicious (Run as Admin) [on]";
-            //scanOnlyModeToolStripMenuItem.Checked = false;
-            //scanSuspendToolStripMenuItem.Checked = true;
-            //scanKillSuspiciousToolStripMenuItem.Checked = false;
-            //scanOnlyModeToolStripMenuItem.Text = "Scan only mode (Default)";
-            //scanKillSuspiciousToolStripMenuItem.Text = "Scan + Kill Suspicious (Run as Admin)";
-            //hollowHunterexeoffToolStripMenuItem.Text = "HollowsHunter.exe off";
-
-
-        }
-
-        private void ScanKillSuspiciousToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            toolStripStatusLabel4.Text = "| hollowshunter is on";
-
-            isHollowHunteronoff = true;
-            HollowHunterLevel = 2;
-            //hollowHunterexeOnToolStripMenuItem.Text = "HollowsHunter.exe [on]";
-            //scanOnlyModeToolStripMenuItem.Text = "Scan only mode (Default)";
-            //scanKillSuspiciousToolStripMenuItem.Text = "Scan + Kill Suspicious (Run as Admin) [on]";
-            //scanOnlyModeToolStripMenuItem.Checked = false;
-            //scanSuspendToolStripMenuItem.Checked = false;
-            //scanKillSuspiciousToolStripMenuItem.Checked = true;
-            //scanSuspendToolStripMenuItem.Text = "Scan + Suspend Suspicious (Run as Admin)";
-            //hollowHunterexeoffToolStripMenuItem.Text = "HollowsHunter.exe off";
-
 
         }
 
