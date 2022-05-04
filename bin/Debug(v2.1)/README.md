@@ -5,6 +5,6 @@ md5 info, "exe files are not safe here in github so make your own exe files with
 
 Usage Steps
 
-    Step1: ETWProcessMon2.exe (Run as Admin)
+    Step1 (Run as Admin): ETWProcessMon2.exe > output.txt
 
-    Step2: ETWPM2Monitor2.exe (Run as Admin)
+    Step2 (Run as Admin): ETWPM2Monitor2.exe
