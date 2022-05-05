@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -16,21 +17,31 @@ namespace ETWPM2Monitor2
         {
             try
             {
-               
 
-                    Application.EnableVisualStyles();
-                    Application.SetCompatibleTextRenderingDefault(false);
-                    Application.Run(new Form1());
-               
+
+                //ThreadStart __MainThread = new ThreadStart(delegate
+                //{
+                //    Application.EnableVisualStyles();
+                //    Application.SetCompatibleTextRenderingDefault(false);
+                //    Application.Run(new Form1());
+                //});
+
+                //Thread _MainThreadRun = new Thread(__MainThread);
+                //_MainThreadRun.Priority = ThreadPriority.AboveNormal;
+                //_MainThreadRun.Start();
+
+
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
+                Application.Run(new Form1());
+
             }
             catch (Exception ee)
             {
 
-             //  MessageBox.Show(ee.Message);
+
             }
-            //Application.EnableVisualStyles();
-            //Application.SetCompatibleTextRenderingDefault(false);
-            //Application.Run(new Form1());
+            
         }
     }
 }

@@ -46,7 +46,7 @@ namespace ETWPM2Monitor2
         public static System.Timers.Timer t9 = new System.Timers.Timer(2000);
         public static System.Timers.Timer t10 = new System.Timers.Timer(10000);
         public static System.Timers.Timer t11 = new System.Timers.Timer(5000);
-
+        public static System.Timers.Timer t12 = new System.Timers.Timer(7000);
         public static TimeSpan tt = new TimeSpan();
         public static uint NTReadTmpRef = 0;
         public static EventLog ETW2MON;
@@ -396,7 +396,9 @@ namespace ETWPM2Monitor2
         public int _orangeDetection = 0;
         public int _RedflagDetection = 0;
         public List<string> _List_of__RedflagDetection_Raised = new List<string>();
-        public bool IsFilterSystem4Enabled_ETWPM2_Realtime = false;
+        public bool IsFilterSystem4Enabled_ETWPM2_Realtime = true;
+        public static List<ListViewItem> _DetectedItemsByETWAlarms = new List<ListViewItem>();
+        public static List<ListViewItem> _DetectedItemsByWindowEventLogSaved = new List<ListViewItem>();
 
         public async Task _Add_SystemDeveloperLogs(string logmessage)
         {
@@ -704,7 +706,7 @@ namespace ETWPM2Monitor2
                     {
 
 
-                    }                   
+                    }
 
                     if (IsValidMemoryScannerString)
                     {
@@ -722,8 +724,10 @@ namespace ETWPM2Monitor2
                             if (lastETW_Alarms_Detection != simpledescription + st.ToString()
                             && !st.ToString().ToLower().Contains("[skipped[not scanned:0:0:0]")
                             && !st.ToString().ToLower().Contains("[not scanned:0]"))
+                            {
                                 ETW2MON.WriteEntry(simpledescription + st.ToString(), EventLogEntryType.Warning, 2);
-
+                                _DetectedItemsByWindowEventLogSaved.Add(xitem);
+                            }
                             lastETW_Alarms_Detection = simpledescription + st.ToString();
                             Task.Delay(50);
 
@@ -741,7 +745,10 @@ namespace ETWPM2Monitor2
                             if (lastETW_Alarms_Detection != simpledescription + st.ToString()
                             && !st.ToString().ToLower().Contains("[skipped[not scanned:0:0:0]")
                             && !st.ToString().ToLower().Contains("[not scanned:0]"))
+                            {
                                 ETW2MON.WriteEntry(simpledescription + st.ToString(), EventLogEntryType.Information, 1);
+                                //_DetectedItemsByWindowEventLog.Add(__AlarmObject);
+                            }
 
                             lastETW_Alarms_Detection = simpledescription + st.ToString();
                             Task.Delay(50);
@@ -903,7 +910,7 @@ namespace ETWPM2Monitor2
                         }
                         else if (MyLviewItemsX1.SubItems[5].Text.Split('\n')[6].Contains("[dport:4444]"))
                         {
-                            MyLviewItemsX1.BackColor = Color.LightSlateGray;
+                            MyLviewItemsX1.BackColor = Color.Gainsboro;
 
                             MyLviewItemsX1.SubItems[5].Text += "\n\n#This Description Added by ETWPM2Monitor2 tool#\n##Warning Description: Packet with [size:160] maybe was for Meterpreter Session which will send every 1 min between Client/Server##\n" +
                                "##Warning Description: Packet with [size:192] is for meterpreter session which will send before every command excution from/to server##\n" +
@@ -1704,8 +1711,8 @@ namespace ETWPM2Monitor2
                 string pname = System.Diagnostics.Process.GetProcessById(prc).ProcessName;
                 string XStartAddress = _i32StartAddress.Substring(1);
                 string _injector = _InjectorPID;
-                bool MemoryBytes = Memoryinfo.ReadProcessMemory(prch, (UIntPtr)i32StartAddress, buf, buf.Length, IntPtr.Zero);
-                string _buf = Memoryinfo.HexDump(buf);
+                bool MemoryBytes = Memory_info.ReadProcessMemory(prch, (UIntPtr)i32StartAddress, buf, buf.Length, IntPtr.Zero);
+                string _buf = Memory_info.HexDump(buf);
                 string _bytes = BitConverter.ToString(buf).ToString();
 
                 if (_InjectedTIDList.FindIndex(startaddress => startaddress._ThreadStartAddress == XStartAddress
@@ -2192,10 +2199,7 @@ namespace ETWPM2Monitor2
                 listView2.BorderStyle = BorderStyle.FixedSingle;
                 listView1.HeaderStyle = ColumnHeaderStyle.Nonclickable;
                 listView1.BorderStyle = BorderStyle.FixedSingle;
-                //listView3.HeaderStyle = ColumnHeaderStyle.Nonclickable;
-                //listView3.BorderStyle = BorderStyle.FixedSingle;
-
-
+               
                 /// Set the view to show details.
                 listView1.View = View.Details;
                 /// Allow the user to edit item text.
@@ -2252,6 +2256,10 @@ namespace ETWPM2Monitor2
                 t11.Enabled = true;
                 t11.Start();
 
+                t12.Elapsed += T12_Elapsed;
+                t12.Enabled = true;
+                t12.Start();
+
                 listView1.Columns.Add(" ", 20, HorizontalAlignment.Left);
                 listView1.Columns.Add("Time", 130, HorizontalAlignment.Left);
                 listView1.Columns.Add("EventID", 55, HorizontalAlignment.Left);
@@ -2285,30 +2293,6 @@ namespace ETWPM2Monitor2
                 listView2.Columns.Add("HollowsHunter Pe:", 250, HorizontalAlignment.Left);
                 listView2.Columns.Add("Description", 250, HorizontalAlignment.Left);
                 listView2.Columns.Add("EventMessage", 1000, HorizontalAlignment.Left);
-
-
-                //listView3.SmallImageList = imageList1;
-                ///// Set the view to show details.
-                //listView3.View = View.Details;
-                ///// Allow the user to edit item text.
-                //listView3.LabelEdit = false;
-                ///// Allow the user to rearrange columns.
-                //listView3.AllowColumnReorder = true;
-                ///// Display check boxes.
-                //listView3.CheckBoxes = false;
-                ///// Select the item and subitems when selection is made.
-                //listView3.FullRowSelect = true;
-                ///// Display grid lines.
-                //listView3.GridLines = false;
-                //listView3.Sorting = SortOrder.Ascending;
-                //listView3.Columns.Add(" ", 20, HorizontalAlignment.Left);
-                //listView3.Columns.Add("Time", 130, HorizontalAlignment.Left);
-                //listView3.Columns.Add("Process", 180, HorizontalAlignment.Left);
-                //listView3.Columns.Add("Status", 180, HorizontalAlignment.Left);
-                //listView3.Columns.Add("Detection by ETW Events Inj:New:Tcp", 200, HorizontalAlignment.Left);
-                //listView3.Columns.Add("Actions Scanned:Suspended:Terminated", 220, HorizontalAlignment.Left);
-                //listView3.Columns.Add("Memory Scanner", 270, HorizontalAlignment.Left);
-
 
 
                 listView4.SmallImageList = imageList1;
@@ -2425,6 +2409,21 @@ namespace ETWPM2Monitor2
             {
 
             }
+        }
+
+        private void T12_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            try
+            {
+                
+                Detection_Info.Detection_Compare_to_WinEventLogSaved(_DetectedItemsByETWAlarms, _DetectedItemsByWindowEventLogSaved);
+            }
+            catch (Exception)
+            {
+
+               
+            }
+           
         }
 
         private async void T11_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
@@ -2652,7 +2651,11 @@ namespace ETWPM2Monitor2
                                         xiList2.ImageIndex = TempStruc.SubItems_ImageIndex;
 
                                         if (xResult.Action != "Skipped" && xResult.Scanner01_RESULT_Int32_outputstr.ToString() != string.Empty)
-                                        listView2.Items.Add(xiList2);
+                                        {
+                                            listView2.Items.Add(xiList2);
+                                            _DetectedItemsByETWAlarms.Add(xiList2);
+                                           
+                                        }
 
                                         tabPage4.Text = "Alarms by ETW " + "(" + listView2.Items.Count.ToString() + ")";
                                         toolStripStatusLabel6.Text = "| Alarms by ETW " + "(" + listView2.Items.Count.ToString() + ")";
@@ -2665,6 +2668,8 @@ namespace ETWPM2Monitor2
 
                                     }
                                 }
+
+                               // Detection_Info.Detection_Compare_to_WinEventLogSaved(_DetectedItemsByETWAlarms, _DetectedItemsByWindowEventLog);
                             }
                         }
                     }
@@ -2750,8 +2755,12 @@ namespace ETWPM2Monitor2
                                     xiList2.ImageIndex = TempStruc.SubItems_ImageIndex;
 
                                     if (xResult.Action != "Skipped" && xResult.Scanner01_RESULT_Int32_outputstr.ToString() != string.Empty)
+                                    {
                                         listView2.Items.Add(xiList2);
-
+                                        _DetectedItemsByETWAlarms.Add(xiList2);
+                                     
+                                    }
+                                     
                                     tabPage4.Text = "Alarms by ETW " + "(" + listView2.Items.Count.ToString() + ")";
                                     toolStripStatusLabel6.Text = "| Alarms by ETW " + "(" + listView2.Items.Count.ToString() + ")";
                                   
@@ -2759,13 +2768,16 @@ namespace ETWPM2Monitor2
                                 catch (Exception ee)
                                 {
                                     if (IsSystemDeveloperLogs_on) BeginInvoke(new __core2(AsyncRun__Add_SystemDeveloperLogs), (object)" ==> [_Additems_toListview2_timer] Method Call: error0 => " + ee.Message);
-
-
                                 }
 
                             }
                         }
                     }
+
+                    /// checking Windows Events Log ETWPM2Monitor2 and compare/find those records which has/had not Event Raised in (Windows Event Logs)
+                    /// bug was here....
+                    /// 
+                   // Detection_Info.Detection_Compare_to_WinEventLogSaved(_DetectedItemsByETWAlarms, _DetectedItemsByWindowEventLog);
 
                 }
                 catch (Exception)
@@ -2807,9 +2819,9 @@ namespace ETWPM2Monitor2
                                     IntPtr TintPtr = Process.GetProcessById(___item.PID).Handle;
                                     uint ExitCode = 0;
 
-                                    Memoryinfo.GetExitCodeProcess(TintPtr, out ExitCode);
+                                    Memory_info.GetExitCodeProcess(TintPtr, out ExitCode);
 
-                                    Memoryinfo.TerminateProcess(TintPtr, ExitCode);
+                                    Memory_info.TerminateProcess(TintPtr, ExitCode);
                                 }
                             }
                             catch (Exception)
@@ -4684,7 +4696,7 @@ namespace ETWPM2Monitor2
                                         iList2.ImageIndex = 2;
                                         Detection_Status_Action = "Suspended";
                                         int _tpid = PID;
-                                        Memoryinfo.NtSuspendProcess(Process.GetProcessById(_tpid).Handle);
+                                        Memory_info.NtSuspendProcess(Process.GetProcessById(_tpid).Handle);
                                     }
                                     catch (Exception)
                                     {
@@ -4736,9 +4748,9 @@ namespace ETWPM2Monitor2
                                                             IntPtr TintPtr = Process.GetProcessById(___item.PID).Handle;
                                                             uint ExitCode = 0;
 
-                                                            Memoryinfo.GetExitCodeProcess(TintPtr, out ExitCode);
+                                                            Memory_info.GetExitCodeProcess(TintPtr, out ExitCode);
 
-                                                            Memoryinfo.TerminateProcess(TintPtr, ExitCode);
+                                                            Memory_info.TerminateProcess(TintPtr, ExitCode);
                                                         }
                                                         catch (Exception j)
                                                         {
@@ -4778,9 +4790,9 @@ namespace ETWPM2Monitor2
                                                         IntPtr TintPtr = Process.GetProcessById(PID).Handle;
                                                         uint ExitCode = 0;
 
-                                                        Memoryinfo.GetExitCodeProcess(TintPtr, out ExitCode);
+                                                        Memory_info.GetExitCodeProcess(TintPtr, out ExitCode);
 
-                                                        Memoryinfo.TerminateProcess(TintPtr, ExitCode);
+                                                        Memory_info.TerminateProcess(TintPtr, ExitCode);
                                                     }
                                                     catch (Exception j)
                                                     {
@@ -5546,7 +5558,7 @@ namespace ETWPM2Monitor2
                     buf = new byte[90];
                     IntPtr prch = System.Diagnostics.Process.GetProcessById(prc).Handle;
                     string XStartAddress = EventMessage.Substring(EventMessage.IndexOf("::") + 2).Split(':')[0];
-                    bool MemoryBytes = Memoryinfo.ReadProcessMemory(prch, (UIntPtr)i32StartAddress, buf, buf.Length, IntPtr.Zero);
+                    bool MemoryBytes = Memory_info.ReadProcessMemory(prch, (UIntPtr)i32StartAddress, buf, buf.Length, IntPtr.Zero);
 
                     //Memoryinfo.NtReadVirtualMemory(prch, (IntPtr)i32StartAddress, buf,(uint) buf.Length, ref NTReadTmpRef);
 
@@ -5586,7 +5598,7 @@ namespace ETWPM2Monitor2
                     IntPtr prch = System.Diagnostics.Process.GetProcessById(prc).Handle;
                     string XStartAddress = EventMessage.Substring(EventMessage.IndexOf("::") + 2).Split(':')[0];
 
-                    bool MemoryBytes = Memoryinfo.ReadProcessMemory(prch, (UIntPtr)i32StartAddress, buf, buf.Length, IntPtr.Zero);
+                    bool MemoryBytes = Memory_info.ReadProcessMemory(prch, (UIntPtr)i32StartAddress, buf, buf.Length, IntPtr.Zero);
 
                     MessageBox.Show(EventMessage + "\n\n______________________________________________________________\n[Injected Thread Memory info]\nRemote-Thread-Injection Memory Information:\nTID: " + TID.ToString() + "\nTID StartAddress: " +
                     XStartAddress.ToString() + "\nTID Win32StartAddress: " + i32StartAddress.ToString() + "\nTarget_Process PID: " + prc.ToString() +
@@ -5778,7 +5790,7 @@ namespace ETWPM2Monitor2
 
         private void AboutToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(null, "ETWPM2Monitor2 v2.1 [test version 2.1.36.230]\nCode Published by Damon Mohammadbagher , Jul 2021", "About ETWPM2Monitor2 v2.1", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show(null, "ETWPM2Monitor2 v2.1 [test version 2.1.37.253]\nCode Published by Damon Mohammadbagher , Jul 2021", "About ETWPM2Monitor2 v2.1", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
         }
 
@@ -6266,9 +6278,9 @@ namespace ETWPM2Monitor2
                                 IntPtr TintPtr = Process.GetProcessById(item.PID).Handle;
                                 uint ExitCode = 0;
 
-                                Memoryinfo.GetExitCodeProcess(TintPtr, out ExitCode);
+                                Memory_info.GetExitCodeProcess(TintPtr, out ExitCode);
 
-                                Memoryinfo.TerminateProcess(TintPtr, ExitCode);
+                                Memory_info.TerminateProcess(TintPtr, ExitCode);
                             }
                             catch (Exception j)
                             {
@@ -6312,9 +6324,9 @@ namespace ETWPM2Monitor2
                             IntPtr TintPtr = Process.GetProcessById(Convert.ToInt32(__TargetProcess.Split(':')[1])).Handle;
                             uint ExitCode = 0;
 
-                            Memoryinfo.GetExitCodeProcess(TintPtr, out ExitCode);
+                            Memory_info.GetExitCodeProcess(TintPtr, out ExitCode);
 
-                            Memoryinfo.TerminateProcess(TintPtr, ExitCode);
+                            Memory_info.TerminateProcess(TintPtr, ExitCode);
                         }
                         catch (Exception j)
                         {
@@ -6586,7 +6598,7 @@ namespace ETWPM2Monitor2
                 {
                     try
                     {
-                        string result = Memoryinfo._CheckSizeChanges(Convert.ToInt32(listviewitems_wasselected_ihope.SubItems[2].Text.Split(':')[1]));
+                        string result = Memory_info._CheckSizeChanges(Convert.ToInt32(listviewitems_wasselected_ihope.SubItems[2].Text.Split(':')[1]));
 
                         MessageBox.Show(result , "Properties => " +
                                                listviewitems_wasselected_ihope.SubItems[2].Text + " [" + listviewitems_wasselected_ihope.SubItems[3].Text + "] " +
@@ -6696,10 +6708,8 @@ namespace ETWPM2Monitor2
                     string temp_get_InjectorPN_from_description = "";
 
                     bool _error = true;
-
-                    //TargetProcess [mspaint:9488] Injection History with Debug info:
-                    //mspaint:9488>
-                    //PID: 9488
+                    richTextBox4.Text = "";
+                    richTextBox5.Text = "";
                     try
                     {
                         string __PIDName = listView2.SelectedItems[0].Name.Split('>')[0].Split(':')[0];
@@ -6835,7 +6845,8 @@ namespace ETWPM2Monitor2
                     {
                         richTextBox2.Text = "";
                         richTextBox3.Text = "";
-                        
+                       
+
                     }
                 }));
 
@@ -6996,8 +7007,8 @@ namespace ETWPM2Monitor2
                     string pname = System.Diagnostics.Process.GetProcessById(prc).ProcessName;
                     string XStartAddress = EventMessage.Substring(EventMessage.IndexOf("::") + 2).Split(':')[0];
                     string _injector = EventMessage.Substring(EventMessage.IndexOf("::") + 2).Split(':')[2].Split('[')[0];
-                    bool MemoryBytes = Memoryinfo.ReadProcessMemory(prch, (UIntPtr)i32StartAddress, buf, buf.Length, IntPtr.Zero);
-                    string _buf = Memoryinfo.HexDump(buf);
+                    bool MemoryBytes = Memory_info.ReadProcessMemory(prch, (UIntPtr)i32StartAddress, buf, buf.Length, IntPtr.Zero);
+                    string _buf = Memory_info.HexDump(buf);
                     string _bytes = BitConverter.ToString(buf).ToString();
                     /// added
                     ThreadStart __T5_info_for_additems_to_Richtextbox1 = new ThreadStart(delegate
@@ -7143,10 +7154,10 @@ namespace ETWPM2Monitor2
             };
         }
 
-        public static class Memoryinfo
+        public static class Memory_info
         {
             [DllImport("kernel32.dll")]
-            public static extern bool TerminateProcess(IntPtr hprocess, in uint uExitCode);
+            public static extern bool TerminateProcess(IntPtr hprocess, uint uExitCode);
 
             [DllImport("kernel32.dll")]
             public static extern bool GetExitCodeProcess(IntPtr hprocess, out uint lpExitCode);
