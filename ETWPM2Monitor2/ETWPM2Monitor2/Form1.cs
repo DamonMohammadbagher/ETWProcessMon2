@@ -655,7 +655,6 @@ namespace ETWPM2Monitor2
         {
             await _SaveNewETW_Alarms_to_WinEventLog(obj);
         }
-
       
         /// <summary>
         ///  save all Alarms like "Terminated,Suspended,Scannedfound,Detected" by Memory scanners etc to windows eventlog "ETWPM2Monitor2". Event ID1 (Medium Level) , Event ID2 (High Level)
@@ -3031,41 +3030,51 @@ namespace ETWPM2Monitor2
                 {
                     listView4.BeginInvoke((MethodInvoker)delegate
                     {
-                        ActiveTCP.Clear();
-                        IPGlobalProperties _GetIPGlobalProperties = IPGlobalProperties.GetIPGlobalProperties();
-                        TcpConnectionInformation[] _TCPConnections = _GetIPGlobalProperties.GetActiveTcpConnections();
-
-                        foreach (TcpConnectionInformation t in _TCPConnections.ToList())
+                        try
                         {
 
-                            ActiveTCP.Add(t.LocalEndPoint.Address.ToString() + ":" + t.LocalEndPoint.Port.ToString() + ">" + t.RemoteEndPoint.Address.ToString()
-                                + ":" + t.RemoteEndPoint.Port.ToString() + "@" + t.State.ToString());
 
-                        }
+                            ActiveTCP.Clear();
+                            IPGlobalProperties _GetIPGlobalProperties = IPGlobalProperties.GetIPGlobalProperties();
+                            TcpConnectionInformation[] _TCPConnections = _GetIPGlobalProperties.GetActiveTcpConnections();
 
-                        for (int i = 0; i < listView4.Items.Count; i++)
-                        {
-                            string __find = ActiveTCP.Find(_tcp => _tcp.Split('>')[0] == listView4.Items[i].SubItems[4].Text && _tcp.Split('>')[1].Split('@')[0]
-                            == listView4.Items[i].SubItems[5].Text);
-                            if (__find != null)
+                            foreach (TcpConnectionInformation t in _TCPConnections.ToList())
                             {
-                                if (__find.Split('@')[1].ToLower().Contains("established"))
+
+                                ActiveTCP.Add(t.LocalEndPoint.Address.ToString() + ":" + t.LocalEndPoint.Port.ToString() + ">" + t.RemoteEndPoint.Address.ToString()
+                                    + ":" + t.RemoteEndPoint.Port.ToString() + "@" + t.State.ToString());
+
+                            }
+
+                            for (int i = 0; i < listView4.Items.Count; i++)
+                            {
+                                string __find = ActiveTCP.Find(_tcp => _tcp.Split('>')[0] == listView4.Items[i].SubItems[4].Text && _tcp.Split('>')[1].Split('@')[0]
+                                == listView4.Items[i].SubItems[5].Text);
+                                if (__find != null)
                                 {
-                                    listView4.Items[i].ImageIndex = 7;
+                                    if (__find.Split('@')[1].ToLower().Contains("established"))
+                                    {
+                                        listView4.Items[i].ImageIndex = 7;
+                                    }
+                                    else
+                                    {
+                                        listView4.Items[i].ImageIndex = 6;
+                                    }
+
                                 }
                                 else
                                 {
                                     listView4.Items[i].ImageIndex = 6;
+                                   
                                 }
-
                             }
-                            else
-                            {
-                                listView4.Items[i].ImageIndex = 6;
-                                //listView4.Refresh();
-                            }
+                            listView4.Refresh();
                         }
-                        listView4.Refresh();
+                        catch (Exception)
+                        {
+
+                            
+                        }
                     });
                 });
             }
@@ -5790,7 +5799,7 @@ namespace ETWPM2Monitor2
 
         private void AboutToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(null, "ETWPM2Monitor2 v2.1 [test version 2.1.37.253]\nCode Published by Damon Mohammadbagher , Jul 2021", "About ETWPM2Monitor2 v2.1", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show(null, "ETWPM2Monitor2 v2.1 [test version 2.1.37.260]\nCode Published by Damon Mohammadbagher , Jul 2021", "About ETWPM2Monitor2 v2.1", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
         }
 
@@ -5922,21 +5931,7 @@ namespace ETWPM2Monitor2
             isPEScanonoff = true;
             pe_sieve_DumpSwitches = 2;
         }
-
-        //private void ListView3_SelectedIndexChanged(object sender, EventArgs e)
-        //{
-        //    try
-        //    {
-        //        BeginInvoke(new __Obj_Updater_to_WinForm(Update_Richtexbox8_SystemDetection_ETW_AllDetails_info));
-
-        //    }
-        //    catch (Exception)
-        //    {
-
-
-        //    }
-        //}
-
+      
         private void ScanOnlyModeDefaultToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Pe_sieveLevel = 0;
@@ -6389,6 +6384,30 @@ namespace ETWPM2Monitor2
                     Invoke(new Action(() =>
                     {
                         richTextBox1.Text = listView5.SelectedItems[0].Name.ToString();
+                        try
+                        {
+                            if (!listView5.SelectedItems[0].Name.ToString().Contains("Read Target_Process Memory via API::ReadProcessMemory [ERROR] =>"))
+                            {
+                                string payload = listView5.SelectedItems[0].Name.ToString().Split('\n')[28].Split(':')[1].Substring(1).Split('\n')[0];
+                                
+                                ImageBitmap_Info.MakeImageBMP(payload);
+                                ImageBitmap_Info.Lines(payload);
+                                Task.Delay(10);
+
+                                pictureBox1.ImageLocation = "LastInjectedPayloadDetected.bmp";
+                                pictureBox2.ImageLocation = "LastInjectedPayloadDetected2.png";
+                            }
+                            else
+                            {
+                                pictureBox1.ImageLocation = "";
+                                pictureBox2.ImageLocation = "";
+                            }
+                        }
+                        catch (Exception)
+                        {
+
+                            
+                        }
                     }));
                 });
             }

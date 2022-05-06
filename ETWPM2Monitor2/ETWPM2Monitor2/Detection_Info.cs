@@ -77,7 +77,7 @@ namespace ETWPM2Monitor2
                     && !st.ToString().ToLower().Contains("[not scanned:0]"))
                     {
                         _ETW2MON.WriteEntry(simpledescription + st.ToString(), EventLogEntryType.Information, 1);
-                        //Form1._DetectedItemsByWindowEventLog.Add(__AlarmObject);
+                         
                     }
                     lastETW_Alarms_Detection = simpledescription + st.ToString();
                     Task.Delay(50);
@@ -95,6 +95,7 @@ namespace ETWPM2Monitor2
         {
             try
             {
+ 
                 ListViewItem xiList6 = new ListViewItem();
                
                 foreach (ListViewItem item_of_ETWDetectionRecords in ETWDetectionRecords)
@@ -123,10 +124,10 @@ namespace ETWPM2Monitor2
 
                 }
             }
-            catch (Exception)
+            catch (Exception ee)
             {
-                
-            }           
+ 
+            }
         }
     }
 }
