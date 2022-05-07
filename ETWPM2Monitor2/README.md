@@ -61,14 +61,14 @@ Usage Steps
     Step2 (Run as Admin) : ETWPM2Monitor2.exe
 
 ----------------------------------------------------------
+### ETWPM2Monitor2 v2.1 , update(38) v2.1.38.286 [May 07, 2022] (ETW Network Connection Events compare with Network Connection via Native APIs)
+   ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2/Pics/NetworkConnectionAPI.png)
+   
 ### ETWPM2Monitor2 v2.1 , update(35) v2.1.35.215 [Apr 30, 2022] , New Detection Event Logs Added to the source code.
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2/Pics/DetectionEventLogs.png)
 
 ### ETWPM2Monitor2 v2.1 , update(32) v2.1.32.187 [Apr 23, 2022] , Seconds + TotalSeconds and ... Added to the source code.
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2/Pics/BeaconTime_02.png)
-   
-### ETWPM2Monitor2 v2.1 , update(22) v2.1.22.100 [Mar 11, 2022] (Processes Info Tab Added)
-   ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2/Pics/ProcessInfo.png)
    
 ### ETWPM2Monitor2 v2.1 , update(21) v2.1.21.97 [Mar 08, 2022] (Processes Tab Added)
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2/Pics/Process.png)
