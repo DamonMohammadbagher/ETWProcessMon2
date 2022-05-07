@@ -26,7 +26,7 @@ namespace ETWPM2Monitor2
 
                 }
 
-                Bitmap _image = InjectecBytestoBitmap(10, _bytes.Length / 10, _bytes);
+                Bitmap _image = InjectBytestoBitmap(10, _bytes.Length / 10, _bytes);
                 _image.Save("LastInjectedPayloadDetected.bmp");
 
             }
@@ -38,8 +38,7 @@ namespace ETWPM2Monitor2
 
         }
 
-
-        public static Bitmap InjectecBytestoBitmap(int x, int y, byte[] data)
+        public static Bitmap InjectBytestoBitmap(int x, int y, byte[] data)
         {
             Bitmap Img = null;
             try
@@ -96,12 +95,9 @@ namespace ETWPM2Monitor2
             }
             catch (Exception e)
             {
-                //MessageBox.Show(e.Message);
+                
 
-            }
-
-           
+            }           
         }
-
     }
 }

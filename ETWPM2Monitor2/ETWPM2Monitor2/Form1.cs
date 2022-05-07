@@ -47,6 +47,9 @@ namespace ETWPM2Monitor2
         public static System.Timers.Timer t10 = new System.Timers.Timer(10000);
         public static System.Timers.Timer t11 = new System.Timers.Timer(5000);
         public static System.Timers.Timer t12 = new System.Timers.Timer(7000);
+        public static System.Timers.Timer t13 = new System.Timers.Timer(1000);
+        public static System.Timers.Timer t14 = new System.Timers.Timer(1000);
+
         public static TimeSpan tt = new TimeSpan();
         public static uint NTReadTmpRef = 0;
         public static EventLog ETW2MON;
@@ -2259,6 +2262,20 @@ namespace ETWPM2Monitor2
                 t12.Enabled = true;
                 t12.Start();
 
+                t13.Elapsed += T13_Elapsed1;
+                t13.Enabled = true;
+                t13.Start();
+
+
+                /// Network Monitor Timer : checking TCP Connections via C# Codes or Native APIs to compare to ETW TCP Events
+                /// this will help to detect those Connections which has/had not ETW Events but Connection was Established or Send ....
+                Network_Info._Run_Core_Method();
+
+                t14.Elapsed += T14_Elapsed;
+                t14.Enabled = true;
+                t14.Start();
+
+
                 listView1.Columns.Add(" ", 20, HorizontalAlignment.Left);
                 listView1.Columns.Add("Time", 130, HorizontalAlignment.Left);
                 listView1.Columns.Add("EventID", 55, HorizontalAlignment.Left);
@@ -2362,8 +2379,33 @@ namespace ETWPM2Monitor2
                 listView6.Columns.Add("ETWPM2Monitor2 EventID", 150, HorizontalAlignment.Left);
                 listView6.Columns.Add("Status", 100, HorizontalAlignment.Left);
                 listView6.Columns.Add("Process Information", 600, HorizontalAlignment.Left);
-                
-                 
+
+
+                listView3.View = View.Details;
+                // Allow the user to edit item text.
+                listView3.LabelEdit = false;
+                // Allow the user to rearrange columns.
+                listView3.AllowColumnReorder = true;
+                // Display check boxes.
+                listView3.CheckBoxes = false;
+                // Select the item and subitems when selection is made.
+                listView3.FullRowSelect = true;
+                // Display grid lines.
+                listView1.GridLines = false;
+                // Sort the items in the list in ascending order.
+                listView3.Sorting = SortOrder.Ascending;
+                listView3.Columns.Add(" ", 1, HorizontalAlignment.Left);
+                listView3.Columns.Add("Time", 120, HorizontalAlignment.Left);
+                listView3.Columns.Add("Process Name", 100, HorizontalAlignment.Left);
+                listView3.Columns.Add("PID", 50, HorizontalAlignment.Left);
+                listView3.Columns.Add("State", 100, HorizontalAlignment.Left);
+                listView3.Columns.Add("Local IP", 100, HorizontalAlignment.Left);
+                listView3.Columns.Add("Port", 45, HorizontalAlignment.Left);
+                listView3.Columns.Add("Remote IP", 100, HorizontalAlignment.Left);
+                listView3.Columns.Add("Port", 45, HorizontalAlignment.Left);
+                listView3.Columns.Add("Process Info (File Path)", 520, HorizontalAlignment.Left);
+
+
 
 
                 /// event for add Process to Alarm-Tab by ETW & Scanning Target Process by Memory Scanners
@@ -2391,7 +2433,7 @@ namespace ETWPM2Monitor2
                 /// event fo change colors for listview4
                 ChangeColorstoDefault += Form1_ChangeColorstoDefault;
 
-
+               
                 groupBox1.Text = "New Processes events: " + Chart_NewProcess;
                 groupBox2.Text = "Injection events: " + chart_Inj;
                 groupBox3.Text = "TCP Send events: " + Chart_Tcp;
@@ -2410,6 +2452,221 @@ namespace ETWPM2Monitor2
             }
         }
 
+        private async void T14_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            /// checking Network Connection records which made by ETW Events 
+            /// and compare with Network Connection records Which Made Native APIs
+            /// this will help you you to detect those Processes which has/had Network Connection Activity but Does Not Detected by ETW
+            /// That means ETW Bypassed by those Processes probably ;) or ETW has/had bug for detect this process etc.
+            await new TaskFactory().StartNew(() =>
+            {
+                try
+                {
+                    if (listView3.Items.Count > 0)
+                    {
+                        listView4.BeginInvoke((MethodInvoker)delegate
+                        {
+                            foreach (ListViewItem item3 in listView3.Items)
+                            {
+                                listView3.BeginInvoke((MethodInvoker)delegate
+                                {
+                                    bool found = false;
+                                    if (listView4.Items.Count > 0)
+                                    {
+
+                                        foreach (ListViewItem item4 in listView4.Items)
+                                        {
+                                            if (item3.SubItems[2].Text + ":" + item3.SubItems[3].Text == item4.SubItems[2].Text)
+                                            {
+                                                if (item3.SubItems[7].Text == item4.SubItems[5].Text) found = true;
+                                            }
+                                            Task.Delay(100);
+                                        }
+
+                                        if (found == false)
+                                        {
+                                            item3.BackColor = Color.Red;
+                                            item3.ForeColor = Color.White;
+                                            int indexx = Network_Info.Processes_FileSystemList2.FindIndex(x => x.PID == Convert.ToInt32(item3.SubItems[3].Text));
+
+                                            if (indexx != -1)
+                                            {
+                                                item3.SubItems[9].Text = "Network Connection Event for This Process Not Detected by ETW Events! => " + Network_Info.Processes_FileSystemList2[indexx].FileName_Path;
+                                            }
+                                            else
+                                            {
+
+
+                                                item3.SubItems[9].Text = "Network Connection Event for This Process Not Detected by ETW Events! => " + Process.GetProcessById(Convert.ToInt32(item3.SubItems[3].Text)).ProcessName;
+
+                                            }
+
+                                        }
+                                        else
+                                        {
+                                            item3.BackColor = Color.White;
+                                            item3.ForeColor = Color.Black;
+
+                                            if (item3.SubItems[9].Text.Contains("This Process Not Detected by ETW Events! =>"))
+                                            {
+                                                int indexx = Network_Info.Processes_FileSystemList2.FindIndex(x => x.PID == Convert.ToInt32(item3.SubItems[3].Text));
+
+                                                if (indexx != -1)
+                                                {
+                                                    item3.SubItems[9].Text = Network_Info.Processes_FileSystemList2[indexx].FileName_Path;
+                                                }
+                                                else
+                                                {
+                                                    item3.SubItems[9].Text = "";
+                                                }
+
+
+                                            }
+                                        }
+
+                                    }
+                                    else
+                                    {
+                                        item3.BackColor = Color.Red;
+                                        item3.ForeColor = Color.White;
+                                        int indexx = Network_Info.Processes_FileSystemList2.FindIndex(x => x.PID == Convert.ToInt32(item3.SubItems[3].Text));
+
+                                        if (indexx != -1)
+                                        {
+                                            item3.SubItems[9].Text = "Network Connection Event for This Process Not Detected by ETW Events! => " + Network_Info.Processes_FileSystemList2[indexx].FileName_Path;
+                                        }
+                                        else
+                                        {
+
+                                            item3.SubItems[9].Text = "Network Connection Event for This Process Not Detected by ETW Events! => " + Process.GetProcessById(Convert.ToInt32(item3.SubItems[3].Text)).ProcessName;
+
+                                        }
+                                    }
+
+                                });
+                            }
+                        });
+                    }
+                }
+                catch (Exception)
+                {
+
+
+                }
+            });
+        }
+
+        private void T13_Elapsed1(object sender, System.Timers.ElapsedEventArgs e)
+        {
+ 
+            foreach (Network_Info._Table item in Network_Info.Table1_x64.ToList<Network_Info._Table>())
+            {
+                if (item.states_String.ToString() == "ESTABLISHED" || (item.states_String.ToString() == "CLOSEWAIT"))
+                {
+                    if (listView3.Items.Count <= 0)
+                    {
+                        Thread.Sleep(10);
+                        ListViewItem iList3x = new ListViewItem();
+
+                        iList3x.SubItems.Add(DateTime.Now.ToString());
+                        iList3x.SubItems.Add(item.ProcessName.ToString());
+                        iList3x.SubItems.Add(item.PID.ToString());
+                        iList3x.SubItems.Add(item.states_String.ToString());
+                        iList3x.SubItems.Add(item.LocalIP.ToString());
+                        iList3x.SubItems.Add(item.LPORT.ToString());
+                        iList3x.SubItems.Add(item.RemoteIP.ToString());
+                        iList3x.SubItems.Add(item.RPORT.ToString());
+
+                        int indexx = Network_Info.Processes_FileSystemList2.FindIndex(x => x.PID == item.PID);
+
+                        if (indexx != -1)
+                        {
+                            iList3x.SubItems.Add(Network_Info.Processes_FileSystemList2[indexx].FileName_Path);
+                        }
+                        else
+                        {
+                            iList3x.SubItems.Add(" ");
+                        }
+
+                        iList3x.Name = item.FullSTR;
+                        
+
+                        if (item.states_String.ToString() == "ESTABLISHED" || (item.states_String.ToString() == "CLOSEWAIT"))
+                            listView3.Items.Add(iList3x);
+                    }
+
+                    if (listView3.Items.Count > 0)
+                    {
+                        bool found = false;
+                        foreach (ListViewItem _item in listView3.Items)
+                        {
+                            if (_item.Name == item.FullSTR)
+                            {
+                                found = true;
+                                break;
+                            }
+                        }
+                        if (!found)
+                        {
+                            ListViewItem iList3x = new ListViewItem();
+                            iList3x.SubItems.Add(DateTime.Now.ToString());
+                            iList3x.SubItems.Add(item.ProcessName.ToString());
+                            iList3x.SubItems.Add(item.PID.ToString());
+                            iList3x.SubItems.Add(item.states_String.ToString());
+                            iList3x.SubItems.Add(item.LocalIP.ToString());
+                            iList3x.SubItems.Add(item.LPORT.ToString());
+                            iList3x.SubItems.Add(item.RemoteIP.ToString());
+                            iList3x.SubItems.Add(item.RPORT.ToString());
+
+                            int indexx = Network_Info.Processes_FileSystemList2.FindIndex(x => x.PID == item.PID);
+
+                            if (indexx != -1)
+                            {
+                                iList3x.SubItems.Add(Network_Info.Processes_FileSystemList2[indexx].FileName_Path);
+                            }
+                            else
+                            {
+                                iList3x.SubItems.Add(" ");
+                            }
+
+                            iList3x.Name = item.FullSTR;
+                           
+
+                            if (item.states_String.ToString() == "ESTABLISHED" || (item.states_String.ToString() == "CLOSEWAIT"))
+                                listView3.Items.Add(iList3x);
+                        }
+
+                    }
+                }
+            }
+
+
+            /// remove those Process items which Closed or TCP Connection was closed .... (real-time)
+            List<Network_Info._Table> tmptable = Network_Info.Table1_x64.ToList<Network_Info._Table>()
+                   .FindAll(x => x.states_String == "ESTABLISHED" || x.states_String == "CLOSEWAIT");
+
+            for (int w = 0; w < listView3.Items.Count; w++)
+            {                                  
+                    int found = 0;
+                    for (int x = 0; x < tmptable.Count; x++)
+                    {
+
+                        if (listView3.Items[w].Name == tmptable[x].FullSTR)
+                        {
+                            found = 1;
+                        }
+                    }
+                    if (found == 0)
+                    {
+
+                        listView3.Items[w].Remove();
+                    }               
+            }
+
+           
+
+        }
+
         private void T12_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
             try
@@ -2422,6 +2679,8 @@ namespace ETWPM2Monitor2
 
                
             }
+
+           
            
         }
 
@@ -3032,8 +3291,7 @@ namespace ETWPM2Monitor2
                     {
                         try
                         {
-
-
+                            
                             ActiveTCP.Clear();
                             IPGlobalProperties _GetIPGlobalProperties = IPGlobalProperties.GetIPGlobalProperties();
                             TcpConnectionInformation[] _TCPConnections = _GetIPGlobalProperties.GetActiveTcpConnections();
@@ -3050,6 +3308,7 @@ namespace ETWPM2Monitor2
                             {
                                 string __find = ActiveTCP.Find(_tcp => _tcp.Split('>')[0] == listView4.Items[i].SubItems[4].Text && _tcp.Split('>')[1].Split('@')[0]
                                 == listView4.Items[i].SubItems[5].Text);
+
                                 if (__find != null)
                                 {
                                     if (__find.Split('@')[1].ToLower().Contains("established"))
@@ -3068,6 +3327,7 @@ namespace ETWPM2Monitor2
                                    
                                 }
                             }
+
                             listView4.Refresh();
                         }
                         catch (Exception)
@@ -4831,12 +5091,25 @@ namespace ETWPM2Monitor2
                                                 TempStruc.MemoryScanner01_Result = result2;
                                                 TempStruc.MemoryScanner02_Result = "Disabled";
 
-                                                _TableofProcess_NewProcess_evt xFindingInjectorInfo = NewProcess_Table.Find(x => x.PID == item.Injector || x.ProcessName_Path == item.Injector_Path);
- 
-                                                TempStruc.Descripton_Details = item.ProcessName_Path + " Injected by => " + item.Injector_Path + " (PID:" + item.Injector.ToString() 
-                                                + ") \nInjector Details:\nInjector-ProcessName: "
-                                                + xFindingInjectorInfo.ProcessName + "\nInjector-Path: " + xFindingInjectorInfo.ProcessName_Path
-                                                + "\nInjector-CommandLine: " + xFindingInjectorInfo.CommandLine;
+                                                int _indexNewProcess = NewProcess_Table.FindIndex(x => x.PID == item.Injector || x.ProcessName_Path == item.Injector_Path);
+
+                                                if (_indexNewProcess != -1)
+                                                {
+                                                    _TableofProcess_NewProcess_evt xFindingInjectorInfo = NewProcess_Table.Find(x => x.PID == item.Injector || x.ProcessName_Path == item.Injector_Path);
+
+                                                    TempStruc.Descripton_Details = item.ProcessName_Path + " Injected by => " + item.Injector_Path + " (PID:" + item.Injector.ToString()
+                                                    + ") \nInjector Details:\nInjector-ProcessName: "
+                                                    + xFindingInjectorInfo.ProcessName + "\nInjector-Path: " + xFindingInjectorInfo.ProcessName_Path
+                                                    + "\nInjector-CommandLine: " + xFindingInjectorInfo.CommandLine;
+                                                }
+                                                else
+                                                {
+
+                                                   TempStruc.Descripton_Details = item.ProcessName_Path + " Injected by => " + item.Injector_Path + " (PID:" + item.Injector.ToString()
+                                                   + ") \nInjector Details:\nInjector-ProcessName: "
+                                                   + "\nInjector-Path: " 
+                                                   +"\nInjector-CommandLine: ";
+                                                }
 
                                                 TempStruc.SubItems_Name_Property = item.ProcessName + ":" + item.PID + ">\n" + _finalresult_Scanned_01[1];
                                                 TempStruc.SubItems_ImageIndex = 2;
@@ -5280,6 +5553,9 @@ namespace ETWPM2Monitor2
             {
                 EvtWatcher.Enabled = false;
                 EvtWatcher.Dispose();
+
+                /// exit Core Thread for Monitoring TCP/UDP Connections
+                Network_Info.Core.Abort();
             }
 
 
@@ -5799,7 +6075,7 @@ namespace ETWPM2Monitor2
 
         private void AboutToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(null, "ETWPM2Monitor2 v2.1 [test version 2.1.37.260]\nCode Published by Damon Mohammadbagher , Jul 2021", "About ETWPM2Monitor2 v2.1", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show(null, "ETWPM2Monitor2 v2.1 [test version 2.1.38.286]\nCode Published by Damon Mohammadbagher , Jul 2021", "About ETWPM2Monitor2 v2.1", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
         }
 
@@ -6508,6 +6784,11 @@ namespace ETWPM2Monitor2
             
         }
 
+        private void RefreshNetworkConnectionsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            listView3.Items.Clear();
+        }
+
         private void ToolStripStatusLabel9_Click(object sender, EventArgs e)
         {
             tabControl1.SelectedIndex = 4;
@@ -6729,6 +7010,7 @@ namespace ETWPM2Monitor2
                     bool _error = true;
                     richTextBox4.Text = "";
                     richTextBox5.Text = "";
+                    richTextBox7.Text = "";
                     try
                     {
                         string __PIDName = listView2.SelectedItems[0].Name.Split('>')[0].Split(':')[0];
