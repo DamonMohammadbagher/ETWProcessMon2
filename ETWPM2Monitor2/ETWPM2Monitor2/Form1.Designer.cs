@@ -123,11 +123,15 @@
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.tabPage9 = new System.Windows.Forms.TabPage();
             this.splitContainer4 = new System.Windows.Forms.SplitContainer();
+            this.groupBox18 = new System.Windows.Forms.GroupBox();
             this.listView4 = new System.Windows.Forms.ListView();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.killProcessToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.groupBox17 = new System.Windows.Forms.GroupBox();
             this.listView3 = new System.Windows.Forms.ListView();
+            this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.refreshNetworkConnectionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.tabControl4 = new System.Windows.Forms.TabControl();
             this.tabPage15 = new System.Windows.Forms.TabPage();
@@ -229,10 +233,10 @@
             this.toolStripStatusLabel6 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel7 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel9 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.groupBox17 = new System.Windows.Forms.GroupBox();
-            this.groupBox18 = new System.Windows.Forms.GroupBox();
-            this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.refreshNetworkConnectionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tabControl5 = new System.Windows.Forms.TabControl();
+            this.tabPage13 = new System.Windows.Forms.TabPage();
+            this.tabPage16 = new System.Windows.Forms.TabPage();
+            this.listView7 = new System.Windows.Forms.ListView();
             this.contextMenuStrip5.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -307,7 +311,10 @@
             this.splitContainer4.Panel1.SuspendLayout();
             this.splitContainer4.Panel2.SuspendLayout();
             this.splitContainer4.SuspendLayout();
+            this.groupBox18.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
+            this.groupBox17.SuspendLayout();
+            this.contextMenuStrip2.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.tabControl4.SuspendLayout();
             this.tabPage15.SuspendLayout();
@@ -319,9 +326,9 @@
             this.menuStrip3.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.statusStrip2.SuspendLayout();
-            this.groupBox17.SuspendLayout();
-            this.groupBox18.SuspendLayout();
-            this.contextMenuStrip2.SuspendLayout();
+            this.tabControl5.SuspendLayout();
+            this.tabPage13.SuspendLayout();
+            this.tabPage16.SuspendLayout();
             this.SuspendLayout();
             // 
             // richTextBox1
@@ -1272,6 +1279,17 @@
             this.splitContainer4.SplitterDistance = 93;
             this.splitContainer4.TabIndex = 1;
             // 
+            // groupBox18
+            // 
+            this.groupBox18.Controls.Add(this.listView4);
+            this.groupBox18.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox18.Location = new System.Drawing.Point(0, 0);
+            this.groupBox18.Name = "groupBox18";
+            this.groupBox18.Size = new System.Drawing.Size(1077, 93);
+            this.groupBox18.TabIndex = 1;
+            this.groupBox18.TabStop = false;
+            this.groupBox18.Text = "Network Connections via ETW Events";
+            // 
             // listView4
             // 
             this.listView4.AllowColumnReorder = true;
@@ -1309,16 +1327,41 @@
             this.killProcessToolStripMenuItem.Text = "Kill Process";
             this.killProcessToolStripMenuItem.Click += new System.EventHandler(this.KillProcessToolStripMenuItem_Click);
             // 
+            // groupBox17
+            // 
+            this.groupBox17.Controls.Add(this.tabControl5);
+            this.groupBox17.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox17.Location = new System.Drawing.Point(0, 0);
+            this.groupBox17.Name = "groupBox17";
+            this.groupBox17.Size = new System.Drawing.Size(1077, 89);
+            this.groupBox17.TabIndex = 1;
+            this.groupBox17.TabStop = false;
+            this.groupBox17.Text = "Network Connections via Native APIs";
+            // 
             // listView3
             // 
             this.listView3.ContextMenuStrip = this.contextMenuStrip2;
             this.listView3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listView3.HideSelection = false;
-            this.listView3.Location = new System.Drawing.Point(3, 16);
+            this.listView3.Location = new System.Drawing.Point(3, 3);
             this.listView3.Name = "listView3";
-            this.listView3.Size = new System.Drawing.Size(1071, 70);
+            this.listView3.Size = new System.Drawing.Size(1057, 38);
             this.listView3.TabIndex = 0;
             this.listView3.UseCompatibleStateImageBehavior = false;
+            // 
+            // contextMenuStrip2
+            // 
+            this.contextMenuStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.refreshNetworkConnectionsToolStripMenuItem});
+            this.contextMenuStrip2.Name = "contextMenuStrip2";
+            this.contextMenuStrip2.Size = new System.Drawing.Size(264, 26);
+            // 
+            // refreshNetworkConnectionsToolStripMenuItem
+            // 
+            this.refreshNetworkConnectionsToolStripMenuItem.Name = "refreshNetworkConnectionsToolStripMenuItem";
+            this.refreshNetworkConnectionsToolStripMenuItem.Size = new System.Drawing.Size(263, 22);
+            this.refreshNetworkConnectionsToolStripMenuItem.Text = "Clear/Refresh Network Connections";
+            this.refreshNetworkConnectionsToolStripMenuItem.Click += new System.EventHandler(this.RefreshNetworkConnectionsToolStripMenuItem_Click);
             // 
             // tabPage3
             // 
@@ -2204,41 +2247,48 @@
             this.toolStripStatusLabel9.Text = "| ETWPM2Monitor2 Detection Event Logs (0)";
             this.toolStripStatusLabel9.Click += new System.EventHandler(this.ToolStripStatusLabel9_Click);
             // 
-            // groupBox17
+            // tabControl5
             // 
-            this.groupBox17.Controls.Add(this.listView3);
-            this.groupBox17.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox17.Location = new System.Drawing.Point(0, 0);
-            this.groupBox17.Name = "groupBox17";
-            this.groupBox17.Size = new System.Drawing.Size(1077, 89);
-            this.groupBox17.TabIndex = 1;
-            this.groupBox17.TabStop = false;
-            this.groupBox17.Text = "Network Connections via Native APIs";
+            this.tabControl5.Controls.Add(this.tabPage13);
+            this.tabControl5.Controls.Add(this.tabPage16);
+            this.tabControl5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl5.Location = new System.Drawing.Point(3, 16);
+            this.tabControl5.Name = "tabControl5";
+            this.tabControl5.SelectedIndex = 0;
+            this.tabControl5.Size = new System.Drawing.Size(1071, 70);
+            this.tabControl5.TabIndex = 1;
             // 
-            // groupBox18
+            // tabPage13
             // 
-            this.groupBox18.Controls.Add(this.listView4);
-            this.groupBox18.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox18.Location = new System.Drawing.Point(0, 0);
-            this.groupBox18.Name = "groupBox18";
-            this.groupBox18.Size = new System.Drawing.Size(1077, 93);
-            this.groupBox18.TabIndex = 1;
-            this.groupBox18.TabStop = false;
-            this.groupBox18.Text = "Network Connections via ETW Events";
+            this.tabPage13.Controls.Add(this.listView3);
+            this.tabPage13.Location = new System.Drawing.Point(4, 22);
+            this.tabPage13.Name = "tabPage13";
+            this.tabPage13.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage13.Size = new System.Drawing.Size(1063, 44);
+            this.tabPage13.TabIndex = 0;
+            this.tabPage13.Text = "Network Connections";
+            this.tabPage13.UseVisualStyleBackColor = true;
             // 
-            // contextMenuStrip2
+            // tabPage16
             // 
-            this.contextMenuStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.refreshNetworkConnectionsToolStripMenuItem});
-            this.contextMenuStrip2.Name = "contextMenuStrip2";
-            this.contextMenuStrip2.Size = new System.Drawing.Size(264, 48);
+            this.tabPage16.Controls.Add(this.listView7);
+            this.tabPage16.Location = new System.Drawing.Point(4, 22);
+            this.tabPage16.Name = "tabPage16";
+            this.tabPage16.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage16.Size = new System.Drawing.Size(1063, 44);
+            this.tabPage16.TabIndex = 1;
+            this.tabPage16.Text = "Network Connections History";
+            this.tabPage16.UseVisualStyleBackColor = true;
             // 
-            // refreshNetworkConnectionsToolStripMenuItem
+            // listView7
             // 
-            this.refreshNetworkConnectionsToolStripMenuItem.Name = "refreshNetworkConnectionsToolStripMenuItem";
-            this.refreshNetworkConnectionsToolStripMenuItem.Size = new System.Drawing.Size(263, 22);
-            this.refreshNetworkConnectionsToolStripMenuItem.Text = "Clear/Refresh Network Connections";
-            this.refreshNetworkConnectionsToolStripMenuItem.Click += new System.EventHandler(this.RefreshNetworkConnectionsToolStripMenuItem_Click);
+            this.listView7.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listView7.HideSelection = false;
+            this.listView7.Location = new System.Drawing.Point(3, 3);
+            this.listView7.Name = "listView7";
+            this.listView7.Size = new System.Drawing.Size(1057, 38);
+            this.listView7.TabIndex = 0;
+            this.listView7.UseCompatibleStateImageBehavior = false;
             // 
             // Form1
             // 
@@ -2332,7 +2382,10 @@
             this.splitContainer4.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).EndInit();
             this.splitContainer4.ResumeLayout(false);
+            this.groupBox18.ResumeLayout(false);
             this.contextMenuStrip1.ResumeLayout(false);
+            this.groupBox17.ResumeLayout(false);
+            this.contextMenuStrip2.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
             this.tabControl4.ResumeLayout(false);
             this.tabPage15.ResumeLayout(false);
@@ -2347,9 +2400,9 @@
             this.statusStrip1.PerformLayout();
             this.statusStrip2.ResumeLayout(false);
             this.statusStrip2.PerformLayout();
-            this.groupBox17.ResumeLayout(false);
-            this.groupBox18.ResumeLayout(false);
-            this.contextMenuStrip2.ResumeLayout(false);
+            this.tabControl5.ResumeLayout(false);
+            this.tabPage13.ResumeLayout(false);
+            this.tabPage16.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -2550,6 +2603,10 @@
         private System.Windows.Forms.GroupBox groupBox17;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip2;
         private System.Windows.Forms.ToolStripMenuItem refreshNetworkConnectionsToolStripMenuItem;
+        private System.Windows.Forms.TabControl tabControl5;
+        private System.Windows.Forms.TabPage tabPage13;
+        private System.Windows.Forms.TabPage tabPage16;
+        private System.Windows.Forms.ListView listView7;
     }
 }
 
