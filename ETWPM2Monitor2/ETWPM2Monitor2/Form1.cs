@@ -49,6 +49,7 @@ namespace ETWPM2Monitor2
         public static System.Timers.Timer t12 = new System.Timers.Timer(7000);
         public static System.Timers.Timer t13 = new System.Timers.Timer(1000);
         public static System.Timers.Timer t14 = new System.Timers.Timer(1000);
+        public static System.Timers.Timer t15 = new System.Timers.Timer(2000);
 
         public static TimeSpan tt = new TimeSpan();
         public static uint NTReadTmpRef = 0;
@@ -352,7 +353,7 @@ namespace ETWPM2Monitor2
         public struct _ListProcessObjects
         {
             private bool _flag;
-            public DateTime Eventtime { set; get; }             
+            public DateTime Eventtime { set; get; }
             public bool flag { get { return _flag; } set { _flag = value; } }
             public object obj { set; get; }
             public ulong counter { set; get; }
@@ -385,7 +386,7 @@ namespace ETWPM2Monitor2
         public static string _PPIDPath_For_TimerScanner01 = "";
         public static int _Imgindex, _Imgindex2 = 0;
         public ListViewItem xiList2 = new ListViewItem();
-        public static List<string> _ExcludeProcessList = new List<string>();        
+        public static List<string> _ExcludeProcessList = new List<string>();
         public static bool IsDontShow_ETWPM2_Realt_time_Enabled = false;
         public static bool IsDontShow_NetworkConnection_Enabled = false;
         public static List<string> System_DeveloperLogsList = new List<string>();
@@ -402,6 +403,7 @@ namespace ETWPM2Monitor2
         public bool IsFilterSystem4Enabled_ETWPM2_Realtime = true;
         public static List<ListViewItem> _DetectedItemsByETWAlarms = new List<ListViewItem>();
         public static List<ListViewItem> _DetectedItemsByWindowEventLogSaved = new List<ListViewItem>();
+        public static int TCPConnectionDelay_for_RefreshList = 100;
 
         public async Task _Add_SystemDeveloperLogs(string logmessage)
         {
@@ -423,12 +425,10 @@ namespace ETWPM2Monitor2
 
             }
         }
-
         public async void AsyncRun__Add_SystemDeveloperLogs(object obj)
         {
             await _Add_SystemDeveloperLogs(obj.ToString());
         }
-
         public static string _Get_MD5(string filenamePath)
         {
             string result = "";
@@ -458,12 +458,11 @@ namespace ETWPM2Monitor2
 
             return result;
         }
-
         public async void _Show_Notify_Ico_Popup(object obj)
         {
             try
             {
-                if(IsSystemDeveloperLogs_on) BeginInvoke(new __core2(AsyncRun__Add_SystemDeveloperLogs), (object)" ==> [_Show_Notify_Ico_Popup] Method Call: Started");
+                if (IsSystemDeveloperLogs_on) BeginInvoke(new __core2(AsyncRun__Add_SystemDeveloperLogs), (object)" ==> [_Show_Notify_Ico_Popup] Method Call: Started");
                 //if(IsSystemDeveloperLogIson) BeginInvoke(new __core2(AsyncRun__Add_SystemDeveloperLogs), (object)" ==> [_Show_Notify_Ico_Popup] Method Call: error1 => " + ee.Message);
 
                 await Task.Run(() =>
@@ -484,13 +483,12 @@ namespace ETWPM2Monitor2
                          + "\n" + _value4 + "\n" + _value5 + "\n" + _value6, _value2 + "\n" + _value5, ToolTipIcon.Error);
                 });
             }
-            catch (Exception ee )
+            catch (Exception ee)
             {
-                if(IsSystemDeveloperLogs_on) BeginInvoke(new __core2(AsyncRun__Add_SystemDeveloperLogs), (object)" ==> [_Show_Notify_Ico_Popup] Method Call: error1 => " + ee.Message);
+                if (IsSystemDeveloperLogs_on) BeginInvoke(new __core2(AsyncRun__Add_SystemDeveloperLogs), (object)" ==> [_Show_Notify_Ico_Popup] Method Call: error1 => " + ee.Message);
 
             }
         }
-
         public static int _percent(int count, int total)
         {
             if (total != 0)
@@ -511,12 +509,11 @@ namespace ETWPM2Monitor2
             }
 
         }
-
         public IEnumerable<TreeNode> _FindSubsNode(TreeNodeCollection nodes, string Search)
         {
             foreach (TreeNode node in nodes)
             {
-               
+
                 if (node.Text.IndexOf(Search, StringComparison.CurrentCultureIgnoreCase) >= 0)
                 {
                     yield return node;
@@ -527,7 +524,6 @@ namespace ETWPM2Monitor2
                 }
             }
         }
-
         public async void __SearchStrings_in_ProcessesTab(string search, TreeView targetProcesses)
         {
 
@@ -572,12 +568,10 @@ namespace ETWPM2Monitor2
 
 
         }
-
         public async void AsyncRun___Save_New_DetectionLogs_TCP_Shell_Events_to_WinEventLog(object obj)
         {
             await _Save_New_DetectionLogs_TCP_Shell_Events_to_WinEventLog(obj);
         }
-
         /// <summary>
         /// save this obj as event which was detected as Shell or TCP Meterpreter session to Windows EventLog "ETWPM2Monitor2"
         /// </summary>
@@ -592,8 +586,8 @@ namespace ETWPM2Monitor2
                     //if(IsSystemDeveloperLogIson) BeginInvoke(new __core2(AsyncRun__Add_SystemDeveloperLogs), (object)" ==> [_Save_New_DetectionLogs_TCP_Shell_Events_to_WinEventLog] Method Call: error1 => " + ee.Message);
 
                     ListViewItem _items_Objects = (ListViewItem)Obj;
-                     
-                    
+
+
                     ETW2MON = new EventLog("ETWPM2Monitor2", ".", "ETWPM2Monitor2.1");
 
                     StringBuilder st = new StringBuilder();
@@ -616,7 +610,7 @@ namespace ETWPM2Monitor2
                         }
 
                         lastETW_Alarms_Detection2 = simpledescription + st.ToString();
-                       
+
 
                         Task.Delay(50);
 
@@ -653,12 +647,11 @@ namespace ETWPM2Monitor2
                 }
             });
         }
-
         public async void AsyncRun__SaveNewETW_Alarms_to_WinEventLog(object obj)
         {
             await _SaveNewETW_Alarms_to_WinEventLog(obj);
         }
-      
+
         /// <summary>
         ///  save all Alarms like "Terminated,Suspended,Scannedfound,Detected" by Memory scanners etc to windows eventlog "ETWPM2Monitor2". Event ID1 (Medium Level) , Event ID2 (High Level)
         /// </summary>
@@ -700,7 +693,7 @@ namespace ETWPM2Monitor2
                         Task.Delay(10);
                         int __TargetPID = Convert.ToInt32(xitem.SubItems[2].Text.Split(':')[1]);
                         int __TargetMemoryScannerPIdChecking = Convert.ToInt32(xitem.Name.Split('\n')[1].Split(':')[1]);
-                      
+
                         if (__TargetPID == __TargetMemoryScannerPIdChecking) IsValidMemoryScannerString = true;
                         Task.Delay(10);
                     }
@@ -765,7 +758,6 @@ namespace ETWPM2Monitor2
                 }
             });
         }
-
         public void __Additems_toListview1__2_Method(object _obj)
         {
             ListViewItem _obj_ = (ListViewItem)_obj;
@@ -856,12 +848,11 @@ namespace ETWPM2Monitor2
                 }
             });
         }
-
         public void _Additems_toListview1__2(object obj)
         {
             try
             {
-               
+
                 ListViewItem MyLviewItemsX1 = (ListViewItem)obj;
                 Thread.Sleep(5);
 
@@ -873,7 +864,7 @@ namespace ETWPM2Monitor2
                         // BeginInvoke(new __Additem(_Additems_toTreeview1), MyLviewItemsX1);
 
                         /// filter: show all injection (exclude injection by system PID 4)
-                        if (!MyLviewItemsX1.SubItems[5].Text.Contains("Injected by Process Exited (PID:4)") 
+                        if (!MyLviewItemsX1.SubItems[5].Text.Contains("Injected by Process Exited (PID:4)")
                             && !MyLviewItemsX1.SubItems[5].Text.Contains("4[Injected by System]"))
                         {
                             ProcessListTabObject_itemscounter01 = ProcessListTabObject_itemscounter01 + 1;
@@ -996,9 +987,9 @@ namespace ETWPM2Monitor2
 
                     if (_IsProcessTab_Enabled)
                     {
-                       
+
                         /// filter: show all injection (exclude injection by system PID 4)
-                        if (!MyLviewItemsX1.SubItems[5].Text.Contains("Injected by Process Exited (PID:4)") 
+                        if (!MyLviewItemsX1.SubItems[5].Text.Contains("Injected by Process Exited (PID:4)")
                             && !MyLviewItemsX1.SubItems[5].Text.Contains("4[Injected by System]"))
                         {
                             ProcessListTabObject_itemscounter01 = ProcessListTabObject_itemscounter01 + 1;
@@ -1124,7 +1115,7 @@ namespace ETWPM2Monitor2
         {
             ListViewItem MyLviewItemsX2 = (ListViewItem)obj;
 
-            if(IsSystemDeveloperLogs_on) BeginInvoke(new __core2(AsyncRun__Add_SystemDeveloperLogs), (object)" ==> [_Additems_toListview2] Method Call: Started");
+            if (IsSystemDeveloperLogs_on) BeginInvoke(new __core2(AsyncRun__Add_SystemDeveloperLogs), (object)" ==> [_Additems_toListview2] Method Call: Started");
             //if(IsSystemDeveloperLogIson) BeginInvoke(new __core2(AsyncRun__Add_SystemDeveloperLogs), (object)" ==> [_Additems_toListview2] Method Call: error1 => " + ee.Message);
 
 
@@ -1236,7 +1227,7 @@ namespace ETWPM2Monitor2
             }
             catch (Exception ee)
             {
-                if(IsSystemDeveloperLogs_on) BeginInvoke(new __core2(AsyncRun__Add_SystemDeveloperLogs), (object)" ==> [_Additems_toListview2] Method Call: error1 => " + ee.Message);
+                if (IsSystemDeveloperLogs_on) BeginInvoke(new __core2(AsyncRun__Add_SystemDeveloperLogs), (object)" ==> [_Additems_toListview2] Method Call: error1 => " + ee.Message);
 
 
             }
@@ -1339,123 +1330,122 @@ namespace ETWPM2Monitor2
         public async void _Additems_toTreeview1(object obj)
         {
             await Task.Run(() =>
-             {
-                 try
-                 {
+            {
+                try
+                {
 
-                     if (obj != null)
-                     {
-                         treeView1.BeginInvoke((MethodInvoker)delegate
-                         {
-                             if (obj != null)
-                             {
-                                 ListViewItem MyLviewItemsX5 = (ListViewItem)obj;
+                    if (obj != null)
+                    {
+                        treeView1.BeginInvoke((MethodInvoker)delegate
+                        {
+                            if (obj != null)
+                            {
+                                ListViewItem MyLviewItemsX5 = (ListViewItem)obj;
 
-                                 bool xfound = false;
-                                 foreach (TreeNode item in treeView1.Nodes)
-                                 {
-                                     Task.Delay(10);
+                                bool xfound = false;
+                                foreach (TreeNode item in treeView1.Nodes)
+                                {
+                                    Task.Delay(10);
 
-                                     if (item.Text.ToLower() == MyLviewItemsX5.SubItems[3].Text.ToLower())
-                                     {
-                                         _Imgindex2 = 0;
-                                         if (MyLviewItemsX5.SubItems[2].Text == "1") { _Imgindex2 = 0; }
-                                         if (MyLviewItemsX5.SubItems[2].Text == "2") { _Imgindex2 = 1; }
-                                         if (MyLviewItemsX5.SubItems[2].Text == "3") { _Imgindex2 = 3; }
+                                    if (item.Text.ToLower() == MyLviewItemsX5.SubItems[3].Text.ToLower())
+                                    {
+                                        _Imgindex2 = 0;
+                                        if (MyLviewItemsX5.SubItems[2].Text == "1") { _Imgindex2 = 0; }
+                                        if (MyLviewItemsX5.SubItems[2].Text == "2") { _Imgindex2 = 1; }
+                                        if (MyLviewItemsX5.SubItems[2].Text == "3") { _Imgindex2 = 3; }
 
-                                         item.Nodes.Add("", "[EventID:" + MyLviewItemsX5.SubItems[2].Text + "]" +
-                                         "[" + MyLviewItemsX5.SubItems[4].Text + "] { " + MyLviewItemsX5.SubItems[5].Text + " }", _Imgindex2);
-
-
-                                         if (MyLviewItemsX5.SubItems[2].Text == "3")
-                                         {
-                                             try
-                                             {
-
-                                                 int last = item.Nodes.Count;
-                                                 if (item.LastNode.PrevNode.Text.Contains("[EventID:3]"))
-                                                 {
-                                                     DateTime xdt_prev = Convert.ToDateTime(item.LastNode.PrevNode.Text.Split('\n')[4].Substring(12));
-                                                     DateTime xdt_current = Convert.ToDateTime(item.LastNode.Text.Split('\n')[4].Substring(12));
-
-                                                     item.Nodes.Add("", ">> Delta time (Total-Seconds) between last two Network Events is >> " + Delta_Time(xdt_current, xdt_prev), 3).ForeColor = Color.MediumBlue;
-
-                                                 }
-                                             }
-                                             catch (Exception)
-                                             {
+                                        item.Nodes.Add("", "[EventID:" + MyLviewItemsX5.SubItems[2].Text + "]" +
+                                        "[" + MyLviewItemsX5.SubItems[4].Text + "] { " + MyLviewItemsX5.SubItems[5].Text + " }", _Imgindex2);
 
 
-                                             }
-                                         }
+                                        if (MyLviewItemsX5.SubItems[2].Text == "3")
+                                        {
+                                            try
+                                            {
+
+                                                int last = item.Nodes.Count;
+                                                if (item.LastNode.PrevNode.Text.Contains("[EventID:3]"))
+                                                {
+                                                    DateTime xdt_prev = Convert.ToDateTime(item.LastNode.PrevNode.Text.Split('\n')[4].Substring(12));
+                                                    DateTime xdt_current = Convert.ToDateTime(item.LastNode.Text.Split('\n')[4].Substring(12));
+
+                                                    item.Nodes.Add("", ">> Delta time (Total-Seconds) between last two Network Events is >> " + Delta_Time(xdt_current, xdt_prev), 3).ForeColor = Color.MediumBlue;
+
+                                                }
+                                            }
+                                            catch (Exception)
+                                            {
 
 
-                                         if (MyLviewItemsX5.SubItems[2].Text == "2")
-                                         {
-                                             try
-                                             {
-
-                                                 SearchInjector = MyLviewItemsX5.SubItems[5].Text.Substring(MyLviewItemsX5.SubItems[5].Text.IndexOf("[Injected by ") + 13).Split(']')[0];
-                                                 SearchInjector2 = "";
-
-                                                 if (SearchInjector.Contains(':')) { SearchInjector2 = SearchInjector.Split(':')[0]; } else { SearchInjector2 = SearchInjector; }
-
-                                                 if (SearchInjector2.ToLower() != "system")
-                                                 {
-
-                                                     _TableofProcess _ToP = Process_Table.Find(Proc => Proc.Injector ==
-                                                     Convert.ToInt32(MyLviewItemsX5.SubItems[5].Text.Split('\n')[12].Split('>')[1])
-                                                     && Proc.Injector_Path.Contains(SearchInjector2));
-
-                                                     if (_ToP.PID > 0)
-                                                     {
-
-                                                         item.Nodes.Add("", ">>>> " + _ToP.Injector_Path + " was injector for EventID2\n [Injector_ProcessID: "
-                                                         + _ToP.Injector + "]\n [TargetPID with (EventID2): " + _ToP.ProcessName + ":" + _ToP.PID + "]", 1).ForeColor = Color.MediumBlue;
-
-                                                     }
-                                                 }
-                                             }
-                                             catch (Exception)
-                                             {
+                                            }
+                                        }
 
 
-                                             }
-                                         }
+                                        if (MyLviewItemsX5.SubItems[2].Text == "2")
+                                        {
+                                            try
+                                            {
 
-                                         item.ForeColor = Color.Red;
-                                         xfound = true;
+                                                SearchInjector = MyLviewItemsX5.SubItems[5].Text.Substring(MyLviewItemsX5.SubItems[5].Text.IndexOf("[Injected by ") + 13).Split(']')[0];
+                                                SearchInjector2 = "";
 
-                                         break;
-                                     }
-                                 }
+                                                if (SearchInjector.Contains(':')) { SearchInjector2 = SearchInjector.Split(':')[0]; } else { SearchInjector2 = SearchInjector; }
 
-                                 if (!xfound)
-                                 {
-                                     _Imgindex = 0;
-                                     if (MyLviewItemsX5.SubItems[2].Text == "1") { _Imgindex = 0; }
-                                     if (MyLviewItemsX5.SubItems[2].Text == "2") { _Imgindex = 1; }
-                                     if (MyLviewItemsX5.SubItems[2].Text == "3") { _Imgindex = 3; }
+                                                if (SearchInjector2.ToLower() != "system")
+                                                {
 
+                                                    _TableofProcess _ToP = Process_Table.Find(Proc => Proc.Injector ==
+                                                    Convert.ToInt32(MyLviewItemsX5.SubItems[5].Text.Split('\n')[12].Split('>')[1])
+                                                    && Proc.Injector_Path.Contains(SearchInjector2));
 
-                                     treeView1.Nodes.Add("", MyLviewItemsX5.SubItems[3].Text, _Imgindex).Nodes.Add("", "[EventID:" + MyLviewItemsX5.SubItems[2].Text + "]"
-                                     + "[" + MyLviewItemsX5.SubItems[4].Text + "] { " + MyLviewItemsX5.SubItems[5].Text + " }", _Imgindex).Parent.ImageIndex = _Imgindex;
+                                                    if (_ToP.PID > 0)
+                                                    {
 
-                                 }
-                             }
-                         });
-                     }
+                                                        item.Nodes.Add("", ">>>> " + _ToP.Injector_Path + " was injector for EventID2\n [Injector_ProcessID: "
+                                                        + _ToP.Injector + "]\n [TargetPID with (EventID2): " + _ToP.ProcessName + ":" + _ToP.PID + "]", 1).ForeColor = Color.MediumBlue;
 
-
-                 }
-                 catch (Exception err)
-                 {
+                                                    }
+                                                }
+                                            }
+                                            catch (Exception)
+                                            {
 
 
-                 }
-             });
+                                            }
+                                        }
+
+                                        item.ForeColor = Color.Red;
+                                        xfound = true;
+
+                                        break;
+                                    }
+                                }
+
+                                if (!xfound)
+                                {
+                                    _Imgindex = 0;
+                                    if (MyLviewItemsX5.SubItems[2].Text == "1") { _Imgindex = 0; }
+                                    if (MyLviewItemsX5.SubItems[2].Text == "2") { _Imgindex = 1; }
+                                    if (MyLviewItemsX5.SubItems[2].Text == "3") { _Imgindex = 3; }
+
+
+                                    treeView1.Nodes.Add("", MyLviewItemsX5.SubItems[3].Text, _Imgindex).Nodes.Add("", "[EventID:" + MyLviewItemsX5.SubItems[2].Text + "]"
+                                    + "[" + MyLviewItemsX5.SubItems[4].Text + "] { " + MyLviewItemsX5.SubItems[5].Text + " }", _Imgindex).Parent.ImageIndex = _Imgindex;
+
+                                }
+                            }
+                        });
+                    }
+
+
+                }
+                catch (Exception err)
+                {
+
+
+                }
+            });
         }
-
         public async void _Additems_toTreeview2(object obj)
         {
             try
@@ -1475,12 +1465,12 @@ namespace ETWPM2Monitor2
 
 
                     _TableofProcess TempStruc = new _TableofProcess();
-                    TempStruc.IsLive = false;                    
+                    TempStruc.IsLive = false;
                     TempStruc.TCPDetails2 = Process_Table[ClosedPID_Index].TCPDetails2;
                     TempStruc.TCPDetails = Process_Table[ClosedPID_Index].TCPDetails;
                     TempStruc.ProcessName_Path = Process_Table[ClosedPID_Index].ProcessName_Path;
                     TempStruc.ProcessName = Process_Table[ClosedPID_Index].ProcessName;
-                    TempStruc.PID = Process_Table[ClosedPID_Index].PID;                    
+                    TempStruc.PID = Process_Table[ClosedPID_Index].PID;
                     TempStruc.Injector_Path = Process_Table[ClosedPID_Index].Injector_Path;
                     TempStruc.Injector = Process_Table[ClosedPID_Index].Injector;
                     TempStruc.Description = Process_Table[ClosedPID_Index].Description;
@@ -1539,105 +1529,104 @@ namespace ETWPM2Monitor2
 
             }
         }
-
         private async void T3_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
 
             if (_IsProcessTab_Enabled)
             {
                 await Task.Run(() =>
-               {
+                {
 
-                   Thread.Sleep(25);
-                   foreach (TreeNode item in treeView1.Nodes)
-                   {
+                    Thread.Sleep(25);
+                    foreach (TreeNode item in treeView1.Nodes)
+                    {
 
-                       try
-                       {
-                           if (item != null)
-                           {
-                               if (!item.Text.Contains("Process Exited!?"))
-                               {
-                                   item.ForeColor = Color.Black;
-                                   if (item.Nodes.Count > 0)
-                                   {
-                                       item.ImageIndex = item.Nodes[item.Nodes.Count - 1].ImageIndex;
-                                   }
-                                   else
-                                   {
+                        try
+                        {
+                            if (item != null)
+                            {
+                                if (!item.Text.Contains("Process Exited!?"))
+                                {
+                                    item.ForeColor = Color.Black;
+                                    if (item.Nodes.Count > 0)
+                                    {
+                                        item.ImageIndex = item.Nodes[item.Nodes.Count - 1].ImageIndex;
+                                    }
+                                    else
+                                    {
 
-                                   }
+                                    }
 
-                                   bool found_prc = false;
+                                    bool found_prc = false;
 
-                                   try
-                                   {
+                                    try
+                                    {
 
-                                       if (Process.GetProcesses().ToList().FindIndex(x => x.Id == Convert.ToInt32(item.Text.Split(':')[1])) != -1)
-                                       {
-                                           Thread.Sleep(2);
-                                           found_prc = true;
-                                       }
+                                        if (Process.GetProcesses().ToList().FindIndex(x => x.Id == Convert.ToInt32(item.Text.Split(':')[1])) != -1)
+                                        {
+                                            Thread.Sleep(2);
+                                            found_prc = true;
+                                        }
 
-                                   }
-                                   catch (Exception)
-                                   {
-
-
-                                   }
-
-                                   if (!found_prc)
-                                   {
-
-                                       if (!item.Text.Contains("Process Exited!?"))
-                                       {
-
-                                           item.Text = item.Text + " <<Process Exited!?>>";
-                                           item.BackColor = Color.LightGoldenrodYellow;
- 
-                                           var _Delay = Task.Delay(TimeSpan.FromSeconds(2));
-                                           do
-                                           {
-                                               Thread.Sleep(2);
-
-                                               item.BackColor = Color.LightGoldenrodYellow;
-
-                                               if (_Delay.IsCompleted)
-                                               {
-                                                   item.ForeColor = Color.DarkBlue;
-                                                   item.BackColor = Color.White;
-
-                                                   //BeginInvoke(new __Additem(_Additems_toTreeview2), item);
-
-                                                   //item.Remove();
-
-                                                   break;
-                                               }
-
-                                           } while (!_Delay.IsCompleted);
-
-                                           BeginInvoke(new __Additem(_Additems_toTreeview2), item);
-
-                                           item.Remove();
-
-                                       }
-                                   }
-                               }
-                           }
-                       }
-                       catch (Exception)
-                       {
-
-                       }
-
-                   }
+                                    }
+                                    catch (Exception)
+                                    {
 
 
-               });
+                                    }
+
+                                    if (!found_prc)
+                                    {
+
+                                        if (!item.Text.Contains("Process Exited!?"))
+                                        {
+
+                                            item.Text = item.Text + " <<Process Exited!?>>";
+                                            item.BackColor = Color.LightGoldenrodYellow;
+
+                                            var _Delay = Task.Delay(TimeSpan.FromSeconds(2));
+                                            do
+                                            {
+                                                Thread.Sleep(2);
+
+                                                item.BackColor = Color.LightGoldenrodYellow;
+
+                                                if (_Delay.IsCompleted)
+                                                {
+                                                    item.ForeColor = Color.DarkBlue;
+                                                    item.BackColor = Color.White;
+
+                                                    //BeginInvoke(new __Additem(_Additems_toTreeview2), item);
+
+                                                    //item.Remove();
+
+                                                    break;
+                                                }
+
+                                            } while (!_Delay.IsCompleted);
+
+                                            BeginInvoke(new __Additem(_Additems_toTreeview2), item);
+
+                                            item.Remove();
+
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        catch (Exception)
+                        {
+
+                        }
+
+                    }
+
+
+                });
             }
 
         }
-        
+
         //public void Update_Richtexbox8_SystemDetection_ETW_AllDetails_info()
         //{
         //    try
@@ -1661,7 +1650,7 @@ namespace ETWPM2Monitor2
             string d = _i32StartAddress.Substring(2);
             ulong i32StartAddress = Convert.ToUInt64(_i32StartAddress.Substring(3), 16);
 
-            if(IsSystemDeveloperLogs_on) BeginInvoke(new __core2(AsyncRun__Add_SystemDeveloperLogs), (object)" ==> [_DumpMemoryInfo_Injected_Bytes] Method Call: Started");
+            if (IsSystemDeveloperLogs_on) BeginInvoke(new __core2(AsyncRun__Add_SystemDeveloperLogs), (object)" ==> [_DumpMemoryInfo_Injected_Bytes] Method Call: Started");
             //if(IsSystemDeveloperLogIson) BeginInvoke(new __core2(AsyncRun__Add_SystemDeveloperLogs), (object)" ==> [_DumpMemoryInfo_Injected_Bytes] Method Call: error1 => " + ee.Message);
 
 
@@ -1701,7 +1690,7 @@ namespace ETWPM2Monitor2
             }
             catch (Exception ee)
             {
-                if(IsSystemDeveloperLogs_on) BeginInvoke(new __core2(AsyncRun__Add_SystemDeveloperLogs), (object)" ==> [_DumpMemoryInfo_Injected_Bytes] Method Call: error1 => " + ee.Message);
+                if (IsSystemDeveloperLogs_on) BeginInvoke(new __core2(AsyncRun__Add_SystemDeveloperLogs), (object)" ==> [_DumpMemoryInfo_Injected_Bytes] Method Call: error1 => " + ee.Message);
 
                 BeginInvoke(new __Additem(_Additems_str_toRichtextbox1),
                EventMessage + "\n\nEventID: " + "2" + "\n" + "EventID: 2, Read Target_Process Memory via API::ReadProcessMemory [ERROR] => " + "Access Error or Process Exited" + "\n[Remote-Thread-Injection Memory Information]\n_____________________________error______________________________\n");
@@ -1709,12 +1698,10 @@ namespace ETWPM2Monitor2
             }
 
         }
-
         public Form1()
         {
             InitializeComponent();
         }
-
         public static string Setinputs(double input)
         {
             if (input >= 1)
@@ -1736,16 +1723,15 @@ namespace ETWPM2Monitor2
             DateTime date2 = currenttime_for_packet;
             TimeSpan _ts = date2 - date1;
 
-            return "D:" + Setinputs(_ts.TotalDays) + " or " 
-                + "H:" + Setinputs(_ts.TotalHours) + " or " 
-                + "M:" + _ts.TotalMinutes.ToString() 
+            return "D:" + Setinputs(_ts.TotalDays) + " or "
+                + "H:" + Setinputs(_ts.TotalHours) + " or "
+                + "M:" + _ts.TotalMinutes.ToString()
                 + " (Sec:" + _ts.Seconds.ToString() + ")"
                 + " (TSec:" + _ts.TotalSeconds.ToString() + ")";
         }
-
         public void StartQueries_Mon(string queries)
         {
-            if(IsSystemDeveloperLogs_on) BeginInvoke(new __core2(AsyncRun__Add_SystemDeveloperLogs), (object)" ==> [StartQueries_Mon] Method Call: Started");
+            if (IsSystemDeveloperLogs_on) BeginInvoke(new __core2(AsyncRun__Add_SystemDeveloperLogs), (object)" ==> [StartQueries_Mon] Method Call: Started");
             //if(IsSystemDeveloperLogIson) BeginInvoke(new __core2(AsyncRun__Add_SystemDeveloperLogs), (object)" ==> [StartQueries_Mon] Method Call: error1 => " + ee.Message);
 
             ThreadStart Core2 = new ThreadStart(delegate { BeginInvoke(new __core2(_Core2), queries); });
@@ -1762,7 +1748,7 @@ namespace ETWPM2Monitor2
         {
             try
             {
-                if(IsSystemDeveloperLogs_on) BeginInvoke(new __core2(AsyncRun__Add_SystemDeveloperLogs), (object)" ==> [_Core2] Method Call: Started");
+                if (IsSystemDeveloperLogs_on) BeginInvoke(new __core2(AsyncRun__Add_SystemDeveloperLogs), (object)" ==> [_Core2] Method Call: Started");
                 //if(IsSystemDeveloperLogIson) BeginInvoke(new __core2(AsyncRun__Add_SystemDeveloperLogs), (object)" ==> [StartQueries_Mon] Method Call: error1 => " + ee.Message);
 
                 string _Query = queries.ToString();
@@ -1776,7 +1762,7 @@ namespace ETWPM2Monitor2
             }
             catch (Exception ee)
             {
-                if(IsSystemDeveloperLogs_on) BeginInvoke(new __core2(AsyncRun__Add_SystemDeveloperLogs), (object)" ==> [_Core2] Method Call: error1 => " + ee.Message);
+                if (IsSystemDeveloperLogs_on) BeginInvoke(new __core2(AsyncRun__Add_SystemDeveloperLogs), (object)" ==> [_Core2] Method Call: error1 => " + ee.Message);
 
 
             }
@@ -1789,9 +1775,9 @@ namespace ETWPM2Monitor2
         {
             try
             {
-                if(IsSystemDeveloperLogs_on) BeginInvoke(new __core2(AsyncRun__Add_SystemDeveloperLogs), (object)" ==> [_Core] Method Call: Started");
+                if (IsSystemDeveloperLogs_on) BeginInvoke(new __core2(AsyncRun__Add_SystemDeveloperLogs), (object)" ==> [_Core] Method Call: Started");
 
-                
+
                 ETWPM2Query = new EventLogQuery("ETWPM2", PathType.LogName);
 
                 EvtWatcher = new EventLogWatcher(ETWPM2Query);
@@ -1802,25 +1788,24 @@ namespace ETWPM2Monitor2
             }
             catch (Exception ee)
             {
-                if(IsSystemDeveloperLogs_on) BeginInvoke(new __core2(AsyncRun__Add_SystemDeveloperLogs), (object)" ==> [_Core] Method Call: error1 => " + ee.Message);
+                if (IsSystemDeveloperLogs_on) BeginInvoke(new __core2(AsyncRun__Add_SystemDeveloperLogs), (object)" ==> [_Core] Method Call: error1 => " + ee.Message);
 
             }
 
         }
-
         public void _MonitorWindowsEventLog_ETWPM2Monitor2()
         {
             try
             {
                 if (IsSystemDeveloperLogs_on) BeginInvoke(new __core2(AsyncRun__Add_SystemDeveloperLogs), (object)" ==> [_MonitorWindowsEventLog_ETWPM2Monitor2] Method Call: Started");
-              
+
                 EventLogQuery ETWPM2Monitor2Query = new EventLogQuery("ETWPM2Monitor2", PathType.LogName);
 
                 EventLogWatcher EvtWatcher_ETWPM2Monitor2Query = new EventLogWatcher(ETWPM2Monitor2Query);
                 EvtWatcher_ETWPM2Monitor2Query.EventRecordWritten += EvtWatcher_ETWPM2Monitor2Query_EventRecordWritten; ;
 
                 EvtWatcher_ETWPM2Monitor2Query.Enabled = true;
-                
+
             }
             catch (Exception ee)
             {
@@ -1829,7 +1814,6 @@ namespace ETWPM2Monitor2
             }
 
         }
-
         private async void EvtWatcher_ETWPM2Monitor2Query_EventRecordWritten(object sender, EventRecordWrittenEventArgs e)
         {
 
@@ -1848,9 +1832,9 @@ namespace ETWPM2Monitor2
                     catch (Exception)
                     {
 
-                        
+
                     }
-                   
+
                 }
 
                 if (e.EventRecord.Id == 1)
@@ -1858,15 +1842,15 @@ namespace ETWPM2Monitor2
                     try
                     {
                         /// Showing Not Detected Events is off ;)
-                       // tabPage15.Text = "Windows Event Logs" + "(" + listView6.Items.Count.ToString() + ")";
-                       // toolStripStatusLabel9.Text = "| Windows Event Logs " + "(" + listView6.Items.Count.ToString() + ")";
+                        // tabPage15.Text = "Windows Event Logs" + "(" + listView6.Items.Count.ToString() + ")";
+                        // toolStripStatusLabel9.Text = "| Windows Event Logs " + "(" + listView6.Items.Count.ToString() + ")";
                     }
                     catch (Exception)
                     {
 
-                     
+
                     }
-                   
+
                 }
 
                 if (e.EventRecord.Id == 2)
@@ -1890,7 +1874,7 @@ namespace ETWPM2Monitor2
                             iList6.SubItems.Add(_EventId);
                             iList6.SubItems.Add(_Status);
                             iList6.SubItems.Add(_ProcessInfo);
-                           
+
                             listView6.Items.Add(iList6);
 
                             tabPage3.Text = "System/Detection Logs " + "(" + listView6.Items.Count.ToString() + ")";
@@ -1906,7 +1890,7 @@ namespace ETWPM2Monitor2
                             //}
 
                         });
-                       
+
                     }
                     catch (Exception)
                     {
@@ -1936,7 +1920,7 @@ namespace ETWPM2Monitor2
                             iList6.SubItems.Add(_EventId);
                             iList6.SubItems.Add(_Status);
                             iList6.SubItems.Add(_ProcessInfo);
-                            
+
                             listView6.Items.Add(iList6);
 
                             tabPage3.Text = "System/Detection Logs " + "(" + listView6.Items.Count.ToString() + ")";
@@ -1944,7 +1928,7 @@ namespace ETWPM2Monitor2
                             toolStripStatusLabel9.Text = "| ETWPM2Monitor2 Detection Event Logs " + "(" + listView6.Items.Count.ToString() + ")";
                         });
 
-                       
+
                     }
                     catch (Exception)
                     {
@@ -1974,7 +1958,7 @@ namespace ETWPM2Monitor2
                             iList6.SubItems.Add(_EventId);
                             iList6.SubItems.Add(_Status);
                             iList6.SubItems.Add(_ProcessInfo);
-                             
+
                             listView6.Items.Add(iList6);
 
                             tabPage3.Text = "System/Detection Logs " + "(" + listView6.Items.Count.ToString() + ")";
@@ -1983,7 +1967,7 @@ namespace ETWPM2Monitor2
 
                         });
 
-                       
+
                     }
                     catch (Exception)
                     {
@@ -1993,11 +1977,10 @@ namespace ETWPM2Monitor2
 
                 }
 
-               
+
             });
 
         }
-
         public async Task RealtimeWatchProcess()
         {
             await Task.Run(() =>
@@ -2084,15 +2067,13 @@ namespace ETWPM2Monitor2
 
             });
         }
-
         public async void RealtimeWatchProcess_run()
         {
-            if(IsSystemDeveloperLogs_on) BeginInvoke(new __core2(AsyncRun__Add_SystemDeveloperLogs), (object)" ==> [RealtimeWatchProcess_run] Method Call: Started");
+            if (IsSystemDeveloperLogs_on) BeginInvoke(new __core2(AsyncRun__Add_SystemDeveloperLogs), (object)" ==> [RealtimeWatchProcess_run] Method Call: Started");
             //if(IsSystemDeveloperLogIson) BeginInvoke(new __core2(AsyncRun__Add_SystemDeveloperLogs), (object)" ==> [RealtimeWatchProcess_run] Method Call: error1 => " + ee.Message);
 
             await RealtimeWatchProcess();
         }
-        
         private void Form1_Load(object sender, EventArgs e)
         {
             try
@@ -2100,7 +2081,7 @@ namespace ETWPM2Monitor2
                 /// very important  
                 Form.CheckForIllegalCrossThreadCalls = false;
 
-                  
+
                 _ExcludeProcessList.AddRange(new string[4] { "msedge", "firefox", "chrome", "iexplorer" });
 
                 BeginInvoke(new __Obj_Updater_to_WinForm(RealtimeWatchProcess_run));
@@ -2118,7 +2099,7 @@ namespace ETWPM2Monitor2
 
                 try
                 {
-                    if(IsSystemDeveloperLogs_on) BeginInvoke(new __core2(AsyncRun__Add_SystemDeveloperLogs), (object)" ==> [Form1_Load::CreateEventSource] Method Call: Started");
+                    if (IsSystemDeveloperLogs_on) BeginInvoke(new __core2(AsyncRun__Add_SystemDeveloperLogs), (object)" ==> [Form1_Load::CreateEventSource] Method Call: Started");
 
                     /// added in v2.1 => All Alarms will save to Windows EventLog "ETWPM2Monitor2" (run as admin)
                     if (!EventLog.Exists("ETWPM2Monitor2"))
@@ -2132,7 +2113,7 @@ namespace ETWPM2Monitor2
                 }
                 catch (Exception ee)
                 {
-                    if(IsSystemDeveloperLogs_on) BeginInvoke(new __core2(AsyncRun__Add_SystemDeveloperLogs), (object)" ==> [Form1_Load::CreateEventSource] Method Call: error1 => " + ee.Message);
+                    if (IsSystemDeveloperLogs_on) BeginInvoke(new __core2(AsyncRun__Add_SystemDeveloperLogs), (object)" ==> [Form1_Load::CreateEventSource] Method Call: error1 => " + ee.Message);
 
 
                 }
@@ -2144,7 +2125,8 @@ namespace ETWPM2Monitor2
                 treeView1.ImageList = imageList1;
                 treeView2.ImageList = imageList1;
 
-                
+
+
                 try
                 {
                     Process[] AllProcess = Process.GetProcesses();
@@ -2163,7 +2145,7 @@ namespace ETWPM2Monitor2
                 listView2.BorderStyle = BorderStyle.FixedSingle;
                 listView1.HeaderStyle = ColumnHeaderStyle.Nonclickable;
                 listView1.BorderStyle = BorderStyle.FixedSingle;
-               
+
                 /// Set the view to show details.
                 listView1.View = View.Details;
                 /// Allow the user to edit item text.
@@ -2237,13 +2219,16 @@ namespace ETWPM2Monitor2
                 t14.Enabled = true;
                 t14.Start();
 
+                t15.Elapsed += T15_Elapsed;
+                t15.Enabled = true;
+                t15.Start();
 
                 listView1.Columns.Add(" ", 20, HorizontalAlignment.Left);
                 listView1.Columns.Add("Time", 130, HorizontalAlignment.Left);
                 listView1.Columns.Add("EventID", 55, HorizontalAlignment.Left);
                 listView1.Columns.Add("Process", 170, HorizontalAlignment.Left);
                 listView1.Columns.Add("Evt-Type", 55, HorizontalAlignment.Left);
-               
+
 
 
                 listView2.SmallImageList = imageList1;
@@ -2296,7 +2281,7 @@ namespace ETWPM2Monitor2
                 listView4.Columns.Add("Delta Time (Days or Hours or Minutes)", 187, HorizontalAlignment.Left);
                 listView4.Columns.Add("Event Count", 77, HorizontalAlignment.Left);
                 listView4.Columns.Add("Event TTL (D:H:Minutes)", 135, HorizontalAlignment.Left);
-                listView4.Columns.Add("Event First Time", 130, HorizontalAlignment.Left);              
+                listView4.Columns.Add("Event First Time", 130, HorizontalAlignment.Left);
 
                 listView5.SmallImageList = imageList1;
                 /// Set the view to show details.
@@ -2419,7 +2404,7 @@ namespace ETWPM2Monitor2
                 /// event fo change colors for listview4
                 ChangeColorstoDefault += Form1_ChangeColorstoDefault;
 
-               
+
                 groupBox1.Text = "New Processes events: " + Chart_NewProcess;
                 groupBox2.Text = "Injection events: " + chart_Inj;
                 groupBox3.Text = "TCP Send events: " + Chart_Tcp;
@@ -2438,13 +2423,118 @@ namespace ETWPM2Monitor2
             }
         }
 
+        private void T15_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            /// remove those Process items which Closed or TCP Connection was closed .... (real-time)
+            List<Network_Info._Table> tmptable = Network_Info.Table1_x64.ToList<Network_Info._Table>()
+                   .FindAll(x => x.states_String == "ESTABLISHED" || x.states_String == "CLOSEWAIT");
+            if (listView3.Items.Count > 0)
+            {
+                for (int w = 0; w < listView3.Items.Count; w++)
+                {
+
+                    try
+                    {
+
+                          tmptable = Network_Info.Table1_x64.ToList<Network_Info._Table>()
+                  .FindAll(x => x.states_String == "ESTABLISHED" || x.states_String == "CLOSEWAIT");
+
+                        int found = 0;
+                        for (int x = 0; x < tmptable.Count; x++)
+                        {
+
+                            if (listView3.Items[w].Name == tmptable[x].FullSTR)
+                            {
+                                found = 1;
+                            }
+                        }
+                        if (found == 0)
+                        {
+                            var _Delay = Task.Delay(TimeSpan.FromSeconds(3.5));
+                            do
+                            {
+                                try
+                                {
+                                    Thread.Sleep(2);
+
+                                    if (_Delay.IsCompleted) break;
+
+                                    if (listView3.Items.Count > 0)
+                                    {
+                                        listView3.Items[w].ForeColor = Color.White;
+                                        listView3.Items[w].BackColor = Color.Silver;
+                                    }
+
+                                }
+                                catch (Exception)
+                                {
+
+                                    break;
+                                }
+
+                            } while (!_Delay.IsCompleted);
+
+                            try
+                            {
+
+                                if (listView3.Items.Count > 0)
+                                {
+
+                                    listView3.Items[w].Remove();
+                                    w--;
+
+                                }
+
+
+                            }
+                            catch (Exception)
+                            {
+                                try
+                                {
+                                    if (listView3.Items.Count > 0)
+                                    {
+                                        foreach (ListViewItem item in listView3.Items)
+                                        {
+                                            Thread.Sleep(5);
+                                            if (item.BackColor == Color.Silver)
+                                            {
+
+                                                item.Remove();
+
+                                                listView3.Refresh();
+                                            }
+                                        }
+
+                                    }
+                                }
+                                catch (Exception)
+                                {
+
+                                    // listView3.Items.Clear();
+                                }
+
+                            }
+
+                        }
+                    }
+                    catch (Exception)
+                    {
+
+
+                    }
+                    
+                }
+            }
+        }
+
+        
         private async void T14_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
             /// checking Network Connection records which made by ETW Events 
             /// and compare with Network Connection records Which Made Native APIs
             /// this will help you you to detect those Processes which has/had Network Connection Activity but Does Not Detected by ETW
             /// That means ETW Bypassed by those Processes probably ;) or ETW has/had bug for detect this process etc.
-            await new TaskFactory().StartNew(() =>
+            await Task.Run(() =>
             {
                 try
                 {
@@ -2458,8 +2548,11 @@ namespace ETWPM2Monitor2
 
                                 foreach (ListViewItem item3 in listView3.Items)
                                 {
+
                                     listView3.BeginInvoke((MethodInvoker)delegate
                                     {
+                                        Task.Delay(TCPConnectionDelay_for_RefreshList);
+
                                         try
                                         {
 
@@ -2488,13 +2581,21 @@ namespace ETWPM2Monitor2
 
                                                 if (found == false)
                                                 {
-                                                    item3.BackColor = Color.Red;
-                                                    item3.ForeColor = Color.White;
+                                                    if (item3.BackColor != Color.Silver)
+                                                    {
+                                                        item3.BackColor = Color.Red;
+                                                        item3.ForeColor = Color.White;
+                                                    }
+
+                                                    //item3.BackColor = Color.Red;
+                                                    //item3.ForeColor = Color.White;
+
                                                     int indexx = Network_Info.Processes_FileSystemList2.FindIndex(x => x.PID == Convert.ToInt32(item3.SubItems[3].Text));
 
                                                     if (indexx != -1)
                                                     {
-                                                        item3.SubItems[9].Text = "Network Connection Event for This Process Not Detected by ETW Events! => " + Network_Info.Processes_FileSystemList2[indexx].FileName_Path;
+                                                        if (!item3.SubItems[9].Text.Contains("Network Connection Event for This Process Not Detected by ETW Events! => "))
+                                                            item3.SubItems[9].Text = "Network Connection Event for This Process Not Detected by ETW Events! => " + Network_Info.Processes_FileSystemList2[indexx].FileName_Path;
 
                                                         if (listView7.Items.Count > 0)
                                                         {
@@ -2523,12 +2624,15 @@ namespace ETWPM2Monitor2
                                                             if (!item7fouand)
                                                             {
                                                                 object tmp = item3.Clone();
+
                                                                 listView7.Items.Add((ListViewItem)tmp);
+
                                                             }
                                                         }
                                                         else
                                                         {
                                                             object tmp = item3.Clone();
+
                                                             listView7.Items.Add((ListViewItem)tmp);
                                                         }
 
@@ -2536,8 +2640,8 @@ namespace ETWPM2Monitor2
                                                     else
                                                     {
 
-
-                                                        item3.SubItems[9].Text = "Network Connection Event for This Process Not Detected by ETW Events! => " + Process.GetProcessById(Convert.ToInt32(item3.SubItems[3].Text)).ProcessName;
+                                                        if (!item3.SubItems[9].Text.Contains("Network Connection Event for This Process Not Detected by ETW Events! => "))
+                                                            item3.SubItems[9].Text = "Network Connection Event for This Process Not Detected by ETW Events! => " + Process.GetProcessById(Convert.ToInt32(item3.SubItems[3].Text)).ProcessName;
 
                                                         if (listView7.Items.Count > 0)
                                                         {
@@ -2567,11 +2671,13 @@ namespace ETWPM2Monitor2
                                                             {
                                                                 object tmp = item3.Clone();
                                                                 listView7.Items.Add((ListViewItem)tmp);
+
                                                             }
                                                         }
                                                         else
                                                         {
                                                             object tmp = item3.Clone();
+
                                                             listView7.Items.Add((ListViewItem)tmp);
                                                         }
                                                     }
@@ -2588,11 +2694,13 @@ namespace ETWPM2Monitor2
 
                                                         if (item3.SubItems[9].Text.Contains("This Process Not Detected by ETW Events! =>"))
                                                         {
+
                                                             int indexx = Network_Info.Processes_FileSystemList2.FindIndex(x => x.PID == Convert.ToInt32(item3.SubItems[3].Text));
 
                                                             if (indexx != -1)
                                                             {
                                                                 item3.SubItems[9].Text = Network_Info.Processes_FileSystemList2[indexx].FileName_Path;
+
                                                             }
                                                             else
                                                             {
@@ -2612,8 +2720,12 @@ namespace ETWPM2Monitor2
                                             }
                                             else
                                             {
-                                                item3.BackColor = Color.Red;
-                                                item3.ForeColor = Color.White;
+                                                if (item3.BackColor != Color.Silver)
+                                                {
+                                                    item3.BackColor = Color.Red;
+                                                    item3.ForeColor = Color.White;
+                                                }
+
                                                 int indexx = Network_Info.Processes_FileSystemList2.FindIndex(x => x.PID == Convert.ToInt32(item3.SubItems[3].Text));
 
                                                 if (indexx != -1)
@@ -2648,11 +2760,13 @@ namespace ETWPM2Monitor2
                                                         {
                                                             object tmp = item3.Clone();
                                                             listView7.Items.Add((ListViewItem)tmp);
+
                                                         }
                                                     }
                                                     else
                                                     {
                                                         object tmp = item3.Clone();
+
                                                         listView7.Items.Add((ListViewItem)tmp);
                                                     }
                                                 }
@@ -2689,12 +2803,16 @@ namespace ETWPM2Monitor2
                                                         {
                                                             object tmp = item3.Clone();
                                                             listView7.Items.Add((ListViewItem)tmp);
+
                                                         }
                                                     }
                                                     else
                                                     {
                                                         object tmp = item3.Clone();
+
                                                         listView7.Items.Add((ListViewItem)tmp);
+
+
                                                     }
                                                 }
                                             }
@@ -2704,8 +2822,9 @@ namespace ETWPM2Monitor2
 
 
                                         }
-
                                     });
+
+
                                 }
                             }
                             catch (Exception)
@@ -2714,16 +2833,16 @@ namespace ETWPM2Monitor2
 
                             }
                         });
+
                     }
                 }
                 catch (Exception)
                 {
 
-                   
+
                 }
             });
         }
-
         private void T13_Elapsed1(object sender, System.Timers.ElapsedEventArgs e)
         {
 
@@ -2735,9 +2854,7 @@ namespace ETWPM2Monitor2
                     {
                         try
                         {
-
-
-                            Thread.Sleep(10);
+                            Thread.Sleep(TCPConnectionDelay_for_RefreshList);
                             ListViewItem iList3x = new ListViewItem();
 
                             iList3x.SubItems.Add(DateTime.Now.ToString());
@@ -2765,6 +2882,7 @@ namespace ETWPM2Monitor2
                             if (listView7.Items.Count > 0)
                             {
                                 bool item7fouand = false;
+
                                 foreach (ListViewItem item7 in listView7.Items)
                                 {
                                     string h7 = item7.SubItems[2].Text
@@ -2779,6 +2897,8 @@ namespace ETWPM2Monitor2
                                       + iList3x.SubItems[7].Text
                                       + iList3x.SubItems[9].Text;
 
+                                    Thread.Sleep(10);
+
                                     if (h7 == h3)
                                     {
                                         item7fouand = true;
@@ -2790,6 +2910,7 @@ namespace ETWPM2Monitor2
                                 {
                                     object tmp = iList3x.Clone();
                                     listView7.Items.Add((ListViewItem)tmp);
+
                                 }
                             }
                             else
@@ -2801,9 +2922,9 @@ namespace ETWPM2Monitor2
 
                             if (item.states_String.ToString() == "ESTABLISHED" || (item.states_String.ToString() == "CLOSEWAIT"))
                             {
-                                listView3.Items.Add(iList3x);
 
-                               
+                                if(iList3x != null)
+                                listView3.Items.Add(iList3x);
 
                             }
                         }
@@ -2821,6 +2942,7 @@ namespace ETWPM2Monitor2
 
 
                             bool found = false;
+
                             foreach (ListViewItem _item in listView3.Items)
                             {
                                 if (_item.Name == item.FullSTR)
@@ -2829,6 +2951,7 @@ namespace ETWPM2Monitor2
                                     break;
                                 }
                             }
+
                             if (!found)
                             {
                                 ListViewItem iList3x = new ListViewItem();
@@ -2857,6 +2980,7 @@ namespace ETWPM2Monitor2
                                 if (listView7.Items.Count > 0)
                                 {
                                     bool item7fouand = false;
+
                                     foreach (ListViewItem item7 in listView7.Items)
                                     {
                                         string h7 = item7.SubItems[2].Text
@@ -2871,6 +2995,8 @@ namespace ETWPM2Monitor2
                                           + iList3x.SubItems[7].Text
                                           + iList3x.SubItems[9].Text;
 
+                                        Thread.Sleep(10);
+
                                         if (h7 == h3)
                                         {
                                             item7fouand = true;
@@ -2881,19 +3007,25 @@ namespace ETWPM2Monitor2
                                     if (!item7fouand)
                                     {
                                         object tmp = iList3x.Clone();
+
+
                                         listView7.Items.Add((ListViewItem)tmp);
+
                                     }
                                 }
                                 else
                                 {
                                     object tmp = iList3x.Clone();
+
                                     listView7.Items.Add((ListViewItem)tmp);
+
                                 }
 
                                 if (item.states_String.ToString() == "ESTABLISHED" || (item.states_String.ToString() == "CLOSEWAIT"))
                                 {
-                                    listView3.Items.Add(iList3x);
-                                    
+                                    if (iList3x != null)
+                                        listView3.Items.Add(iList3x);
+
                                 }
                             }
                         }
@@ -2908,121 +3040,31 @@ namespace ETWPM2Monitor2
             }
 
 
-            /// remove those Process items which Closed or TCP Connection was closed .... (real-time)
-            List<Network_Info._Table> tmptable = Network_Info.Table1_x64.ToList<Network_Info._Table>()
-                   .FindAll(x => x.states_String == "ESTABLISHED" || x.states_String == "CLOSEWAIT");
-            if (listView3.Items.Count > 0)
-            {
-                for (int w = 0; w < listView3.Items.Count; w++)
-                {
-
-                    try
-                    {
-
-
-                        int found = 0;
-                        for (int x = 0; x < tmptable.Count; x++)
-                        {
-
-                            if (listView3.Items[w].Name == tmptable[x].FullSTR)
-                            {
-                                found = 1;
-                            }
-                        }
-                        if (found == 0)
-                        {
-                            var _Delay = Task.Delay(TimeSpan.FromSeconds(3.5));
-                            do
-                            {
-                                try
-                                {
-                                    Thread.Sleep(2);
-
-                                    if (_Delay.IsCompleted) break;
-
-                                    if (listView3.Items.Count > 0)
-                                    {
-                                        listView3.Items[w].ForeColor = Color.White;
-                                        listView3.Items[w].BackColor = Color.Silver;
-                                    }
-
-                                }
-                                catch (Exception)
-                                {
-                                    
-                                    break;
-                                }
-
-                            } while (!_Delay.IsCompleted);
-                            try
-                            {
-                                if (listView3.Items.Count > 0) 
-                                    listView3.Items[w].Remove();
-
-                            }
-                            catch (Exception)
-                            {
-                                try
-                                {
-                                    if (listView3.Items.Count > 0)
-                                    {
-                                        foreach (ListViewItem item in listView3.Items)
-                                        {
-                                            Thread.Sleep(5);
-                                            if (item.BackColor == Color.Silver)
-                                            {
-                                                item.Remove();
-
-                                                listView3.Refresh();
-                                            }
-                                        }
-
-                                    }
-                                }
-                                catch (Exception)
-                                {
-
-                                    listView3.Items.Clear();
-                                }
-                               
-                            }
-
-                        }
-                    }
-                    catch (Exception)
-                    {
-                        
-
-                    }
-
-                }
-            }
+          
 
         }
-
         private void T12_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
             try
             {
-                
+
                 Detection_Info.Detection_Compare_to_WinEventLogSaved(_DetectedItemsByETWAlarms, _DetectedItemsByWindowEventLogSaved);
             }
             catch (Exception)
             {
 
-               
+
             }
 
-           
-           
-        }
 
+
+        }
         private async void T11_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
             await Task.Run(() =>
             {
-                 _orangeDetection = 0;
-                 _RedflagDetection = 0;
+                _orangeDetection = 0;
+                _RedflagDetection = 0;
                 if (listView6.Items.Count > 0)
                 {
                     foreach (ListViewItem _info_item in listView6.Items)
@@ -3047,12 +3089,11 @@ namespace ETWPM2Monitor2
                     _RedflagDetection = _List_of__RedflagDetection_Raised.Count;
 
                     Chart_Redflag = Process_Table.ToList<_TableofProcess>().FindAll(high => high.SubItems_ImageIndex == 2).Count + _RedflagDetection;
-                    
+
                     Chart_Orange = _orangeDetection;
                 }
             });
         }
-
         private async void T10_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
             await Task.Run(() =>
@@ -3070,7 +3111,7 @@ namespace ETWPM2Monitor2
                             ProcessListTabObject.RemoveAll(xx => xx.flag == true);
 
                             tmp = ProcessListTabObject.ToList<_ListProcessObjects>().FindAll(index => index.flag == false);
-                          
+
                             foreach (_ListProcessObjects item in tmp.ToList<_ListProcessObjects>())
                             {
                                 try
@@ -3083,7 +3124,7 @@ namespace ETWPM2Monitor2
                                     tmpstru.flag = true;
                                     tmpstru.obj = item.obj;
                                     ProcessListTabObject[ProcessListTabObject.ToList<_ListProcessObjects>().FindIndex(x => x.counter == item.counter)] = tmpstru;
-                                   // Task.Delay(25);
+                                    // Task.Delay(25);
                                 }
                                 catch (Exception)
                                 {
@@ -3112,7 +3153,7 @@ namespace ETWPM2Monitor2
         /// this timer is for Update items for listView2 (Alarms by ETW Tab)
         /// </summary>       
         private async void T9_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
-        {         
+        {
             await Task.Run(() =>
             {
                 try
@@ -3134,7 +3175,7 @@ namespace ETWPM2Monitor2
 
                     List<_TableofProcess> AllDettectionItems = Process_Table.ToList<_TableofProcess>().FindAll(process => process.IsShow_Alarm == true
                          && !process.MemoryScanner01_Result.Contains("[not scanned:0:0:0]") && !process.MemoryScanner01_Result.Contains("Skipped:[not scanned:0:0:0]"));
-                        
+
                     Int32 AllDettectionItemsIndex = Process_Table.ToList<_TableofProcess>().FindIndex(process => process.IsShow_Alarm == true
                          && !process.MemoryScanner01_Result.Contains("Skipped:[not scanned:0:0:0]") && !process.MemoryScanner01_Result.Contains("[not scanned:0:0:0]"));
 
@@ -3245,7 +3286,7 @@ namespace ETWPM2Monitor2
                                         {
                                             listView2.Items.Add(xiList2);
                                             _DetectedItemsByETWAlarms.Add(xiList2);
-                                           
+
                                         }
 
                                         tabPage4.Text = "Alarms by ETW " + "(" + listView2.Items.Count.ToString() + ")";
@@ -3260,7 +3301,7 @@ namespace ETWPM2Monitor2
                                     }
                                 }
 
-                               // Detection_Info.Detection_Compare_to_WinEventLogSaved(_DetectedItemsByETWAlarms, _DetectedItemsByWindowEventLog);
+                                // Detection_Info.Detection_Compare_to_WinEventLogSaved(_DetectedItemsByETWAlarms, _DetectedItemsByWindowEventLog);
                             }
                         }
                     }
@@ -3334,7 +3375,7 @@ namespace ETWPM2Monitor2
                                     xiList2.SubItems.Add(TempStruc.Descripton_Details);
                                     xiList2.SubItems.Add(_item.Description);
 
-                                    if(_item.SubItems_Name_Property.Length > TempStruc.SubItems_Name_Property.Length)
+                                    if (_item.SubItems_Name_Property.Length > TempStruc.SubItems_Name_Property.Length)
                                     {
                                         xiList2.Name = _item.SubItems_Name_Property;
                                     }
@@ -3349,12 +3390,12 @@ namespace ETWPM2Monitor2
                                     {
                                         listView2.Items.Add(xiList2);
                                         _DetectedItemsByETWAlarms.Add(xiList2);
-                                     
+
                                     }
-                                     
+
                                     tabPage4.Text = "Alarms by ETW " + "(" + listView2.Items.Count.ToString() + ")";
                                     toolStripStatusLabel6.Text = "| Alarms by ETW " + "(" + listView2.Items.Count.ToString() + ")";
-                                  
+
                                 }
                                 catch (Exception ee)
                                 {
@@ -3437,7 +3478,6 @@ namespace ETWPM2Monitor2
             t8.Enabled = false;
             t8.Stop();
         }
-
         private async void T7_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
             await Task.Run(() =>
@@ -3565,7 +3605,7 @@ namespace ETWPM2Monitor2
 
                         }
                     }
-                   // listBox4.SelectedIndex = listBox4.Items.Count - 1;
+                    // listBox4.SelectedIndex = listBox4.Items.Count - 1;
                 }
                 catch (Exception)
                 {
@@ -3574,7 +3614,6 @@ namespace ETWPM2Monitor2
                 }
             });
         }
-
         private void T6_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
             try
@@ -3599,7 +3638,7 @@ namespace ETWPM2Monitor2
 
 
                         }
-                       
+
                     }
                 });
             }
@@ -3624,7 +3663,7 @@ namespace ETWPM2Monitor2
                     {
                         try
                         {
-                            
+
                             ActiveTCP.Clear();
                             IPGlobalProperties _GetIPGlobalProperties = IPGlobalProperties.GetIPGlobalProperties();
                             TcpConnectionInformation[] _TCPConnections = _GetIPGlobalProperties.GetActiveTcpConnections();
@@ -3657,7 +3696,7 @@ namespace ETWPM2Monitor2
                                 else
                                 {
                                     listView4.Items[i].ImageIndex = 6;
-                                   
+
                                 }
                             }
 
@@ -3666,7 +3705,7 @@ namespace ETWPM2Monitor2
                         catch (Exception)
                         {
 
-                            
+
                         }
                     });
                 });
@@ -3688,7 +3727,7 @@ namespace ETWPM2Monitor2
                 try
                 {
                     Task.Delay(25);
-                    
+
                     /// for sure check all index ;)
                     listView4.BeginInvoke((MethodInvoker)delegate
                     {
@@ -3702,9 +3741,9 @@ namespace ETWPM2Monitor2
                             catch (Exception)
                             {
 
-                               
+
                             }
-                           
+
                         }
                         listView4.Refresh();
                     });
@@ -3719,7 +3758,6 @@ namespace ETWPM2Monitor2
                 t4_1.Enabled = false;
             });
         }
-
         private void Form1_ChangeColorstoDefault(object sender, EventArgs e)
         {
             /// time to change/refresh listview4 colors (1500) delay
@@ -3734,7 +3772,6 @@ namespace ETWPM2Monitor2
         {
             BeginInvoke(new __Additem(Run_Async_Refresh_NetworkConection_in_Network_Tab), sender);
         }
-
         public async void Run_Async_Refresh_NetworkConection_in_Network_Tab(object _obj)
         {
             await Refresh_NetworkConection_in_Network_Tab(_obj);
@@ -4050,7 +4087,6 @@ namespace ETWPM2Monitor2
             });
 
         }
-
         public async Task _ChangedProperty_Color_changed_delay(object itemid)
         {
             try
@@ -4059,12 +4095,12 @@ namespace ETWPM2Monitor2
                 await Task.Run(() =>
                 {
                     init_removeItems = false;
-                    listView4.Items[Convert.ToInt32(itemid)].BackColor = Color.Red;                    
+                    listView4.Items[Convert.ToInt32(itemid)].BackColor = Color.Red;
                     listView4.Refresh();
                     ChangeColorstoDefault.Invoke((object)itemid, null);
 
                     Task.Delay(25);
-                    
+
                     init_removeItems = true;
 
                 });
@@ -4075,12 +4111,11 @@ namespace ETWPM2Monitor2
 
             }
         }
-
         public async void _Run_ChangeColor_for_listview4(object _item)
         {
             await _ChangedProperty_Color_changed_delay(_item);
         }
-      
+
         /// <summary>
         /// add detected events to System_Detection_Logs Tab , for TCP Meterpreter events and Found Shell events (only)
         /// </summary>        
@@ -4088,7 +4123,7 @@ namespace ETWPM2Monitor2
         {
             try
             {
-                if(IsSystemDeveloperLogs_on) BeginInvoke(new __core2(AsyncRun__Add_SystemDeveloperLogs), (object)" ==> [Form1_System_Detection_Log_events2] Event/Method Call: Started");
+                if (IsSystemDeveloperLogs_on) BeginInvoke(new __core2(AsyncRun__Add_SystemDeveloperLogs), (object)" ==> [Form1_System_Detection_Log_events2] Event/Method Call: Started");
                 //if(IsSystemDeveloperLogIson) BeginInvoke(new __core2(AsyncRun__Add_SystemDeveloperLogs), (object)" ==> [Form1_System_Detection_Log_events2] Event/Method Call: error1 => " + ee.Message);
 
 
@@ -4222,7 +4257,7 @@ namespace ETWPM2Monitor2
                                 //    BeginInvoke(new __core2(AsyncRun___Save_New_DetectionLogs_TCP_Shell_Events_to_WinEventLog), iList3);
                                 //}
 
-                              
+
                                 BeginInvoke(new __core2(AsyncRun___Save_New_DetectionLogs_TCP_Shell_Events_to_WinEventLog), iList3);
                                 eventstring_tmp3 = tmp2.Name;
                             }
@@ -4238,8 +4273,8 @@ namespace ETWPM2Monitor2
             }
             catch (Exception ee)
             {
-                
-                if(IsSystemDeveloperLogs_on) BeginInvoke(new __core2(AsyncRun__Add_SystemDeveloperLogs), (object)" ==> [Form1_System_Detection_Log_events2] Event/Method Call: error1 => " + ee.Message);
+
+                if (IsSystemDeveloperLogs_on) BeginInvoke(new __core2(AsyncRun__Add_SystemDeveloperLogs), (object)" ==> [Form1_System_Detection_Log_events2] Event/Method Call: error1 => " + ee.Message);
 
 
             }
@@ -4252,7 +4287,7 @@ namespace ETWPM2Monitor2
         {
             try
             {
-                if(IsSystemDeveloperLogs_on) BeginInvoke(new __core2(AsyncRun__Add_SystemDeveloperLogs), (object)" ==> [Form1_System_Detection_Log_events] Event/Method Call: Started");
+                if (IsSystemDeveloperLogs_on) BeginInvoke(new __core2(AsyncRun__Add_SystemDeveloperLogs), (object)" ==> [Form1_System_Detection_Log_events] Event/Method Call: Started");
                 //if(IsSystemDeveloperLogIson) BeginInvoke(new __core2(AsyncRun__Add_SystemDeveloperLogs), (object)" ==> [Form1_System_Detection_Log_events] Event/Method Call: error1 => " + ee.Message);
 
                 ListViewItem tmp = (ListViewItem)sender;
@@ -4299,7 +4334,7 @@ namespace ETWPM2Monitor2
                         Detectionstring = "[false]";
                     }
 
-                   
+
 
                     iList3.SubItems.Add("Pe-Sieve64.exe" + " " + Detectionstring);
 
@@ -4336,12 +4371,11 @@ namespace ETWPM2Monitor2
             }
             catch (Exception ee)
             {
-                if(IsSystemDeveloperLogs_on) BeginInvoke(new __core2(AsyncRun__Add_SystemDeveloperLogs), (object)" ==> [Form1_System_Detection_Log_events] Event/Method Call: error1 => " + ee.Message);
+                if (IsSystemDeveloperLogs_on) BeginInvoke(new __core2(AsyncRun__Add_SystemDeveloperLogs), (object)" ==> [Form1_System_Detection_Log_events] Event/Method Call: error1 => " + ee.Message);
 
 
             }
         }
-
         public async void _RunRemoveItemsLisview1()
         {
             await Listview1__Removeitems();
@@ -4386,7 +4420,6 @@ namespace ETWPM2Monitor2
                 }
             });
         }
-
         private async void T4_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
             await Task.Run(() =>
@@ -4399,8 +4432,8 @@ namespace ETWPM2Monitor2
 
                         foreach (ListViewItem item in listView4.Items)
                         {
-                            if(item.SubItems[2].Text.StartsWith(":"))
-                            {                               
+                            if (item.SubItems[2].Text.StartsWith(":"))
+                            {
                                 item.Remove();
                             }
 
@@ -4469,7 +4502,7 @@ namespace ETWPM2Monitor2
             }
             catch (Exception ee)
             {
-                if(IsSystemDeveloperLogs_on) BeginInvoke(new __core2(AsyncRun__Add_SystemDeveloperLogs), (object)" ==> [Form1_NewEventFrom_EventLogsCome] Event/Method Call: error1 => " + ee.Message);
+                if (IsSystemDeveloperLogs_on) BeginInvoke(new __core2(AsyncRun__Add_SystemDeveloperLogs), (object)" ==> [Form1_NewEventFrom_EventLogsCome] Event/Method Call: error1 => " + ee.Message);
 
             }
         }
@@ -4611,7 +4644,7 @@ namespace ETWPM2Monitor2
             }
             catch (Exception ee)
             {
-                if(IsSystemDeveloperLogs_on) BeginInvoke(new __core2(AsyncRun__Add_SystemDeveloperLogs), (object)" ==> [Form1_RemoteThreadInjectionDetection_ProcessLists] Event/Method Call: error1 => " + ee.Message);
+                if (IsSystemDeveloperLogs_on) BeginInvoke(new __core2(AsyncRun__Add_SystemDeveloperLogs), (object)" ==> [Form1_RemoteThreadInjectionDetection_ProcessLists] Event/Method Call: error1 => " + ee.Message);
 
             }
         }
@@ -4674,12 +4707,11 @@ namespace ETWPM2Monitor2
             }
             catch (Exception ee)
             {
-                if(IsSystemDeveloperLogs_on) BeginInvoke(new __core2(AsyncRun__Add_SystemDeveloperLogs), (object)" ==> [Form1_NewProcessAddedtolist_NewProcessEvt] Event/Method Call: error1 => " + ee.Message);
+                if (IsSystemDeveloperLogs_on) BeginInvoke(new __core2(AsyncRun__Add_SystemDeveloperLogs), (object)" ==> [Form1_NewProcessAddedtolist_NewProcessEvt] Event/Method Call: error1 => " + ee.Message);
 
             }
 
         }
-
         public void Update_Charts_info()
         {
             try
@@ -4876,9 +4908,9 @@ namespace ETWPM2Monitor2
                     int _IndexScannedPids = Scanned_PIds.FindIndex(TargetPid => TargetPid.PID == PID
                     && TargetPid.ProcNameANDPath.ToLower() == Procesname_path2.ToLower());
 
-                    bool initScan = false;                  
+                    bool initScan = false;
                     initScan = _IndexScannedPids != -1 ? initScan = Scanned_PIds[_IndexScannedPids].ScannerResult_IsDetected == false ? true : false : true;
-                    
+
                     /// check processes before scan by memory scanner 
                     /// if process was scanned and Detected before, then ignore new scan.
                     if (initScan)
@@ -4895,22 +4927,20 @@ namespace ETWPM2Monitor2
             }
             catch (Exception ee)
             {
-                if(IsSystemDeveloperLogs_on) BeginInvoke(new __core2(AsyncRun__Add_SystemDeveloperLogs), (object)" ==> [Form1_NewProcessAddedtolist1] Event/Method Call: error1 => " + ee.Message);
+                if (IsSystemDeveloperLogs_on) BeginInvoke(new __core2(AsyncRun__Add_SystemDeveloperLogs), (object)" ==> [Form1_NewProcessAddedtolist1] Event/Method Call: error1 => " + ee.Message);
 
 
             }
         }
-
         public async void Async_Run_Scanner0102_Run(List<_TableofProcess> __Table_of_Process_to_Scan, Int32 PID, string _des_address_port, string ProcessName)
         {
 
             await Async_Run_Scanner0102_Method(__Table_of_Process_to_Scan, PID, _des_address_port, ProcessName);
         }
-
         public async Task Async_Run_Scanner0102_Method(List<_TableofProcess> __Table_of_Process_to_Scan, Int32 PID, string _des_address_port, string ProcessName)
         {
             if (IsSystemDeveloperLogs_on) BeginInvoke(new __core2(AsyncRun__Add_SystemDeveloperLogs), (object)" ==> [Async_Run_Scanner0102_Method] Method Call: Started");
- 
+
             await Task.Run(() =>
             {
                 try
@@ -4962,7 +4992,7 @@ namespace ETWPM2Monitor2
 
                                         int _resultPEScanned01 = Scanned_PIds.ToList().FindIndex(PEScan => PEScan.PID == Convert.ToInt32(item.PID.ToString()) && PEScan.ProcNameANDPath == item.ProcessName_Path
                                        && PEScan.injectorPathPID == _InjectorPathPID);
-                                       
+
 
                                         if (_resultPEScanned01 == -1)
                                         {
@@ -4970,7 +5000,7 @@ namespace ETWPM2Monitor2
                                         }
 
                                         Thread.Sleep(100);
-                                        
+
                                         string result1 = "";
 
                                         if (Init_to_runPEScanner_01 || -1 == Scanned_PIds.ToList().FindIndex(PEScan => PEScan.PID == Convert.ToInt32(item.PID.ToString()) && PEScan.ProcNameANDPath == item.ProcessName_Path
@@ -4987,7 +5017,7 @@ namespace ETWPM2Monitor2
 
                                                 try
                                                 {
-                                                  
+
 
                                                     if (!Process.GetProcessById(Convert.ToInt32(item.PID.ToString())).HasExited)
                                                     {
@@ -5071,7 +5101,7 @@ namespace ETWPM2Monitor2
                                                         }
                                                         catch (Exception)
                                                         {
-                                                           
+
 
                                                         }
 
@@ -5123,14 +5153,14 @@ namespace ETWPM2Monitor2
                                                 iList2.ImageIndex = 2;
                                             }
 
-                                            if (finalresult_Scanned_01[0]== "[Skipped[not scanned:0:0:0]")
+                                            if (finalresult_Scanned_01[0] == "[Skipped[not scanned:0:0:0]")
                                             {
                                                 Scanner_Action = "Skipped";
                                                 iList2.ImageIndex = 1;
                                             }
 
-                                           if (!Scanned_PIds.ToList<_TableofProcess_Scanned_01>().Exists(scanned => scanned.PID == Convert.ToInt32(item.PID.ToString()) && scanned.ProcNameANDPath == item.ProcessName_Path
-                                            && scanned.injectorPathPID == _InjectorPathPID))
+                                            if (!Scanned_PIds.ToList<_TableofProcess_Scanned_01>().Exists(scanned => scanned.PID == Convert.ToInt32(item.PID.ToString()) && scanned.ProcNameANDPath == item.ProcessName_Path
+                                             && scanned.injectorPathPID == _InjectorPathPID))
                                             {
                                                 string injtype = "Injection";
 
@@ -5160,12 +5190,12 @@ namespace ETWPM2Monitor2
                                         }
                                         else
                                         {
-                                            
-                                                /// bug here
-                                                finalresult_Scanned_01[0] = "[not scanned:0:0:0]";
-                                                finalresult_Scanned_01[1] = "[not scanned:0:0:0]";
-                                                _finalresult_Scanned_01 = finalresult_Scanned_01;
-                                            
+
+                                            /// bug here
+                                            finalresult_Scanned_01[0] = "[not scanned:0:0:0]";
+                                            finalresult_Scanned_01[1] = "[not scanned:0:0:0]";
+                                            _finalresult_Scanned_01 = finalresult_Scanned_01;
+
                                         }
                                     }
                                     else
@@ -5230,7 +5260,7 @@ namespace ETWPM2Monitor2
 
                                 if (_finalresult_Scanned_01[0].Contains("Replaced:0"))
                                 {
-                                    
+
                                     iList2.ImageIndex = 1;
                                     if (!_finalresult_Scanned_01[0].Contains("PE:0") && !_finalresult_Scanned_01[0].Contains("shc:0"))
                                     {
@@ -5256,7 +5286,7 @@ namespace ETWPM2Monitor2
                                     }
                                 }
                             }
- 
+
 
                             if (Convert.ToInt32(string.Join("", ("0" + _finalresult_Scanned_01[0]).ToCharArray().Where(char.IsDigit))) == 0)
                             {
@@ -5267,26 +5297,26 @@ namespace ETWPM2Monitor2
                             {
                                 iList2.ImageIndex = 2;
 
-                                if (!_finalresult_Scanned_01[0].Contains("Replaced:0") 
+                                if (!_finalresult_Scanned_01[0].Contains("Replaced:0")
                                 && !_finalresult_Scanned_01[0].Contains("not scanned:0")
                                 && !finalresult_Scanned_01[0].ToLower().Contains("[skipped[not scanned:0:0:0]"))
                                 {
                                     _injtype = "Process-Hollowing";
-                                   
+
                                 }
 
                             }
 
                             ///
                             /// these if should change to better codes ...  
-                            
+
                             IsTargetProcessTerminatedbyETWPM2monitor = false;
                             string Detection_Status_Action = "";
                             iList2.ImageIndex = 1;
 
                             if (Convert.ToInt32(string.Join("", ("0" + _finalresult_Scanned_01[0]).ToCharArray().Where(char.IsDigit))) > 0)
                             {
-                                
+
                                 iList2.ImageIndex = 2;
 
                                 if (Pe_sieveLevel == 0) { iList2.ImageIndex = 2; Detection_Status_Action = "Scanned & Found!"; }
@@ -5303,8 +5333,8 @@ namespace ETWPM2Monitor2
                                     catch (Exception)
                                     {
 
-                                       
-                                    }                                   
+
+                                    }
                                 }
                                 else
                                 if (Pe_sieveLevel == 2)
@@ -5332,7 +5362,7 @@ namespace ETWPM2Monitor2
 
                                             /// check sub processes                                              
                                             foreach (_TableofProcess_NewProcess_evt ___item in NewProcess_Table.ToList().FindAll(SubProc =>
-                                            SubProc.PPID == PID).ToList< _TableofProcess_NewProcess_evt>())
+                                            SubProc.PPID == PID).ToList<_TableofProcess_NewProcess_evt>())
                                             {
                                                 ///"[ParentID Path: C:\\Windows\\SysWOW64\\notepad.exe]"
 
@@ -5357,7 +5387,7 @@ namespace ETWPM2Monitor2
                                                         catch (Exception j)
                                                         {
 
-                                                          
+
                                                         }
                                                     }
                                                 }
@@ -5399,14 +5429,14 @@ namespace ETWPM2Monitor2
                                                     catch (Exception j)
                                                     {
 
-                                                       
+
                                                     }
-                                                   
+
                                                 }
 
                                                 int obj_index = Process_Table.FindIndex(process => process.ProcessName.ToLower() + ":" + process.PID == item.ProcessName.ToLower() + ":" + item.PID);
 
-                                                 
+
                                                 _TableofProcess TempStruc = new _TableofProcess();
                                                 TempStruc.TCPDetails2 = Process_Table[obj_index].TCPDetails2;
                                                 TempStruc.TCPDetails = Process_Table[obj_index].TCPDetails;
@@ -5438,10 +5468,10 @@ namespace ETWPM2Monitor2
                                                 else
                                                 {
 
-                                                   TempStruc.Descripton_Details = item.ProcessName_Path + " Injected by => " + item.Injector_Path + " (PID:" + item.Injector.ToString()
-                                                   + ") \nInjector Details:\nInjector-ProcessName: "
-                                                   + "\nInjector-Path: " 
-                                                   +"\nInjector-CommandLine: ";
+                                                    TempStruc.Descripton_Details = item.ProcessName_Path + " Injected by => " + item.Injector_Path + " (PID:" + item.Injector.ToString()
+                                                    + ") \nInjector Details:\nInjector-ProcessName: "
+                                                    + "\nInjector-Path: "
+                                                    + "\nInjector-CommandLine: ";
                                                 }
 
                                                 TempStruc.SubItems_Name_Property = item.ProcessName + ":" + item.PID + ">\n" + _finalresult_Scanned_01[1];
@@ -5463,7 +5493,7 @@ namespace ETWPM2Monitor2
 
 
                                         }
- 
+
                                     }
                                     catch (Exception ee)
                                     {
@@ -5534,7 +5564,7 @@ namespace ETWPM2Monitor2
                                 if (Init_to_runPEScanner_01)
                                 {
                                     BeginInvoke(new __Additem(_Additems_toListview2), iList2);
-                                     
+
                                     System_Detection_Log_events.Invoke((object)iList2, null);
 
                                 }
@@ -5542,7 +5572,7 @@ namespace ETWPM2Monitor2
                                 foreach (string Objitem in showitemsHash)
                                 {
                                     if (Objitem == item.ProcessName + ":" + item.PID.ToString() + _des_address_port + _finalresult_Scanned_01[0] +
-                                       item.ProcessName_Path + " Injected by => " + item.Injector_Path + " (PID:" + item.Injector.ToString() + ") " 
+                                       item.ProcessName_Path + " Injected by => " + item.Injector_Path + " (PID:" + item.Injector.ToString() + ") "
                                        + HollowHunterLevel.ToString())
                                     {
                                         found_obj = true;
@@ -5552,7 +5582,7 @@ namespace ETWPM2Monitor2
                                 {
                                     showitemsHash.Add(item.ProcessName + ":" + item.PID.ToString() + _des_address_port + _finalresult_Scanned_01[0] +
                                    item.ProcessName_Path + " Injected by => " + item.Injector_Path + " (PID:" + item.Injector.ToString() + ") " + HollowHunterLevel.ToString());
-                                }                                
+                                }
 
                                 Thread.Sleep(10);
                             }
@@ -5562,7 +5592,7 @@ namespace ETWPM2Monitor2
                             lastshow = item.ProcessName + ":" + item.PID.ToString() + _des_address_port + _finalresult_Scanned_01[0] +
                                 item.ProcessName_Path + " Injected by => " + item.Injector_Path + " (PID:" + item.Injector.ToString() + ") ";
 
-                            
+
                         }
                     }
                 }
@@ -5574,7 +5604,6 @@ namespace ETWPM2Monitor2
             });
 
         }
-
         public void Update_listbox1_scanner_logs(object str)
         {
             try
@@ -5600,7 +5629,6 @@ namespace ETWPM2Monitor2
             }
 
         }
-       
         public async Task UpdateRefreshListview1()
         {
             await Task.Run(() =>
@@ -5637,7 +5665,7 @@ namespace ETWPM2Monitor2
 
                     listView1.BeginInvoke((MethodInvoker)delegate
                     {
-                        
+
                         t.Interval = 6000;
                         foreach (ListViewItem item in listView1.Items)
                         {
@@ -5662,7 +5690,7 @@ namespace ETWPM2Monitor2
                                     {
                                         item.ForeColor = Color.LightSlateGray;
                                     }
-                                    
+
                                 }
                             }
                             catch (Exception)
@@ -5677,19 +5705,16 @@ namespace ETWPM2Monitor2
                 }
             });
         }
-
         private void T_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
 
             BeginInvoke(new __Updatelistview1(Run_Async_UpdateRefreshListview1));
 
         }
-
         public async void Run_Async_UpdateRefreshListview1()
         {
             await UpdateRefreshListview1();
         }
-
         public static void _Updater__List_All_Injection_Details_info_Filter_withoutSystem4(object obj)
         {
             try
@@ -5879,7 +5904,6 @@ namespace ETWPM2Monitor2
 
 
         }
-
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
             if (!IsSearchFormActived)
@@ -5888,12 +5912,12 @@ namespace ETWPM2Monitor2
                 EvtWatcher.Dispose();
 
                 /// exit Core Thread for Monitoring TCP/UDP Connections
+                Network_Info_DataTables.StopThread = true;
                 Network_Info.Core.Abort();
             }
 
 
         }
-
         private void StartMonitorToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (IsSystemDeveloperLogs_on) BeginInvoke(new __core2(AsyncRun__Add_SystemDeveloperLogs), (object)" ==> [StartMonitorToolStripMenuItem_Click] Method Call: Started");
@@ -5904,7 +5928,6 @@ namespace ETWPM2Monitor2
             toolStripStatusLabel1.Text = "Monitor Status: on";
             i6 = 0;
         }
-
         private void StoptMonitorToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (IsSystemDeveloperLogs_on) BeginInvoke(new __core2(AsyncRun__Add_SystemDeveloperLogs), (object)" ==> [StoptMonitorToolStripMenuItem_Click] Method Call: Started");
@@ -5919,7 +5942,6 @@ namespace ETWPM2Monitor2
                 toolStripStatusLabel1.Text = "Monitor Status: off";
             }
         }
-
         public void SaveTheTextFile()
         {
             try
@@ -5946,7 +5968,6 @@ namespace ETWPM2Monitor2
 
             }
         }
-
         private void SaveToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
@@ -5961,14 +5982,12 @@ namespace ETWPM2Monitor2
             }
 
         }
-
         private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             EvtWatcher.Enabled = false;
             EvtWatcher.Dispose();
             this.Close();
         }
-
         private void AllEventsIDs123ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             StartQueries_Mon("*");
@@ -5985,7 +6004,6 @@ namespace ETWPM2Monitor2
             toolStripStatusLabel2.Text = "| Filters: Select All EventIDs 1,2,3 [NewProcess , RemoteThreadInjection Detection , TCPIP Send]";
 
         }
-
         public void EventID12ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string _Query = "<QueryList><Query Id=\"0\" Path=\"ETWPM2\"><Select Path=\"ETWPM2\">*[System[(EventID=1 or EventID=2)]]</Select></Query></QueryList>";
@@ -6004,7 +6022,6 @@ namespace ETWPM2Monitor2
 
             MessageBox.Show(AlarmsDisabled);
         }
-
         public void EventID13ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string _Query = "<QueryList><Query Id=\"0\" Path=\"ETWPM2\"><Select Path=\"ETWPM2\">*[System[(EventID=1 or EventID=3)]]</Select></Query></QueryList>";
@@ -6024,7 +6041,6 @@ namespace ETWPM2Monitor2
 
             MessageBox.Show(AlarmsDisabled);
         }
-
         public void EventID23InjectionTCPIPToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string _Query = "<QueryList><Query Id=\"0\" Path=\"ETWPM2\"><Select Path=\"ETWPM2\">*[System[(EventID=2 or EventID=3)]]</Select></Query></QueryList>";
@@ -6043,7 +6059,6 @@ namespace ETWPM2Monitor2
             toolStripStatusLabel2.Text = "| Filters: Select All EventIDs 2,3 [RemoteThreadInjection Detection , TCPIP Send]";
 
         }
-
         private void EventID1ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string _Query = "<QueryList><Query Id=\"0\" Path=\"ETWPM2\"><Select Path=\"ETWPM2\">*[System[(EventID=1)]]</Select></Query></QueryList>";
@@ -6064,7 +6079,6 @@ namespace ETWPM2Monitor2
             MessageBox.Show(AlarmsDisabled);
 
         }
-
         private void EventID2ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string _Query = "<QueryList><Query Id=\"0\" Path=\"ETWPM2\"><Select Path=\"ETWPM2\">*[System[(EventID=2)]]</Select></Query></QueryList>";
@@ -6345,23 +6359,23 @@ namespace ETWPM2Monitor2
                     try
                     {
 
-                    
-                    MessageBox.Show("Time: " + listviewitems_wasselected_ihope.SubItems[1].Text + "\n"
-                                           + "Process: " + listviewitems_wasselected_ihope.SubItems[2].Text + "\n"
-                                              + "Injection-Type: " + listviewitems_wasselected_ihope.SubItems[3].Text + "\n"
-                                                 + "TCPSend: " + listviewitems_wasselected_ihope.SubItems[4].Text + "\n"
-                                                    + "Status: " + listviewitems_wasselected_ihope.SubItems[5].Text + "\n"
-                                                    + "__________________________________________________________\n"
-                                                       + "MemoryScanner PE-sieve Result: " + __result01 + "\n\n"
-                                                       + "MemoryScanner HollowsHunter Result: " + __result02 + "\n\n"
-                                                          + "Description: " + listviewitems_wasselected_ihope.SubItems[8].Text + "\n"
-                                                    + "__________________________________________________________\n"
-                                                         + "ETW Event Message: " + listviewitems_wasselected_ihope.SubItems[9].Text + "\n"
 
-                                , "Properties => " +
-                                           listviewitems_wasselected_ihope.SubItems[2].Text + " [" + listviewitems_wasselected_ihope.SubItems[3].Text + "] " +
-                                           " " +
-                                           ",LogTime:[" + listviewitems_wasselected_ihope.SubItems[1].Text + "]", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("Time: " + listviewitems_wasselected_ihope.SubItems[1].Text + "\n"
+                                               + "Process: " + listviewitems_wasselected_ihope.SubItems[2].Text + "\n"
+                                                  + "Injection-Type: " + listviewitems_wasselected_ihope.SubItems[3].Text + "\n"
+                                                     + "TCPSend: " + listviewitems_wasselected_ihope.SubItems[4].Text + "\n"
+                                                        + "Status: " + listviewitems_wasselected_ihope.SubItems[5].Text + "\n"
+                                                        + "__________________________________________________________\n"
+                                                           + "MemoryScanner PE-sieve Result: " + __result01 + "\n\n"
+                                                           + "MemoryScanner HollowsHunter Result: " + __result02 + "\n\n"
+                                                              + "Description: " + listviewitems_wasselected_ihope.SubItems[8].Text + "\n"
+                                                        + "__________________________________________________________\n"
+                                                             + "ETW Event Message: " + listviewitems_wasselected_ihope.SubItems[9].Text + "\n"
+
+                                    , "Properties => " +
+                                               listviewitems_wasselected_ihope.SubItems[2].Text + " [" + listviewitems_wasselected_ihope.SubItems[3].Text + "] " +
+                                               " " +
+                                               ",LogTime:[" + listviewitems_wasselected_ihope.SubItems[1].Text + "]", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                     catch (Exception)
                     {
@@ -6374,23 +6388,23 @@ namespace ETWPM2Monitor2
                     try
                     {
 
-                    
-                    MessageBox.Show("Time: " + listviewitems_wasselected_ihope.SubItems[1].Text + "\n"
-                                           + "Process: " + listviewitems_wasselected_ihope.SubItems[2].Text + "\n"
-                                              + "Injection-Type: " + listviewitems_wasselected_ihope.SubItems[3].Text + "\n"
-                                                 + "TCPSend: " + listviewitems_wasselected_ihope.SubItems[4].Text + "\n"
-                                                    + "Status: " + listviewitems_wasselected_ihope.SubItems[5].Text  + "\n"
-                                                    + "__________________________________________________________\n"
-                                                        + "MemoryScanner PE-sieve Result: " + __result01 + "\n\n"
-                                                       + "MemoryScanner HollowsHunter Result: " + __result02 + "\n\n"
-                                                          + "Description: " + listviewitems_wasselected_ihope.SubItems[8].Text + "\n"
-                                                    + "__________________________________________________________\n"
-                                                          + "ETW Event Message: " + listviewitems_wasselected_ihope.SubItems[9].Text + "\n"
 
-                               , "Properties => " +
-                                           listviewitems_wasselected_ihope.SubItems[2].Text + " [" + listviewitems_wasselected_ihope.SubItems[3].Text + "] " +
-                                           " " +
-                                           ",LogTime:[" + listviewitems_wasselected_ihope.SubItems[1].Text + "]", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        MessageBox.Show("Time: " + listviewitems_wasselected_ihope.SubItems[1].Text + "\n"
+                                               + "Process: " + listviewitems_wasselected_ihope.SubItems[2].Text + "\n"
+                                                  + "Injection-Type: " + listviewitems_wasselected_ihope.SubItems[3].Text + "\n"
+                                                     + "TCPSend: " + listviewitems_wasselected_ihope.SubItems[4].Text + "\n"
+                                                        + "Status: " + listviewitems_wasselected_ihope.SubItems[5].Text + "\n"
+                                                        + "__________________________________________________________\n"
+                                                            + "MemoryScanner PE-sieve Result: " + __result01 + "\n\n"
+                                                           + "MemoryScanner HollowsHunter Result: " + __result02 + "\n\n"
+                                                              + "Description: " + listviewitems_wasselected_ihope.SubItems[8].Text + "\n"
+                                                        + "__________________________________________________________\n"
+                                                              + "ETW Event Message: " + listviewitems_wasselected_ihope.SubItems[9].Text + "\n"
+
+                                   , "Properties => " +
+                                               listviewitems_wasselected_ihope.SubItems[2].Text + " [" + listviewitems_wasselected_ihope.SubItems[3].Text + "] " +
+                                               " " +
+                                               ",LogTime:[" + listviewitems_wasselected_ihope.SubItems[1].Text + "]", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
                     catch (Exception)
                     {
@@ -6540,7 +6554,7 @@ namespace ETWPM2Monitor2
             isPEScanonoff = true;
             pe_sieve_DumpSwitches = 2;
         }
-      
+
         private void ScanOnlyModeDefaultToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Pe_sieveLevel = 0;
@@ -6617,7 +6631,7 @@ namespace ETWPM2Monitor2
             treeView3.Nodes.Clear();
             treeView3.ImageList = imageList1;
             BeginInvoke(new __Obj_Updater_to_WinForm2(__SearchStrings_in_ProcessesTab), textBox1.Text, treeView1);
-           
+
         }
 
         public void Button2_Click(object sender, EventArgs e)
@@ -6625,13 +6639,13 @@ namespace ETWPM2Monitor2
             richTextBox9.Clear();
             treeView3.Nodes.Clear();
             treeView3.ImageList = imageList1;
-             BeginInvoke(new __Obj_Updater_to_WinForm2(__SearchStrings_in_ProcessesTab), textBox1.Text, treeView2);
-           
+            BeginInvoke(new __Obj_Updater_to_WinForm2(__SearchStrings_in_ProcessesTab), textBox1.Text, treeView2);
+
         }
 
         private void Refresh5SecToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            t3.Interval = 15000;           
+            t3.Interval = 15000;
             refresh5SecToolStripMenuItem.Checked = true;
             refresh10SecToolStripMenuItem.Checked = false;
             t10.Interval = 15000;
@@ -6639,7 +6653,7 @@ namespace ETWPM2Monitor2
 
         private void Refresh10SecToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            t3.Interval = 10000;           
+            t3.Interval = 10000;
             refresh5SecToolStripMenuItem.Checked = false;
             refresh10SecToolStripMenuItem.Checked = true;
             t10.Interval = 10000;
@@ -6842,7 +6856,7 @@ namespace ETWPM2Monitor2
                     if (t.LocalEndPoint.Address.ToString() + ":" + t.LocalEndPoint.Port.ToString() + t.RemoteEndPoint.Address.ToString()
                                 + ":" + t.RemoteEndPoint.Port.ToString() == sip_port + dip_port && t.State == TcpState.Established)
                     {
-                       
+
                         MessageBox.Show("Warning\nConnection Not Closed!\nmaybe this Connection made by some dll/modules (in background) for this process?", "Connection Not Closed!?", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
                 }
@@ -6889,9 +6903,9 @@ namespace ETWPM2Monitor2
                             catch (Exception j)
                             {
 
-                                
+
                             }
-                           
+
 
                         }
                     }
@@ -6935,9 +6949,9 @@ namespace ETWPM2Monitor2
                         catch (Exception j)
                         {
 
-                           
+
                         }
-                      
+
                     }
                 }
                 catch (Exception err2)
@@ -6998,7 +7012,7 @@ namespace ETWPM2Monitor2
                             if (!listView5.SelectedItems[0].Name.ToString().Contains("Read Target_Process Memory via API::ReadProcessMemory [ERROR] =>"))
                             {
                                 string payload = listView5.SelectedItems[0].Name.ToString().Split('\n')[28].Split(':')[1].Substring(1).Split('\n')[0];
-                                
+
                                 ImageBitmap_Info.MakeImageBMP(payload);
                                 ImageBitmap_Info.Lines(payload);
                                 Task.Delay(10);
@@ -7015,7 +7029,7 @@ namespace ETWPM2Monitor2
                         catch (Exception)
                         {
 
-                            
+
                         }
                     }));
                 });
@@ -7053,7 +7067,7 @@ namespace ETWPM2Monitor2
             {
                 dontShowEventsToolStripMenuItem.Checked = true;
                 IsDontShow_ETWPM2_Realt_time_Enabled = true;
-                
+
                 t6.Enabled = false;
                 t6.Stop();
                 listView1.Items.Clear();
@@ -7104,17 +7118,17 @@ namespace ETWPM2Monitor2
 
         public void Update_Richtexbox10_WindowsEventLogTab_Details_Info()
         {
-           
-                try
-                {
-                    richTextBox10.Text = listView6.SelectedItems[0].Name;
-                }
-                catch (Exception)
-                {
 
-                     
-                }
-            
+            try
+            {
+                richTextBox10.Text = listView6.SelectedItems[0].Name;
+            }
+            catch (Exception)
+            {
+
+
+            }
+
         }
 
         private void RefreshNetworkConnectionsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -7122,6 +7136,7 @@ namespace ETWPM2Monitor2
             listView3.Items.Clear();
         }
 
+      
         private void ToolStripStatusLabel9_Click(object sender, EventArgs e)
         {
             tabControl1.SelectedIndex = 4;
@@ -7130,7 +7145,7 @@ namespace ETWPM2Monitor2
 
         private void ListBox4_SelectedIndexChanged(object sender, EventArgs e)
         {
-           
+
             try
             {
                 BeginInvoke(new __Obj_Updater_to_WinForm(_ShowProcessDetailsInfo));
@@ -7138,7 +7153,7 @@ namespace ETWPM2Monitor2
             catch (Exception)
             {
 
-              
+
             }
         }
 
@@ -7147,21 +7162,21 @@ namespace ETWPM2Monitor2
             await Task.Run(() =>
             {
                 try
-                {                                        
+                {
                     string _ProcessName = listBox4.SelectedItems[0].ToString().Split('[')[4].Substring(15).Split(']')[0];
                     Int32 _PID = Convert.ToInt32(listBox4.SelectedItems[0].ToString().Split('[')[3].Substring(11).Split(']')[0]);
-                   
-                    Int32 Index = Process_Table.FindIndex(i => i.PID == _PID && i.ProcessName == _ProcessName);                    
-                     
+
+                    Int32 Index = Process_Table.FindIndex(i => i.PID == _PID && i.ProcessName == _ProcessName);
+
                     richTextBox8.Text = "";
                     richTextBox8.Text += "[#] ProcessName: " + Process_Table[Index].ProcessName;
                     richTextBox8.Text += "\n[#] ProcessName_Path: " + Process_Table[Index].ProcessName_Path;
-                    richTextBox8.Text += "\n[#] PID: " +  Process_Table[Index].PID;
+                    richTextBox8.Text += "\n[#] PID: " + Process_Table[Index].PID;
                     richTextBox8.Text += "\n[#] IsLive: " + Process_Table[Index].IsLive;
                     richTextBox8.Text += "\n-------------------------------------------------------------";
                     richTextBox8.Text += "\n[#] InjectorPID: " + Process_Table[Index].Injector;
                     richTextBox8.Text += "\n[#] Injector_Path: " + Process_Table[Index].Injector_Path;
-                    richTextBox8.Text += "\n\n[#] IsShow_Alarm: " + Process_Table[Index].IsShow_Alarm;                    
+                    richTextBox8.Text += "\n\n[#] IsShow_Alarm: " + Process_Table[Index].IsShow_Alarm;
                     richTextBox8.Text += "\n-------------------------------------------------------------";
                     richTextBox8.Text += "\n[#] InjectionType: " + Process_Table[Index].InjectionType;
                     richTextBox8.Text += "\n[#] Detection_Status: " + Process_Table[Index].Detection_Status;
@@ -7176,9 +7191,9 @@ namespace ETWPM2Monitor2
                     richTextBox8.Text += "\n[#] Memory Scanner Result: " + Process_Table[Index].MemoryScanner01_Result.Replace('\n', ' ');
                     richTextBox8.Text += "\n-------------------------------------------------------------";
                     richTextBox8.Text += "\n[#] Memory Scanner Result Details:\n" + Process_Table[Index].SubItems_Name_Property;
-                   
+
                     //richTextBox8.Text += Process_Table[Index].SubItems_ImageIndex;
-                   
+
                 }
                 catch (Exception)
                 {
@@ -7187,17 +7202,18 @@ namespace ETWPM2Monitor2
                 }
             });
         }
-      
-        private void FilterExcludeInjectionBySystem4ToolStripMenuItem_Click(object sender, EventArgs e)
-        {           
 
-            if(filterExcludeInjectionBySystem4ToolStripMenuItem.Checked == false)
+        private void FilterExcludeInjectionBySystem4ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+            if (filterExcludeInjectionBySystem4ToolStripMenuItem.Checked == false)
             {
                 filterExcludeInjectionBySystem4ToolStripMenuItem.Checked = true;
                 IsFilterSystem4Enabled_ETWPM2_Realtime = true;
                 toolStripStatusLabel5.Text = "Filter: Exclude Injection by System:4 is on";
                 toolStripStatusLabel5.ForeColor = Color.Red;
-            }else if (filterExcludeInjectionBySystem4ToolStripMenuItem.Checked == true)
+            }
+            else if (filterExcludeInjectionBySystem4ToolStripMenuItem.Checked == true)
             {
                 filterExcludeInjectionBySystem4ToolStripMenuItem.Checked = false;
                 IsFilterSystem4Enabled_ETWPM2_Realtime = false;
@@ -7233,7 +7249,7 @@ namespace ETWPM2Monitor2
                     {
                         string result = Memory_info._CheckSizeChanges(Convert.ToInt32(listviewitems_wasselected_ihope.SubItems[2].Text.Split(':')[1]));
 
-                        MessageBox.Show(result , "Properties => " +
+                        MessageBox.Show(result, "Properties => " +
                                                listviewitems_wasselected_ihope.SubItems[2].Text + " [" + listviewitems_wasselected_ihope.SubItems[3].Text + "] " +
                                                " " +
                                                ",LogTime:[" + listviewitems_wasselected_ihope.SubItems[1].Text + "]", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -7252,11 +7268,11 @@ namespace ETWPM2Monitor2
             catch (Exception)
             {
 
-               // throw;
+                // throw;
             }
-            
+
         }
-      
+
         private void ListView5_SelectedIndexChanged(object sender, EventArgs e)
         {
             try
@@ -7294,7 +7310,7 @@ namespace ETWPM2Monitor2
         {
             is_system4_excluded = false;
             excludeSYSTEM4EventsFromRealtimeToolStripMenuItem.Checked = false;
-        }    
+        }
 
         private void Pesieve64exeOffToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -7357,9 +7373,9 @@ namespace ETWPM2Monitor2
                         _error = true;
 
                     }
-                  
 
-                     
+
+
                     if (!_error)
                     {
                         try
@@ -7479,7 +7495,7 @@ namespace ETWPM2Monitor2
                     {
                         richTextBox2.Text = "";
                         richTextBox3.Text = "";
-                       
+
 
                     }
                 }));
@@ -7966,7 +7982,7 @@ namespace ETWPM2Monitor2
                     }
                     try
                     {
-                         IntPtr Addy = new IntPtr();
+                        IntPtr Addy = new IntPtr();
                         List<MEMORY_BASIC_INFORMATION> MemReg = new List<MEMORY_BASIC_INFORMATION>();
                         while (true)
                         {
@@ -7983,7 +7999,7 @@ namespace ETWPM2Monitor2
                             }
                             if (Prcs.HasExited)
                             {
-                               
+
                                 break;
 
                             }
@@ -7992,19 +8008,19 @@ namespace ETWPM2Monitor2
                         for (int i = 0; i < MemReg.Count; i++)
                         {
                             if (Prcs.HasExited) { break; }
-                             if (!Prcs.HasExited)
+                            if (!Prcs.HasExited)
                             {
                                 buff = new byte[MemReg[i].RegionSize.ToInt64()];
                                 ReadProcessMemory(Prcs.Handle, MemReg[i].BaseAddress, buff, MemReg[i].RegionSize.ToInt32(), IntPtr.Zero);
-                              
+
 
                                 for (int j = 0; j < buff.Length; j++)
                                 {
                                     memory.Add((byte)(buff[j]));
-                                   // buff[j] = (byte)(buff[j] ^ 0xFF);
+                                    // buff[j] = (byte)(buff[j] ^ 0xFF);
 
                                 }
- 
+
                             }
                             if (Prcs.HasExited) { break; }
                         }
@@ -8023,7 +8039,7 @@ namespace ETWPM2Monitor2
                 {
                     return null;
                 }
-                
+
                 return memory.ToArray();
 
             }

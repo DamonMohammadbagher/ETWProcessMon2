@@ -129,9 +129,13 @@
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.killProcessToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox17 = new System.Windows.Forms.GroupBox();
+            this.tabControl5 = new System.Windows.Forms.TabControl();
+            this.tabPage13 = new System.Windows.Forms.TabPage();
             this.listView3 = new System.Windows.Forms.ListView();
             this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.refreshNetworkConnectionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tabPage16 = new System.Windows.Forms.TabPage();
+            this.listView7 = new System.Windows.Forms.ListView();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.tabControl4 = new System.Windows.Forms.TabControl();
             this.tabPage15 = new System.Windows.Forms.TabPage();
@@ -233,10 +237,6 @@
             this.toolStripStatusLabel6 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel7 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel9 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.tabControl5 = new System.Windows.Forms.TabControl();
-            this.tabPage13 = new System.Windows.Forms.TabPage();
-            this.tabPage16 = new System.Windows.Forms.TabPage();
-            this.listView7 = new System.Windows.Forms.ListView();
             this.contextMenuStrip5.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -314,7 +314,10 @@
             this.groupBox18.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
             this.groupBox17.SuspendLayout();
+            this.tabControl5.SuspendLayout();
+            this.tabPage13.SuspendLayout();
             this.contextMenuStrip2.SuspendLayout();
+            this.tabPage16.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.tabControl4.SuspendLayout();
             this.tabPage15.SuspendLayout();
@@ -326,9 +329,6 @@
             this.menuStrip3.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.statusStrip2.SuspendLayout();
-            this.tabControl5.SuspendLayout();
-            this.tabPage13.SuspendLayout();
-            this.tabPage16.SuspendLayout();
             this.SuspendLayout();
             // 
             // richTextBox1
@@ -1338,6 +1338,28 @@
             this.groupBox17.TabStop = false;
             this.groupBox17.Text = "Network Connections via Native APIs";
             // 
+            // tabControl5
+            // 
+            this.tabControl5.Controls.Add(this.tabPage13);
+            this.tabControl5.Controls.Add(this.tabPage16);
+            this.tabControl5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl5.Location = new System.Drawing.Point(3, 16);
+            this.tabControl5.Name = "tabControl5";
+            this.tabControl5.SelectedIndex = 0;
+            this.tabControl5.Size = new System.Drawing.Size(1071, 70);
+            this.tabControl5.TabIndex = 1;
+            // 
+            // tabPage13
+            // 
+            this.tabPage13.Controls.Add(this.listView3);
+            this.tabPage13.Location = new System.Drawing.Point(4, 22);
+            this.tabPage13.Name = "tabPage13";
+            this.tabPage13.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage13.Size = new System.Drawing.Size(1063, 44);
+            this.tabPage13.TabIndex = 0;
+            this.tabPage13.Text = "Network Connections";
+            this.tabPage13.UseVisualStyleBackColor = true;
+            // 
             // listView3
             // 
             this.listView3.ContextMenuStrip = this.contextMenuStrip2;
@@ -1354,7 +1376,7 @@
             this.contextMenuStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.refreshNetworkConnectionsToolStripMenuItem});
             this.contextMenuStrip2.Name = "contextMenuStrip2";
-            this.contextMenuStrip2.Size = new System.Drawing.Size(264, 26);
+            this.contextMenuStrip2.Size = new System.Drawing.Size(264, 48);
             // 
             // refreshNetworkConnectionsToolStripMenuItem
             // 
@@ -1362,6 +1384,27 @@
             this.refreshNetworkConnectionsToolStripMenuItem.Size = new System.Drawing.Size(263, 22);
             this.refreshNetworkConnectionsToolStripMenuItem.Text = "Clear/Refresh Network Connections";
             this.refreshNetworkConnectionsToolStripMenuItem.Click += new System.EventHandler(this.RefreshNetworkConnectionsToolStripMenuItem_Click);
+            // 
+            // tabPage16
+            // 
+            this.tabPage16.Controls.Add(this.listView7);
+            this.tabPage16.Location = new System.Drawing.Point(4, 22);
+            this.tabPage16.Name = "tabPage16";
+            this.tabPage16.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage16.Size = new System.Drawing.Size(1063, 44);
+            this.tabPage16.TabIndex = 1;
+            this.tabPage16.Text = "Network Connections History";
+            this.tabPage16.UseVisualStyleBackColor = true;
+            // 
+            // listView7
+            // 
+            this.listView7.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listView7.HideSelection = false;
+            this.listView7.Location = new System.Drawing.Point(3, 3);
+            this.listView7.Name = "listView7";
+            this.listView7.Size = new System.Drawing.Size(1057, 38);
+            this.listView7.TabIndex = 0;
+            this.listView7.UseCompatibleStateImageBehavior = false;
             // 
             // tabPage3
             // 
@@ -2247,49 +2290,6 @@
             this.toolStripStatusLabel9.Text = "| ETWPM2Monitor2 Detection Event Logs (0)";
             this.toolStripStatusLabel9.Click += new System.EventHandler(this.ToolStripStatusLabel9_Click);
             // 
-            // tabControl5
-            // 
-            this.tabControl5.Controls.Add(this.tabPage13);
-            this.tabControl5.Controls.Add(this.tabPage16);
-            this.tabControl5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl5.Location = new System.Drawing.Point(3, 16);
-            this.tabControl5.Name = "tabControl5";
-            this.tabControl5.SelectedIndex = 0;
-            this.tabControl5.Size = new System.Drawing.Size(1071, 70);
-            this.tabControl5.TabIndex = 1;
-            // 
-            // tabPage13
-            // 
-            this.tabPage13.Controls.Add(this.listView3);
-            this.tabPage13.Location = new System.Drawing.Point(4, 22);
-            this.tabPage13.Name = "tabPage13";
-            this.tabPage13.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage13.Size = new System.Drawing.Size(1063, 44);
-            this.tabPage13.TabIndex = 0;
-            this.tabPage13.Text = "Network Connections";
-            this.tabPage13.UseVisualStyleBackColor = true;
-            // 
-            // tabPage16
-            // 
-            this.tabPage16.Controls.Add(this.listView7);
-            this.tabPage16.Location = new System.Drawing.Point(4, 22);
-            this.tabPage16.Name = "tabPage16";
-            this.tabPage16.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage16.Size = new System.Drawing.Size(1063, 44);
-            this.tabPage16.TabIndex = 1;
-            this.tabPage16.Text = "Network Connections History";
-            this.tabPage16.UseVisualStyleBackColor = true;
-            // 
-            // listView7
-            // 
-            this.listView7.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listView7.HideSelection = false;
-            this.listView7.Location = new System.Drawing.Point(3, 3);
-            this.listView7.Name = "listView7";
-            this.listView7.Size = new System.Drawing.Size(1057, 38);
-            this.listView7.TabIndex = 0;
-            this.listView7.UseCompatibleStateImageBehavior = false;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2385,7 +2385,10 @@
             this.groupBox18.ResumeLayout(false);
             this.contextMenuStrip1.ResumeLayout(false);
             this.groupBox17.ResumeLayout(false);
+            this.tabControl5.ResumeLayout(false);
+            this.tabPage13.ResumeLayout(false);
             this.contextMenuStrip2.ResumeLayout(false);
+            this.tabPage16.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
             this.tabControl4.ResumeLayout(false);
             this.tabPage15.ResumeLayout(false);
@@ -2400,9 +2403,6 @@
             this.statusStrip1.PerformLayout();
             this.statusStrip2.ResumeLayout(false);
             this.statusStrip2.PerformLayout();
-            this.tabControl5.ResumeLayout(false);
-            this.tabPage13.ResumeLayout(false);
-            this.tabPage16.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -2415,25 +2415,10 @@
         private System.Windows.Forms.MenuStrip menuStrip3;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem2;
         private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem actionToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem startMonitorToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem stoptMonitorToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem clearAllToolStripMenuItem;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem filtersToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem allEventsIDs123ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem eventID12ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem eventID13ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem eventID23InjectionTCPIPToolStripMenuItem;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
-        private System.Windows.Forms.ToolStripMenuItem eventID1ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem eventID2ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem eventID3ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem autoScrollToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem onToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem offToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem memoryToolStripMenuItem;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip5;
         private System.Windows.Forms.ToolStripMenuItem injectedTIDMemoryInfoToolStripMenuItem;
@@ -2445,9 +2430,6 @@
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         public System.Windows.Forms.ListView listView1;
         private System.Windows.Forms.ListView listView2;
-        private System.Windows.Forms.ToolStripMenuItem scannersToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem pesieve64exeOffToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem pesieve64exeonToolStripMenuItem;
         public System.Windows.Forms.TabPage tabPage4;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.TabControl tabControl2;
@@ -2457,9 +2439,6 @@
         private System.Windows.Forms.ToolStripMenuItem themeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem dGreyToolStripMenuItem;
         public System.Windows.Forms.RichTextBox richTextBox3;
-        private System.Windows.Forms.ToolStripMenuItem defaultDumpAllToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem dontDumpTheModifiedPEsButSaveTheReportoffToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem dontDumpAnyFilesToolStripMenuItem1;
         private System.Windows.Forms.TabPage tabPage7;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.GroupBox groupBox7;
@@ -2491,18 +2470,9 @@
         private System.Windows.Forms.ToolStripMenuItem saveAllAlarmEventsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveAllAlarmEventsToolStripMenuItem1;
         private System.Windows.Forms.GroupBox groupBox11;
-        private System.Windows.Forms.ToolStripMenuItem excludeSYSTEM4EventsFromRealtimeToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem includeSYSTEM4EventsFromRealtimeToolStripMenuItem;
         private System.Windows.Forms.SplitContainer splitContainer2;
         private System.Windows.Forms.RichTextBox richTextBox6;
         private System.Windows.Forms.ListBox listBox1;
-        private System.Windows.Forms.ToolStripMenuItem removeRealtimeRecordsAfter500RecordsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem removeRealtimeRecordsAfter1000RecordsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem removeRealtimeRecordsAfter2000RecordsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem removeRealtimeRecordsAfter3000RecordsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem removeRealtimeRecordsAfter5000RecordsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.SplitContainer splitContainer3;
         private System.Windows.Forms.TabControl MemoryAddresses_tabControl3;
         private System.Windows.Forms.TabPage tabPage8;
@@ -2511,14 +2481,7 @@
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.TabPage tabPage9;
         private System.Windows.Forms.ListView listView4;
-        private System.Windows.Forms.ToolStripMenuItem scanOnlyModeDefaultToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem scanKillSuspiciousRunAsAdminToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator9;
-        private System.Windows.Forms.ToolStripMenuItem realTimeSearchFiltersToolStripMenuItem;
         public System.Windows.Forms.ImageList imageList1;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator10;
-        private System.Windows.Forms.ToolStripMenuItem showNotifyPopupToolStripMenuItem;
         private System.Windows.Forms.StatusStrip statusStrip2;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel6;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel7;
@@ -2535,21 +2498,6 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.GroupBox Search;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem processesToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem refresh5SecToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem refresh10SecToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator11;
-        private System.Windows.Forms.ToolStripMenuItem clearListToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem allToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem liveProcessesToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem closedProcessesToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem stopListRefreshingToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem startRefreshingToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator12;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator13;
-        private System.Windows.Forms.ToolStripMenuItem eTWPM2RealtimeToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem showEventDetailsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem showEventDetails2ToolStripMenuItem;
         private System.Windows.Forms.TreeView treeView3;
         private System.Windows.Forms.SplitContainer splitContainer7;
         private System.Windows.Forms.TabControl tabControl3;
@@ -2559,30 +2507,17 @@
         private System.Windows.Forms.GroupBox groupBox15;
         private System.Windows.Forms.GroupBox groupBox16;
         private System.Windows.Forms.ListBox listBox4;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator15;
-        private System.Windows.Forms.ToolStripMenuItem clearAllProcessesToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator14;
         private System.Windows.Forms.SplitContainer splitContainer8;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
         private System.Windows.Forms.ToolStripMenuItem killProcessToolStripMenuItem;
         private System.Windows.Forms.ListView listView5;
         private System.Windows.Forms.SplitContainer splitContainer9;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator16;
-        private System.Windows.Forms.ToolStripMenuItem dontShowEventsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem networkConnectionsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem showEventsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem dontShowEventsToolStripMenuItem1;
         private System.Windows.Forms.TabControl tabControl4;
         private System.Windows.Forms.TabPage tabPage14;
         private System.Windows.Forms.ListBox listBox5;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator17;
-        private System.Windows.Forms.ToolStripMenuItem systemDeveloperLogsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem onToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem offToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem checkProcessHollowingSizeChangingToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator18;
-        private System.Windows.Forms.ToolStripMenuItem scanSuspendToolStripMenuItem;
         private System.Windows.Forms.TabPage tabPage15;
         private System.Windows.Forms.SplitContainer splitContainer10;
         private System.Windows.Forms.RichTextBox richTextBox10;
@@ -2590,9 +2525,6 @@
         private System.Windows.Forms.RichTextBox richTextBox8;
         private System.Windows.Forms.StatusStrip statusStrip3;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel5;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator19;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator8;
-        private System.Windows.Forms.ToolStripMenuItem filterExcludeInjectionBySystem4ToolStripMenuItem;
         public System.Windows.Forms.ListView listView6;
         public System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.GroupBox groupBox14;
@@ -2607,6 +2539,74 @@
         private System.Windows.Forms.TabPage tabPage13;
         private System.Windows.Forms.TabPage tabPage16;
         private System.Windows.Forms.ListView listView7;
+        private System.Windows.Forms.ToolStripMenuItem actionToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem startMonitorToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem stoptMonitorToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem autoScrollToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem onToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem offToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem clearAllToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripMenuItem scannersToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem pesieve64exeOffToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem pesieve64exeonToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem scanOnlyModeDefaultToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem scanSuspendToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem scanKillSuspiciousRunAsAdminToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
+        private System.Windows.Forms.ToolStripMenuItem defaultDumpAllToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem dontDumpTheModifiedPEsButSaveTheReportoffToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem dontDumpAnyFilesToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator10;
+        private System.Windows.Forms.ToolStripMenuItem processesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem refresh10SecToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem refresh5SecToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator12;
+        private System.Windows.Forms.ToolStripMenuItem stopListRefreshingToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem startRefreshingToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator13;
+        private System.Windows.Forms.ToolStripMenuItem clearListToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem allToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem liveProcessesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem closedProcessesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator15;
+        private System.Windows.Forms.ToolStripMenuItem clearAllProcessesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator14;
+        private System.Windows.Forms.ToolStripMenuItem networkConnectionsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem showEventsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem dontShowEventsToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem eTWPM2RealtimeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem showEventDetailsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem showEventDetails2ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator19;
+        private System.Windows.Forms.ToolStripMenuItem dontShowEventsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator8;
+        private System.Windows.Forms.ToolStripMenuItem filterExcludeInjectionBySystem4ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator11;
+        private System.Windows.Forms.ToolStripMenuItem showNotifyPopupToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator17;
+        private System.Windows.Forms.ToolStripMenuItem systemDeveloperLogsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem onToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem offToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem filtersToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem allEventsIDs123ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem eventID12ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem eventID13ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem eventID23InjectionTCPIPToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem eventID1ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem eventID2ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem eventID3ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+        private System.Windows.Forms.ToolStripMenuItem excludeSYSTEM4EventsFromRealtimeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem includeSYSTEM4EventsFromRealtimeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator16;
+        private System.Windows.Forms.ToolStripMenuItem removeRealtimeRecordsAfter500RecordsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem removeRealtimeRecordsAfter1000RecordsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem removeRealtimeRecordsAfter2000RecordsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem removeRealtimeRecordsAfter3000RecordsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem removeRealtimeRecordsAfter5000RecordsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator9;
+        private System.Windows.Forms.ToolStripMenuItem realTimeSearchFiltersToolStripMenuItem;
     }
 }
 

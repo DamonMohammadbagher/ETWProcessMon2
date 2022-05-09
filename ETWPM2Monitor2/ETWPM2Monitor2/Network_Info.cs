@@ -310,41 +310,7 @@ namespace ETWPM2Monitor2
 
         public static List<_Table_of_FileSystem_for_Processes_Watcher> Processes_FileSystemList2 = new List<_Table_of_FileSystem_for_Processes_Watcher>();
       
-        private async static void _TCP_timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
-        {
-            await MonitorNetworkTCPconnections();
-        }
-
-        public async static Task MonitorNetworkTCPconnections()
-        {
-            await Task.Run(() =>
-            {
-                try
-                {
-
-                    IPGlobalProperties _GetIPGlobalProperties = IPGlobalProperties.GetIPGlobalProperties();
-                    TcpConnectionInformation[] _TCPConnections = _GetIPGlobalProperties.GetActiveTcpConnections();
-
-                    _ActiveTCP_Connections_List.Clear();
-                    Task.Delay(100);
-                    _ActiveTCP_Connections_List.AddRange(_TCPConnections);
-
-                    //foreach (TcpConnectionInformation item in _ActiveTCP_Connections_List)
-                    //{
-                    //  //  if(-1 == _ActiveTCP_Connections_List_History.FindIndex(index => index.LocalEndPoint. item )
-                    //}
-                    //    //t.LocalEndPoint.Address.ToString() + ":" + t.LocalEndPoint.Port.ToString() + ">" + t.RemoteEndPoint.Address.ToString()
-                    //    //    + ":" + t.RemoteEndPoint.Port.ToString() + "@" + t.State.ToString());
-
-
-                }
-                catch (Exception)
-                {
-
-                }
-            });
-
-        }
+    
 
         public static void _Run_Core_Method()
         {
@@ -698,7 +664,7 @@ namespace ETWPM2Monitor2
 
                     //BeginInvoke(new information(Information));
 
-                    Thread.Sleep(1);
+                    Thread.Sleep(2);
 
                     Endpoits = 0;
                     Listen = 0;

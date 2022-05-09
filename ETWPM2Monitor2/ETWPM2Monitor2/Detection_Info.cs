@@ -77,7 +77,7 @@ namespace ETWPM2Monitor2
                     && !st.ToString().ToLower().Contains("[not scanned:0]"))
                     {
                         _ETW2MON.WriteEntry(simpledescription + st.ToString(), EventLogEntryType.Information, 1);
-                         
+
                     }
                     lastETW_Alarms_Detection = simpledescription + st.ToString();
                     Task.Delay(50);
