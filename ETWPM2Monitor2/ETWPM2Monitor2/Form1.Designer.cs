@@ -1376,7 +1376,7 @@
             this.contextMenuStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.refreshNetworkConnectionsToolStripMenuItem});
             this.contextMenuStrip2.Name = "contextMenuStrip2";
-            this.contextMenuStrip2.Size = new System.Drawing.Size(264, 48);
+            this.contextMenuStrip2.Size = new System.Drawing.Size(264, 26);
             // 
             // refreshNetworkConnectionsToolStripMenuItem
             // 

@@ -309,8 +309,60 @@ namespace ETWPM2Monitor2
         }
 
         public static List<_Table_of_FileSystem_for_Processes_Watcher> Processes_FileSystemList2 = new List<_Table_of_FileSystem_for_Processes_Watcher>();
-      
-    
+
+        //public void _DeleteItems(object id)
+        //{
+        //    try
+        //    {
+        //        if (Before_after == 1)
+        //        {
+        //            for (int w = 0; w < listView1.Items.Count; w++)
+        //            {
+        //                int found = 0;
+        //                for (int x = 0; x < Table2_x64.Length; x++)
+        //                {
+        //                    if (listView1.Items[w].Name == Table2_x64[x].FullSTR)
+        //                    {
+        //                        found = 1;
+        //                    }
+        //                }
+        //                if (found == 0)
+        //                {
+
+        //                    listView1.Items[w].Remove();
+        //                }
+        //            }
+
+        //        }
+        //        else if (Before_after == 0)
+        //        {
+        //            for (int w = 0; w < listView1.Items.Count; w++)
+        //            {
+        //                int found = 0;
+        //                for (int x = 0; x < Table1_x64.Length; x++)
+        //                {
+        //                    if (listView1.Items[w].Name == Table1_x64[x].FullSTR)
+        //                    {
+        //                        found = 1;
+        //                    }
+        //                }
+        //                if (found == 0)
+        //                {
+
+        //                    listView1.Items[w].Remove();
+        //                }
+        //            }
+        //        }
+
+        //    }
+        //    catch (Exception em)
+        //    {
+
+
+        //    }
+
+
+        //}
 
         public static void _Run_Core_Method()
         {
@@ -971,8 +1023,8 @@ namespace ETWPM2Monitor2
                 }
 
 
-                Table1_x64.ToList().RemoveAll(x => x.IsLive > 0);
-                Table2_x64.ToList().RemoveAll(x => x.IsLive > 0);
+                Table1_x64.ToList().RemoveAll(x => x.IsLive > 1);
+                Table2_x64.ToList().RemoveAll(x => x.IsLive > 1);
 
 
             }
