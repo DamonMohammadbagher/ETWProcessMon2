@@ -130,12 +130,12 @@
             this.killProcessToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox17 = new System.Windows.Forms.GroupBox();
             this.tabControl5 = new System.Windows.Forms.TabControl();
+            this.tabPage16 = new System.Windows.Forms.TabPage();
+            this.listView7 = new System.Windows.Forms.ListView();
             this.tabPage13 = new System.Windows.Forms.TabPage();
             this.listView3 = new System.Windows.Forms.ListView();
             this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.refreshNetworkConnectionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.tabPage16 = new System.Windows.Forms.TabPage();
-            this.listView7 = new System.Windows.Forms.ListView();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.tabControl4 = new System.Windows.Forms.TabControl();
             this.tabPage15 = new System.Windows.Forms.TabPage();
@@ -237,6 +237,10 @@
             this.toolStripStatusLabel6 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel7 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel9 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.for30minToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.for60MinToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.for90MinToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.for120MinToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip5.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -315,9 +319,9 @@
             this.contextMenuStrip1.SuspendLayout();
             this.groupBox17.SuspendLayout();
             this.tabControl5.SuspendLayout();
+            this.tabPage16.SuspendLayout();
             this.tabPage13.SuspendLayout();
             this.contextMenuStrip2.SuspendLayout();
-            this.tabPage16.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.tabControl4.SuspendLayout();
             this.tabPage15.SuspendLayout();
@@ -833,10 +837,12 @@
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.BackColor = System.Drawing.Color.DimGray;
             this.splitContainer1.Panel1.Controls.Add(this.listView2);
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.BackColor = System.Drawing.Color.DimGray;
             this.splitContainer1.Panel2.Controls.Add(this.tabControl2);
             this.splitContainer1.Size = new System.Drawing.Size(1085, 356);
             this.splitContainer1.SplitterDistance = 140;
@@ -900,6 +906,7 @@
             this.tabControl2.Controls.Add(this.tabPage9);
             this.tabControl2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl2.Location = new System.Drawing.Point(0, 0);
+            this.tabControl2.Margin = new System.Windows.Forms.Padding(1);
             this.tabControl2.Name = "tabControl2";
             this.tabControl2.SelectedIndex = 0;
             this.tabControl2.Size = new System.Drawing.Size(1085, 212);
@@ -1263,6 +1270,7 @@
             // 
             // splitContainer4
             // 
+            this.splitContainer4.BackColor = System.Drawing.Color.DimGray;
             this.splitContainer4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer4.Location = new System.Drawing.Point(0, 0);
             this.splitContainer4.Name = "splitContainer4";
@@ -1274,6 +1282,7 @@
             // 
             // splitContainer4.Panel2
             // 
+            this.splitContainer4.Panel2.BackColor = System.Drawing.Color.DimGray;
             this.splitContainer4.Panel2.Controls.Add(this.groupBox17);
             this.splitContainer4.Size = new System.Drawing.Size(1077, 186);
             this.splitContainer4.SplitterDistance = 93;
@@ -1281,9 +1290,12 @@
             // 
             // groupBox18
             // 
+            this.groupBox18.BackColor = System.Drawing.Color.DarkGray;
             this.groupBox18.Controls.Add(this.listView4);
             this.groupBox18.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox18.ForeColor = System.Drawing.Color.White;
             this.groupBox18.Location = new System.Drawing.Point(0, 0);
+            this.groupBox18.Margin = new System.Windows.Forms.Padding(1);
             this.groupBox18.Name = "groupBox18";
             this.groupBox18.Size = new System.Drawing.Size(1077, 93);
             this.groupBox18.TabIndex = 1;
@@ -1298,6 +1310,7 @@
             this.listView4.FullRowSelect = true;
             this.listView4.HideSelection = false;
             this.listView4.Location = new System.Drawing.Point(3, 16);
+            this.listView4.Margin = new System.Windows.Forms.Padding(1);
             this.listView4.MultiSelect = false;
             this.listView4.Name = "listView4";
             this.listView4.Size = new System.Drawing.Size(1071, 74);
@@ -1329,9 +1342,12 @@
             // 
             // groupBox17
             // 
+            this.groupBox17.BackColor = System.Drawing.Color.DarkGray;
             this.groupBox17.Controls.Add(this.tabControl5);
             this.groupBox17.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox17.ForeColor = System.Drawing.Color.White;
             this.groupBox17.Location = new System.Drawing.Point(0, 0);
+            this.groupBox17.Margin = new System.Windows.Forms.Padding(1);
             this.groupBox17.Name = "groupBox17";
             this.groupBox17.Size = new System.Drawing.Size(1077, 89);
             this.groupBox17.TabIndex = 1;
@@ -1340,14 +1356,36 @@
             // 
             // tabControl5
             // 
-            this.tabControl5.Controls.Add(this.tabPage13);
             this.tabControl5.Controls.Add(this.tabPage16);
+            this.tabControl5.Controls.Add(this.tabPage13);
             this.tabControl5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl5.Location = new System.Drawing.Point(3, 16);
+            this.tabControl5.Margin = new System.Windows.Forms.Padding(1);
             this.tabControl5.Name = "tabControl5";
             this.tabControl5.SelectedIndex = 0;
             this.tabControl5.Size = new System.Drawing.Size(1071, 70);
             this.tabControl5.TabIndex = 1;
+            // 
+            // tabPage16
+            // 
+            this.tabPage16.Controls.Add(this.listView7);
+            this.tabPage16.Location = new System.Drawing.Point(4, 22);
+            this.tabPage16.Name = "tabPage16";
+            this.tabPage16.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage16.Size = new System.Drawing.Size(1063, 44);
+            this.tabPage16.TabIndex = 1;
+            this.tabPage16.Text = "Network Connections History";
+            this.tabPage16.UseVisualStyleBackColor = true;
+            // 
+            // listView7
+            // 
+            this.listView7.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listView7.HideSelection = false;
+            this.listView7.Location = new System.Drawing.Point(3, 3);
+            this.listView7.Name = "listView7";
+            this.listView7.Size = new System.Drawing.Size(1057, 38);
+            this.listView7.TabIndex = 0;
+            this.listView7.UseCompatibleStateImageBehavior = false;
             // 
             // tabPage13
             // 
@@ -1384,27 +1422,6 @@
             this.refreshNetworkConnectionsToolStripMenuItem.Size = new System.Drawing.Size(263, 22);
             this.refreshNetworkConnectionsToolStripMenuItem.Text = "Clear/Refresh Network Connections";
             this.refreshNetworkConnectionsToolStripMenuItem.Click += new System.EventHandler(this.RefreshNetworkConnectionsToolStripMenuItem_Click);
-            // 
-            // tabPage16
-            // 
-            this.tabPage16.Controls.Add(this.listView7);
-            this.tabPage16.Location = new System.Drawing.Point(4, 22);
-            this.tabPage16.Name = "tabPage16";
-            this.tabPage16.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage16.Size = new System.Drawing.Size(1063, 44);
-            this.tabPage16.TabIndex = 1;
-            this.tabPage16.Text = "Network Connections History";
-            this.tabPage16.UseVisualStyleBackColor = true;
-            // 
-            // listView7
-            // 
-            this.listView7.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listView7.HideSelection = false;
-            this.listView7.Location = new System.Drawing.Point(3, 3);
-            this.listView7.Name = "listView7";
-            this.listView7.Size = new System.Drawing.Size(1057, 38);
-            this.listView7.TabIndex = 0;
-            this.listView7.UseCompatibleStateImageBehavior = false;
             // 
             // tabPage3
             // 
@@ -1770,42 +1787,46 @@
             this.refresh10SecToolStripMenuItem.Checked = true;
             this.refresh10SecToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.refresh10SecToolStripMenuItem.Name = "refresh10SecToolStripMenuItem";
-            this.refresh10SecToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.refresh10SecToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.refresh10SecToolStripMenuItem.Text = "Refresh (10 sec)";
             this.refresh10SecToolStripMenuItem.Click += new System.EventHandler(this.Refresh10SecToolStripMenuItem_Click);
             // 
             // refresh5SecToolStripMenuItem
             // 
             this.refresh5SecToolStripMenuItem.Name = "refresh5SecToolStripMenuItem";
-            this.refresh5SecToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.refresh5SecToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.refresh5SecToolStripMenuItem.Text = "Refresh (15 sec)";
             this.refresh5SecToolStripMenuItem.Click += new System.EventHandler(this.Refresh5SecToolStripMenuItem_Click);
             // 
             // toolStripSeparator12
             // 
             this.toolStripSeparator12.Name = "toolStripSeparator12";
-            this.toolStripSeparator12.Size = new System.Drawing.Size(157, 6);
+            this.toolStripSeparator12.Size = new System.Drawing.Size(177, 6);
             // 
             // stopListRefreshingToolStripMenuItem
             // 
             this.stopListRefreshingToolStripMenuItem.Checked = true;
             this.stopListRefreshingToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.stopListRefreshingToolStripMenuItem.Name = "stopListRefreshingToolStripMenuItem";
-            this.stopListRefreshingToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.stopListRefreshingToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.stopListRefreshingToolStripMenuItem.Text = "Stop Refreshing ";
             this.stopListRefreshingToolStripMenuItem.Click += new System.EventHandler(this.StopListRefreshingToolStripMenuItem_Click);
             // 
             // startRefreshingToolStripMenuItem
             // 
+            this.startRefreshingToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.for30minToolStripMenuItem,
+            this.for60MinToolStripMenuItem,
+            this.for90MinToolStripMenuItem,
+            this.for120MinToolStripMenuItem});
             this.startRefreshingToolStripMenuItem.Name = "startRefreshingToolStripMenuItem";
-            this.startRefreshingToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.startRefreshingToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.startRefreshingToolStripMenuItem.Text = "Start Refreshing";
-            this.startRefreshingToolStripMenuItem.Click += new System.EventHandler(this.StartRefreshingToolStripMenuItem_Click);
             // 
             // toolStripSeparator13
             // 
             this.toolStripSeparator13.Name = "toolStripSeparator13";
-            this.toolStripSeparator13.Size = new System.Drawing.Size(157, 6);
+            this.toolStripSeparator13.Size = new System.Drawing.Size(177, 6);
             // 
             // clearListToolStripMenuItem
             // 
@@ -1816,7 +1837,7 @@
             this.toolStripSeparator15,
             this.clearAllProcessesToolStripMenuItem});
             this.clearListToolStripMenuItem.Name = "clearListToolStripMenuItem";
-            this.clearListToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.clearListToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.clearListToolStripMenuItem.Text = "Clear List";
             // 
             // allToolStripMenuItem
@@ -1855,7 +1876,7 @@
             // toolStripSeparator14
             // 
             this.toolStripSeparator14.Name = "toolStripSeparator14";
-            this.toolStripSeparator14.Size = new System.Drawing.Size(157, 6);
+            this.toolStripSeparator14.Size = new System.Drawing.Size(177, 6);
             // 
             // networkConnectionsToolStripMenuItem
             // 
@@ -2290,6 +2311,34 @@
             this.toolStripStatusLabel9.Text = "| ETWPM2Monitor2 Detection Event Logs (0)";
             this.toolStripStatusLabel9.Click += new System.EventHandler(this.ToolStripStatusLabel9_Click);
             // 
+            // for30minToolStripMenuItem
+            // 
+            this.for30minToolStripMenuItem.Name = "for30minToolStripMenuItem";
+            this.for30minToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.for30minToolStripMenuItem.Text = "for 30 min...";
+            this.for30minToolStripMenuItem.Click += new System.EventHandler(this.For30minToolStripMenuItem_Click);
+            // 
+            // for60MinToolStripMenuItem
+            // 
+            this.for60MinToolStripMenuItem.Name = "for60MinToolStripMenuItem";
+            this.for60MinToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.for60MinToolStripMenuItem.Text = "for 60 min...";
+            this.for60MinToolStripMenuItem.Click += new System.EventHandler(this.For60MinToolStripMenuItem_Click);
+            // 
+            // for90MinToolStripMenuItem
+            // 
+            this.for90MinToolStripMenuItem.Name = "for90MinToolStripMenuItem";
+            this.for90MinToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.for90MinToolStripMenuItem.Text = "for 90 min...";
+            this.for90MinToolStripMenuItem.Click += new System.EventHandler(this.For90MinToolStripMenuItem_Click);
+            // 
+            // for120MinToolStripMenuItem
+            // 
+            this.for120MinToolStripMenuItem.Name = "for120MinToolStripMenuItem";
+            this.for120MinToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.for120MinToolStripMenuItem.Text = "for 120 min...";
+            this.for120MinToolStripMenuItem.Click += new System.EventHandler(this.For120MinToolStripMenuItem_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2386,9 +2435,9 @@
             this.contextMenuStrip1.ResumeLayout(false);
             this.groupBox17.ResumeLayout(false);
             this.tabControl5.ResumeLayout(false);
+            this.tabPage16.ResumeLayout(false);
             this.tabPage13.ResumeLayout(false);
             this.contextMenuStrip2.ResumeLayout(false);
-            this.tabPage16.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
             this.tabControl4.ResumeLayout(false);
             this.tabPage15.ResumeLayout(false);
@@ -2491,7 +2540,6 @@
         private System.Windows.Forms.RichTextBox richTextBox9;
         private System.Windows.Forms.TreeView treeView2;
         private System.Windows.Forms.SplitContainer splitContainer6;
-        private System.Windows.Forms.GroupBox groupBox12;
         private System.Windows.Forms.GroupBox groupBox13;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.TextBox textBox1;
@@ -2607,6 +2655,11 @@
         private System.Windows.Forms.ToolStripMenuItem removeRealtimeRecordsAfter5000RecordsToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator9;
         private System.Windows.Forms.ToolStripMenuItem realTimeSearchFiltersToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem for30minToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem for60MinToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem for90MinToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem for120MinToolStripMenuItem;
+        public System.Windows.Forms.GroupBox groupBox12;
     }
 }
 
