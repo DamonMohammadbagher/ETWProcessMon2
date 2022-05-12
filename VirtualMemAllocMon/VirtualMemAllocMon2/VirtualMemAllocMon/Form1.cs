@@ -15,10 +15,55 @@ using System.Diagnostics;
 namespace VirtualMemAllocMon
 {
     public partial class Form1 : Form
-    {       
+    {
+        public struct VirtualMemAllocEvents
+        {
+            // "[3/23/2022 5:07:51 PM] PID:(5140) TID(6628) :1661968515072:65536:MEM_COMMIT, MEM_RESERVE:0x10000:0x182f50c0000 [VirtualMemAlloc]"
+            private DateTime Time;
+            public DateTime _Time { get { return Time; } set { Time = value; } }
+
+            private string Process;
+            public string _Process { get { return Process; } set { Process = value; } }
+
+            private string Type_of_MEM;
+            public string _Type_of_MEM { get { return Type_of_MEM; } set { Type_of_MEM = value; } }
+
+            private string DeltaTime;
+            public string _DeltaTime { get { return DeltaTime; } set { DeltaTime = value; } }
+
+            private Int64 EventCount;
+            public Int64 _EventCount { get { return EventCount; } set { EventCount = value; } }
+
+            private string EventTTL;
+            public string _EventTTL { get { return EventTTL; } set { EventTTL = value; } }
+
+            private DateTime Event_FirstTime;
+            public DateTime _Event_FirstTime { get { return Event_FirstTime; } set { Event_FirstTime = value; } }
+
+            private string SUID;
+            public string _SUID { get { return SUID; } set { SUID = value; } }
+
+            private Int64 Update_Events;
+            public Int64 _Update_Events { get { return Update_Events; } set { Update_Events = value; } }
+
+            private string StartAddress;
+            public string _StartAddress { get { return StartAddress; } set { StartAddress = value; } }
+
+            private Int32 TID;
+            public Int32 _TID { get { return TID; } set { TID = value; } }
+
+            private Int32 PID;
+            public Int32 _PID { get { return PID; } set { PID = value; } }
+
+            private Int32 Size;
+            public Int32 _Size { get { return Size; } set { Size = value; } }
+        }
+
+        public static List<VirtualMemAllocEvents> ETWVirtualMemAllocEvents = new List<VirtualMemAllocEvents>();
+
         public static string ETW_VAx_Event_RealtimeChangedStrings = string.Empty;
         public static byte[] buf = new byte[208];
-        public static string[] Flag_to_detection_VAx = new string[14];
+        public static string[] Flag_to_detection_VAx = new string[17];
         public static string[] Flag_to_detection_Bytes = new string[11];
         public static bool VaxFound, BytesFound = false;
         public static System.Timers.Timer __t = new System.Timers.Timer(350);
@@ -32,7 +77,9 @@ namespace VirtualMemAllocMon
         public static int result = 0;
         public static UInt32 temp;                     
         public static ListViewItem iList5 = new ListViewItem();
+        public static ListViewItem iList6 = new ListViewItem();
         public static EventLog _VirtualMemAllocMon;
+         
 
         public static bool _SearchVAxEvents(string input_to_search)
         {
@@ -93,12 +140,11 @@ namespace VirtualMemAllocMon
                 Flag_to_detection_Bytes[3] = "00000000   4D 5A";
 
                 /// CobaltStrike
-                Flag_to_detection_Bytes[4] = "B8 42 65 25 42 41 65 4D  5A 41 52 55 48 89 E5 48   ,Be%BAeMZARUH?åH";
-                Flag_to_detection_Bytes[5] = "00000040   B8 42 65 25 42 41 65 4D  5A 41 52 55 48 89 E5 48";
-                
-                /// 
+                Flag_to_detection_Bytes[4] = "MZARUH?";
+                Flag_to_detection_Bytes[5] = "DOS mode";
+                /// yeah hura ;)
                 Flag_to_detection_Bytes[6] = "MZARUH";
-                Flag_to_detection_Bytes[7] = "MZARUH?";
+                Flag_to_detection_Bytes[7] = "ARUH";
 
                 Flag_to_detection_Bytes[8] = "in DOS mode.";
                 Flag_to_detection_Bytes[9] = "This progra";
@@ -232,18 +278,20 @@ namespace VirtualMemAllocMon
 
             // return result.ToString();
         }
-
-        private void Program__Event_VirtualMemAlloc_etw_evt(object sender, EventArgs e)
+       
+        public void Program__Event_VirtualMemAlloc_etw_evt(object sender, EventArgs e)
         {
+           
             try
             {
 
-                // "[3/23/2022 5:07:51 PM] PID:(5140) TID(6628) :1661968515072:65536:MEM_COMMIT, MEM_RESERVE:0x10000:0x182f50c0000 [VirtualMemAlloc]"
+                ///"[4/13/2022 6:19:13 PM] PID:(7628) TID(2860) :2225218912256:131072:2109440:0x20000:0x20619640000:2225216806912:77824:MEM_COMMIT:0x13000:0x20619431000:2225219043328:131072:MEM_COMMIT, MEM_RESERVE:0x20000:0x20619660000:2225219174400:131072:2109440:0x20000:0x20619680000:2225216884736:487424:MEM_COMMIT:0x77000:0x206194a8000:1608888221696:65536:MEM_COMMIT, MEM_RESERVE:0x10000:0x17699370000:1608888287232:65536:MEM_COMMIT, MEM_RESERVE:0x10000:0x17699380000:2225219305472:131072:2109440:0x20000:0x206196a0000:2225214455808:16384:MEM_COMMIT:0x4000:0x206191e4000:2225217372160:77824:MEM_COMMIT:0x13000:0x206194bb000:2225214488576:32768:MEM_COMMIT:0x8000:0x206191f0000:2225214472192:16384:MEM_COMMIT:0x4000:0x206191e8000 [VirtualMemAlloc]"
+                /// "[3/23/2022 5:07:51 PM] PID:(5140) TID(6628) :1661968515072:65536:MEM_COMMIT, MEM_RESERVE:0x10000:0x182f50c0000 [VirtualMemAlloc]"
                 string ETW_VAx_Event_RealtimeChangedStrings = sender.ToString();
 
                 if (_SearchVAxEvents(ETW_VAx_Event_RealtimeChangedStrings))
                 {
-                 
+
                     _ShowDetailsBytes(ETW_VAx_Event_RealtimeChangedStrings);
                 }
                 else
@@ -256,6 +304,19 @@ namespace VirtualMemAllocMon
 
 
             }
+
+         
+
+        }
+
+        public static string Delta_Time(DateTime currenttime, DateTime lasttime)
+        {
+            DateTime date1 = lasttime;
+            DateTime date2 = currenttime;
+            TimeSpan _ts = date2 - date1;
+
+
+            return "Min:" + _ts.TotalMinutes.ToString() + " OR " + "Sec:" + _ts.Seconds.ToString();
         }
 
         private void ListView1_SelectedIndexChanged(object sender, EventArgs e)
@@ -436,6 +497,9 @@ namespace VirtualMemAllocMon
             listView1.Columns.Add("Event Details Size:Type:StartAddress", 560, HorizontalAlignment.Left);
             listView1.Columns.Add("EventMessage", 500, HorizontalAlignment.Left);
 
+
+
+
             /// meterpreter x64 payloads/events (only)
             /// note: for x86 payloads your x86 payloads will have new sizes...
             Flag_to_detection_VAx[0] = ":434176:MEM_COMMIT, MEM_RESERVE:";
@@ -443,20 +507,24 @@ namespace VirtualMemAllocMon
             Flag_to_detection_VAx[2] = ":200704:MEM_COMMIT, MEM_RESERVE:";
             Flag_to_detection_VAx[3] = ":233472:MEM_COMMIT, MEM_RESERVE:";
 
-            ///CobaltStrike (x86)
+            /// CobaltStrike (x86)
             Flag_to_detection_VAx[4] = ":208896:MEM_COMMIT, MEM_RESERVE:";
             Flag_to_detection_VAx[5] = ":249856:MEM_COMMIT, MEM_RESERVE:";
             Flag_to_detection_VAx[6] = ":311296:MEM_COMMIT, MEM_RESERVE:";
-            Flag_to_detection_VAx[7] = ":4194304:MEM_COMMIT, MEM_RESERVE:";            
+            Flag_to_detection_VAx[7] = ":4194304:MEM_COMMIT, MEM_RESERVE:";
             ///[4/11/2022 7:49:23 AM] PID:(8544) TID(8796) :145096704:241664:MEM_COMMIT, MEM_RESERVE:0x3b000:0x8a9b000 [VirtualMemAlloc]
             Flag_to_detection_VAx[8] = ":241664:MEM_COMMIT, MEM_RESERVE:";
             ///[4/11/2022 7:49:23 AM] PID:(8544) TID(8848) :144572416:204800:MEM_COMMIT, MEM_RESERVE:0x32000:0x8a12000 [VirtualMemAlloc]
             Flag_to_detection_VAx[9] = ":204800:MEM_COMMIT, MEM_RESERVE:";
-            ///CobaltStrike4.4
+            /// CobaltStrike4.4
             Flag_to_detection_VAx[10] = ":245760:MEM_COMMIT, MEM_RESERVE:";
             Flag_to_detection_VAx[11] = ":253952:MEM_COMMIT, MEM_RESERVE:";
             Flag_to_detection_VAx[12] = ":212992:MEM_COMMIT, MEM_RESERVE:";
             Flag_to_detection_VAx[13] = ":318488:MEM_COMMIT, MEM_RESERVE:";
+            Flag_to_detection_VAx[14] = ":24576:MEM_COMMIT, MEM_RESERVE:";
+
+            Flag_to_detection_VAx[15] = ":28672:MEM_COMMIT:";
+            Flag_to_detection_VAx[16] = ":24576:MEM_COMMIT:";
 
 
             Thread.Sleep(250);
@@ -466,7 +534,7 @@ namespace VirtualMemAllocMon
 
                 Bingo = new System.Threading.Thread(ETWCoreI)
                 {
-                    Priority = System.Threading.ThreadPriority.Highest
+                    Priority = System.Threading.ThreadPriority.Normal
                 };
                 Bingo.Start();
 
@@ -542,6 +610,8 @@ namespace VirtualMemAllocMon
             MessageBox.Show(null, "VirtualMemAllocMon v2.0 [2.0.0.0]\nCode Published by Damon Mohammadbagher , Mar 2022", "About ETW VirtualMemAllocMon v2.0",
                 MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
+
+        
 
         [Flags]
         public enum ProcessAccessFlags : uint
@@ -944,7 +1014,8 @@ namespace VirtualMemAllocMon
         {
             ThreadQuerySetWin32StartAddress = 9
         }
-       
+
+     
 
         public Form1()
         {
