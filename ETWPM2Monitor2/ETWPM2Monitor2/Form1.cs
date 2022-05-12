@@ -16,6 +16,7 @@ using System.Windows.Forms;
 using System.Management;
 using System.Security.Cryptography;
 using System.Reflection;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace ETWPM2Monitor2
 {
@@ -79,7 +80,7 @@ namespace ETWPM2Monitor2
         public delegate void __core2(object str);
         public delegate void __Updatelistview1();
         public delegate void __Obj_Updater_to_WinForm();
-        public delegate void __Obj_Updater_to_WinForm2(string obj1, TreeView obj2);
+        public delegate void __Obj_Updater_to_WinForm2(TreeView ResultTreeview, string obj1, TreeView obj2);
         public delegate void __Obj_Updater_to_WinForm3(string obj1, int obj2);
         public delegate void __FSWatch_Object_Add(System.IO.FileSystemEventArgs _e);
         public delegate void __AsyncScanner01(List<_TableofProcess> __Table_of_Process_to_Scan, Int32 PID, string _des_address_port, string ProcessName);
@@ -409,6 +410,89 @@ namespace ETWPM2Monitor2
         public static bool Isinit_Time_To_Start_Timer10_ProcessTabTimer = false;
         public static DateTime _Time_To_Start_Timer10_ProcessTabTimer = DateTime.Now;
 
+        public void _ProcessesTab_TakeSnapshot()
+        {
+            try
+            {
+                string date = DateTime.Now.Year + "_" + DateTime.Now.Month + "_" + DateTime.Now.Day + "_" + DateTime.Now.Hour + "." + DateTime.Now.Minute + "." + DateTime.Now.Second;
+
+                using (Stream Snapshot = File.Open("LiveProcessSnapshot" + date + ".data", FileMode.Create))
+                {
+                    BinaryFormatter _data = new BinaryFormatter();
+                    _data.Serialize(Snapshot, treeView1.Nodes.Cast<TreeNode>().ToList());
+                }
+
+                using (Stream Snapshot = File.Open("ClosedProcessSnapshot" + date + ".data2", FileMode.Create))
+                {
+                    BinaryFormatter _data = new BinaryFormatter();
+                    _data.Serialize(Snapshot, treeView2.Nodes.Cast<TreeNode>().ToList());
+                }
+
+                MessageBox.Show("Snapshot Data saved into 2 files: \n\n" + "1. LiveProcessSnapshot" + date + ".data" + "\n\n2. " + "ClosedProcessSnapshot" + date + ".data2");
+            }
+            catch (Exception ee)
+            {
+
+                MessageBox.Show(ee.Message);
+            }
+        }
+        public void _Snapshot1Tab_LoadSnapshot()
+        {
+            try
+            {
+                treeView4.Nodes.Clear();
+                treeView5.Nodes.Clear();
+
+                OpenFileDialog ofd = new OpenFileDialog();
+
+                ofd.Filter = "data files (LiveProcessSnapshot*.data)|*.data";
+                ofd.FilterIndex = 0;
+                ofd.ShowDialog();
+                string targetfile = ofd.FileName;
+                treeView4.ImageList = imageList1;
+                treeView5.ImageList = imageList1;
+
+                using (Stream file = File.Open(targetfile, FileMode.Open))
+                {
+                    BinaryFormatter _data = new BinaryFormatter();
+                    object obj = _data.Deserialize(file);
+
+                    TreeNode[] _Nodes = (obj as IEnumerable<TreeNode>).ToArray();
+                    treeView4.Nodes.AddRange(_Nodes);
+                }
+
+
+                OpenFileDialog ofd2 = new OpenFileDialog();
+
+                ofd2.Filter = "data2 files (ClosedProcessSnapshot*.data2)|*.data2";
+                ofd2.FilterIndex = 0;
+                ofd2.ShowDialog();
+                string targetfile2 = ofd2.FileName;
+
+                using (Stream file = File.Open(targetfile2, FileMode.Open))
+                {
+                    BinaryFormatter _data = new BinaryFormatter();
+                    object obj = _data.Deserialize(file);
+
+                    TreeNode[] _Nodes = (obj as IEnumerable<TreeNode>).ToArray();
+                    treeView5.Nodes.AddRange(_Nodes);
+                }
+
+                Thread.Sleep(100);
+                tabControl3.SelectedIndex = 2;
+                Thread.Sleep(10);
+                label1.Text = targetfile;
+                label2.Text = targetfile2;
+
+                MessageBox.Show("Data files loaded in Snapshot1 Tab \n" + targetfile + "\n" + targetfile2);
+
+            }
+            catch (Exception ee)
+            {
+
+                MessageBox.Show(ee.Message);
+            }
+        }
         public async Task _Add_SystemDeveloperLogs(string logmessage)
         {
             try
@@ -528,7 +612,7 @@ namespace ETWPM2Monitor2
                 }
             }
         }
-        public async void __SearchStrings_in_ProcessesTab(string search, TreeView targetProcesses)
+        public async void __SearchStrings_in_ProcessesTab(TreeView SearchResultTreeView, string search, TreeView targetProcesses)
         {
 
             try
@@ -541,7 +625,7 @@ namespace ETWPM2Monitor2
                     {
                         object mainobj = node.Clone();
 
-                        treeView3.Nodes.Add((TreeNode)mainobj);
+                        SearchResultTreeView.Nodes.Add((TreeNode)mainobj);
                     }
                     else
                     {
@@ -555,7 +639,7 @@ namespace ETWPM2Monitor2
                             ((TreeNode)obj).ExpandAll();
 
                             if (((TreeNode)obj).Text != lastnode)
-                                treeView3.Nodes.Add((TreeNode)obj);
+                                SearchResultTreeView.Nodes.Add((TreeNode)obj);
 
                             lastnode = ((TreeNode)obj).Text;
 
@@ -1887,6 +1971,7 @@ namespace ETWPM2Monitor2
                 /// very important  
                 Form.CheckForIllegalCrossThreadCalls = false;
 
+                
 
                 _ExcludeProcessList.AddRange(new string[4] { "msedge", "firefox", "chrome", "iexplorer" });
 
@@ -6253,7 +6338,7 @@ namespace ETWPM2Monitor2
 
         private void AboutToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(null, "ETWPM2Monitor2 v2.1 [test version 2.1.39.329]\nCode Published by Damon Mohammadbagher , Jul 2021", "About ETWPM2Monitor2 v2.1", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show(null, "ETWPM2Monitor2 v2.1 [test version 2.1.40.347]\nCode Published by Damon Mohammadbagher , Jul 2021", "About ETWPM2Monitor2 v2.1", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
         }
 
@@ -6461,7 +6546,7 @@ namespace ETWPM2Monitor2
             richTextBox9.Clear();
             treeView3.Nodes.Clear();
             treeView3.ImageList = imageList1;
-            BeginInvoke(new __Obj_Updater_to_WinForm2(__SearchStrings_in_ProcessesTab), textBox1.Text, treeView1);
+            BeginInvoke(new __Obj_Updater_to_WinForm2(__SearchStrings_in_ProcessesTab),treeView3, textBox1.Text, treeView1);
 
         }
 
@@ -6470,7 +6555,7 @@ namespace ETWPM2Monitor2
             richTextBox9.Clear();
             treeView3.Nodes.Clear();
             treeView3.ImageList = imageList1;
-            BeginInvoke(new __Obj_Updater_to_WinForm2(__SearchStrings_in_ProcessesTab), textBox1.Text, treeView2);
+            BeginInvoke(new __Obj_Updater_to_WinForm2(__SearchStrings_in_ProcessesTab),treeView3, textBox1.Text, treeView2);
 
         }
 
@@ -7040,6 +7125,63 @@ namespace ETWPM2Monitor2
             t7.Start();
             t10.Enabled = true;
             t10.Start();
+        }
+
+        private void TakeSnapShotToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _ProcessesTab_TakeSnapshot();
+        }
+
+        private void LoadSnapshotToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _Snapshot1Tab_LoadSnapshot();
+
+        }
+
+        private void TreeView4_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            richTextBox11.Text = treeView4.SelectedNode.Text;
+        }
+
+        private void TreeView5_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            richTextBox11.Text = treeView5.SelectedNode.Text;
+        }
+
+        private void Button4_Click(object sender, EventArgs e)
+        {
+            richTextBox11.Clear();
+            treeView6.Nodes.Clear();
+            treeView6.ImageList = imageList1;
+            BeginInvoke(new __Obj_Updater_to_WinForm2(__SearchStrings_in_ProcessesTab), treeView6, textBox2.Text, treeView4);
+        }
+
+        private void Button3_Click(object sender, EventArgs e)
+        {
+            richTextBox11.Clear();
+            treeView6.Nodes.Clear();
+            treeView6.ImageList = imageList1;
+            BeginInvoke(new __Obj_Updater_to_WinForm2(__SearchStrings_in_ProcessesTab), treeView6, textBox2.Text, treeView5);
+        }
+
+        private void TreeView6_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            richTextBox11.Text = treeView6.SelectedNode.Text;
+        }
+
+        private void LoadSnapshotToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            _Snapshot1Tab_LoadSnapshot();
+        }
+
+        private void TakeSnapshotToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            _ProcessesTab_TakeSnapshot();
+        }
+       
+        private void LoadSnapshotToolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            _Snapshot1Tab_LoadSnapshot();
         }
 
         private void ToolStripStatusLabel9_Click(object sender, EventArgs e)
