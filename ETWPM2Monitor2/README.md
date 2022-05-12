@@ -61,6 +61,9 @@ Usage Steps
     Step2 (Run as Admin) : ETWPM2Monitor2.exe
 
 ----------------------------------------------------------
+### ETWPM2Monitor2 v2.1 , update(40) v2.1.40.347 [May 12, 2022] (Processes List Tab, Take Snapshot & Load Snapshot added to the source code.)
+   ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2/Pics/snapshot.png)
+   
 ### ETWPM2Monitor2 v2.1 , update(38) v2.1.38.286 [May 07, 2022] (ETW Network Connection Events compare with Network Connection via Native APIs)
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2/Pics/NetworkConnectionAPI.png)
    
