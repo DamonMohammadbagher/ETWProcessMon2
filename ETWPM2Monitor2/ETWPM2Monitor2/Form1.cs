@@ -941,8 +941,81 @@ namespace ETWPM2Monitor2
 
                         if (!IsDontShow_ETWPM2_Realt_time_Enabled)
                         {
-                            listView1.Items.Add(MyLviewItemsX1);
+                            try
+                            {
+                                /// Delta time Detection in Show Event Details [Mode1].
+                                /// 
+
+                                if (listView1.Items.Count > 0)
+                                {
+                                   
+                                    string lastprocess = listView1.Items[listView1.Items.Count - 1].SubItems[3].Text;
+                                   
+                                    if (lastprocess.ToLower() == MyLviewItemsX1.SubItems[3].Text.ToLower())
+                                    {
+                                        try
+                                        {
+                                            DateTime lastdt = Convert.ToDateTime(listView1.Items[listView1.Items.Count - 1].SubItems[5].Text.Split('\n')[4].Split('=')[1]);
+                                            DateTime currentdt = Convert.ToDateTime(MyLviewItemsX1.SubItems[5].Text.Split('\n')[4].Split('=')[1]);
+                                            TimeSpan ts = currentdt - lastdt;
+                                            string delta = ts.TotalSeconds.ToString();
+
+                                            listView1.Items[listView1.Items.Count - 1].SubItems[4].Text += " " + "▼";
+
+                                            Int32 deltalast = -1;
+
+                                            if (listView1.Items[listView1.Items.Count - 1].SubItems[4].Text.Contains("DeltaTime:"))
+                                            {
+                                                deltalast = Convert.ToInt32(string.Join("", ("0" + listView1.Items[listView1.Items.Count - 1].SubItems[4].Text)
+                                                   .ToCharArray().Where(char.IsDigit)).ToString());
+                                            }
+
+                                            listView1.Items.Add(MyLviewItemsX1);
+
+                                            listView1.Items[listView1.Items.Count - 1].SubItems[4].Text += " " + "▲" + " (DeltaTime: " + delta + " Sec)";
+
+
+
+                                            Int32 deltacurrent = Convert.ToInt32(ts.TotalSeconds);
+
+                                            /// show tcp events for process. those Events which has/had same Delta Time.
+                                            if (deltalast == deltacurrent)
+                                            {
+                                                listView1.Items[listView1.Items.Count - 2].BackColor = Color.LightGoldenrodYellow;
+                                                listView1.Items[listView1.Items.Count - 1].BackColor = Color.LightGoldenrodYellow;
+                                            }
+
+                                           
+                                        }
+                                        catch (Exception ee)
+                                        {
+                                          //  MessageBox.Show(ee.Message);
+
+                                        }
+
+
+                                    }
+                                    else
+                                    {
+                                        listView1.Items.Add(MyLviewItemsX1);
+                                    }
+                                }
+                                else
+                                {
+                                    listView1.Items.Add(MyLviewItemsX1);
+                                   
+                                }
+                            }
+                            catch (Exception)
+                            {
+
+                                
+                            }                                                     
+
                         }
+
+
+
                     }
 
                     /// EventID 1 = Create New Process
@@ -2038,18 +2111,7 @@ namespace ETWPM2Monitor2
                 listView1.HeaderStyle = ColumnHeaderStyle.Nonclickable;
                 listView1.BorderStyle = BorderStyle.FixedSingle;
 
-                /// Set the view to show details.
-                listView1.View = View.Details;
-                /// Allow the user to edit item text.
-                listView1.LabelEdit = false;
-                /// Allow the user to rearrange columns.
-                listView1.AllowColumnReorder = true;
-                /// Display check boxes.
-                listView1.CheckBoxes = false;
-                /// Select the item and subitems when selection is made.
-                listView1.FullRowSelect = true;
-                /// Display grid lines.
-                listView1.GridLines = false;
+
 
                 t.Elapsed += T_Elapsed;
                 t.Enabled = true;
@@ -2115,11 +2177,23 @@ namespace ETWPM2Monitor2
                 t15.Enabled = true;
                 t15.Start();
 
+                /// Set the view to show details.
+                listView1.View = View.Details;
+                /// Allow the user to edit item text.
+                listView1.LabelEdit = false;
+                /// Allow the user to rearrange columns.
+                listView1.AllowColumnReorder = true;
+                /// Display check boxes.
+                listView1.CheckBoxes = false;
+                /// Select the item and subitems when selection is made.
+                listView1.FullRowSelect = true;
+                /// Display grid lines.
+                listView1.GridLines = false;
                 listView1.Columns.Add(" ", 20, HorizontalAlignment.Left);
                 listView1.Columns.Add("Time", 130, HorizontalAlignment.Left);
                 listView1.Columns.Add("EventID", 55, HorizontalAlignment.Left);
                 listView1.Columns.Add("Process", 170, HorizontalAlignment.Left);
-                listView1.Columns.Add("Evt-Type", 55, HorizontalAlignment.Left);
+                listView1.Columns.Add("Evt-Type", 160, HorizontalAlignment.Left);
 
 
 
@@ -4040,6 +4114,7 @@ namespace ETWPM2Monitor2
                 {
                     if (IsSystemDeveloperLogs_on) BeginInvoke(new __core2(AsyncRun__Add_SystemDeveloperLogs), (object)" ==> [Refresh_NetworkConection_in_Network_Tab] Method Call: error8 => " + ee.Message);
                 }
+                
                 init_removeItems = true;
             });
 

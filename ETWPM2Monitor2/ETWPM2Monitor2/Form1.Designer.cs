@@ -58,6 +58,9 @@
             this.splitContainer6 = new System.Windows.Forms.SplitContainer();
             this.groupBox12 = new System.Windows.Forms.GroupBox();
             this.treeView1 = new System.Windows.Forms.TreeView();
+            this.contextMenuStrip3 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.takeSnapShotToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.loadSnapshotToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox13 = new System.Windows.Forms.GroupBox();
             this.treeView2 = new System.Windows.Forms.TreeView();
             this.splitContainer7 = new System.Windows.Forms.SplitContainer();
@@ -74,6 +77,26 @@
             this.listBox3 = new System.Windows.Forms.ListBox();
             this.groupBox16 = new System.Windows.Forms.GroupBox();
             this.listBox4 = new System.Windows.Forms.ListBox();
+            this.tabPage17 = new System.Windows.Forms.TabPage();
+            this.splitContainer11 = new System.Windows.Forms.SplitContainer();
+            this.splitContainer12 = new System.Windows.Forms.SplitContainer();
+            this.groupBox19 = new System.Windows.Forms.GroupBox();
+            this.treeView4 = new System.Windows.Forms.TreeView();
+            this.contextMenuStrip4 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.loadSnapshotToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.groupBox22 = new System.Windows.Forms.GroupBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.groupBox20 = new System.Windows.Forms.GroupBox();
+            this.treeView5 = new System.Windows.Forms.TreeView();
+            this.groupBox23 = new System.Windows.Forms.GroupBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.splitContainer13 = new System.Windows.Forms.SplitContainer();
+            this.treeView6 = new System.Windows.Forms.TreeView();
+            this.richTextBox11 = new System.Windows.Forms.RichTextBox();
+            this.groupBox21 = new System.Windows.Forms.GroupBox();
+            this.button3 = new System.Windows.Forms.Button();
+            this.button4 = new System.Windows.Forms.Button();
+            this.textBox2 = new System.Windows.Forms.TextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.splitContainer9 = new System.Windows.Forms.SplitContainer();
             this.listView5 = new System.Windows.Forms.ListView();
@@ -190,6 +213,8 @@
             this.toolStripSeparator15 = new System.Windows.Forms.ToolStripSeparator();
             this.clearAllProcessesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator14 = new System.Windows.Forms.ToolStripSeparator();
+            this.takeSnapshotToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.loadSnapshotToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.networkConnectionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showEventsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dontShowEventsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -241,31 +266,6 @@
             this.toolStripStatusLabel6 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel7 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel9 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.contextMenuStrip3 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.takeSnapShotToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.loadSnapshotToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.tabPage17 = new System.Windows.Forms.TabPage();
-            this.splitContainer11 = new System.Windows.Forms.SplitContainer();
-            this.splitContainer12 = new System.Windows.Forms.SplitContainer();
-            this.groupBox19 = new System.Windows.Forms.GroupBox();
-            this.treeView4 = new System.Windows.Forms.TreeView();
-            this.groupBox20 = new System.Windows.Forms.GroupBox();
-            this.treeView5 = new System.Windows.Forms.TreeView();
-            this.splitContainer13 = new System.Windows.Forms.SplitContainer();
-            this.treeView6 = new System.Windows.Forms.TreeView();
-            this.richTextBox11 = new System.Windows.Forms.RichTextBox();
-            this.groupBox21 = new System.Windows.Forms.GroupBox();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.contextMenuStrip4 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.loadSnapshotToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.label1 = new System.Windows.Forms.Label();
-            this.groupBox22 = new System.Windows.Forms.GroupBox();
-            this.groupBox23 = new System.Windows.Forms.GroupBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.takeSnapshotToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.loadSnapshotToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip5.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -286,6 +286,7 @@
             this.splitContainer6.Panel2.SuspendLayout();
             this.splitContainer6.SuspendLayout();
             this.groupBox12.SuspendLayout();
+            this.contextMenuStrip3.SuspendLayout();
             this.groupBox13.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer7)).BeginInit();
             this.splitContainer7.Panel1.SuspendLayout();
@@ -299,6 +300,25 @@
             this.splitContainer8.SuspendLayout();
             this.groupBox15.SuspendLayout();
             this.groupBox16.SuspendLayout();
+            this.tabPage17.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer11)).BeginInit();
+            this.splitContainer11.Panel1.SuspendLayout();
+            this.splitContainer11.Panel2.SuspendLayout();
+            this.splitContainer11.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer12)).BeginInit();
+            this.splitContainer12.Panel1.SuspendLayout();
+            this.splitContainer12.Panel2.SuspendLayout();
+            this.splitContainer12.SuspendLayout();
+            this.groupBox19.SuspendLayout();
+            this.contextMenuStrip4.SuspendLayout();
+            this.groupBox22.SuspendLayout();
+            this.groupBox20.SuspendLayout();
+            this.groupBox23.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer13)).BeginInit();
+            this.splitContainer13.Panel1.SuspendLayout();
+            this.splitContainer13.Panel2.SuspendLayout();
+            this.splitContainer13.SuspendLayout();
+            this.groupBox21.SuspendLayout();
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer9)).BeginInit();
             this.splitContainer9.Panel1.SuspendLayout();
@@ -358,26 +378,6 @@
             this.menuStrip3.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.statusStrip2.SuspendLayout();
-            this.contextMenuStrip3.SuspendLayout();
-            this.tabPage17.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer11)).BeginInit();
-            this.splitContainer11.Panel1.SuspendLayout();
-            this.splitContainer11.Panel2.SuspendLayout();
-            this.splitContainer11.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer12)).BeginInit();
-            this.splitContainer12.Panel1.SuspendLayout();
-            this.splitContainer12.Panel2.SuspendLayout();
-            this.splitContainer12.SuspendLayout();
-            this.groupBox19.SuspendLayout();
-            this.groupBox20.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer13)).BeginInit();
-            this.splitContainer13.Panel1.SuspendLayout();
-            this.splitContainer13.Panel2.SuspendLayout();
-            this.splitContainer13.SuspendLayout();
-            this.groupBox21.SuspendLayout();
-            this.contextMenuStrip4.SuspendLayout();
-            this.groupBox22.SuspendLayout();
-            this.groupBox23.SuspendLayout();
             this.SuspendLayout();
             // 
             // richTextBox1
@@ -401,7 +401,7 @@
             this.listView1.Location = new System.Drawing.Point(0, 0);
             this.listView1.MultiSelect = false;
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(446, 334);
+            this.listView1.Size = new System.Drawing.Size(550, 334);
             this.listView1.TabIndex = 1;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.SelectedIndexChanged += new System.EventHandler(this.ListView1_SelectedIndexChanged);
@@ -470,7 +470,7 @@
             // 
             this.splitContainer2.Panel2.Controls.Add(this.richTextBox6);
             this.splitContainer2.Size = new System.Drawing.Size(1085, 356);
-            this.splitContainer2.SplitterDistance = 446;
+            this.splitContainer2.SplitterDistance = 550;
             this.splitContainer2.TabIndex = 2;
             // 
             // statusStrip3
@@ -481,7 +481,7 @@
             this.statusStrip3.Location = new System.Drawing.Point(0, 334);
             this.statusStrip3.Name = "statusStrip3";
             this.statusStrip3.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.statusStrip3.Size = new System.Drawing.Size(446, 22);
+            this.statusStrip3.Size = new System.Drawing.Size(550, 22);
             this.statusStrip3.TabIndex = 2;
             this.statusStrip3.Text = "statusStrip3";
             // 
@@ -500,7 +500,7 @@
             this.richTextBox6.Location = new System.Drawing.Point(0, 0);
             this.richTextBox6.Name = "richTextBox6";
             this.richTextBox6.ReadOnly = true;
-            this.richTextBox6.Size = new System.Drawing.Size(635, 356);
+            this.richTextBox6.Size = new System.Drawing.Size(531, 356);
             this.richTextBox6.TabIndex = 0;
             this.richTextBox6.Text = "";
             // 
@@ -598,6 +598,28 @@
             this.treeView1.Size = new System.Drawing.Size(522, 138);
             this.treeView1.TabIndex = 0;
             this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TreeView1_AfterSelect);
+            // 
+            // contextMenuStrip3
+            // 
+            this.contextMenuStrip3.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.takeSnapShotToolStripMenuItem,
+            this.loadSnapshotToolStripMenuItem});
+            this.contextMenuStrip3.Name = "contextMenuStrip3";
+            this.contextMenuStrip3.Size = new System.Drawing.Size(162, 48);
+            // 
+            // takeSnapShotToolStripMenuItem
+            // 
+            this.takeSnapShotToolStripMenuItem.Name = "takeSnapShotToolStripMenuItem";
+            this.takeSnapShotToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.takeSnapShotToolStripMenuItem.Text = "Take Snapshot...";
+            this.takeSnapShotToolStripMenuItem.Click += new System.EventHandler(this.TakeSnapShotToolStripMenuItem_Click);
+            // 
+            // loadSnapshotToolStripMenuItem
+            // 
+            this.loadSnapshotToolStripMenuItem.Name = "loadSnapshotToolStripMenuItem";
+            this.loadSnapshotToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.loadSnapshotToolStripMenuItem.Text = "Load Snapshot...";
+            this.loadSnapshotToolStripMenuItem.Click += new System.EventHandler(this.LoadSnapshotToolStripMenuItem_Click);
             // 
             // groupBox13
             // 
@@ -787,6 +809,241 @@
             this.listBox4.Size = new System.Drawing.Size(1063, 96);
             this.listBox4.TabIndex = 0;
             this.listBox4.SelectedIndexChanged += new System.EventHandler(this.ListBox4_SelectedIndexChanged);
+            // 
+            // tabPage17
+            // 
+            this.tabPage17.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tabPage17.Controls.Add(this.splitContainer11);
+            this.tabPage17.Location = new System.Drawing.Point(4, 22);
+            this.tabPage17.Name = "tabPage17";
+            this.tabPage17.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage17.Size = new System.Drawing.Size(1077, 330);
+            this.tabPage17.TabIndex = 2;
+            this.tabPage17.Text = "Snapshot1";
+            this.tabPage17.UseVisualStyleBackColor = true;
+            // 
+            // splitContainer11
+            // 
+            this.splitContainer11.BackColor = System.Drawing.Color.DarkGray;
+            this.splitContainer11.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer11.Location = new System.Drawing.Point(3, 3);
+            this.splitContainer11.Name = "splitContainer11";
+            this.splitContainer11.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer11.Panel1
+            // 
+            this.splitContainer11.Panel1.Controls.Add(this.splitContainer12);
+            // 
+            // splitContainer11.Panel2
+            // 
+            this.splitContainer11.Panel2.Controls.Add(this.splitContainer13);
+            this.splitContainer11.Panel2.Controls.Add(this.groupBox21);
+            this.splitContainer11.Size = new System.Drawing.Size(1069, 322);
+            this.splitContainer11.SplitterDistance = 157;
+            this.splitContainer11.TabIndex = 1;
+            // 
+            // splitContainer12
+            // 
+            this.splitContainer12.BackColor = System.Drawing.Color.DarkGray;
+            this.splitContainer12.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer12.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer12.Name = "splitContainer12";
+            // 
+            // splitContainer12.Panel1
+            // 
+            this.splitContainer12.Panel1.Controls.Add(this.groupBox19);
+            this.splitContainer12.Panel1.Controls.Add(this.groupBox22);
+            // 
+            // splitContainer12.Panel2
+            // 
+            this.splitContainer12.Panel2.Controls.Add(this.groupBox20);
+            this.splitContainer12.Panel2.Controls.Add(this.groupBox23);
+            this.splitContainer12.Size = new System.Drawing.Size(1069, 157);
+            this.splitContainer12.SplitterDistance = 528;
+            this.splitContainer12.TabIndex = 2;
+            // 
+            // groupBox19
+            // 
+            this.groupBox19.BackColor = System.Drawing.SystemColors.Control;
+            this.groupBox19.Controls.Add(this.treeView4);
+            this.groupBox19.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox19.Location = new System.Drawing.Point(0, 0);
+            this.groupBox19.Name = "groupBox19";
+            this.groupBox19.Size = new System.Drawing.Size(528, 122);
+            this.groupBox19.TabIndex = 1;
+            this.groupBox19.TabStop = false;
+            this.groupBox19.Text = "Live Processes (Snapshot *.data)";
+            // 
+            // treeView4
+            // 
+            this.treeView4.ContextMenuStrip = this.contextMenuStrip4;
+            this.treeView4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.treeView4.Location = new System.Drawing.Point(3, 16);
+            this.treeView4.Name = "treeView4";
+            this.treeView4.Size = new System.Drawing.Size(522, 103);
+            this.treeView4.TabIndex = 0;
+            this.treeView4.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TreeView4_AfterSelect);
+            // 
+            // contextMenuStrip4
+            // 
+            this.contextMenuStrip4.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.loadSnapshotToolStripMenuItem1});
+            this.contextMenuStrip4.Name = "contextMenuStrip4";
+            this.contextMenuStrip4.Size = new System.Drawing.Size(162, 26);
+            // 
+            // loadSnapshotToolStripMenuItem1
+            // 
+            this.loadSnapshotToolStripMenuItem1.Name = "loadSnapshotToolStripMenuItem1";
+            this.loadSnapshotToolStripMenuItem1.Size = new System.Drawing.Size(161, 22);
+            this.loadSnapshotToolStripMenuItem1.Text = "Load Snapshot...";
+            this.loadSnapshotToolStripMenuItem1.Click += new System.EventHandler(this.LoadSnapshotToolStripMenuItem1_Click);
+            // 
+            // groupBox22
+            // 
+            this.groupBox22.BackColor = System.Drawing.Color.Silver;
+            this.groupBox22.Controls.Add(this.label1);
+            this.groupBox22.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.groupBox22.ForeColor = System.Drawing.Color.White;
+            this.groupBox22.Location = new System.Drawing.Point(0, 122);
+            this.groupBox22.Name = "groupBox22";
+            this.groupBox22.Size = new System.Drawing.Size(528, 35);
+            this.groupBox22.TabIndex = 3;
+            this.groupBox22.TabStop = false;
+            this.groupBox22.Text = "Snapshot File:";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label1.ForeColor = System.Drawing.Color.White;
+            this.label1.Location = new System.Drawing.Point(3, 16);
+            this.label1.Margin = new System.Windows.Forms.Padding(0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(0, 13);
+            this.label1.TabIndex = 2;
+            // 
+            // groupBox20
+            // 
+            this.groupBox20.BackColor = System.Drawing.SystemColors.Control;
+            this.groupBox20.Controls.Add(this.treeView5);
+            this.groupBox20.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox20.Location = new System.Drawing.Point(0, 0);
+            this.groupBox20.Name = "groupBox20";
+            this.groupBox20.Size = new System.Drawing.Size(537, 122);
+            this.groupBox20.TabIndex = 2;
+            this.groupBox20.TabStop = false;
+            this.groupBox20.Text = "Terminated/Closed Processes (Snapshot *.data2)";
+            // 
+            // treeView5
+            // 
+            this.treeView5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.treeView5.Location = new System.Drawing.Point(3, 16);
+            this.treeView5.Name = "treeView5";
+            this.treeView5.Size = new System.Drawing.Size(531, 103);
+            this.treeView5.TabIndex = 1;
+            this.treeView5.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TreeView5_AfterSelect);
+            // 
+            // groupBox23
+            // 
+            this.groupBox23.BackColor = System.Drawing.Color.Silver;
+            this.groupBox23.Controls.Add(this.label2);
+            this.groupBox23.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.groupBox23.ForeColor = System.Drawing.Color.White;
+            this.groupBox23.Location = new System.Drawing.Point(0, 122);
+            this.groupBox23.Name = "groupBox23";
+            this.groupBox23.Size = new System.Drawing.Size(537, 35);
+            this.groupBox23.TabIndex = 4;
+            this.groupBox23.TabStop = false;
+            this.groupBox23.Text = "Snapshot File:";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label2.ForeColor = System.Drawing.Color.White;
+            this.label2.Location = new System.Drawing.Point(3, 16);
+            this.label2.Margin = new System.Windows.Forms.Padding(0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(0, 13);
+            this.label2.TabIndex = 2;
+            // 
+            // splitContainer13
+            // 
+            this.splitContainer13.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer13.Location = new System.Drawing.Point(0, 48);
+            this.splitContainer13.Name = "splitContainer13";
+            // 
+            // splitContainer13.Panel1
+            // 
+            this.splitContainer13.Panel1.Controls.Add(this.treeView6);
+            // 
+            // splitContainer13.Panel2
+            // 
+            this.splitContainer13.Panel2.Controls.Add(this.richTextBox11);
+            this.splitContainer13.Size = new System.Drawing.Size(1069, 113);
+            this.splitContainer13.SplitterDistance = 355;
+            this.splitContainer13.TabIndex = 6;
+            // 
+            // treeView6
+            // 
+            this.treeView6.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.treeView6.Location = new System.Drawing.Point(0, 0);
+            this.treeView6.Name = "treeView6";
+            this.treeView6.Size = new System.Drawing.Size(355, 113);
+            this.treeView6.TabIndex = 5;
+            this.treeView6.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TreeView6_AfterSelect);
+            // 
+            // richTextBox11
+            // 
+            this.richTextBox11.BackColor = System.Drawing.Color.LightCyan;
+            this.richTextBox11.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.richTextBox11.Location = new System.Drawing.Point(0, 0);
+            this.richTextBox11.Name = "richTextBox11";
+            this.richTextBox11.ReadOnly = true;
+            this.richTextBox11.Size = new System.Drawing.Size(710, 113);
+            this.richTextBox11.TabIndex = 0;
+            this.richTextBox11.Text = "";
+            // 
+            // groupBox21
+            // 
+            this.groupBox21.BackColor = System.Drawing.SystemColors.Control;
+            this.groupBox21.Controls.Add(this.button3);
+            this.groupBox21.Controls.Add(this.button4);
+            this.groupBox21.Controls.Add(this.textBox2);
+            this.groupBox21.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBox21.Location = new System.Drawing.Point(0, 0);
+            this.groupBox21.Name = "groupBox21";
+            this.groupBox21.Size = new System.Drawing.Size(1069, 48);
+            this.groupBox21.TabIndex = 4;
+            this.groupBox21.TabStop = false;
+            this.groupBox21.Text = "Search (Snapshot)";
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(450, 17);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(148, 22);
+            this.button3.TabIndex = 3;
+            this.button3.Text = "Search [Closed Processes]";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.Button3_Click);
+            // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(296, 17);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(148, 22);
+            this.button4.TabIndex = 2;
+            this.button4.Text = "Search [Live Processes]";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.Button4_Click);
+            // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(6, 18);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(282, 20);
+            this.textBox2.TabIndex = 1;
             // 
             // tabPage2
             // 
@@ -1836,28 +2093,28 @@
             this.refresh10SecToolStripMenuItem.Checked = true;
             this.refresh10SecToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.refresh10SecToolStripMenuItem.Name = "refresh10SecToolStripMenuItem";
-            this.refresh10SecToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.refresh10SecToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.refresh10SecToolStripMenuItem.Text = "Refresh (10 sec)";
             this.refresh10SecToolStripMenuItem.Click += new System.EventHandler(this.Refresh10SecToolStripMenuItem_Click);
             // 
             // refresh5SecToolStripMenuItem
             // 
             this.refresh5SecToolStripMenuItem.Name = "refresh5SecToolStripMenuItem";
-            this.refresh5SecToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.refresh5SecToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.refresh5SecToolStripMenuItem.Text = "Refresh (15 sec)";
             this.refresh5SecToolStripMenuItem.Click += new System.EventHandler(this.Refresh5SecToolStripMenuItem_Click);
             // 
             // toolStripSeparator12
             // 
             this.toolStripSeparator12.Name = "toolStripSeparator12";
-            this.toolStripSeparator12.Size = new System.Drawing.Size(157, 6);
+            this.toolStripSeparator12.Size = new System.Drawing.Size(158, 6);
             // 
             // stopListRefreshingToolStripMenuItem
             // 
             this.stopListRefreshingToolStripMenuItem.Checked = true;
             this.stopListRefreshingToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.stopListRefreshingToolStripMenuItem.Name = "stopListRefreshingToolStripMenuItem";
-            this.stopListRefreshingToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.stopListRefreshingToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.stopListRefreshingToolStripMenuItem.Text = "Stop Refreshing ";
             this.stopListRefreshingToolStripMenuItem.Click += new System.EventHandler(this.StopListRefreshingToolStripMenuItem_Click);
             // 
@@ -1869,7 +2126,7 @@
             this.for90MinToolStripMenuItem,
             this.for120MinToolStripMenuItem});
             this.startRefreshingToolStripMenuItem.Name = "startRefreshingToolStripMenuItem";
-            this.startRefreshingToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.startRefreshingToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.startRefreshingToolStripMenuItem.Text = "Start Refreshing";
             // 
             // for30minToolStripMenuItem
@@ -1903,7 +2160,7 @@
             // toolStripSeparator13
             // 
             this.toolStripSeparator13.Name = "toolStripSeparator13";
-            this.toolStripSeparator13.Size = new System.Drawing.Size(157, 6);
+            this.toolStripSeparator13.Size = new System.Drawing.Size(158, 6);
             // 
             // clearListToolStripMenuItem
             // 
@@ -1914,7 +2171,7 @@
             this.toolStripSeparator15,
             this.clearAllProcessesToolStripMenuItem});
             this.clearListToolStripMenuItem.Name = "clearListToolStripMenuItem";
-            this.clearListToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.clearListToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.clearListToolStripMenuItem.Text = "Clear List";
             // 
             // allToolStripMenuItem
@@ -1953,7 +2210,21 @@
             // toolStripSeparator14
             // 
             this.toolStripSeparator14.Name = "toolStripSeparator14";
-            this.toolStripSeparator14.Size = new System.Drawing.Size(157, 6);
+            this.toolStripSeparator14.Size = new System.Drawing.Size(158, 6);
+            // 
+            // takeSnapshotToolStripMenuItem1
+            // 
+            this.takeSnapshotToolStripMenuItem1.Name = "takeSnapshotToolStripMenuItem1";
+            this.takeSnapshotToolStripMenuItem1.Size = new System.Drawing.Size(161, 22);
+            this.takeSnapshotToolStripMenuItem1.Text = "Take Snapshot...";
+            this.takeSnapshotToolStripMenuItem1.Click += new System.EventHandler(this.TakeSnapshotToolStripMenuItem1_Click);
+            // 
+            // loadSnapshotToolStripMenuItem2
+            // 
+            this.loadSnapshotToolStripMenuItem2.Name = "loadSnapshotToolStripMenuItem2";
+            this.loadSnapshotToolStripMenuItem2.Size = new System.Drawing.Size(161, 22);
+            this.loadSnapshotToolStripMenuItem2.Text = "Load Snapshot...";
+            this.loadSnapshotToolStripMenuItem2.Click += new System.EventHandler(this.LoadSnapshotToolStripMenuItem2_Click);
             // 
             // networkConnectionsToolStripMenuItem
             // 
@@ -2388,277 +2659,6 @@
             this.toolStripStatusLabel9.Text = "| ETWPM2Monitor2 Detection Event Logs (0)";
             this.toolStripStatusLabel9.Click += new System.EventHandler(this.ToolStripStatusLabel9_Click);
             // 
-            // contextMenuStrip3
-            // 
-            this.contextMenuStrip3.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.takeSnapShotToolStripMenuItem,
-            this.loadSnapshotToolStripMenuItem});
-            this.contextMenuStrip3.Name = "contextMenuStrip3";
-            this.contextMenuStrip3.Size = new System.Drawing.Size(162, 48);
-            // 
-            // takeSnapShotToolStripMenuItem
-            // 
-            this.takeSnapShotToolStripMenuItem.Name = "takeSnapShotToolStripMenuItem";
-            this.takeSnapShotToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
-            this.takeSnapShotToolStripMenuItem.Text = "Take Snapshot...";
-            this.takeSnapShotToolStripMenuItem.Click += new System.EventHandler(this.TakeSnapShotToolStripMenuItem_Click);
-            // 
-            // loadSnapshotToolStripMenuItem
-            // 
-            this.loadSnapshotToolStripMenuItem.Name = "loadSnapshotToolStripMenuItem";
-            this.loadSnapshotToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
-            this.loadSnapshotToolStripMenuItem.Text = "Load Snapshot...";
-            this.loadSnapshotToolStripMenuItem.Click += new System.EventHandler(this.LoadSnapshotToolStripMenuItem_Click);
-            // 
-            // tabPage17
-            // 
-            this.tabPage17.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tabPage17.Controls.Add(this.splitContainer11);
-            this.tabPage17.Location = new System.Drawing.Point(4, 22);
-            this.tabPage17.Name = "tabPage17";
-            this.tabPage17.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage17.Size = new System.Drawing.Size(1077, 330);
-            this.tabPage17.TabIndex = 2;
-            this.tabPage17.Text = "Snapshot1";
-            this.tabPage17.UseVisualStyleBackColor = true;
-            // 
-            // splitContainer11
-            // 
-            this.splitContainer11.BackColor = System.Drawing.Color.DarkGray;
-            this.splitContainer11.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer11.Location = new System.Drawing.Point(3, 3);
-            this.splitContainer11.Name = "splitContainer11";
-            this.splitContainer11.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            // 
-            // splitContainer11.Panel1
-            // 
-            this.splitContainer11.Panel1.Controls.Add(this.splitContainer12);
-            // 
-            // splitContainer11.Panel2
-            // 
-            this.splitContainer11.Panel2.Controls.Add(this.splitContainer13);
-            this.splitContainer11.Panel2.Controls.Add(this.groupBox21);
-            this.splitContainer11.Size = new System.Drawing.Size(1069, 322);
-            this.splitContainer11.SplitterDistance = 157;
-            this.splitContainer11.TabIndex = 1;
-            // 
-            // splitContainer12
-            // 
-            this.splitContainer12.BackColor = System.Drawing.Color.DarkGray;
-            this.splitContainer12.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer12.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer12.Name = "splitContainer12";
-            // 
-            // splitContainer12.Panel1
-            // 
-            this.splitContainer12.Panel1.Controls.Add(this.groupBox19);
-            this.splitContainer12.Panel1.Controls.Add(this.groupBox22);
-            // 
-            // splitContainer12.Panel2
-            // 
-            this.splitContainer12.Panel2.Controls.Add(this.groupBox20);
-            this.splitContainer12.Panel2.Controls.Add(this.groupBox23);
-            this.splitContainer12.Size = new System.Drawing.Size(1069, 157);
-            this.splitContainer12.SplitterDistance = 528;
-            this.splitContainer12.TabIndex = 2;
-            // 
-            // groupBox19
-            // 
-            this.groupBox19.BackColor = System.Drawing.SystemColors.Control;
-            this.groupBox19.Controls.Add(this.treeView4);
-            this.groupBox19.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox19.Location = new System.Drawing.Point(0, 0);
-            this.groupBox19.Name = "groupBox19";
-            this.groupBox19.Size = new System.Drawing.Size(528, 122);
-            this.groupBox19.TabIndex = 1;
-            this.groupBox19.TabStop = false;
-            this.groupBox19.Text = "Live Processes (Snapshot *.data)";
-            // 
-            // treeView4
-            // 
-            this.treeView4.ContextMenuStrip = this.contextMenuStrip4;
-            this.treeView4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.treeView4.Location = new System.Drawing.Point(3, 16);
-            this.treeView4.Name = "treeView4";
-            this.treeView4.Size = new System.Drawing.Size(522, 103);
-            this.treeView4.TabIndex = 0;
-            this.treeView4.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TreeView4_AfterSelect);
-            // 
-            // groupBox20
-            // 
-            this.groupBox20.BackColor = System.Drawing.SystemColors.Control;
-            this.groupBox20.Controls.Add(this.treeView5);
-            this.groupBox20.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox20.Location = new System.Drawing.Point(0, 0);
-            this.groupBox20.Name = "groupBox20";
-            this.groupBox20.Size = new System.Drawing.Size(537, 122);
-            this.groupBox20.TabIndex = 2;
-            this.groupBox20.TabStop = false;
-            this.groupBox20.Text = "Terminated/Closed Processes (Snapshot *.data2)";
-            // 
-            // treeView5
-            // 
-            this.treeView5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.treeView5.Location = new System.Drawing.Point(3, 16);
-            this.treeView5.Name = "treeView5";
-            this.treeView5.Size = new System.Drawing.Size(531, 103);
-            this.treeView5.TabIndex = 1;
-            this.treeView5.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TreeView5_AfterSelect);
-            // 
-            // splitContainer13
-            // 
-            this.splitContainer13.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer13.Location = new System.Drawing.Point(0, 48);
-            this.splitContainer13.Name = "splitContainer13";
-            // 
-            // splitContainer13.Panel1
-            // 
-            this.splitContainer13.Panel1.Controls.Add(this.treeView6);
-            // 
-            // splitContainer13.Panel2
-            // 
-            this.splitContainer13.Panel2.Controls.Add(this.richTextBox11);
-            this.splitContainer13.Size = new System.Drawing.Size(1069, 113);
-            this.splitContainer13.SplitterDistance = 355;
-            this.splitContainer13.TabIndex = 6;
-            // 
-            // treeView6
-            // 
-            this.treeView6.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.treeView6.Location = new System.Drawing.Point(0, 0);
-            this.treeView6.Name = "treeView6";
-            this.treeView6.Size = new System.Drawing.Size(355, 113);
-            this.treeView6.TabIndex = 5;
-            this.treeView6.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TreeView6_AfterSelect);
-            // 
-            // richTextBox11
-            // 
-            this.richTextBox11.BackColor = System.Drawing.Color.LightCyan;
-            this.richTextBox11.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.richTextBox11.Location = new System.Drawing.Point(0, 0);
-            this.richTextBox11.Name = "richTextBox11";
-            this.richTextBox11.ReadOnly = true;
-            this.richTextBox11.Size = new System.Drawing.Size(710, 113);
-            this.richTextBox11.TabIndex = 0;
-            this.richTextBox11.Text = "";
-            // 
-            // groupBox21
-            // 
-            this.groupBox21.BackColor = System.Drawing.SystemColors.Control;
-            this.groupBox21.Controls.Add(this.button3);
-            this.groupBox21.Controls.Add(this.button4);
-            this.groupBox21.Controls.Add(this.textBox2);
-            this.groupBox21.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox21.Location = new System.Drawing.Point(0, 0);
-            this.groupBox21.Name = "groupBox21";
-            this.groupBox21.Size = new System.Drawing.Size(1069, 48);
-            this.groupBox21.TabIndex = 4;
-            this.groupBox21.TabStop = false;
-            this.groupBox21.Text = "Search (Snapshot)";
-            // 
-            // button3
-            // 
-            this.button3.Location = new System.Drawing.Point(450, 17);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(148, 22);
-            this.button3.TabIndex = 3;
-            this.button3.Text = "Search [Closed Processes]";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.Button3_Click);
-            // 
-            // button4
-            // 
-            this.button4.Location = new System.Drawing.Point(296, 17);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(148, 22);
-            this.button4.TabIndex = 2;
-            this.button4.Text = "Search [Live Processes]";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.Button4_Click);
-            // 
-            // textBox2
-            // 
-            this.textBox2.Location = new System.Drawing.Point(6, 18);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(282, 20);
-            this.textBox2.TabIndex = 1;
-            // 
-            // contextMenuStrip4
-            // 
-            this.contextMenuStrip4.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.loadSnapshotToolStripMenuItem1});
-            this.contextMenuStrip4.Name = "contextMenuStrip4";
-            this.contextMenuStrip4.Size = new System.Drawing.Size(162, 26);
-            // 
-            // loadSnapshotToolStripMenuItem1
-            // 
-            this.loadSnapshotToolStripMenuItem1.Name = "loadSnapshotToolStripMenuItem1";
-            this.loadSnapshotToolStripMenuItem1.Size = new System.Drawing.Size(161, 22);
-            this.loadSnapshotToolStripMenuItem1.Text = "Load Snapshot...";
-            this.loadSnapshotToolStripMenuItem1.Click += new System.EventHandler(this.LoadSnapshotToolStripMenuItem1_Click);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(3, 16);
-            this.label1.Margin = new System.Windows.Forms.Padding(0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(0, 13);
-            this.label1.TabIndex = 2;
-            // 
-            // groupBox22
-            // 
-            this.groupBox22.BackColor = System.Drawing.Color.Silver;
-            this.groupBox22.Controls.Add(this.label1);
-            this.groupBox22.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.groupBox22.ForeColor = System.Drawing.Color.White;
-            this.groupBox22.Location = new System.Drawing.Point(0, 122);
-            this.groupBox22.Name = "groupBox22";
-            this.groupBox22.Size = new System.Drawing.Size(528, 35);
-            this.groupBox22.TabIndex = 3;
-            this.groupBox22.TabStop = false;
-            this.groupBox22.Text = "Snapshot File:";
-            // 
-            // groupBox23
-            // 
-            this.groupBox23.BackColor = System.Drawing.Color.Silver;
-            this.groupBox23.Controls.Add(this.label2);
-            this.groupBox23.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.groupBox23.ForeColor = System.Drawing.Color.White;
-            this.groupBox23.Location = new System.Drawing.Point(0, 122);
-            this.groupBox23.Name = "groupBox23";
-            this.groupBox23.Size = new System.Drawing.Size(537, 35);
-            this.groupBox23.TabIndex = 4;
-            this.groupBox23.TabStop = false;
-            this.groupBox23.Text = "Snapshot File:";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label2.ForeColor = System.Drawing.Color.White;
-            this.label2.Location = new System.Drawing.Point(3, 16);
-            this.label2.Margin = new System.Windows.Forms.Padding(0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(0, 13);
-            this.label2.TabIndex = 2;
-            // 
-            // takeSnapshotToolStripMenuItem1
-            // 
-            this.takeSnapshotToolStripMenuItem1.Name = "takeSnapshotToolStripMenuItem1";
-            this.takeSnapshotToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
-            this.takeSnapshotToolStripMenuItem1.Text = "Take Snapshot...";
-            this.takeSnapshotToolStripMenuItem1.Click += new System.EventHandler(this.TakeSnapshotToolStripMenuItem1_Click);
-            // 
-            // loadSnapshotToolStripMenuItem2
-            // 
-            this.loadSnapshotToolStripMenuItem2.Name = "loadSnapshotToolStripMenuItem2";
-            this.loadSnapshotToolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
-            this.loadSnapshotToolStripMenuItem2.Text = "Load Snapshot...";
-            this.loadSnapshotToolStripMenuItem2.Click += new System.EventHandler(this.LoadSnapshotToolStripMenuItem2_Click);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2696,6 +2696,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer6)).EndInit();
             this.splitContainer6.ResumeLayout(false);
             this.groupBox12.ResumeLayout(false);
+            this.contextMenuStrip3.ResumeLayout(false);
             this.groupBox13.ResumeLayout(false);
             this.splitContainer7.Panel1.ResumeLayout(false);
             this.splitContainer7.Panel2.ResumeLayout(false);
@@ -2710,6 +2711,28 @@
             this.splitContainer8.ResumeLayout(false);
             this.groupBox15.ResumeLayout(false);
             this.groupBox16.ResumeLayout(false);
+            this.tabPage17.ResumeLayout(false);
+            this.splitContainer11.Panel1.ResumeLayout(false);
+            this.splitContainer11.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer11)).EndInit();
+            this.splitContainer11.ResumeLayout(false);
+            this.splitContainer12.Panel1.ResumeLayout(false);
+            this.splitContainer12.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer12)).EndInit();
+            this.splitContainer12.ResumeLayout(false);
+            this.groupBox19.ResumeLayout(false);
+            this.contextMenuStrip4.ResumeLayout(false);
+            this.groupBox22.ResumeLayout(false);
+            this.groupBox22.PerformLayout();
+            this.groupBox20.ResumeLayout(false);
+            this.groupBox23.ResumeLayout(false);
+            this.groupBox23.PerformLayout();
+            this.splitContainer13.Panel1.ResumeLayout(false);
+            this.splitContainer13.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer13)).EndInit();
+            this.splitContainer13.ResumeLayout(false);
+            this.groupBox21.ResumeLayout(false);
+            this.groupBox21.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             this.splitContainer9.Panel1.ResumeLayout(false);
             this.splitContainer9.Panel2.ResumeLayout(false);
@@ -2772,29 +2795,6 @@
             this.statusStrip1.PerformLayout();
             this.statusStrip2.ResumeLayout(false);
             this.statusStrip2.PerformLayout();
-            this.contextMenuStrip3.ResumeLayout(false);
-            this.tabPage17.ResumeLayout(false);
-            this.splitContainer11.Panel1.ResumeLayout(false);
-            this.splitContainer11.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer11)).EndInit();
-            this.splitContainer11.ResumeLayout(false);
-            this.splitContainer12.Panel1.ResumeLayout(false);
-            this.splitContainer12.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer12)).EndInit();
-            this.splitContainer12.ResumeLayout(false);
-            this.groupBox19.ResumeLayout(false);
-            this.groupBox20.ResumeLayout(false);
-            this.splitContainer13.Panel1.ResumeLayout(false);
-            this.splitContainer13.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer13)).EndInit();
-            this.splitContainer13.ResumeLayout(false);
-            this.groupBox21.ResumeLayout(false);
-            this.groupBox21.PerformLayout();
-            this.contextMenuStrip4.ResumeLayout(false);
-            this.groupBox22.ResumeLayout(false);
-            this.groupBox22.PerformLayout();
-            this.groupBox23.ResumeLayout(false);
-            this.groupBox23.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
