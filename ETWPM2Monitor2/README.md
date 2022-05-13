@@ -6,7 +6,7 @@ This tool [ETWPM2Monitor version2] is for Monitor ETW Event-Logs [log name: ETWP
 ! this version ETWPM2Monitor2 v2.1 will work with ETWProcessMon2.1 and both are
 ! very fast for (Remote-Thread-Injection) Technique/Payload Detection via ETW Events)
 + code performance now is good and "a lot bugs" fixed. in Processes List Tab, Take Snapshot & Load Snapshot added to the source code... 
-+ last source/exe update(40) v2.1.40.347 [May 12, 2022]...
++ last source/exe update(40) v2.1.40.347 [May 13, 2022]...
 ```
 Video: https://www.youtube.com/watch?v=DMtMTkAfFNo
 
@@ -61,6 +61,9 @@ Usage Steps
     Step2 (Run as Admin) : ETWPM2Monitor2.exe
 
 ----------------------------------------------------------
+### ETWPM2Monitor2 v2.1 , update(40) v2.1.40.347 [May 13, 2022] (DeltaTime checking & Take Snapshot in [v2.1.40.347] added to the source code.)
+   ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2/Pics/DeltaMode1.png)
+   
 ### ETWPM2Monitor2 v2.1 , update(40) v2.1.40.347 [May 12, 2022] (Processes List Tab, Take Snapshot & Load Snapshot added to the source code.)
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2/Pics/snapshot.png)
    
