@@ -820,9 +820,9 @@ namespace ETWPM2Monitor2
                     {
                         string commandline = MyLviewItemsX1.SubItems[5].Text.Split('\n')[4].ToLower();
                         string parentid = MyLviewItemsX1.SubItems[5].Text.Split('\n')[6].ToLower();
-                        if (commandline.Contains("[commandline: " + _windir + "\\system32\\cmd.exe") || commandline.Contains("[commandline: cmd"))
+                        if (commandline.Contains("[commandline: \"" + _windir + "\\system32\\cmd.exe\"") || commandline.Contains("[commandline: " + _windir + "\\system32\\cmd.exe") || commandline.Contains("[commandline: cmd"))
                         {
-
+                           
                             if (parentid != "[parentid path: " + _windir + "\\explorer.exe]")
                             {
                                 MyLviewItemsX1.BackColor = Color.Red;
@@ -1023,9 +1023,11 @@ namespace ETWPM2Monitor2
                     {
                         string commandline = MyLviewItemsX1.SubItems[5].Text.Split('\n')[4].ToLower();
                         string parentid = MyLviewItemsX1.SubItems[5].Text.Split('\n')[6].ToLower();
-                        if (commandline.Contains("[commandline: " + _windir + "\\system32\\cmd.exe") || commandline.Contains("[commandline: cmd"))
+                        
+                        if (commandline.Contains("[commandline: \"" + _windir + "\\system32\\cmd.exe\"") 
+                            || commandline.Contains("[commandline: " + _windir + "\\system32\\cmd.exe") || commandline.Contains("[commandline: cmd"))
                         {
-
+                           
                             if (parentid != "[parentid path: " + _windir + "\\explorer.exe]")
                             {
                                 MyLviewItemsX1.BackColor = Color.Red;
@@ -4225,7 +4227,8 @@ namespace ETWPM2Monitor2
                     parentidPath = parentidPath.Substring(0, parentidPath.Length - 1);
                     string Shell_Pid = tmp2.SubItems[5].Text.Split('\n')[2].Substring(6).Split(' ')[0];
 
-                    if (commandline.Contains("[commandline: " + _windir + "\\system32\\cmd.exe") || commandline.Contains("[commandline: cmd"))
+                    if (commandline.Contains("[commandline: \"" + _windir + "\\system32\\cmd.exe\"")
+                        || commandline.Contains("[commandline: " + _windir + "\\system32\\cmd.exe") || commandline.Contains("[commandline: cmd"))
                     {
 
                         if (parentid != "[parentid path: " + _windir + "\\explorer.exe]")
