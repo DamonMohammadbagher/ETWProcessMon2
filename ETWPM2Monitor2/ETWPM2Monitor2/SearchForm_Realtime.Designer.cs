@@ -47,6 +47,7 @@
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.panel1 = new System.Windows.Forms.Panel();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.button6 = new System.Windows.Forms.Button();
             this.richTextBox2 = new System.Windows.Forms.RichTextBox();
             this.button2 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
@@ -77,7 +78,6 @@
             this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.checkBox4 = new System.Windows.Forms.CheckBox();
             this.checkBox3 = new System.Windows.Forms.CheckBox();
-            this.button6 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -217,6 +217,17 @@
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Filters";
             // 
+            // button6
+            // 
+            this.button6.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.button6.Location = new System.Drawing.Point(341, 114);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(70, 41);
+            this.button6.TabIndex = 3;
+            this.button6.Text = "Help";
+            this.button6.UseVisualStyleBackColor = true;
+            this.button6.Click += new System.EventHandler(this.Button6_Click);
+            // 
             // richTextBox2
             // 
             this.richTextBox2.Anchor = System.Windows.Forms.AnchorStyles.None;
@@ -278,6 +289,7 @@
             // comboBox1
             // 
             this.comboBox1.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.comboBox1.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.Items.AddRange(new object[] {
             "EventID 1 [NewProcess Started]",
@@ -561,17 +573,6 @@
             this.checkBox3.Text = "ParentID";
             this.checkBox3.UseVisualStyleBackColor = true;
             this.checkBox3.CheckedChanged += new System.EventHandler(this.CheckBox3_CheckedChanged);
-            // 
-            // button6
-            // 
-            this.button6.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.button6.Location = new System.Drawing.Point(341, 114);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(70, 41);
-            this.button6.TabIndex = 3;
-            this.button6.Text = "Help";
-            this.button6.UseVisualStyleBackColor = true;
-            this.button6.Click += new System.EventHandler(this.Button6_Click);
             // 
             // SearchForm_Realtime
             // 

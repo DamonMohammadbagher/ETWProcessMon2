@@ -1318,9 +1318,16 @@ namespace ETWPM2Monitor2
                                         if (MyLviewItemsX5.SubItems[2].Text == "2") { _Imgindex2 = 1; }
                                         if (MyLviewItemsX5.SubItems[2].Text == "3") { _Imgindex2 = 3; }
 
-                                        item.Nodes.Add("", "[EventID:" + MyLviewItemsX5.SubItems[2].Text + "]" +
-                                        "[" + MyLviewItemsX5.SubItems[4].Text + "] { " + MyLviewItemsX5.SubItems[5].Text + " }", _Imgindex2);
+                                        if(MyLviewItemsX5.SubItems[2].Text != "3"){
 
+                                            item.Nodes.Add("", "[EventID:" + MyLviewItemsX5.SubItems[2].Text + "]" 
+                                            + MyLviewItemsX5.SubItems[4].Text + " { " + MyLviewItemsX5.SubItems[5].Text + " }", _Imgindex2);
+                                        }
+                                        else
+                                        {
+                                            item.Nodes.Add("", "[EventID:" + MyLviewItemsX5.SubItems[2].Text + "]" +
+                                           "[" + "TCP" + "] { " + MyLviewItemsX5.SubItems[5].Text + " }", _Imgindex2);
+                                        }
 
                                         if (MyLviewItemsX5.SubItems[2].Text == "3")
                                         {
@@ -1392,10 +1399,18 @@ namespace ETWPM2Monitor2
                                     if (MyLviewItemsX5.SubItems[2].Text == "2") { _Imgindex = 1; }
                                     if (MyLviewItemsX5.SubItems[2].Text == "3") { _Imgindex = 3; }
 
+                                    if (MyLviewItemsX5.SubItems[2].Text != "3")
+                                    {
+                                        treeView1.Nodes.Add("", MyLviewItemsX5.SubItems[3].Text, _Imgindex).Nodes.Add("", "[EventID:" + MyLviewItemsX5.SubItems[2].Text + "]"
+                                    +  MyLviewItemsX5.SubItems[4].Text + " { " + MyLviewItemsX5.SubItems[5].Text + " }", _Imgindex).Parent.ImageIndex = _Imgindex;
+                                    }
+                                    else
+                                    {
+                                        treeView1.Nodes.Add("", MyLviewItemsX5.SubItems[3].Text, _Imgindex).Nodes.Add("", "[EventID:" + MyLviewItemsX5.SubItems[2].Text + "]"
+                                     + "[" + "TCP" + "] { " + MyLviewItemsX5.SubItems[5].Text + " }", _Imgindex).Parent.ImageIndex = _Imgindex;
+                                    }
 
-                                    treeView1.Nodes.Add("", MyLviewItemsX5.SubItems[3].Text, _Imgindex).Nodes.Add("", "[EventID:" + MyLviewItemsX5.SubItems[2].Text + "]"
-                                    + "[" + MyLviewItemsX5.SubItems[4].Text + "] { " + MyLviewItemsX5.SubItems[5].Text + " }", _Imgindex).Parent.ImageIndex = _Imgindex;
-
+                                  
                                 }
                             }
                         });
@@ -1983,6 +1998,7 @@ namespace ETWPM2Monitor2
                             });
                         }
                     }
+
                     init = true;
                 }
 
@@ -3076,6 +3092,8 @@ namespace ETWPM2Monitor2
             for90MinToolStripMenuItem.Checked = false;
             for120MinToolStripMenuItem.Checked = false;
 
+            groupBox12.ForeColor = Color.Black;
+            groupBox12.Refresh();
 
             Isinit_Time_To_Start_Timer10_ProcessTabTimer = false;
             _IsProcessTab_Enabled = false;
@@ -3096,7 +3114,9 @@ namespace ETWPM2Monitor2
                 {
                     _Time_To_Start_Timer10_ProcessTabTimer = DateTime.Now;
                     Isinit_Time_To_Start_Timer10_ProcessTabTimer = true;
-                    groupBox12.Text = "Live Processes" + " (Refresh Timer: 0"  + "/" + "Min)";
+                    groupBox12.Text = "Live Processes" + " (Refresh Timer is on: 0"  + "/" + "Min)";
+                    groupBox12.ForeColor = Color.DarkGreen;
+                 
                 }
 
                 TimeSpan ts = DateTime.Now - _Time_To_Start_Timer10_ProcessTabTimer;
@@ -3104,7 +3124,7 @@ namespace ETWPM2Monitor2
                 if (for30minToolStripMenuItem.Checked)
                 {
                     if(ts.TotalMinutes.ToString().Split('.')[0].ToString() != groupBox12.Text.Split(':')[1].Split('/')[0])
-                    groupBox12.Text = "Live Processes" + " (Refresh Timer: " + ts.TotalMinutes.ToString().Split('.')[0].ToString() + "/" + "30Min)";
+                    groupBox12.Text = "Live Processes" + " (Refresh Timer is on: " + ts.TotalMinutes.ToString().Split('.')[0].ToString() + "/" + "30Min)";
 
                     if (ts.TotalMinutes >= 30)
                     {
@@ -3119,7 +3139,7 @@ namespace ETWPM2Monitor2
                 if (for60MinToolStripMenuItem.Checked)
                 {
                     if (ts.TotalMinutes.ToString().Split('.')[0].ToString() != groupBox12.Text.Split(':')[1].Split('/')[0])
-                        groupBox12.Text = "Live Processes" + " (Refresh Timer: " + ts.TotalMinutes.ToString().Split('.')[0].ToString() + "/" + "60Min)";
+                        groupBox12.Text = "Live Processes" + " (Refresh Timer is on: " + ts.TotalMinutes.ToString().Split('.')[0].ToString() + "/" + "60Min)";
 
                     if (ts.TotalMinutes >= 60)
                     {
@@ -3134,7 +3154,7 @@ namespace ETWPM2Monitor2
                 if (for90MinToolStripMenuItem.Checked)
                 {
                     if (ts.TotalMinutes.ToString().Split('.')[0].ToString() != groupBox12.Text.Split(':')[1].Split('/')[0])
-                        groupBox12.Text = "Live Processes" + " (Refresh Timer: " + ts.TotalMinutes.ToString().Split('.')[0].ToString() + "/" + "90Min)";
+                        groupBox12.Text = "Live Processes" + " (Refresh Timer is on: " + ts.TotalMinutes.ToString().Split('.')[0].ToString() + "/" + "90Min)";
 
                     if (ts.TotalMinutes >= 90)
                     {
@@ -3149,7 +3169,7 @@ namespace ETWPM2Monitor2
                 if (for120MinToolStripMenuItem.Checked)
                 {
                     if (ts.TotalMinutes.ToString().Split('.')[0].ToString() != groupBox12.Text.Split(':')[1].Split('/')[0])
-                        groupBox12.Text = "Live Processes" + " (Refresh Timer: " + ts.TotalMinutes.ToString().Split('.')[0].ToString() + "/" + "120Min)";
+                        groupBox12.Text = "Live Processes" + " (Refresh Timer is on: " + ts.TotalMinutes.ToString().Split('.')[0].ToString() + "/" + "120Min)";
 
                     if (ts.TotalMinutes >= 120)
                     {
@@ -6773,7 +6793,10 @@ namespace ETWPM2Monitor2
             for60MinToolStripMenuItem.Checked = false;
             for90MinToolStripMenuItem.Checked = false;
             for120MinToolStripMenuItem.Checked = false;
-           
+
+            groupBox12.ForeColor = Color.Black;
+            groupBox12.Refresh();
+
             t7.Enabled = false;
             t7.Stop();
             t10.Enabled = false;

@@ -393,7 +393,7 @@ namespace ETWPM2Monitor2
         private void SearchForm_Realtime_Load(object sender, EventArgs e)
         {
             comboBox1.SelectedIndex = 0;
-           
+            
             /// Set the view to show details.
             listView1.View = View.Details;
             /// Allow the user to edit item text.

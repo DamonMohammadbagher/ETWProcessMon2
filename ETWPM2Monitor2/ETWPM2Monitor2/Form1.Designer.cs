@@ -582,6 +582,7 @@
             this.groupBox12.BackColor = System.Drawing.SystemColors.Control;
             this.groupBox12.Controls.Add(this.treeView1);
             this.groupBox12.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox12.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox12.Location = new System.Drawing.Point(0, 0);
             this.groupBox12.Name = "groupBox12";
             this.groupBox12.Size = new System.Drawing.Size(528, 157);
@@ -593,6 +594,7 @@
             // 
             this.treeView1.ContextMenuStrip = this.contextMenuStrip3;
             this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.treeView1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.treeView1.Location = new System.Drawing.Point(3, 16);
             this.treeView1.Name = "treeView1";
             this.treeView1.Size = new System.Drawing.Size(522, 138);
@@ -626,6 +628,7 @@
             this.groupBox13.BackColor = System.Drawing.SystemColors.Control;
             this.groupBox13.Controls.Add(this.treeView2);
             this.groupBox13.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox13.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox13.Location = new System.Drawing.Point(0, 0);
             this.groupBox13.Name = "groupBox13";
             this.groupBox13.Size = new System.Drawing.Size(537, 157);
@@ -636,6 +639,7 @@
             // treeView2
             // 
             this.treeView2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.treeView2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.treeView2.Location = new System.Drawing.Point(3, 16);
             this.treeView2.Name = "treeView2";
             this.treeView2.Size = new System.Drawing.Size(531, 138);
@@ -1702,7 +1706,7 @@
             this.tabPage13.Location = new System.Drawing.Point(4, 22);
             this.tabPage13.Name = "tabPage13";
             this.tabPage13.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage13.Size = new System.Drawing.Size(1063, 44);
+            this.tabPage13.Size = new System.Drawing.Size(1057, 41);
             this.tabPage13.TabIndex = 0;
             this.tabPage13.Text = "Network Connections";
             this.tabPage13.UseVisualStyleBackColor = true;
@@ -1714,7 +1718,7 @@
             this.listView3.HideSelection = false;
             this.listView3.Location = new System.Drawing.Point(3, 3);
             this.listView3.Name = "listView3";
-            this.listView3.Size = new System.Drawing.Size(1057, 38);
+            this.listView3.Size = new System.Drawing.Size(1051, 35);
             this.listView3.TabIndex = 0;
             this.listView3.UseCompatibleStateImageBehavior = false;
             // 
