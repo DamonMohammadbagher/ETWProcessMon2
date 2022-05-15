@@ -1220,6 +1220,7 @@
             // 
             this.tabPage5.Controls.Add(this.splitContainer3);
             this.tabPage5.Location = new System.Drawing.Point(4, 22);
+            this.tabPage5.Margin = new System.Windows.Forms.Padding(0);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage5.Size = new System.Drawing.Size(1077, 186);
@@ -1295,6 +1296,7 @@
             this.tabPage6.Controls.Add(this.groupBox10);
             this.tabPage6.Controls.Add(this.richTextBox3);
             this.tabPage6.Location = new System.Drawing.Point(4, 22);
+            this.tabPage6.Margin = new System.Windows.Forms.Padding(0);
             this.tabPage6.Name = "tabPage6";
             this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage6.Size = new System.Drawing.Size(1077, 186);
@@ -1366,6 +1368,7 @@
             // 
             this.tabPage7.Controls.Add(this.panel1);
             this.tabPage7.Location = new System.Drawing.Point(4, 22);
+            this.tabPage7.Margin = new System.Windows.Forms.Padding(0);
             this.tabPage7.Name = "tabPage7";
             this.tabPage7.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage7.Size = new System.Drawing.Size(1077, 186);
@@ -1566,7 +1569,9 @@
             // 
             this.tabPage9.Controls.Add(this.splitContainer4);
             this.tabPage9.Location = new System.Drawing.Point(4, 22);
+            this.tabPage9.Margin = new System.Windows.Forms.Padding(0);
             this.tabPage9.Name = "tabPage9";
+            this.tabPage9.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage9.Size = new System.Drawing.Size(1077, 186);
             this.tabPage9.TabIndex = 3;
             this.tabPage9.Text = "Network Connections";
@@ -1576,7 +1581,7 @@
             // 
             this.splitContainer4.BackColor = System.Drawing.Color.DimGray;
             this.splitContainer4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer4.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer4.Location = new System.Drawing.Point(3, 3);
             this.splitContainer4.Name = "splitContainer4";
             this.splitContainer4.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
@@ -1588,8 +1593,8 @@
             // 
             this.splitContainer4.Panel2.BackColor = System.Drawing.Color.DimGray;
             this.splitContainer4.Panel2.Controls.Add(this.groupBox17);
-            this.splitContainer4.Size = new System.Drawing.Size(1077, 186);
-            this.splitContainer4.SplitterDistance = 93;
+            this.splitContainer4.Size = new System.Drawing.Size(1071, 180);
+            this.splitContainer4.SplitterDistance = 90;
             this.splitContainer4.TabIndex = 1;
             // 
             // groupBox18
@@ -1601,7 +1606,7 @@
             this.groupBox18.Location = new System.Drawing.Point(0, 0);
             this.groupBox18.Margin = new System.Windows.Forms.Padding(1);
             this.groupBox18.Name = "groupBox18";
-            this.groupBox18.Size = new System.Drawing.Size(1077, 93);
+            this.groupBox18.Size = new System.Drawing.Size(1071, 90);
             this.groupBox18.TabIndex = 1;
             this.groupBox18.TabStop = false;
             this.groupBox18.Text = "Network Connections via ETW Events";
@@ -1617,7 +1622,7 @@
             this.listView4.Margin = new System.Windows.Forms.Padding(1);
             this.listView4.MultiSelect = false;
             this.listView4.Name = "listView4";
-            this.listView4.Size = new System.Drawing.Size(1071, 74);
+            this.listView4.Size = new System.Drawing.Size(1065, 71);
             this.listView4.Sorting = System.Windows.Forms.SortOrder.Ascending;
             this.listView4.TabIndex = 0;
             this.listView4.UseCompatibleStateImageBehavior = false;
@@ -1653,7 +1658,7 @@
             this.groupBox17.Location = new System.Drawing.Point(0, 0);
             this.groupBox17.Margin = new System.Windows.Forms.Padding(1);
             this.groupBox17.Name = "groupBox17";
-            this.groupBox17.Size = new System.Drawing.Size(1077, 89);
+            this.groupBox17.Size = new System.Drawing.Size(1071, 86);
             this.groupBox17.TabIndex = 1;
             this.groupBox17.TabStop = false;
             this.groupBox17.Text = "Network Connections via Native APIs";
@@ -1667,7 +1672,7 @@
             this.tabControl5.Margin = new System.Windows.Forms.Padding(1);
             this.tabControl5.Name = "tabControl5";
             this.tabControl5.SelectedIndex = 0;
-            this.tabControl5.Size = new System.Drawing.Size(1071, 70);
+            this.tabControl5.Size = new System.Drawing.Size(1065, 67);
             this.tabControl5.TabIndex = 1;
             // 
             // tabPage16
@@ -1676,7 +1681,7 @@
             this.tabPage16.Location = new System.Drawing.Point(4, 22);
             this.tabPage16.Name = "tabPage16";
             this.tabPage16.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage16.Size = new System.Drawing.Size(1063, 44);
+            this.tabPage16.Size = new System.Drawing.Size(1057, 41);
             this.tabPage16.TabIndex = 1;
             this.tabPage16.Text = "Network Connections History";
             this.tabPage16.UseVisualStyleBackColor = true;
@@ -1687,7 +1692,7 @@
             this.listView7.HideSelection = false;
             this.listView7.Location = new System.Drawing.Point(3, 3);
             this.listView7.Name = "listView7";
-            this.listView7.Size = new System.Drawing.Size(1057, 38);
+            this.listView7.Size = new System.Drawing.Size(1051, 35);
             this.listView7.TabIndex = 0;
             this.listView7.UseCompatibleStateImageBehavior = false;
             // 

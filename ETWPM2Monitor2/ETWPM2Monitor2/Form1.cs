@@ -2393,6 +2393,8 @@ namespace ETWPM2Monitor2
             }
         }
 
+        /// <summary>  remove those Process items in Network Connections via Native APIs 
+        /// </summary>  
         private void T15_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
             /// remove those Process items in Network Connections via Native APIs
@@ -2401,74 +2403,82 @@ namespace ETWPM2Monitor2
 
             try
             {
-                if (Network_Info.Before_after == 1)
-                {
-                    try
-                    {
-                        for (int w = 0; w < listView3.Items.Count; w++)
-                        {
-                            int found = 0;
-
-                            for (int x = 0; x < Network_Info.Table2_x64.Length; x++)
-                            {
-                                if (listView3.Items[w].Name == Network_Info.Table2_x64[x].FullSTR)
-                                {
-                                    found = 1;
-                                }
-                            }
-
-                            if (found == 0)
-                            {
-
-                                listView3.Items[w].Remove();
-                            }
-                        }
-                    }
-                    catch (Exception)
-                    {
-
-
-                    }
+                
                     
-                }
-                else if (Network_Info.Before_after == 0)
-                {
-                    try
+                    if (Network_Info.Before_after == 1)
                     {
-
-                        for (int w = 0; w < listView3.Items.Count; w++)
+                        try
                         {
-                            int found = 0;
-
-                            for (int x = 0; x < Network_Info.Table1_x64.Length; x++)
+                            for (int w = 0; w < listView3.Items.Count; w++)
                             {
-                                if (listView3.Items[w].Name == Network_Info.Table1_x64[x].FullSTR)
+                                int found = 0;
+
+                                for (int x = 0; x < Network_Info.Table2_x64.Length; x++)
                                 {
-                                    found = 1;
+                                    if (listView3.Items[w].Name == Network_Info.Table2_x64[x].FullSTR)
+                                    {
+                                        found = 1;
+                                    }
+                                }
+
+                                if (found == 0)
+                                {
+
+                                     listView3.Items[w].Remove();
+                                    
                                 }
                             }
+                        }
+                        catch (Exception)
+                        {
 
-                            if (found == 0)
+
+                        }
+
+                    }
+                    else if (Network_Info.Before_after == 0)
+                    {
+                        try
+                        {
+
+                            for (int w = 0; w < listView3.Items.Count; w++)
                             {
-                                listView3.Items[w].Remove();
+                                int found = 0;
 
+                                for (int x = 0; x < Network_Info.Table1_x64.Length; x++)
+                                {
+                                    if (listView3.Items[w].Name == Network_Info.Table1_x64[x].FullSTR)
+                                    {
+                                        found = 1;
+                                    }
+                                }
+
+                                if (found == 0)
+                                {
+                                     listView3.Items[w].Remove();
+                                   
+
+                                }
                             }
                         }
-                    }
-                    catch (Exception)
-                    {
+                        catch (Exception)
+                        {
 
 
+                        }
                     }
-                }
+                   
+              
 
             }
             catch (Exception em)
             {
 
-
+               
             }
         }
+        /// <summary>  checking Network Connection records which made by ETW Events  
+        /// </summary>  
         private void T14_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
             /// checking Network Connection records which made by ETW Events 
@@ -2521,14 +2531,9 @@ namespace ETWPM2Monitor2
 
                                             if (found == false)
                                             {
-                                                if (item3.BackColor != Color.Silver)
-                                                {
+                                                
                                                     item3.BackColor = Color.Red;
-                                                    item3.ForeColor = Color.White;
-                                                }
-
-                                                    //item3.BackColor = Color.Red;
-                                                    //item3.ForeColor = Color.White;
+                                                    item3.ForeColor = Color.White;                                                                                                 
 
                                                     int indexx = Network_Info.Processes_FileSystemList2.FindIndex(x => x.PID == Convert.ToInt32(item3.SubItems[3].Text));
 
@@ -2628,7 +2633,6 @@ namespace ETWPM2Monitor2
                                                 try
                                                 {
 
-
                                                     item3.BackColor = Color.White;
                                                     item3.ForeColor = Color.Black;
 
@@ -2660,11 +2664,10 @@ namespace ETWPM2Monitor2
                                         }
                                         else
                                         {
-                                            if (item3.BackColor != Color.Silver)
-                                            {
+                                           
                                                 item3.BackColor = Color.Red;
                                                 item3.ForeColor = Color.White;
-                                            }
+                                           
 
                                             int indexx = Network_Info.Processes_FileSystemList2.FindIndex(x => x.PID == Convert.ToInt32(item3.SubItems[3].Text));
 
@@ -6416,7 +6419,7 @@ namespace ETWPM2Monitor2
 
         private void AboutToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(null, "ETWPM2Monitor2 v2.1 [test version 2.1.40.347]\nCode Published by Damon Mohammadbagher , Jul 2021", "About ETWPM2Monitor2 v2.1", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show(null, "ETWPM2Monitor2 v2.1 [test version 2.1.40.355]\nCode Published by Damon Mohammadbagher , Jul 2021", "About ETWPM2Monitor2 v2.1", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
         }
 
@@ -8075,7 +8078,8 @@ namespace ETWPM2Monitor2
                     NewResult += itemx;
                 }
 
-                NewResult = NewResult + "\n-----------------------------------\nMZ Header Detection:" + FoundItem.ToString();
+                NewResult = NewResult + "\n-----------------------------------\nMZ Header Detection:" + FoundItem.ToString() 
+                    + "\n----------------------------------------------------------------------\n";
 
                 return NewResult.ToString();
 

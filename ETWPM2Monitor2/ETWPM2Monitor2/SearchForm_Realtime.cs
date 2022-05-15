@@ -23,7 +23,7 @@ namespace ETWPM2Monitor2
         public static DataTable ProcessTable1 = new DataTable("ETW_logs");
         public static DataColumn Processcolumn1;
         public static DataRow Processrow1;
-
+        public Form newform = new Form();
         public static EventLog ETW2MON;
         public static EventLogQuery ETWPM2Query;
 
@@ -37,7 +37,7 @@ namespace ETWPM2Monitor2
         public static Form1 _Form1 = new Form1();
         public static bool ALT_F4 = false;
         public static bool _StopFilter = false;
-
+        string Help = "";
         public static void GetRowsTODataTable(DateTime _Time, string _EventID, Int32 _PID, string _Process, string _EventMessage )
         {
 
@@ -393,7 +393,7 @@ namespace ETWPM2Monitor2
         private void SearchForm_Realtime_Load(object sender, EventArgs e)
         {
             comboBox1.SelectedIndex = 0;
-            
+           
             /// Set the view to show details.
             listView1.View = View.Details;
             /// Allow the user to edit item text.
@@ -413,7 +413,146 @@ namespace ETWPM2Monitor2
             listView1.Columns.Add("Process", 120, HorizontalAlignment.Left);
             listView1.Columns.Add("EventID", 60, HorizontalAlignment.Left);
             listView1.Columns.Add("EventMessage", 400, HorizontalAlignment.Left);
-            
+
+            Help = "################Event ID 1 NewProcess Created#####################################" + "\n" +
+"[ETW] " + "\n" +
+"[MEM] NewProcess Started " + "\n" +
+"PID = 8932  PIDPath = C:\\Program Files\\Windows Defender\\MpCmdRun.exe" + "\n" +
+"ProcessName = MpCmdRun" + "\n" +
+"[CommandLine: \"C:\\Program Files\\Windows Defender\\MpCmdRun.exe\" Scan -ScheduleJob -ScanTrigger 55]" + "\n" +
+"[ParentID: 1320]" + "\n" +
+"[ParentID Path: C:\\Windows\\System32\\svchost.exe]" + "\n" +
+"EventTime = 5/13/2022 12:10:06 AM" + "\n" +
+"----------------------------------------------------------------------------------" + "\n" +
+"Filter Examples:" + "\n" +
+"step one : you should search items by string." + "\n" +
+"note (step one): if you want to use filter on all NewProcess records you should use \"[MEM] NewProcess Started\" string in search items and Select EventMessage Checkbox and click search to find/load all records then you can use Filters for all records." + "\n" +
+"step two : use filters on search results..." + "\n" +
+"" + "\n" +
+"1.filter NewProcess via Args in CommandLine in Eventmessage \"Column\"" + "\n" +
+"eventmessage like '*ScheduleJob*'" + "\n" +
+"eventmessage like '*,*'" + "\n" +
+"eventmessage like '*fc,48,83,e4,f0*'" + "\n" +
+"eventmessage like '*--type=renderer*'" + "\n" +
+"eventmessage like '*192.168.56.1*'" + "\n" +
+"" + "\n" +
+"2.filter NewProcess via ParentID in Eventmessage \"Column\"" + "\n" +
+"eventmessage like '*ParentID: 1320*'" + "\n" +
+"" + "\n" +
+"3.filter NewProcess via ParentID Path in Eventmessage \"Column\"" + "\n" +
+"eventmessage like '*ParentID Path: C:\\Windows\\System32\\cmd.exe*'" + "\n" +
+"eventmessage like '*ParentID Path: c:\\windows\\system32\\cmd.exe*' or PID > 1000" + "\n" +
+"eventmessage like '*ParentID Path: c:\\windows\\system32\\cmd.exe*' and PID >= 1000" + "\n" +
+"eventmessage like '*ParentID Path: c:\\windows\\system32\\cmd.exe*' or eventmessage like '*ParentID Path: c:\\windows\\explorer.exe*'" + "\n" +
+"eventmessage like '*ParentID Path: c:\\windows\\system32\\cmd.exe*' or eventmessage not like '*ParentID Path: c:\\windows\\explorer.exe*'" + "\n" +
+"eventmessage like '*ParentID Path: c:\\windows\\system32\\cmd.exe*' and eventmessage not like '*ProcessName = MpCmdRun*'" + "\n" +
+"" + "\n" +
+"4.filter NewProcess via EventTime in Eventmessage \"Column\"" + "\n" +
+"eventmessage like '*EventTime = 5/13/*'" + "\n" +
+"" + "\n" +
+"5.filter NewProcess via numbers in PID \"Column\"" + "\n" +
+"PID = 8932" + "\n" +
+"PID <= 8932" + "\n" +
+"" + "\n" +
+"6.filter NewProcess via Process \"Column\"" + "\n" +
+"Process like '*svchost*'" + "\n" +
+"" + "\n" +
+"7.filter NewProcess via Time \"Column\"" + "\n" +
+"time = '5/12/2022 11:56:46 PM'" + "\n" +
+"time = '5/14/2022 3:05:23 PM' or Process like '*dotnet*'" + "\n" +
+"time = '5/14/2022 3:05:23 PM' and Process not like '*dotnet*'" + "\n" +
+"time > '5/12/2022 11:56:46 PM' or Process like '*conh*'" + "\n" +
+"time < '5/12/2022 11:56:46 PM' and Process like '*conhost*'" + "\n" +
+"" + "\n" +
+"################Event ID 1 NewProcess Created#####################################" + "\n" +
+"" + "\n" +
+"################Event ID 2 Injected ThreadStart Detected##########################" + "\n" +
+"[ETW] " + "\n" +
+"[MEM] Injected ThreadStart Detected," + "\n" +
+"Target_Process: svchost:1616   TID(10916) Injected by Process Exited (PID:4)" + "\n" +
+"Target_ProcessPath: C:\\Windows\\System32\\svchost.exe" + "\n" +
+"" + "\n" +
+"Debug info: [5/12/2022 11:55:44 PM] PID: (1616)(svchost) 10916::0x7ff87e6a2ad0:36:4[Injected by System]" + "\n" +
+"---------------------------------------------" + "\n" +
+"Debug Integers : TargetProcessPID,InjectedTID:StartAddress:ParentThreadID:InjectorPID" + "\n" +
+"TPID > 1616" + "\n" +
+"InjectedTID > 10916" + "\n" +
+"StartAddress > 0x7ff87e6a2ad0" + "\n" +
+"PTID > 36" + "\n" +
+"InjectorPID > 4" + "\n" +
+"---------------------------------------------" + "\n" +
+"Debug Process_Names : TargetProcessName,InjectorProcessName" + "\n" +
+"TargetProcessName > svchost" + "\n" +
+"InjectorProcessName > Process Exited (PID:4)" + "\n" +
+"EventTime > 5/12/2022 11:55:44 PM" + "\n" +
+"----------------------------------------------------------------------------------" + "\n" +
+"Filter Examples:" + "\n" +
+"step one : you should search items by string." + "\n" +
+"note (step one): if you want to use filter on all Injected Thread records you should use \"[MEM] Injected ThreadStart Detected\" string in search items and Select EventMessage Checkbox and click search to find/load all records then you can use Filters for all records." + "\n" +
+"step two : use filters on search results..." + "\n" +
+"" + "\n" +
+"1.filter Injected Threads Records via Useful string (Not injected by explorer or system:4) in Eventmessage \"Column\", this" + "\n" +
+"will help you to find injectors which is not system (pid:4) or explorer etc." + "\n" +
+"eventmessage not like '* Injected by C:\\Windows\\explorer.exe*' and eventmessage not like '* Injected by Process Exited (PID:4)*'" + "\n" +
+"" + "\n" +
+"2.filter Injected Threads Records via TargetProcess Name in Eventmessage \"Column\"" + "\n" +
+"eventmessage like '*Target_Process: svchost:3426*'" + "\n" +
+"eventmessage like '*Target_Process: svchost:*'" + "\n" +
+"eventmessage like '*Target_Process: mspaint*'" + "\n" +
+"eventmessage like '*Target_Process: svc*' or eventmessage like '*Target_Process: ms*'" + "\n" +
+"eventmessage like '*Target_Process: svc*' or eventmessage not like '*Target_Process: ms*'" + "\n" +
+"" + "\n" +
+"3.filter Injected Threads Records via InjectorPID in Eventmessage \"Column\"" + "\n" +
+"eventmessage like '*InjectorPID > 10936*'" + "\n" +
+"eventmessage like '*InjectorPID > 10936*' or eventmessage not like '*InjectorPID > 4*'" + "\n" +
+"" + "\n" +
+"4.filter Injected Threads Records via StartAddress in Eventmessage \"Column\"" + "\n" +
+"eventmessage like '*StartAddress > 0x7ff87e6*'" + "\n" +
+"################Event ID 2 Injected ThreadStart Detected##########################" + "\n" +
+"" + "\n" +
+"################Event ID 3 TcpIpSend/Connect Detected#############################" + "\n" +
+"[ETW] " + "\n" +
+"[TCPIP] TcpIpSend Detected" + "\n" +
+"Target_Process: msedge:9676  TID(-1) TaskName(TcpIp) " + "\n" +
+"PIDPath = C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe" + "\n" +
+"EventTime = 5/14/2022 3:05:23 PM" + "\n" +
+"" + "\n" +
+"[size:0][daddr:127.0.0.1][saddr:127.0.0.1][dport:80][sport:50145][mss:-41][sackopt:1][tsopt:0][wsopt:1][rcvwin:2619800][rcvwinscale:8][sndwinscale:8][seqnum:0][connid:0]" + "\n" +
+"----------------------------------------------------------------------------------" + "\n" +
+"[ETW] " + "\n" +
+"[TCPIP] TcpIpSend Detected" + "\n" +
+"Target_Process: mspaint:8400  TID(-1) TaskName(TcpIp) " + "\n" +
+"PIDPath = C:\\Windows\\System32\\mspaint.exe" + "\n" +
+"EventTime = 5/12/2022 11:54:25 PM" + "\n" +
+"" + "\n" +
+"[size:0][daddr:192.168.56.101][saddr:192.168.56.1][dport:443][sport:50755][mss:1460][sackopt:1][tsopt:0][wsopt:1][rcvwin:262144][rcvwinscale:8][sndwinscale:7][seqnum:0][connid:18446744069414584320]" + "\n" +
+"" + "\n" +
+"Filter Examples:" + "\n" +
+"step one : you should search items by string." + "\n" +
+"note (step one): if you want to use filter on all TcpIpSend/Connect Detected records you should use \"[TCPIP] TcpIpSend Detected\" string in search items and Select EventMessage Checkbox and click search to find/load all records then you can use Filters for all records." + "\n" +
+"step two : use filters on search results..." + "\n" +
+"" + "\n" +
+"1.filter TCP Connect events via pidpath in Eventmessage  \"Column\" , useful to detect network connections which made by attackers (sometimes)" + "\n" +
+"EVENTMESSAGE NOT LIKE '*PIDPath = C:\\WINDOWS\\*'" + "\n" +
+"EVENTMESSAGE NOT LIKE '*\\WINDOWS\\*'" + "\n" +
+"" + "\n" +
+"2.filter TCP Connect events via size in Eventmessage \"Column\"" + "\n" +
+"eventmessage like '*size:160*'" + "\n" +
+"" + "\n" +
+"3.filter TCP Connect events via Destination IP in Eventmessage \"Column\"" + "\n" +
+"eventmessage like '*daddr:192.168.56.101*'" + "\n" +
+"" + "\n" +
+"4.filter TCP Connect events via process name in Process \"Column\"" + "\n" +
+"Process like '*mspaint*'" + "\n" +
+"" + "\n" +
+"5.filter TCP Connect events via numbers in Time \"Column\"" + "\n" +
+"time = '5/12/2022 11:56:46 PM'" + "\n" +
+"time = '5/14/2022 3:05:23 PM' or Process like '*dotnet*'" + "\n" +
+"time = '5/14/2022 3:05:23 PM' and Process not like '*dotnet*'" + "\n" +
+"time > '5/12/2022 11:56:46 PM' or Process like '*mspaint*'" + "\n" +
+"time < '5/12/2022 11:56:46 PM' and Process like '*notepad*'" + "\n" +
+"################Event ID 3 TcpIpSend/Connect Detected#############################" + "\n";
+
         }
 
         public async void _Runfilterasync()
@@ -592,6 +731,16 @@ namespace ETWPM2Monitor2
         {
             stopsearch = true;
             ALT_F4 = true;
+            try
+            {
+                newform.Close();
+            }
+            catch (Exception)
+            {
+
+                
+            }
+           
             Thread.Sleep(1000);
             this.Close();
            
@@ -759,6 +908,36 @@ namespace ETWPM2Monitor2
             _StopFilter = true;
             button1.Enabled = true;
             button3.Enabled = true;
+        }
+
+        private void Button6_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                newform.Close();
+            }
+            catch (Exception)
+            {
+
+
+            }
+
+            newform = new Form();
+            newform.Size = new Size(900, 450);
+            newform.Text = "Simple Help for Filters...";
+            newform.Show();
+            RichTextBox rtbx = new RichTextBox();
+
+            rtbx.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold,
+                System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+
+            newform.Controls.Add(rtbx);
+            rtbx.BackColor = Color.LightCyan;
+            rtbx.Dock = DockStyle.Fill;
+            rtbx.ReadOnly = true;
+            rtbx.Text = Help;
+
+
         }
 
         private void CheckBox3_CheckedChanged(object sender, EventArgs e)
