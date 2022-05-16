@@ -612,7 +612,7 @@ namespace ETWPM2Monitor2
                 }
             }
         }
-        public async void __SearchStrings_in_ProcessesTab(TreeView SearchResultTreeView, string search, TreeView targetProcesses)
+        public void __SearchStrings_in_ProcessesTab(TreeView SearchResultTreeView, string search, TreeView targetProcesses)
         {
 
             try
@@ -983,6 +983,8 @@ namespace ETWPM2Monitor2
                                             {
                                                 listView1.Items[listView1.Items.Count - 2].BackColor = Color.LightGoldenrodYellow;
                                                 listView1.Items[listView1.Items.Count - 1].BackColor = Color.LightGoldenrodYellow;
+                                                listView1.Items[listView1.Items.Count - 2].ForeColor = Color.Black;
+                                                listView1.Items[listView1.Items.Count - 1].ForeColor = Color.Black;
                                             }
 
                                            
@@ -1861,6 +1863,8 @@ namespace ETWPM2Monitor2
                             tabPage15.Text = "ETWPM2Monitor2 Detection Event Logs " + "(" + listView6.Items.Count.ToString() + ")";
                             toolStripStatusLabel9.Text = "| ETWPM2Monitor2 Detection Event Logs " + "(" + listView6.Items.Count.ToString() + ")";
 
+                            if (listView6.Items.Count > 0) tabPage3.ImageIndex = 19; else tabPage3.ImageIndex = 23;
+
                             //if (_isNotifyEnabled)
                             //{
                             //    if (_Status.Contains("Scanned & Found")
@@ -1944,6 +1948,8 @@ namespace ETWPM2Monitor2
                             tabPage3.Text = "System/Detection Logs " + "(" + listView6.Items.Count.ToString() + ")";
                             tabPage15.Text = "ETWPM2Monitor2 Detection Event Logs " + "(" + listView6.Items.Count.ToString() + ")";
                             toolStripStatusLabel9.Text = "| ETWPM2Monitor2 Detection Event Logs " + "(" + listView6.Items.Count.ToString() + ")";
+
+                            if (listView6.Items.Count > 0) tabPage3.ImageIndex = 19; else tabPage3.ImageIndex = 23;
 
                         });
 
@@ -4827,8 +4833,8 @@ namespace ETWPM2Monitor2
                 string tcpdetails = sender.ToString().Split('@')[1];
 
                 subitemX = "Injection";
-                bool foundinlist = false;
-                string lastshow = "";
+                //bool foundinlist = false;
+                //string lastshow = "";
                 Int32 PID = Convert.ToInt32(PName_PID.Split(':')[1]);
 
                 string ProcessName = PName_PID.Split(':')[0];
@@ -7677,7 +7683,7 @@ namespace ETWPM2Monitor2
                     string module_size = "";
                     string filename = "";
 
-                    string dump = "";
+                    //string dump = "";
                     if (File.Exists(@".\process_" + PID + @"\" + @"dump_report.json"))
                     {
 
