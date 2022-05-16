@@ -177,7 +177,7 @@ md5 info [ETWPM2Monitor2.exe], "exe files are not safe here in github so make yo
 ### ETWPM2Monitor2 v2.1 [v2.1.18.84]  
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/Pics/ETWPM2Monitor2.1.png)
 
-Note: with "ETWPM2Monitor2 v2" code we have "Pe-sieve64.exe" & "Hollowshunter.exe" as Memory Scanner so to use you need to download these exe files & paste them in same folder with ETWPM2Monitor2.exe & i tested ETWPM2Monitor2 with Pe-sieve64.exe (ver 0.2.9.6) & Hollowshunter.exe (ver 0.2.9.6)
+Note: with "ETWPM2Monitor2 v2" code we have "Pe-sieve64.exe" as Memory Scanner so to use you need to download these exe files & paste them in same folder with ETWPM2Monitor2.exe & i tested ETWPM2Monitor2 with Pe-sieve64.exe (ver 0.2.9.6).
 
 Related Article about (ETWPM2Monitor2.exe & ETWProcessMon2.exe) + VirtualMemAlloc ETW Events made by ETWProcessMon2: 
 
