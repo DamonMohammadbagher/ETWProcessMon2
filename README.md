@@ -56,7 +56,8 @@ ETW Events in event log [ETWPM2]:
 md5 info [ETWProcessMon2.exe], "exe files are not safe here in github so make your own exe files with C# source by yourself [i recommend]":
 
     b913a0d66d-750478c5a8-1d557aad377d => ETWProcessMon2.exe
-    e2133acacd-2d03d23212-3276ddae943a => ETWProcessMon2.exe (v2.1)
+    951aef1888-093fca9e67-d881615ed10b => ETWProcessMon2.exe (v2.1) 16,May,2022
+ 
 
 ### Videos: 
 
@@ -81,7 +82,8 @@ VirtualMemAllocMon is for Monitoring VirtualMemAlloc Event via ETW, when some Na
 
 md5 info:
 
-    5ee176a-f45524d29-ea3eb89fe-0c3e928 => VirtualMemAllocMon.exe (v1.1)
+    25d54c2073-74411e9f4f-7488ee33cc78 => VirtualMemAllocMon.exe (v1.1) 16,May,2022
+    d42ca87133-977815440d-be8bd04c9589 => VirtualMemAllocMon.exe (v2.0.0.1) 16,May,2022
 
  ### VirtualMemAllocMon v2.0 & VirtualMemAlloc ETW Event  
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/VirtualMemAllocMon/VirtualMemAllocMon2/Pictures/VirtualMemAllocMonv2.png)
@@ -167,9 +169,8 @@ Note: EventIDs 1,2,3,4,255, these events will save save by ETWPM2Monitor2.1 in W
         [Warning]     Event ID 4 : Detection for Shell Activity via ETW New Process Events
 
 md5 info [ETWPM2Monitor2.exe], "exe files are not safe here in github so make your own exe files with C# source by yourself [i recommend]":
-
-    
-    2dc3f30be3-2e6efca979-01da774ea93a => ETWPM2Monitor2.exe (v2.1) [v2.1.36.230]
+         
+    e9ae9f3619-e0880d31c7-eba0b3600816 => ETWPM2Monitor2.exe (v2.1) [v2.1.40.355] 16,May,2022
 
 ### ETWPM2Monitor2 v2.1 [v2.1.33.194]  
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/Pics/ProcrssListTabx1.png)
