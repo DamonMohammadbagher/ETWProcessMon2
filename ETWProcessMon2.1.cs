@@ -225,7 +225,7 @@ namespace ETWProcessMon2
             _timecreated_tcp = obj.TimeStamp;
             _dt = _timecreated_tcp - _lasttimecreated_tcp;
 
-            if (_dt.Seconds > 1 || obj.ProcessID.ToString() != _lastTCP_Message_PID)
+            if (_dt.Seconds >= 1 || obj.ProcessID.ToString() != _lastTCP_Message_PID)
             {
                 Thread T1_evt1 = new Thread(_additems1);
                 T1_evt1.Priority = ThreadPriority.Highest;
@@ -369,7 +369,7 @@ namespace ETWProcessMon2
             _timecreated_tcp = obj.TimeStamp;
             _dt = _timecreated_tcp - _lasttimecreated_tcp;
 
-            if (_dt.Seconds > 1 || obj.ProcessID.ToString() != _lastTCP_Message_PID)
+            if (_dt.Seconds >= 1 || obj.ProcessID.ToString() != _lastTCP_Message_PID)
             {
                 /// sizes are for Meterpreter session packets & 4444 is default port (just for test)
                 if ((TemptcptipInfo.Contains("[size:160]")) || (TemptcptipInfo.Contains("[size:192]")))
