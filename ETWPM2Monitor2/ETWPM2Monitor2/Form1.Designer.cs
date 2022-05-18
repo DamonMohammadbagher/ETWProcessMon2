@@ -1783,10 +1783,10 @@
             // 
             this.toolStripStatusLabel4.ForeColor = System.Drawing.Color.Red;
             this.toolStripStatusLabel4.Name = "toolStripStatusLabel4";
-            this.toolStripStatusLabel4.Size = new System.Drawing.Size(874, 17);
-            this.toolStripStatusLabel4.Text = "ETW Checking Errors , Descripion: These Process Network Connection Events Still N" +
-    "ot Detected by ETW Events (False Positive Records/Events Removed from this List)" +
-    "";
+            this.toolStripStatusLabel4.Size = new System.Drawing.Size(878, 17);
+            this.toolStripStatusLabel4.Text = "ETW Checking Errors , Description: These Process Network Connection Events Still " +
+    "Not Detected by ETW Events (False Positive Records/Events Removed from this List" +
+    ")";
             // 
             // tabPage3
             // 

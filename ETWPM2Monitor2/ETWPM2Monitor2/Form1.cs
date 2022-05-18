@@ -2077,6 +2077,7 @@ namespace ETWPM2Monitor2
             TargetListView.FullRowSelect = true;
             /// Display grid lines.
             TargetListView.GridLines = false;
+            
             TargetListView.Sorting = SortOrder.Ascending;
 
             int icounter = 0;
@@ -2233,10 +2234,23 @@ namespace ETWPM2Monitor2
                 t16.Enabled = true;
                 t16.Start();
 
-
-
-                _Set_iListview_Properties(listView1, new string[] { " ", "Time", "EventID", "Process", "Evt-Type" }
-                , new int[] { 20, 130, 55, 170, 160 }, imageList1);
+                /// Set the view to show details.
+                listView1.View = View.Details;
+                /// Allow the user to edit item text.
+                listView1.LabelEdit = false;
+                /// Allow the user to rearrange columns.
+                listView1.AllowColumnReorder = true;
+                /// Display check boxes.
+                listView1.CheckBoxes = false;
+                /// Select the item and subitems when selection is made.
+                listView1.FullRowSelect = true;
+                /// Display grid lines.
+                listView1.GridLines = false;
+                listView1.Columns.Add(" ", 20, HorizontalAlignment.Left);
+                listView1.Columns.Add("Time", 130, HorizontalAlignment.Left);
+                listView1.Columns.Add("EventID", 55, HorizontalAlignment.Left);
+                listView1.Columns.Add("Process", 170, HorizontalAlignment.Left);
+                listView1.Columns.Add("Evt-Type", 160, HorizontalAlignment.Left);               
 
 
                 _Set_iListview_Properties(listView2, new string[] { " ", "LocalTime", "Process", "Injection-Type", "Tcp Sends"
