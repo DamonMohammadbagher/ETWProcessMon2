@@ -1575,11 +1575,7 @@ namespace ETWPM2Monitor2
                                                 if (_Delay.IsCompleted)
                                                 {
                                                     item.ForeColor = Color.DarkBlue;
-                                                    item.BackColor = Color.White;
-
-                                                    //BeginInvoke(new __Additem(_Additems_toTreeview2), item);
-
-                                                    //item.Remove();
+                                                    item.BackColor = Color.White;                                                   
 
                                                     break;
                                                 }
@@ -2028,6 +2024,7 @@ namespace ETWPM2Monitor2
                                         CommandLine = (string)Obj["CommandLine"],
 
                                     };
+
                         foreach (var item in query)
                         {
                             if (Processes_FileSystemList.ToList().FindIndex(x => x.FileName == item.Process.ProcessName + ":" + item.Process.Id) == -1)
@@ -4925,8 +4922,7 @@ namespace ETWPM2Monitor2
                     }
 
                     _StopLoopingScan_Exec_01 = false;
-                    //_StopLoopingScan_Exec_02 = false;
-
+                     
 
                     int _IndexScannedPids = Scanned_PIds.FindIndex(TargetPid => TargetPid.PID == PID
                     && TargetPid.ProcNameANDPath.ToLower() == Procesname_path2.ToLower());
@@ -6445,7 +6441,7 @@ namespace ETWPM2Monitor2
 
         private void AboutToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(null, "ETWPM2Monitor2 v2.1 [test version 2.1.40.355]\nCode Published by Damon Mohammadbagher , Jul 2021", "About ETWPM2Monitor2 v2.1", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show(null, "ETWPM2Monitor2 v2.1 [test version 2.1.40.358]\nCode Published by Damon Mohammadbagher , Jul 2021", "About ETWPM2Monitor2 v2.1", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
         }
 

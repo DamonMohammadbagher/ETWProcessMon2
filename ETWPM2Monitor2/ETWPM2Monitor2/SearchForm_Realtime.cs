@@ -26,6 +26,7 @@ namespace ETWPM2Monitor2
         public Form newform = new Form();
         public static EventLog ETW2MON;
         public static EventLogQuery ETWPM2Query;
+        public static Thread _Thread_02, _Thread_01;
 
         public delegate void __SearchRun();
         public delegate void __Obj_Updater_to_WinForm();
@@ -38,6 +39,9 @@ namespace ETWPM2Monitor2
         public static bool ALT_F4 = false;
         public static bool _StopFilter = false;
         string Help = "";
+        
+        
+
         public static void GetRowsTODataTable(DateTime _Time, string _EventID, Int32 _PID, string _Process, string _EventMessage )
         {
 
@@ -106,7 +110,7 @@ namespace ETWPM2Monitor2
             {
                 BeginInvoke(new __SearchRun(_RunSearch));
             });
-            Thread _Thread_01 = new Thread(__SearchItems_Addtolistview1);
+            _Thread_01 = new Thread(__SearchItems_Addtolistview1);
             _Thread_01.Priority = ThreadPriority.Highest;
             _Thread_01.Start();
             DataView __Resourcetosearch = new DataView();
@@ -139,8 +143,15 @@ namespace ETWPM2Monitor2
  
                         EventLog dump_filters = new EventLog("ETWPM2", ".");
                         _dowork = new CancellationTokenSource();
-                        
+
+                        if (_dowork.IsCancellationRequested)
+                        {
+                            _Thread_01.Abort();
+                           
+                        }
+
                         MyLviewItemsX = new ListViewItem();
+
                         if (comboBox1.SelectedIndex == 0)
                         {
                             /// searching in Event ID 1 or New Process Events
@@ -153,13 +164,18 @@ namespace ETWPM2Monitor2
                             if (checkBox4.Checked) { __FirstCondition = "parentid path: "; }
                             if (checkBox5.Checked) { __FirstCondition = ""; }
 
-                            foreach (EventLogEntry item in dump_filters.Entries.Cast<EventLogEntry>()
-                            .Where(x => x.InstanceId == 1 && x.Message.ToLower().Contains(__FirstCondition + textBox1.Text.ToLower())))
+                            List<EventLogEntry> evtx = dump_filters.Entries.Cast<EventLogEntry>()
+                            .ToList().FindAll(x => x.InstanceId == 1 && x.Message.ToLower().Contains(__FirstCondition + textBox1.Text.ToLower()));
+
+                          
+                            foreach (EventLogEntry item in evtx)                                                       
                             {
                                
                                 if (_dowork.IsCancellationRequested)
                                 {
+                                   
                                     break;
+
                                 }
 
                                 Thread.Sleep(1);
@@ -226,12 +242,16 @@ namespace ETWPM2Monitor2
                             if (checkBox_ID2_Target_ProcessPath.Checked) { __FirstCondition1 = "target_processpath: "; }
                             if (checkBox_ID2_TPID.Checked) { __FirstCondition1 = "tpid > "; }
 
-                            foreach (EventLogEntry item in dump_filters.Entries.Cast<EventLogEntry>()
-                            .Where(x => x.InstanceId == 2 && x.Message.ToLower().Contains(__FirstCondition1 + textBox1.Text.ToLower())))
+                            List<EventLogEntry> evtx = dump_filters.Entries.Cast<EventLogEntry>()
+                           .ToList().FindAll(x => x.InstanceId == 1 && x.Message.ToLower().Contains(__FirstCondition1 + textBox1.Text.ToLower()));
+
+                           
+                            foreach (EventLogEntry item in evtx)
                             {
                                 
                                 if (_dowork.IsCancellationRequested)
                                 {
+                                    
                                     break;
                                 }
 
@@ -293,8 +313,6 @@ namespace ETWPM2Monitor2
                             textBox1.Enabled = true;
 
                         }
-
-
                         else if (comboBox1.SelectedIndex == 2)
                         {
                             /// searching in Event ID 3 or TCP Connect/send Events
@@ -304,16 +322,22 @@ namespace ETWPM2Monitor2
                             textBox1.Enabled = false;
  
                             string __FirstCondition3 = "";
+
                             if (checkBox_ID3_EventMessage.Checked) { __FirstCondition3 = ""; }
                             if (checkBox_ID3_PIDPath.Checked) { __FirstCondition3 = "pidpath = "; }
                             if (checkBox_ID3_Target_Process.Checked) { __FirstCondition3 = "target_process: "; }
-                            
-                            foreach (EventLogEntry item in dump_filters.Entries.Cast<EventLogEntry>()
-                            .Where(x => x.InstanceId == 3 && x.Message.ToLower().Contains(__FirstCondition3 + textBox1.Text.ToLower())))
+
+
+
+                            List<EventLogEntry> evtx = dump_filters.Entries.Cast<EventLogEntry>()
+                          .ToList().FindAll(x => x.InstanceId == 1 && x.Message.ToLower().Contains(__FirstCondition3 + textBox1.Text.ToLower()));
+
+                            foreach (EventLogEntry item in evtx)
                             {
 
                                 if (_dowork.IsCancellationRequested)
                                 {
+                                   
                                     break;
                                 }
                                 Thread.Sleep(1);
@@ -361,7 +385,7 @@ namespace ETWPM2Monitor2
                                     break;
                                 }
 
-                                //if (formclosing) break;
+                                
                                 if (stopsearch) break;
 
                             }
@@ -393,7 +417,9 @@ namespace ETWPM2Monitor2
         private void SearchForm_Realtime_Load(object sender, EventArgs e)
         {
             comboBox1.SelectedIndex = 0;
-            
+
+            _Thread_01 = null;
+            _Thread_02 = null;
             /// Set the view to show details.
             listView1.View = View.Details;
             /// Allow the user to edit item text.
@@ -553,6 +579,8 @@ namespace ETWPM2Monitor2
 "time < '5/12/2022 11:56:46 PM' and Process like '*notepad*'" + "\n" +
 "################Event ID 3 TcpIpSend/Connect Detected#############################" + "\n";
 
+
+         
         }
 
         public async void _Runfilterasync()
@@ -570,10 +598,12 @@ namespace ETWPM2Monitor2
                 listView1.Enabled = false;
                 richTextBox2.Text = "";
                 textBox2.Enabled = false;
+                 
+
                 await Task.Run(() =>
                 {
                     DataRow[] DT = ProcessTable1.Select(textBox2.Text);
-                   
+                    
                     foreach (DataRow item in DT)
                     {
                         if (_StopFilter)
@@ -584,6 +614,7 @@ namespace ETWPM2Monitor2
                             button1.Enabled = true;
                             button3.Enabled = true;
                             button2.Enabled = true;
+                            _Thread_02.Abort();
                             break;
                         }
                         MyLviewItemsX = new ListViewItem();
@@ -623,7 +654,7 @@ namespace ETWPM2Monitor2
                 {
                     BeginInvoke(new __Obj_Updater_to_WinForm(_Runfilterasync));
                 });
-                Thread _Thread_02 = new Thread(__SearchItems_Addtolistview1_filter);
+                _Thread_02 = new Thread(__SearchItems_Addtolistview1_filter);
                 _Thread_02.Priority = ThreadPriority.Highest;
                 _Thread_02.Start();
                 button1.Enabled = false;
@@ -733,6 +764,7 @@ namespace ETWPM2Monitor2
             ALT_F4 = true;
             try
             {
+                GC.Collect();
                 newform.Close();
             }
             catch (Exception)
@@ -908,6 +940,13 @@ namespace ETWPM2Monitor2
             _StopFilter = true;
             button1.Enabled = true;
             button3.Enabled = true;
+
+            if (_Thread_02 != null)
+            {
+                if (_Thread_02.IsAlive)
+                    _Thread_02.Abort();                 
+            }
+
         }
 
         private void Button6_Click(object sender, EventArgs e)
@@ -925,6 +964,7 @@ namespace ETWPM2Monitor2
             newform = new Form();
             newform.Size = new Size(900, 450);
             newform.Text = "Simple Help for Filters...";
+            
             newform.Show();
             RichTextBox rtbx = new RichTextBox();
 
@@ -940,6 +980,11 @@ namespace ETWPM2Monitor2
 
         }
 
+        private void ComboBox1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+             e.KeyChar = (char)Keys.None;
+        }
+
         private void CheckBox3_CheckedChanged(object sender, EventArgs e)
         {
 
@@ -951,24 +996,43 @@ namespace ETWPM2Monitor2
         {
             try
             {
-                _dowork.Cancel();
+                if (_Thread_01 != null)
+                {
+                    _dowork.Cancel();
+
+                    if (_Thread_01.IsAlive)
+                        _Thread_01.Abort();
+
+                     
+                }
+
                 stopsearch = true;
                 button1.Enabled = true;
                 button3.Enabled = true;
                 button4.Enabled = true;
                 button2.Enabled = true;
                 button5.Enabled = true;
+               
             }
             catch (Exception)
             {
+                if (_Thread_01 != null)
+                {
+                    _dowork.Cancel();
 
-                //_dowork.Cancel();
+                    if (_Thread_01.IsAlive)
+                        _Thread_01.Abort();
+
+                  
+                }
+
                 stopsearch = true;
                 button1.Enabled = true;
                 button3.Enabled = true;
                 button4.Enabled = true;
                 button2.Enabled = true;
                 button5.Enabled = true;
+               
             }
            
         }
