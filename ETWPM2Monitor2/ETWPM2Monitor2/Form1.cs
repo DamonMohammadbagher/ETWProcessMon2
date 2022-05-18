@@ -52,6 +52,7 @@ namespace ETWPM2Monitor2
         public static System.Timers.Timer t13 = new System.Timers.Timer(1000);
         public static System.Timers.Timer t14 = new System.Timers.Timer(1000);
         public static System.Timers.Timer t15 = new System.Timers.Timer(1000);
+        public static System.Timers.Timer t16 = new System.Timers.Timer(10000);
 
         public static TimeSpan tt = new TimeSpan();
         public static uint NTReadTmpRef = 0;
@@ -409,6 +410,7 @@ namespace ETWPM2Monitor2
         public ETW_Alarms_to_WinEventLog SaveETWLogs = new ETW_Alarms_to_WinEventLog();
         public static bool Isinit_Time_To_Start_Timer10_ProcessTabTimer = false;
         public static DateTime _Time_To_Start_Timer10_ProcessTabTimer = DateTime.Now;
+        public static List<ListViewItem> _ETW_Network_Events_FalsePositiveChecking_Records = new List<ListViewItem>();
 
         public void _ProcessesTab_TakeSnapshot()
         {
@@ -2058,6 +2060,34 @@ namespace ETWPM2Monitor2
 
             await RealtimeWatchProcess();
         }
+
+        public void _Set_iListview_Properties(ListView TargetListView, string[] _ColumnsText,int[] _widthColumns , ImageList imglist)
+        {
+
+            TargetListView.SmallImageList = imglist;
+            /// Set the view to show details.
+            TargetListView.View = View.Details;
+            /// Allow the user to edit item text.
+            TargetListView.LabelEdit = false;
+            /// Allow the user to rearrange columns.
+            TargetListView.AllowColumnReorder = true;
+            /// Display check boxes.
+            TargetListView.CheckBoxes = false;
+            /// Select the item and subitems when selection is made.
+            TargetListView.FullRowSelect = true;
+            /// Display grid lines.
+            TargetListView.GridLines = false;
+            TargetListView.Sorting = SortOrder.Ascending;
+
+            int icounter = 0;
+
+            foreach (string item in _ColumnsText)
+            {
+                TargetListView.Columns.Add(item, _widthColumns[icounter], HorizontalAlignment.Left);
+                icounter++;
+            }
+            
+        }
         private void Form1_Load(object sender, EventArgs e)
         {
             try
@@ -2136,6 +2166,7 @@ namespace ETWPM2Monitor2
 
                 t.Elapsed += T_Elapsed;
                 t.Enabled = true;
+
                 t2.Elapsed += T2_Elapsed;
                 t2.Enabled = true;
 
@@ -2198,174 +2229,56 @@ namespace ETWPM2Monitor2
                 t15.Enabled = true;
                 t15.Start();
 
-                /// Set the view to show details.
-                listView1.View = View.Details;
-                /// Allow the user to edit item text.
-                listView1.LabelEdit = false;
-                /// Allow the user to rearrange columns.
-                listView1.AllowColumnReorder = true;
-                /// Display check boxes.
-                listView1.CheckBoxes = false;
-                /// Select the item and subitems when selection is made.
-                listView1.FullRowSelect = true;
-                /// Display grid lines.
-                listView1.GridLines = false;
-                listView1.Columns.Add(" ", 20, HorizontalAlignment.Left);
-                listView1.Columns.Add("Time", 130, HorizontalAlignment.Left);
-                listView1.Columns.Add("EventID", 55, HorizontalAlignment.Left);
-                listView1.Columns.Add("Process", 170, HorizontalAlignment.Left);
-                listView1.Columns.Add("Evt-Type", 160, HorizontalAlignment.Left);
+                t16.Elapsed += T16_Elapsed;
+                t16.Enabled = true;
+                t16.Start();
 
 
 
-                listView2.SmallImageList = imageList1;
-                /// Set the view to show details.
-                listView2.View = View.Details;
-                /// Allow the user to edit item text.
-                listView2.LabelEdit = false;
-                /// Allow the user to rearrange columns.
-                listView2.AllowColumnReorder = true;
-                /// Display check boxes.
-                listView2.CheckBoxes = false;
-                /// Select the item and subitems when selection is made.
-                listView2.FullRowSelect = true;
-                /// Display grid lines.
-                listView2.GridLines = false;
-                listView2.Sorting = SortOrder.Ascending;
-
-                listView2.Columns.Add(" ", 20, HorizontalAlignment.Left);
-                listView2.Columns.Add("LocalTime", 130, HorizontalAlignment.Left);
-                listView2.Columns.Add("Process", 140, HorizontalAlignment.Left);
-                listView2.Columns.Add("Injection-Type", 100, HorizontalAlignment.Left);
-                listView2.Columns.Add("Tcp Sends", 120, HorizontalAlignment.Left);
-                listView2.Columns.Add("Status", 100, HorizontalAlignment.Left);
-                listView2.Columns.Add("PE-Sieve Pe:Shell:Replaced", 250, HorizontalAlignment.Left);
-                listView2.Columns.Add("HollowsHunter Pe:", 250, HorizontalAlignment.Left);
-                listView2.Columns.Add("Description", 250, HorizontalAlignment.Left);
-                listView2.Columns.Add("EventMessage", 1000, HorizontalAlignment.Left);
+                _Set_iListview_Properties(listView1, new string[] { " ", "Time", "EventID", "Process", "Evt-Type" }
+                , new int[] { 20, 130, 55, 170, 160 }, imageList1);
 
 
-                listView4.SmallImageList = imageList1;
-                /// Set the view to show details.
-                listView4.View = View.Details;
-                /// Allow the user to edit item text.
-                listView4.LabelEdit = false;
-                /// Allow the user to rearrange columns.
-                listView4.AllowColumnReorder = true;
-                /// Display check boxes.
-                listView4.CheckBoxes = false;
-                /// Select the item and subitems when selection is made.
-                listView4.FullRowSelect = true;
-                /// Display grid lines.
-                listView4.GridLines = false;
-                listView4.Sorting = SortOrder.Ascending;
-                listView4.Columns.Add(" ", 20, HorizontalAlignment.Left);
-                listView4.Columns.Add("Time", 124, HorizontalAlignment.Left);
-                listView4.Columns.Add("Process", 180, HorizontalAlignment.Left);
-                listView4.Columns.Add("Status", 64, HorizontalAlignment.Left);
-                listView4.Columns.Add("Source IP:Port", 120, HorizontalAlignment.Left);
-                listView4.Columns.Add("Destination IP:Port", 120, HorizontalAlignment.Left);
-                listView4.Columns.Add("Delta Time (Days or Hours or Minutes)", 187, HorizontalAlignment.Left);
-                listView4.Columns.Add("Event Count", 77, HorizontalAlignment.Left);
-                listView4.Columns.Add("Event TTL (D:H:Minutes)", 135, HorizontalAlignment.Left);
-                listView4.Columns.Add("Event First Time", 130, HorizontalAlignment.Left);
+                _Set_iListview_Properties(listView2, new string[] { " ", "LocalTime", "Process", "Injection-Type", "Tcp Sends"
+                ,"Status", "PE-Sieve Pe:Shell:Replaced", "HollowsHunter Pe:","Description", "EventMessage"  }
+                , new int[] { 20, 130, 140, 100, 120, 100, 250, 100, 250, 1000 }, imageList1);
 
-                listView5.SmallImageList = imageList1;
-                /// Set the view to show details.
-                listView5.View = View.Details;
-                /// Allow the user to edit item text.
-                listView5.LabelEdit = false;
-                /// Allow the user to rearrange columns.
-                listView5.AllowColumnReorder = true;
-                /// Display check boxes.
-                listView5.CheckBoxes = false;
-                /// Select the item and subitems when selection is made.
-                listView5.FullRowSelect = true;
-                /// Display grid lines.
-                listView5.GridLines = false;
-                listView5.Sorting = SortOrder.Ascending;
+               
 
-                listView5.SmallImageList = imageList1;
+                _Set_iListview_Properties(listView4, new string[] { " ", "Time", "Process", "Status", "Source IP:Port"
+                ,"Destination IP:Port", "Delta Time (Days or Hours or Minutes)", "Event Count","Event TTL (D:H:Minutes)", "Event First Time"  }
+                , new int[] { 20, 124, 180, 64, 120, 120, 187, 77, 135, 130 }, imageList1);
 
-                listView5.Columns.Add(" ", 5, HorizontalAlignment.Left);
-                listView5.Columns.Add("Target Process", 110, HorizontalAlignment.Left);
-                listView5.Columns.Add("Injector Process", 110, HorizontalAlignment.Left);
-                listView5.Columns.Add("MZ Header Detection", 110, HorizontalAlignment.Left);
-                listView5.Columns.Add("Time of Detection", 120, HorizontalAlignment.Left);
+               
+
+                _Set_iListview_Properties(listView5, new string[] { " ", "Target Process", "Injector Process", "MZ Header Detection", "Time of Detection" }
+                , new int[] { 5, 110, 110, 110, 120 }, imageList1);
+
+              
+
+                _Set_iListview_Properties(listView6, new string[] { " ", "Time", "Level", "ETWPM2Monitor2 EventID", "Status", "Process Information" }
+                , new int[] { 20, 130, 80, 150, 100,600 }, imageList1);
+
+               
 
 
-                listView6.SmallImageList = imageList1;
-                /// Set the view to show details.
-                listView6.View = View.Details;
-                /// Allow the user to edit item text.
-                listView6.LabelEdit = false;
-                /// Allow the user to rearrange columns.
-                listView6.AllowColumnReorder = true;
-                /// Display check boxes.
-                listView6.CheckBoxes = false;
-                /// Select the item and subitems when selection is made.
-                listView6.FullRowSelect = true;
-                /// Display grid lines.
-                listView6.GridLines = false;
-                listView6.Sorting = SortOrder.Ascending;
-                listView6.Columns.Add(" ", 20, HorizontalAlignment.Left);
-                listView6.Columns.Add("Time", 130, HorizontalAlignment.Left);
-                listView6.Columns.Add("Level", 80, HorizontalAlignment.Left);
-                listView6.Columns.Add("ETWPM2Monitor2 EventID", 150, HorizontalAlignment.Left);
-                listView6.Columns.Add("Status", 100, HorizontalAlignment.Left);
-                listView6.Columns.Add("Process Information", 600, HorizontalAlignment.Left);
+                _Set_iListview_Properties(listView3, new string[] { " ", "Time", "Process Name", "PID", "State"
+                ,"Local IP", "Port", "Remote IP","Port", "Process Info (File Path)"  }
+                , new int[] { 1, 130, 100, 50, 100, 100, 45, 100, 45, 520 }, imageList1);
 
 
-                listView3.View = View.Details;
-                // Allow the user to edit item text.
-                listView3.LabelEdit = false;
-                // Allow the user to rearrange columns.
-                listView3.AllowColumnReorder = true;
-                // Display check boxes.
-                listView3.CheckBoxes = false;
-                // Select the item and subitems when selection is made.
-                listView3.FullRowSelect = true;
-                // Display grid lines.
-                listView1.GridLines = false;
-                // Sort the items in the list in ascending order.
-                listView3.Sorting = SortOrder.Ascending;
-                listView3.Columns.Add(" ", 1, HorizontalAlignment.Left);
-                listView3.Columns.Add("Time", 130, HorizontalAlignment.Left);
-                listView3.Columns.Add("Process Name", 100, HorizontalAlignment.Left);
-                listView3.Columns.Add("PID", 50, HorizontalAlignment.Left);
-                listView3.Columns.Add("State", 100, HorizontalAlignment.Left);
-                listView3.Columns.Add("Local IP", 100, HorizontalAlignment.Left);
-                listView3.Columns.Add("Port", 45, HorizontalAlignment.Left);
-                listView3.Columns.Add("Remote IP", 100, HorizontalAlignment.Left);
-                listView3.Columns.Add("Port", 45, HorizontalAlignment.Left);
-                listView3.Columns.Add("Process Info (File Path)", 520, HorizontalAlignment.Left);
+              
 
-                listView7.View = View.Details;
-                // Allow the user to edit item text.
-                listView7.LabelEdit = false;
-                // Allow the user to rearrange columns.
-                listView7.AllowColumnReorder = true;
-                // Display check boxes.
-                listView7.CheckBoxes = false;
-                // Select the item and subitems when selection is made.
-                listView7.FullRowSelect = true;
-                // Display grid lines.
-                listView1.GridLines = false;
-                // Sort the items in the list in ascending order.
-                listView7.Sorting = SortOrder.Ascending;
-                listView7.Columns.Add(" ", 1, HorizontalAlignment.Left);
-                listView7.Columns.Add("Time", 130, HorizontalAlignment.Left);
-                listView7.Columns.Add("Process Name", 100, HorizontalAlignment.Left);
-                listView7.Columns.Add("PID", 50, HorizontalAlignment.Left);
-                listView7.Columns.Add("State", 100, HorizontalAlignment.Left);
-                listView7.Columns.Add("Local IP", 100, HorizontalAlignment.Left);
-                listView7.Columns.Add("Port", 45, HorizontalAlignment.Left);
-                listView7.Columns.Add("Remote IP", 100, HorizontalAlignment.Left);
-                listView7.Columns.Add("Port", 45, HorizontalAlignment.Left);
-                listView7.Columns.Add("Process Info (File Path)", 520, HorizontalAlignment.Left);
-                listView7.Columns.Add("ETW Detection Code", 120, HorizontalAlignment.Left);
+                _Set_iListview_Properties(listView7, new string[] { " ", "Time", "Process Name", "PID", "State"
+                ,"Local IP", "Port", "Remote IP","Port", "Process Info (File Path)","ETW Detection Code"  }
+               , new int[] { 1, 130, 100, 50, 100, 100, 45, 100, 45, 520,120 }, imageList1);
 
 
+               
+
+                _Set_iListview_Properties(listView8, new string[] { " ", "Time", "Process Name", "PID", "State"
+                ,"Local IP", "Port", "Remote IP","Port", "Process Info (File Path)","ETW Detection Code","Sysmon Detection Code"  }
+                , new int[] { 1, 130, 100, 50, 100, 100, 45, 100, 45, 520, 120, 120 }, imageList1);
 
 
                 /// event for add Process to Alarm-Tab by ETW & Scanning Target Process by Memory Scanners
@@ -2410,6 +2323,85 @@ namespace ETWPM2Monitor2
             {
 
             }
+        }
+
+        private async void T16_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            await Task.Run(() =>
+            {
+                ///checking false positive events for Netwotk Coneection evens via ETW....
+                /// every 10 seconds cech, add records to ETW Checking Errors Tab.
+                
+                try
+                {
+
+                    List<ListViewItem> NativeApiNetworkConnectionList = _ETW_Network_Events_FalsePositiveChecking_Records.ToList<ListViewItem>()
+                    .FindAll(x => x.SubItems[10].Text == "0" && x.SubItems[2].Text.ToLower() != "system" && x.SubItems[3].Text != "4")
+                    .GroupBy(x1 => x1.SubItems[3].Text).Select(j => j.FirstOrDefault()).ToList();
+
+                    int count = NativeApiNetworkConnectionList.Count;
+
+                    List<ListViewItem> list2 = listView4.Items.Cast<ListViewItem>().ToList();
+
+                    if (list2.Count > 0)
+                    {
+
+                        foreach (ListViewItem _item in NativeApiNetworkConnectionList)
+                        {
+                            Task.Delay(10);
+                            try
+                            {
+                                for (int i = 0; i < count; i++)
+                                {
+                                    int index = list2.FindIndex(x => x.SubItems[2].Text == _item.SubItems[2].Text + ":" + _item.SubItems[3].Text);
+                                    if (index == -1)
+                                    {
+                                        /// if != -1 then those records was true positive error...
+                                        /// in this time will show only true positive records to the listview8
+                                        listView8.Items.Add(_item).BackColor = Color.DarkRed;
+
+                                    }
+                                    else
+                                    {
+                                        /// false positive
+
+
+                                    }
+                                }
+
+                            }
+                            catch (Exception)
+                            {
+
+
+                            }
+                        }
+                    }
+                    else
+                    {
+                        try
+                        {
+                            listView8.Items.AddRange(NativeApiNetworkConnectionList.ToList<ListViewItem>().ToList()
+                          .GroupBy(x1 => x1.SubItems[3].Text).Select(j => j.FirstOrDefault()).ToList().ToArray());
+
+                            listView8.Items[listView8.Items.Count - 1].BackColor = Color.DarkRed;
+                        }
+                        catch (Exception)
+                        {
+
+                            
+                        }
+                     
+                       
+                    }
+
+                }
+                catch (Exception)
+                {
+
+
+                }
+            });
         }
 
         /// <summary>  remove those Process items in Network Connections via Native APIs 
@@ -2590,6 +2582,8 @@ namespace ETWPM2Monitor2
                                                             object tmp = item3.Clone();
 
                                                             listView7.Items.Add((ListViewItem)tmp).SubItems.Add("0");
+                                                            object tmp2 = ((ListViewItem)tmp).Clone();
+                                                            _ETW_Network_Events_FalsePositiveChecking_Records.Add((ListViewItem)tmp2);
 
                                                         }
                                                     }
@@ -2598,6 +2592,8 @@ namespace ETWPM2Monitor2
                                                         object tmp = item3.Clone();
 
                                                         listView7.Items.Add((ListViewItem)tmp).SubItems.Add("0");
+                                                        object tmp2 = ((ListViewItem)tmp).Clone();
+                                                        _ETW_Network_Events_FalsePositiveChecking_Records.Add((ListViewItem)tmp2);
                                                     }
 
                                                 }
@@ -2635,6 +2631,8 @@ namespace ETWPM2Monitor2
                                                         {
                                                             object tmp = item3.Clone();
                                                             listView7.Items.Add((ListViewItem)tmp).SubItems.Add("0");
+                                                            object tmp2 = ((ListViewItem)tmp).Clone();
+                                                            _ETW_Network_Events_FalsePositiveChecking_Records.Add((ListViewItem)tmp2);
 
                                                         }
                                                     }
@@ -2643,6 +2641,8 @@ namespace ETWPM2Monitor2
                                                         object tmp = item3.Clone();
 
                                                         listView7.Items.Add((ListViewItem)tmp).SubItems.Add("0");
+                                                        object tmp2 = ((ListViewItem)tmp).Clone();
+                                                        _ETW_Network_Events_FalsePositiveChecking_Records.Add((ListViewItem)tmp2);
                                                     }
                                                 }
 
@@ -2722,6 +2722,8 @@ namespace ETWPM2Monitor2
                                                     {
                                                         object tmp = item3.Clone();
                                                         listView7.Items.Add((ListViewItem)tmp).SubItems.Add("0");
+                                                        object tmp2 = ((ListViewItem)tmp).Clone();
+                                                        _ETW_Network_Events_FalsePositiveChecking_Records.Add((ListViewItem)tmp2);
 
                                                     }
                                                 }
@@ -2730,6 +2732,8 @@ namespace ETWPM2Monitor2
                                                     object tmp = item3.Clone();
 
                                                     listView7.Items.Add((ListViewItem)tmp).SubItems.Add("0");
+                                                    object tmp2 = ((ListViewItem)tmp).Clone();
+                                                    _ETW_Network_Events_FalsePositiveChecking_Records.Add((ListViewItem)tmp2);
                                                 }
                                             }
                                             else
@@ -2765,6 +2769,8 @@ namespace ETWPM2Monitor2
                                                     {
                                                         object tmp = item3.Clone();
                                                         listView7.Items.Add((ListViewItem)tmp).SubItems.Add("0");
+                                                        object tmp2 = ((ListViewItem)tmp).Clone();
+                                                        _ETW_Network_Events_FalsePositiveChecking_Records.Add((ListViewItem)tmp2);
 
                                                     }
                                                 }
@@ -2773,6 +2779,8 @@ namespace ETWPM2Monitor2
                                                     object tmp = item3.Clone();
 
                                                     listView7.Items.Add((ListViewItem)tmp).SubItems.Add("0");
+                                                    object tmp2 = ((ListViewItem)tmp).Clone();
+                                                    _ETW_Network_Events_FalsePositiveChecking_Records.Add((ListViewItem)tmp2);
 
 
                                                 }
@@ -4809,6 +4817,8 @@ namespace ETWPM2Monitor2
 
             }
 
+            
+
         }
 
         /// <summary>
@@ -6441,7 +6451,7 @@ namespace ETWPM2Monitor2
 
         private void AboutToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(null, "ETWPM2Monitor2 v2.1 [test version 2.1.40.358]\nCode Published by Damon Mohammadbagher , Jul 2021", "About ETWPM2Monitor2 v2.1", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show(null, "ETWPM2Monitor2 v2.1 [test version 2.1.40.367]\nCode Published by Damon Mohammadbagher , Jul 2021", "About ETWPM2Monitor2 v2.1", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
         }
 

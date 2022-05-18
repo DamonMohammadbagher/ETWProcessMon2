@@ -159,6 +159,10 @@
             this.listView3 = new System.Windows.Forms.ListView();
             this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.refreshNetworkConnectionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tabPage18 = new System.Windows.Forms.TabPage();
+            this.listView8 = new System.Windows.Forms.ListView();
+            this.statusStrip4 = new System.Windows.Forms.StatusStrip();
+            this.toolStripStatusLabel4 = new System.Windows.Forms.ToolStripStatusLabel();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.tabControl4 = new System.Windows.Forms.TabControl();
             this.tabPage15 = new System.Windows.Forms.TabPage();
@@ -367,6 +371,8 @@
             this.tabPage16.SuspendLayout();
             this.tabPage13.SuspendLayout();
             this.contextMenuStrip2.SuspendLayout();
+            this.tabPage18.SuspendLayout();
+            this.statusStrip4.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.tabControl4.SuspendLayout();
             this.tabPage15.SuspendLayout();
@@ -1676,6 +1682,7 @@
             // 
             this.tabControl5.Controls.Add(this.tabPage16);
             this.tabControl5.Controls.Add(this.tabPage13);
+            this.tabControl5.Controls.Add(this.tabPage18);
             this.tabControl5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl5.Location = new System.Drawing.Point(3, 16);
             this.tabControl5.Margin = new System.Windows.Forms.Padding(1);
@@ -1740,6 +1747,46 @@
             this.refreshNetworkConnectionsToolStripMenuItem.Size = new System.Drawing.Size(263, 22);
             this.refreshNetworkConnectionsToolStripMenuItem.Text = "Clear/Refresh Network Connections";
             this.refreshNetworkConnectionsToolStripMenuItem.Click += new System.EventHandler(this.RefreshNetworkConnectionsToolStripMenuItem_Click);
+            // 
+            // tabPage18
+            // 
+            this.tabPage18.Controls.Add(this.listView8);
+            this.tabPage18.Controls.Add(this.statusStrip4);
+            this.tabPage18.Location = new System.Drawing.Point(4, 22);
+            this.tabPage18.Name = "tabPage18";
+            this.tabPage18.Size = new System.Drawing.Size(1057, 41);
+            this.tabPage18.TabIndex = 2;
+            this.tabPage18.Text = "ETW Checking Errors (List of True Positive Only)";
+            this.tabPage18.UseVisualStyleBackColor = true;
+            // 
+            // listView8
+            // 
+            this.listView8.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listView8.HideSelection = false;
+            this.listView8.Location = new System.Drawing.Point(0, 0);
+            this.listView8.Name = "listView8";
+            this.listView8.Size = new System.Drawing.Size(1057, 19);
+            this.listView8.TabIndex = 0;
+            this.listView8.UseCompatibleStateImageBehavior = false;
+            // 
+            // statusStrip4
+            // 
+            this.statusStrip4.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripStatusLabel4});
+            this.statusStrip4.Location = new System.Drawing.Point(0, 19);
+            this.statusStrip4.Name = "statusStrip4";
+            this.statusStrip4.Size = new System.Drawing.Size(1057, 22);
+            this.statusStrip4.TabIndex = 1;
+            this.statusStrip4.Text = "statusStrip4";
+            // 
+            // toolStripStatusLabel4
+            // 
+            this.toolStripStatusLabel4.ForeColor = System.Drawing.Color.Red;
+            this.toolStripStatusLabel4.Name = "toolStripStatusLabel4";
+            this.toolStripStatusLabel4.Size = new System.Drawing.Size(874, 17);
+            this.toolStripStatusLabel4.Text = "ETW Checking Errors , Descripion: These Process Network Connection Events Still N" +
+    "ot Detected by ETW Events (False Positive Records/Events Removed from this List)" +
+    "";
             // 
             // tabPage3
             // 
@@ -2811,6 +2858,10 @@
             this.tabPage16.ResumeLayout(false);
             this.tabPage13.ResumeLayout(false);
             this.contextMenuStrip2.ResumeLayout(false);
+            this.tabPage18.ResumeLayout(false);
+            this.tabPage18.PerformLayout();
+            this.statusStrip4.ResumeLayout(false);
+            this.statusStrip4.PerformLayout();
             this.tabPage3.ResumeLayout(false);
             this.tabControl4.ResumeLayout(false);
             this.tabPage15.ResumeLayout(false);
@@ -3058,6 +3109,10 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ToolStripMenuItem takeSnapshotToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem loadSnapshotToolStripMenuItem2;
+        private System.Windows.Forms.TabPage tabPage18;
+        private System.Windows.Forms.ListView listView8;
+        private System.Windows.Forms.StatusStrip statusStrip4;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel4;
     }
 }
 

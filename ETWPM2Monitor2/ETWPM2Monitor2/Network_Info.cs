@@ -464,7 +464,7 @@ namespace ETWPM2Monitor2
                                                             }
                                                             else
                                                             {
-                                                                Table1_x64[_x64_counter].ProcessPath = "@";
+                                                                Table1_x64[_x64_counter].ProcessPath = " ";
                                                             }
 
                                                             Table1_x64[_x64_counter].IsLive = 2;
@@ -506,7 +506,7 @@ namespace ETWPM2Monitor2
                                                         }
                                                         else
                                                         {
-                                                            Table1_x64[_x64_counter].ProcessPath = "@";
+                                                            Table1_x64[_x64_counter].ProcessPath = " ";
                                                         }
 
                                                         Table1_x64[_x64_counter].IsLive = 2;
@@ -559,7 +559,7 @@ namespace ETWPM2Monitor2
                                                             }
                                                             else
                                                             {
-                                                                Table1_x64[_x64_counter].ProcessPath = "@";
+                                                                Table1_x64[_x64_counter].ProcessPath = " ";
                                                             }
 
                                                             Table1_x64[_x64_counter].IsLive = 2;
@@ -603,7 +603,7 @@ namespace ETWPM2Monitor2
                                                             }
                                                             else
                                                             {
-                                                                Table1_x64[_x64_counter].ProcessPath = "@";
+                                                                Table1_x64[_x64_counter].ProcessPath = " ";
                                                             }
 
                                                             Table1_x64[_x64_counter].IsLive = 2;
@@ -790,7 +790,7 @@ namespace ETWPM2Monitor2
                                                             }
                                                             else
                                                             {
-                                                                Table2_x64[_x64_counter_2].ProcessPath = "@";
+                                                                Table2_x64[_x64_counter_2].ProcessPath = " ";
                                                             }
 
                                                             Table2_x64[_x64_counter_2].IsLive = 2;
@@ -830,7 +830,7 @@ namespace ETWPM2Monitor2
                                                         }
                                                         else
                                                         {
-                                                            Table2_x64[_x64_counter_2].ProcessPath = "@";
+                                                            Table2_x64[_x64_counter_2].ProcessPath = " ";
                                                         }
 
                                                         Table2_x64[_x64_counter_2].IsLive = 2;
@@ -878,7 +878,7 @@ namespace ETWPM2Monitor2
                                                             }
                                                             else
                                                             {
-                                                                Table2_x64[_x64_counter_2].ProcessPath = "@";
+                                                                Table2_x64[_x64_counter_2].ProcessPath = " ";
                                                             }
 
                                                             Table2_x64[_x64_counter_2].IsLive = 2;
@@ -919,7 +919,7 @@ namespace ETWPM2Monitor2
                                                             }
                                                             else
                                                             {
-                                                                Table2_x64[_x64_counter_2].ProcessPath = "@";
+                                                                Table2_x64[_x64_counter_2].ProcessPath = " ";
                                                             }
 
                                                             Table2_x64[_x64_counter_2].IsLive = 2;
