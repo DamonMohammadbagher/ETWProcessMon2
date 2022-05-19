@@ -6,7 +6,7 @@ This tool [ETWPM2Monitor version2] is for Monitor ETW Event-Logs [log name: ETWP
 ! this version ETWPM2Monitor2 v2.1 will work with ETWProcessMon2.1 and both are
 ! very fast for (Remote-Thread-Injection) Technique/Payload Detection via ETW Events)
 + code performance now is good and "a lot bugs" fixed. bugs in Network Connections Tab fixed & Some Filters Added to Network Connections via Native APIs.
-+ last source/exe update(40) v2.1.41.375 [May 19, 2022]...
++ last source/exe update(41) v2.1.41.375 [May 19, 2022]...
 ```
 Video: https://www.youtube.com/watch?v=DMtMTkAfFNo
 
