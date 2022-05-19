@@ -58,6 +58,9 @@ Usage Steps
     Step2 (Run as Admin) : ETWPM2Monitor2.exe
 
 ----------------------------------------------------------
+### ETWPM2Monitor2 v2.1 , update(40) v2.1.40.347 [May 19, 2022] (Bugs in Network Connection via Native APIs Tab fixed & New Filters Added to Network Connections via Native APIs for better performance etc.)
+   ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2/Pics/NetworkConnections2x.png)
+   
 ### ETWPM2Monitor2 v2.1 , update(40) v2.1.40.347 [May 13, 2022] ([Beacon TCP Event] Deltatime Checking & Take Snapshot in [v2.1.40.347] added to the source code.)
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2/Pics/DeltaMode1.png)
    
