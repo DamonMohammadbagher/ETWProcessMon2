@@ -1818,152 +1818,182 @@ namespace ETWPM2Monitor2
 
                     }
 
-                }
 
-                if (e.EventRecord.Id == 1)
-                {
-                    try
+
+                    if (e.EventRecord.Id == 1)
                     {
-                        /// Showing Not Detected Events is off ;)
-                        // tabPage15.Text = "Windows Event Logs" + "(" + listView6.Items.Count.ToString() + ")";
-                        // toolStripStatusLabel9.Text = "| Windows Event Logs " + "(" + listView6.Items.Count.ToString() + ")";
-                    }
-                    catch (Exception)
-                    {
-
-
-                    }
-
-                }
-
-                if (e.EventRecord.Id == 2)
-                {
-                    try
-                    {
-                        Task.Delay(500);
-                        listView6.BeginInvoke((MethodInvoker)delegate
+                        try
                         {
-                            string _ProcessInfo = EventMessageDetails[1].Substring(9);
-                            string _Time = e.EventRecord.TimeCreated.ToString();
-                            string _Level = e.EventRecord.LevelDisplayName;
-                            string _EventId = "2";
-                            string _Status = EventMessageDetails[3].Split(':')[9].Substring(1);
-                            ListViewItem iList6 = new ListViewItem();
-
-                            iList6.ImageIndex = 2;
-                            iList6.Name = evtmsg;
-                            iList6.SubItems.Add(_Time);
-                            iList6.SubItems.Add(_Level);
-                            iList6.SubItems.Add(_EventId);
-                            iList6.SubItems.Add(_Status);
-                            iList6.SubItems.Add(_ProcessInfo);
-
-                            listView6.Items.Add(iList6);
-
-                            tabPage3.Text = "System/Detection Logs " + "(" + listView6.Items.Count.ToString() + ")";
-                            tabPage15.Text = "ETWPM2Monitor2 Detection Event Logs " + "(" + listView6.Items.Count.ToString() + ")";
-                            toolStripStatusLabel9.Text = "| ETWPM2Monitor2 Detection Event Logs " + "(" + listView6.Items.Count.ToString() + ")";
-
-                            if (listView6.Items.Count > 0) tabPage3.ImageIndex = 19; else tabPage3.ImageIndex = 23;
-
-                            //if (_isNotifyEnabled)
-                            //{
-                            //    if (_Status.Contains("Scanned & Found")
-                            //        || _Status.Contains("Suspended")
-                            //        || _Status.Contains("Terminated"))
-                            //        BeginInvoke(new __Additem(_Show_Notify_Ico_Popup), MyLviewItemsX6);
-                            //}
-
-                        });
-
-                    }
-                    catch (Exception)
-                    {
-
-
-                    }
-                }
-
-                if (e.EventRecord.Id == 3)
-                {
-                    try
-                    {
-                        Task.Delay(500);
-                        listView6.BeginInvoke((MethodInvoker)delegate
+                            /// Showing Not Detected Events is off ;)
+                            // tabPage15.Text = "Windows Event Logs" + "(" + listView6.Items.Count.ToString() + ")";
+                            // toolStripStatusLabel9.Text = "| Windows Event Logs " + "(" + listView6.Items.Count.ToString() + ")";
+                        }
+                        catch (Exception)
                         {
-                            string _ProcessInfo = EventMessageDetails[1].Substring(51);
-                            string _Time = e.EventRecord.TimeCreated.ToString();
-                            string _Level = e.EventRecord.LevelDisplayName;
-                            string _EventId = "3";
-                            string _Status = EventMessageDetails[3].Split(':')[6].Substring(1);
-                            ListViewItem iList6 = new ListViewItem();
 
-                            iList6.ImageIndex = 1;
-                            iList6.Name = evtmsg;
-                            iList6.SubItems.Add(_Time);
-                            iList6.SubItems.Add(_Level);
-                            iList6.SubItems.Add(_EventId);
-                            iList6.SubItems.Add(_Status);
-                            iList6.SubItems.Add(_ProcessInfo);
 
-                            listView6.Items.Add(iList6);
-
-                            tabPage3.Text = "System/Detection Logs " + "(" + listView6.Items.Count.ToString() + ")";
-                            tabPage15.Text = "ETWPM2Monitor2 Detection Event Logs " + "(" + listView6.Items.Count.ToString() + ")";
-                            toolStripStatusLabel9.Text = "| ETWPM2Monitor2 Detection Event Logs " + "(" + listView6.Items.Count.ToString() + ")";
-                        });
-
+                        }
 
                     }
-                    catch (Exception)
+
+                    if (e.EventRecord.Id == 2)
                     {
-
-
-                    }
-                }
-
-                if (e.EventRecord.Id == 4)
-                {
-                    try
-                    {
-                        Task.Delay(500);
-                        listView6.BeginInvoke((MethodInvoker)delegate
+                        try
                         {
-                            string _ProcessInfo = EventMessageDetails[1].Substring(29);
-                            string _Time = e.EventRecord.TimeCreated.ToString();
-                            string _Level = e.EventRecord.LevelDisplayName;
-                            string _EventId = "4";
-                            string _Status = EventMessageDetails[3].Split(':')[8].Substring(1);
-                            ListViewItem iList6 = new ListViewItem();
-
-                            iList6.ImageIndex = 2;
-                            iList6.Name = evtmsg;
-                            iList6.SubItems.Add(_Time);
-                            iList6.SubItems.Add(_Level);
-                            iList6.SubItems.Add(_EventId);
-                            iList6.SubItems.Add(_Status);
-                            iList6.SubItems.Add(_ProcessInfo);
-
-                            listView6.Items.Add(iList6);
-
-                            tabPage3.Text = "System/Detection Logs " + "(" + listView6.Items.Count.ToString() + ")";
-                            tabPage15.Text = "ETWPM2Monitor2 Detection Event Logs " + "(" + listView6.Items.Count.ToString() + ")";
-                            toolStripStatusLabel9.Text = "| ETWPM2Monitor2 Detection Event Logs " + "(" + listView6.Items.Count.ToString() + ")";
-
-                            if (listView6.Items.Count > 0) tabPage3.ImageIndex = 19; else tabPage3.ImageIndex = 23;
-
-                        });
+                            Task.Delay(500);
+                            listView6.BeginInvoke((MethodInvoker)delegate
+                            {
+                                try
+                                {
 
 
+                                    string _ProcessInfo = EventMessageDetails[1].Substring(9);
+                                    string _Time = e.EventRecord.TimeCreated.ToString();
+                                    string _Level = e.EventRecord.LevelDisplayName;
+                                    string _EventId = "2";
+                                    string _Status = EventMessageDetails[3].Split(':')[9].Substring(1);
+                                    ListViewItem iList6 = new ListViewItem();
+
+                                    iList6.ImageIndex = 2;
+                                    iList6.Name = evtmsg;
+                                    iList6.SubItems.Add(_Time);
+                                    iList6.SubItems.Add(_Level);
+                                    iList6.SubItems.Add(_EventId);
+                                    iList6.SubItems.Add(_Status);
+                                    iList6.SubItems.Add(_ProcessInfo);
+
+                                    listView6.Items.Add(iList6);
+
+                                    tabPage3.Text = "System/Detection Logs " + "(" + listView6.Items.Count.ToString() + ")";
+                                    tabPage15.Text = "ETWPM2Monitor2 Detection Event Logs " + "(" + listView6.Items.Count.ToString() + ")";
+                                    toolStripStatusLabel9.Text = "| ETWPM2Monitor2 Detection Event Logs " + "(" + listView6.Items.Count.ToString() + ")";
+
+                                    if (listView6.Items.Count > 0) tabPage3.ImageIndex = 19; else tabPage3.ImageIndex = 23;
+
+                                //if (_isNotifyEnabled)
+                                //{
+                                //    if (_Status.Contains("Scanned & Found")
+                                //        || _Status.Contains("Suspended")
+                                //        || _Status.Contains("Terminated"))
+                                //        BeginInvoke(new __Additem(_Show_Notify_Ico_Popup), MyLviewItemsX6);
+                                //}
+
+                            }
+                                catch (Exception)
+                                {
+
+
+                                }
+
+                            });
+
+                        }
+                        catch (Exception)
+                        {
+
+
+                        }
                     }
-                    catch (Exception)
+
+                    if (e.EventRecord.Id == 3)
                     {
+                        try
+                        {
+                            Task.Delay(500);
+                            listView6.BeginInvoke((MethodInvoker)delegate
+                            {
+                                try
+                                {
 
 
+                                    string _ProcessInfo = EventMessageDetails[1].Substring(51);
+                                    string _Time = e.EventRecord.TimeCreated.ToString();
+                                    string _Level = e.EventRecord.LevelDisplayName;
+                                    string _EventId = "3";
+                                    string _Status = EventMessageDetails[3].Split(':')[6].Substring(1);
+                                    ListViewItem iList6 = new ListViewItem();
+
+                                    iList6.ImageIndex = 1;
+                                    iList6.Name = evtmsg;
+                                    iList6.SubItems.Add(_Time);
+                                    iList6.SubItems.Add(_Level);
+                                    iList6.SubItems.Add(_EventId);
+                                    iList6.SubItems.Add(_Status);
+                                    iList6.SubItems.Add(_ProcessInfo);
+
+                                    listView6.Items.Add(iList6);
+
+                                    tabPage3.Text = "System/Detection Logs " + "(" + listView6.Items.Count.ToString() + ")";
+                                    tabPage15.Text = "ETWPM2Monitor2 Detection Event Logs " + "(" + listView6.Items.Count.ToString() + ")";
+                                    toolStripStatusLabel9.Text = "| ETWPM2Monitor2 Detection Event Logs " + "(" + listView6.Items.Count.ToString() + ")";
+                                }
+                                catch (Exception)
+                                {
+
+                                }
+                            });
+
+
+                        }
+                        catch (Exception)
+                        {
+
+
+                        }
                     }
 
-                }
+                    if (e.EventRecord.Id == 4)
+                    {
+                        try
+                        {
+                            Task.Delay(500);
+                            listView6.BeginInvoke((MethodInvoker)delegate
+                            {
+                                try
+                                {
 
+
+                                    string _ProcessInfo = EventMessageDetails[1].Substring(29);
+                                    string _Time = e.EventRecord.TimeCreated.ToString();
+                                    string _Level = e.EventRecord.LevelDisplayName;
+                                    string _EventId = "4";
+                                    string _Status = EventMessageDetails[3].Split(':')[8].Substring(1);
+                                    ListViewItem iList6 = new ListViewItem();
+
+                                    iList6.ImageIndex = 2;
+                                    iList6.Name = evtmsg;
+                                    iList6.SubItems.Add(_Time);
+                                    iList6.SubItems.Add(_Level);
+                                    iList6.SubItems.Add(_EventId);
+                                    iList6.SubItems.Add(_Status);
+                                    iList6.SubItems.Add(_ProcessInfo);
+
+                                    listView6.Items.Add(iList6);
+
+                                    tabPage3.Text = "System/Detection Logs " + "(" + listView6.Items.Count.ToString() + ")";
+                                    tabPage15.Text = "ETWPM2Monitor2 Detection Event Logs " + "(" + listView6.Items.Count.ToString() + ")";
+                                    toolStripStatusLabel9.Text = "| ETWPM2Monitor2 Detection Event Logs " + "(" + listView6.Items.Count.ToString() + ")";
+
+                                    if (listView6.Items.Count > 0) tabPage3.ImageIndex = 19; else tabPage3.ImageIndex = 23;
+                                }
+                                catch (Exception)
+                                {
+
+
+                                }
+
+                            });
+
+
+                        }
+                        catch (Exception)
+                        {
+
+
+                        }
+
+                    }
+                }
 
             });
 
@@ -2332,7 +2362,10 @@ namespace ETWPM2Monitor2
                 NewEventFrom_EventLogsCome += Form1_NewEventFrom_EventLogsCome;
 
                 /// event for add all detection events to System_Detection_logs Tab
-                System_Detection_Log_events += Form1_System_Detection_Log_events;
+                // System_Detection_Log_events += Form1_System_Detection_Log_events;
+                /// this removed from code , instead new Detection log Tab Added....
+                /// now ETWPM2Monitor2 Windows EventLog Monitored Realtime by code 
+                /// and Listview6 (New Detection eventLog Tab) will show Detection records etc.
 
                 /// event for add all detection events to System_Detection_logs Tab
                 System_Detection_Log_events2 += Form1_System_Detection_Log_events2;
@@ -2411,7 +2444,10 @@ namespace ETWPM2Monitor2
                         }
 
                         _Listview3_Items_NetworkConnection_Apis.Clear();
+                       
                     }
+
+                    _CheckTruePositiveList_Again();
                 }
                 catch (Exception)
                 {
@@ -2419,6 +2455,64 @@ namespace ETWPM2Monitor2
 
                 }
             });
+        }
+
+        public  void _CheckTruePositiveList_Again()
+        {
+           
+                /// event detected after Minutes so that means your process has/had Network
+                /// connection which detected by Native API but "for minutes" not detected by ETW events which is Suspicious ....
+                /// here can detect Time to Live TTL for this type of Events very simple with check delta time 
+                /// between Event which made by Native API and Event time which made by ETW Events after Minutes ....
+                try
+                {
+                    List<ListViewItem> list1 = listView8.Items.Cast<ListViewItem>().ToList();
+                    List<ListViewItem> list2 = listView4.Items.Cast<ListViewItem>().ToList();
+                    int count = 0;
+                    foreach (ListViewItem item1 in list1.ToList<ListViewItem>())
+                    {
+
+                        int index = list2.FindIndex(x => x.SubItems[2].Text.ToLower() == item1.SubItems[2].Text.ToLower() + ":" + item1.SubItems[3].Text);
+
+                    if (index != -1)
+                    {
+                        try
+                        {
+
+
+                            listView8.Items[count].BackColor = Color.DarkOrange;
+                             
+                            TimeSpan _dt = Convert.ToDateTime(list2[index].SubItems[1].Text) - Convert.ToDateTime(item1.SubItems[1].Text);
+
+                            if (!listView8.Items[count].SubItems[9].Text.Contains("This Process For ("))
+                            {
+                                listView8.Items[count].SubItems[9].Text = $"This Process For ({_dt.TotalSeconds.ToString()} Seconds ) Not Detected By ETW Events, TTL For This Event Was => Min:{_dt.TotalMinutes.ToString()} or Sec:{_dt.TotalSeconds.ToString()}";
+                                listView8.Items[count].SubItems[10].Text = "0+1";
+                            }
+                            
+                        }
+                        catch (Exception ee)
+                        {
+
+                            MessageBox.Show(ee.Message);
+                        }
+                    }
+                        count++;
+
+                    }
+
+                    //TimeSpan _dt = Convert.ToDateTime(list2[index].SubItems[0].Text) - Convert.ToDateTime(_item.SubItems[0].Text);
+
+
+                }
+                catch (Exception)
+                {
+
+
+                }
+
+
+ 
         }
 
         private async void T16_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
@@ -2450,9 +2544,10 @@ namespace ETWPM2Monitor2
                                 for (int i = 0; i < count; i++)
                                 {
                                     int index = list2.FindIndex(x => x.SubItems[2].Text == _item.SubItems[2].Text + ":" + _item.SubItems[3].Text);
+
                                     if (index == -1)
                                     {
-                                        /// if != -1 then those records was true positive error...
+                                        /// if == -1 then those records was true positive error...
                                         /// in this time will show only true positive records to the listview8
                                         listView8.Items.Add(_item).BackColor = Color.DarkRed;
 
@@ -2460,8 +2555,7 @@ namespace ETWPM2Monitor2
                                     else
                                     {
                                         /// false positive
-
-
+                                                                               
                                     }
                                 }
 
@@ -2477,10 +2571,20 @@ namespace ETWPM2Monitor2
                     {
                         try
                         {
-                            listView8.Items.AddRange(NativeApiNetworkConnectionList.ToList<ListViewItem>().ToList()
-                          .GroupBy(x1 => x1.SubItems[3].Text).Select(j => j.FirstOrDefault()).ToList().ToArray());
+                            //  listView8.Items.AddRange(NativeApiNetworkConnectionList.ToList<ListViewItem>().ToList()
+                            //.GroupBy(x1 => x1.SubItems[3]).Select(j => j.First()).ToList().ToArray());
 
-                            listView8.Items[listView8.Items.Count - 1].BackColor = Color.DarkRed;
+                            ListViewItem[] xListViewItem = NativeApiNetworkConnectionList.ToList<ListViewItem>().ToList()
+                          .GroupBy(x1 => x1.SubItems[3].Text).Select(j => j.FirstOrDefault()).ToList().ToArray();
+
+                            foreach (ListViewItem item in xListViewItem)
+                            {
+                                listView8.Items.Add(item).BackColor = Color.DarkRed;
+                            }
+
+                            
+
+                            
                         }
                         catch (Exception)
                         {
@@ -4424,100 +4528,101 @@ namespace ETWPM2Monitor2
 
         /// <summary>
         /// add detected events to System_Detection_Logs Tab , for Injections events (only)
+        /// this code and old Detection log removed , instead new Detection Event Log added to source code
         /// </summary>       
-        private void Form1_System_Detection_Log_events(object sender, EventArgs e)
-        {
-            try
-            {
-                if (IsSystemDeveloperLogs_on) BeginInvoke(new __core2(AsyncRun__Add_SystemDeveloperLogs), (object)" ==> [Form1_System_Detection_Log_events] Event/Method Call: Started");
-                //if(IsSystemDeveloperLogIson) BeginInvoke(new __core2(AsyncRun__Add_SystemDeveloperLogs), (object)" ==> [Form1_System_Detection_Log_events] Event/Method Call: error1 => " + ee.Message);
+        //private void Form1_System_Detection_Log_events(object sender, EventArgs e)
+        //{
+        //    try
+        //    {
+        //        if (IsSystemDeveloperLogs_on) BeginInvoke(new __core2(AsyncRun__Add_SystemDeveloperLogs), (object)" ==> [Form1_System_Detection_Log_events] Event/Method Call: Started");
+        //        //if(IsSystemDeveloperLogIson) BeginInvoke(new __core2(AsyncRun__Add_SystemDeveloperLogs), (object)" ==> [Form1_System_Detection_Log_events] Event/Method Call: error1 => " + ee.Message);
 
-                ListViewItem tmp = (ListViewItem)sender;
+        //        ListViewItem tmp = (ListViewItem)sender;
 
-                if (tmp.SubItems[3].Text.ToString() == "Injection" || tmp.SubItems[3].Text.ToString() == "Process-Hollowing")
-                {
-                    Thread.Sleep(100);
-                    ///  detecting etw event
-                    iList3 = new ListViewItem();
-                    iList3.Name = tmp.Name;
-                    iList3.SubItems.Add(tmp.SubItems[1].Text);
-                    iList3.SubItems.Add(tmp.SubItems[2].Text);
-                    if (tmp.SubItems[5].Text == "--")
-                    {
-                        if (Convert.ToInt32(string.Join("", ("0" + tmp.SubItems[6].Text).ToCharArray().Where(char.IsDigit)).ToString()) > 0
-                            || tmp.SubItems[7].Text.Contains(">>Detected"))
-                        {
-                            iList3.SubItems.Add("[!] Found Suspicious");
-                            iList3.SubItems.Add("ETW [Inj] event");
-                            iList3.SubItems.Add("Scanned & Found!");
-                        }
-                        else
-                        {
-                            iList3.SubItems.Add("[!] Found Suspicious");
-                            iList3.SubItems.Add("ETW [Inj] event");
-                            iList3.SubItems.Add("Scanned");
-                        }
+        //        if (tmp.SubItems[3].Text.ToString() == "Injection" || tmp.SubItems[3].Text.ToString() == "Process-Hollowing")
+        //        {
+        //            Thread.Sleep(100);
+        //            ///  detecting etw event
+        //            iList3 = new ListViewItem();
+        //            iList3.Name = tmp.Name;
+        //            iList3.SubItems.Add(tmp.SubItems[1].Text);
+        //            iList3.SubItems.Add(tmp.SubItems[2].Text);
+        //            if (tmp.SubItems[5].Text == "--")
+        //            {
+        //                if (Convert.ToInt32(string.Join("", ("0" + tmp.SubItems[6].Text).ToCharArray().Where(char.IsDigit)).ToString()) > 0
+        //                    /*|| tmp.SubItems[7].Text.Contains(">>Detected")*/)
+        //                {
+        //                    iList3.SubItems.Add("[!] Found Suspicious");
+        //                    iList3.SubItems.Add("ETW [Inj] event");
+        //                    iList3.SubItems.Add("Scanned & Found!");
+        //                }
+        //                else
+        //                {
+        //                    iList3.SubItems.Add("[!] Found Suspicious");
+        //                    iList3.SubItems.Add("ETW [Inj] event");
+        //                    iList3.SubItems.Add("Scanned");
+        //                }
 
-                    }
-                    else
-                    {
-                        iList3.SubItems.Add("[!] " + tmp.SubItems[5].Text);
-                        iList3.SubItems.Add("ETW [Inj] event");
-                        iList3.SubItems.Add(tmp.SubItems[5].Text);
-                    }
+        //            }
+        //            else
+        //            {
+        //                iList3.SubItems.Add("[!] " + tmp.SubItems[5].Text);
+        //                iList3.SubItems.Add("ETW [Inj] event");
+        //                iList3.SubItems.Add(tmp.SubItems[5].Text);
+        //            }
 
-                    string Detectionstring = "";
-                    if (Convert.ToInt32(string.Join("", ("0" + tmp.SubItems[6].Text).ToCharArray().Where(char.IsDigit)).ToString()) > 0)
-                    {
-                        Detectionstring = "[true]";
-                    }
-                    else
-                    {
-                        Detectionstring = "[false]";
-                    }
-
-
-
-                    iList3.SubItems.Add("Pe-Sieve64.exe" + " " + Detectionstring);
+        //            string Detectionstring = "";
+        //            if (Convert.ToInt32(string.Join("", ("0" + tmp.SubItems[6].Text).ToCharArray().Where(char.IsDigit)).ToString()) > 0)
+        //            {
+        //                Detectionstring = "[true]";
+        //            }
+        //            else
+        //            {
+        //                Detectionstring = "[false]";
+        //            }
 
 
-                    iList3.ImageIndex = tmp.ImageIndex;
-                    if (tmp.Name != eventstring_tmp3)
-                    {
-                        //bool found = false;
-                        //for (int i = 0; i < listView3.Items.Count; i++)
-                        //{
-                        //    if (listView3.Items[i].SubItems[2].Text + listView3.Items[i].SubItems[4].Text == tmp.SubItems[2].Text + "ETW [Inj] event")
-                        //    {
-                        //        found = true;
-                        //    }
-                        //}
-                        //if (!found)
-                        //{
-                        //    BeginInvoke(new __Additem(_Additems_toListview3), iList3);
-                        //    eventstring_tmp3 = tmp.Name;
-                        //}
 
-                        //if (tmp.SubItems[5].Text == "Terminated" || tmp.SubItems[5].Text == "Suspended")
-                        //{
-                        //    BeginInvoke(new __Additem(_Additems_toListview3), iList3);
-                        //    eventstring_tmp3 = tmp.Name;
-                        //}
-
-                    }
-
-                    Thread.Sleep(100);
-                }
+        //            iList3.SubItems.Add("Pe-Sieve64.exe" + " " + Detectionstring);
 
 
-            }
-            catch (Exception ee)
-            {
-                if (IsSystemDeveloperLogs_on) BeginInvoke(new __core2(AsyncRun__Add_SystemDeveloperLogs), (object)" ==> [Form1_System_Detection_Log_events] Event/Method Call: error1 => " + ee.Message);
+        //            iList3.ImageIndex = tmp.ImageIndex;
+        //            if (tmp.Name != eventstring_tmp3)
+        //            {
+        //                //bool found = false;
+        //                //for (int i = 0; i < listView3.Items.Count; i++)
+        //                //{
+        //                //    if (listView3.Items[i].SubItems[2].Text + listView3.Items[i].SubItems[4].Text == tmp.SubItems[2].Text + "ETW [Inj] event")
+        //                //    {
+        //                //        found = true;
+        //                //    }
+        //                //}
+        //                //if (!found)
+        //                //{
+        //                //    BeginInvoke(new __Additem(_Additems_toListview3), iList3);
+        //                //    eventstring_tmp3 = tmp.Name;
+        //                //}
+
+        //                //if (tmp.SubItems[5].Text == "Terminated" || tmp.SubItems[5].Text == "Suspended")
+        //                //{
+        //                //    BeginInvoke(new __Additem(_Additems_toListview3), iList3);
+        //                //    eventstring_tmp3 = tmp.Name;
+        //                //}
+
+        //            }
+
+        //            Thread.Sleep(100);
+        //        }
 
 
-            }
-        }
+        //    }
+        //    catch (Exception ee)
+        //    {
+        //        if (IsSystemDeveloperLogs_on) BeginInvoke(new __core2(AsyncRun__Add_SystemDeveloperLogs), (object)" ==> [Form1_System_Detection_Log_events] Event/Method Call: error1 => " + ee.Message);
+
+
+        //    }
+        //}
         public async void _RunRemoveItemsLisview1()
         {
             await Listview1__Removeitems();
@@ -5683,12 +5788,12 @@ namespace ETWPM2Monitor2
 
                             /// if mixed mode disabled for memoryscanner02, need this to show new event in system/detection logs Tab & alarms by ETW Tab
                             /// bug was here
-                            //if ((!ScannerMixedMode_Hollowh) && (IsTargetProcessTerminatedbyETWPM2monitor))
-                            if (IsTargetProcessTerminatedbyETWPM2monitor)
-                            {
+                            
+                            //if (IsTargetProcessTerminatedbyETWPM2monitor)
+                            //{
 
-                                System_Detection_Log_events.Invoke((object)iList2, null);
-                            }
+                            //    System_Detection_Log_events.Invoke((object)iList2, null);
+                            //}
 
                             foreach (string ShowItems in showitemsHash)
                             {
@@ -5710,10 +5815,12 @@ namespace ETWPM2Monitor2
                                 {
                                     BeginInvoke(new __Additem(_Additems_toListview2), iList2);
 
-                                    System_Detection_Log_events.Invoke((object)iList2, null);
+                                    //System_Detection_Log_events.Invoke((object)iList2, null);
 
                                 }
+
                                 bool found_obj = false;
+
                                 foreach (string Objitem in showitemsHash)
                                 {
                                     if (Objitem == item.ProcessName + ":" + item.PID.ToString() + _des_address_port + _finalresult_Scanned_01[0] +
