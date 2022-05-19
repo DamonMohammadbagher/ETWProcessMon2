@@ -1,4 +1,4 @@
-Note: in this code we have "Pe-sieve64.exe" & "Hollowshunter.exe" so to use you need to download these exe files & paste them in same folder with ETWPM2Monitor2.exe & i tested ETWPM2Monitor2 with Pe-sieve64.exe (ver 0.2.9.6) & Hollowshunter.exe (ver 0.2.9.6)
+Note: in this code we have "Pe-sieve64.exe" , so to use you need to download these exe files & paste them in same folder with ETWPM2Monitor2.exe & i tested ETWPM2Monitor2 with Pe-sieve64.exe (ver 0.2.9.6)  
 
     link1: https://github.com/hasherezade/pe-sieve
     
