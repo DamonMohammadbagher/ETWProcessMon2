@@ -2407,8 +2407,12 @@ namespace ETWPM2Monitor2
 
                     if (_Listview3_Items_NetworkConnection_Apis.Count > 0)
                     {
+                        /// .GroupBy(j2 => j2.SubItems[7]).FirstOrDefault()
+                        /// FirstOrDefault() will show all remoteips (kind of No-Filter) 
+                        /// First() will filter/show only one of them ;)
+
                         foreach (ListViewItem item in _Listview3_Items_NetworkConnection_Apis.ToList<ListViewItem>()
-                        .GroupBy(j => j.SubItems[2]).First().GroupBy(j2 => j2.SubItems[7]).First().ToList().ToArray())
+                        .GroupBy(j => j.SubItems[2]).First().GroupBy(j2 => j2.SubItems[7].Text).FirstOrDefault().ToList().ToArray())
                         {
                             if (item.SubItems[2].Text.ToLower() != "system")
                             {
@@ -2469,10 +2473,12 @@ namespace ETWPM2Monitor2
                     List<ListViewItem> list1 = listView8.Items.Cast<ListViewItem>().ToList();
                     List<ListViewItem> list2 = listView4.Items.Cast<ListViewItem>().ToList();
                     int count = 0;
+
                     foreach (ListViewItem item1 in list1.ToList<ListViewItem>())
                     {
 
-                        int index = list2.FindIndex(x => x.SubItems[2].Text.ToLower() == item1.SubItems[2].Text.ToLower() + ":" + item1.SubItems[3].Text);
+                        int index = list2.FindIndex(x => x.SubItems[2].Text.ToLower() == item1.SubItems[2].Text.ToLower() + ":" + item1.SubItems[3].Text
+                        && x.SubItems[5].Text == item1.SubItems[7].Text);
 
                     if (index != -1)
                     {
@@ -2480,12 +2486,14 @@ namespace ETWPM2Monitor2
                         {
 
 
-                            listView8.Items[count].BackColor = Color.DarkOrange;
+                            //listView8.Items[count].BackColor = Color.DarkOrange;
                              
-                            TimeSpan _dt = Convert.ToDateTime(list2[index].SubItems[1].Text) - Convert.ToDateTime(item1.SubItems[1].Text);
+                           // TimeSpan _dt = Convert.ToDateTime(list2[index].SubItems[1].Text) - Convert.ToDateTime(item1.SubItems[1].Text);
 
                             if (!listView8.Items[count].SubItems[9].Text.Contains("This Process For ("))
                             {
+                                listView8.Items[count].BackColor = Color.DarkOrange;
+                                TimeSpan _dt = Convert.ToDateTime(list2[index].SubItems[1].Text) - Convert.ToDateTime(item1.SubItems[1].Text);
                                 listView8.Items[count].SubItems[9].Text = $"This Process For ({_dt.TotalSeconds.ToString()} Seconds ) Not Detected By ETW Events, TTL For This Event Was => Min:{_dt.TotalMinutes.ToString()} or Sec:{_dt.TotalSeconds.ToString()}";
                                 listView8.Items[count].SubItems[10].Text = "0+1";
                             }
@@ -2515,28 +2523,26 @@ namespace ETWPM2Monitor2
  
         }
 
-        private async void T16_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        private  void T16_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
-            await Task.Run(() =>
+            /// checking false positive events for Netwotk Coneection evens via ETW....
+            /// every 10 seconds check, add items to ETW Checking Errors Tab.
+           
+            try
             {
-                ///checking false positive events for Netwotk Coneection evens via ETW....
-                /// every 10 seconds cech, add records to ETW Checking Errors Tab.
+                List<ListViewItem> NativeApiNetworkConnectionList = _ETW_Network_Events_FalsePositiveChecking_Records.ToList<ListViewItem>()
+               .FindAll(x => x.SubItems[10].Text == "0" && x.SubItems[2].Text.ToLower() != "system" && x.SubItems[3].Text != "4")
+               .GroupBy(x1 => x1.SubItems[3]).Select(xx => xx.First()).ToList();
                 
-                try
+                if (NativeApiNetworkConnectionList != null)
                 {
-
-                    List<ListViewItem> NativeApiNetworkConnectionList = _ETW_Network_Events_FalsePositiveChecking_Records.ToList<ListViewItem>()
-                    .FindAll(x => x.SubItems[10].Text == "0" && x.SubItems[2].Text.ToLower() != "system" && x.SubItems[3].Text != "4")
-                    .GroupBy(x1 => x1.SubItems[3].Text).Select(j => j.FirstOrDefault()).ToList();
-
                     int count = NativeApiNetworkConnectionList.Count;
-
                     List<ListViewItem> list2 = listView4.Items.Cast<ListViewItem>().ToList();
-
+                    
                     if (list2.Count > 0)
-                    {
+                    {                       
 
-                        foreach (ListViewItem _item in NativeApiNetworkConnectionList)
+                        foreach (ListViewItem _item in NativeApiNetworkConnectionList.ToList<ListViewItem>())
                         {
                             Task.Delay(10);
                             try
@@ -2547,22 +2553,25 @@ namespace ETWPM2Monitor2
 
                                     if (index == -1)
                                     {
+                                        List<ListViewItem> _list = listView8.Items.Cast<ListViewItem>().ToList();
                                         /// if == -1 then those records was true positive error...
                                         /// in this time will show only true positive records to the listview8
-                                        listView8.Items.Add(_item).BackColor = Color.DarkRed;
+                                        if (_list.FindIndex(x => x.SubItems[2].Text + x.SubItems[3].Text + x.SubItems[7].Text
+                                        == _item.SubItems[2].Text + _item.SubItems[3].Text + _item.SubItems[7].Text) == -1)
+                                        {
+                                            listView8.Items.Add(_item).BackColor = Color.DarkRed;
+                                        }
 
                                     }
                                     else
                                     {
                                         /// false positive
-                                                                               
                                     }
                                 }
 
                             }
                             catch (Exception)
                             {
-
 
                             }
                         }
@@ -2571,37 +2580,32 @@ namespace ETWPM2Monitor2
                     {
                         try
                         {
-                            //  listView8.Items.AddRange(NativeApiNetworkConnectionList.ToList<ListViewItem>().ToList()
-                            //.GroupBy(x1 => x1.SubItems[3]).Select(j => j.First()).ToList().ToArray());
-
-                            ListViewItem[] xListViewItem = NativeApiNetworkConnectionList.ToList<ListViewItem>().ToList()
-                          .GroupBy(x1 => x1.SubItems[3].Text).Select(j => j.FirstOrDefault()).ToList().ToArray();
-
-                            foreach (ListViewItem item in xListViewItem)
+                            List<ListViewItem> _list = listView8.Items.Cast<ListViewItem>().ToList();
+                            /// bug fixed
+                            foreach (ListViewItem item in NativeApiNetworkConnectionList.ToList<ListViewItem>())
                             {
-                                listView8.Items.Add(item).BackColor = Color.DarkRed;
+                                if (_list.FindIndex(x => x.SubItems[2].Text + x.SubItems[3].Text + x.SubItems[7].Text
+                                 == item.SubItems[2].Text + item.SubItems[3].Text + item.SubItems[7].Text) == -1)
+                                {
+                                    listView8.Items.Add(item).BackColor = Color.DarkRed;
+                                }
                             }
 
-                            
-
-                            
                         }
                         catch (Exception)
                         {
 
-                            
+
                         }
-                     
-                       
+
                     }
-
                 }
-                catch (Exception)
-                {
-
-
-                }
-            });
+            }
+            catch (Exception t)
+            {
+                
+            }
+           
         }
 
         /// <summary>  remove those Process items in Network Connections via Native APIs 
@@ -2882,7 +2886,7 @@ namespace ETWPM2Monitor2
                                         catch (Exception)
                                         {
 
-                                            throw;
+                                            
                                         }
                                     }
 
@@ -3025,24 +3029,26 @@ namespace ETWPM2Monitor2
             try
             {
 
-
-                int _found = 0;
-                for (int i = 0; i < listView7.Items.Count; i++)
+                Task.Run(() =>
                 {
-                    Thread.Sleep(10);
-                    if (listView7.Items[i].SubItems[10] != null)
+                    int _found = 0;
+                    for (int i = 0; i < listView7.Items.Count; i++)
                     {
-                        if (listView7.Items[i].SubItems[10].Text == "0")
+                        Thread.Sleep(10);
+                        if (listView7.Items[i].SubItems[10] != null)
                         {
-                            _found++;
+                            if (listView7.Items[i].SubItems[10].Text == "0")
+                            {
+                                _found++;
+                            }
                         }
                     }
-                }
 
-                tabPage16.Text = "Network Connections History (Detection Error: " + _found.ToString() + " of " + listView7.Items.Count.ToString() + ")";
 
-                tabPage13.Text = "Network Connections (" + listView3.Items.Count.ToString() + ")";
-               
+                    tabPage16.Text = "Network Connections History (Detection Error: " + _found.ToString() + " of " + listView7.Items.Count.ToString() + ")";
+
+                    tabPage13.Text = "Network Connections (" + listView3.Items.Count.ToString() + ")";
+                });
 
             }
             catch (Exception)
@@ -3478,13 +3484,13 @@ namespace ETWPM2Monitor2
                 {
 
                     List<_TableofProcess> TerminatedProcess = Process_Table.ToList<_TableofProcess>().FindAll(Terminate => Terminate.Detection_Status == "Terminated")
-                    .GroupBy(x1 => x1.PID).Select(j => j.FirstOrDefault()).ToList();
+                    .GroupBy(x1 => x1.PID).Select(j => j.First()).ToList();
 
                     if (Chart_Terminate != TerminatedProcess.Count) Chart_Terminate = TerminatedProcess.Count;
 
 
                     List<_TableofProcess> SuspendedProcess = Process_Table.ToList<_TableofProcess>().FindAll(Suspended => Suspended.Detection_Status == "Suspended")
-                    .GroupBy(x1 => x1.PID).Select(j => j.FirstOrDefault()).ToList();
+                    .GroupBy(x1 => x1.PID).Select(j => j.First()).ToList();
 
                     if (Chart_suspend != SuspendedProcess.Count) Chart_suspend = SuspendedProcess.Count;
 
@@ -6674,7 +6680,7 @@ namespace ETWPM2Monitor2
 
         private void AboutToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(null, "ETWPM2Monitor2 v2.1 [test version 2.1.41.375]\nCode Published by Damon Mohammadbagher , Jul 2021", "About ETWPM2Monitor2 v2.1", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show(null, "ETWPM2Monitor2 v2.1 [test version 2.1.41.380]\nCode Published by Damon Mohammadbagher , Jul 2021", "About ETWPM2Monitor2 v2.1", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
         }
 
