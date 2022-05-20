@@ -53,7 +53,7 @@ namespace ETWPM2Monitor2
         public static System.Timers.Timer t14 = new System.Timers.Timer(1000);
         public static System.Timers.Timer t15 = new System.Timers.Timer(1000);
         public static System.Timers.Timer t16 = new System.Timers.Timer(10000);
-        public static System.Timers.Timer t17 = new System.Timers.Timer(2500);
+        public static System.Timers.Timer t17 = new System.Timers.Timer(2700);
 
         public static TimeSpan tt = new TimeSpan();
         public static uint NTReadTmpRef = 0;
@@ -2461,7 +2461,7 @@ namespace ETWPM2Monitor2
             });
         }
 
-        public  void _CheckTruePositiveList_Again()
+        public void _CheckTruePositiveList_Again()
         {
            
                 /// event detected after Minutes so that means your process has/had Network
@@ -2484,12 +2484,7 @@ namespace ETWPM2Monitor2
                     {
                         try
                         {
-
-
-                            //listView8.Items[count].BackColor = Color.DarkOrange;
-                             
-                           // TimeSpan _dt = Convert.ToDateTime(list2[index].SubItems[1].Text) - Convert.ToDateTime(item1.SubItems[1].Text);
-
+ 
                             if (!listView8.Items[count].SubItems[9].Text.Contains("This Process For ("))
                             {
                                 listView8.Items[count].BackColor = Color.DarkOrange;
@@ -2509,9 +2504,6 @@ namespace ETWPM2Monitor2
 
                     }
 
-                    //TimeSpan _dt = Convert.ToDateTime(list2[index].SubItems[0].Text) - Convert.ToDateTime(_item.SubItems[0].Text);
-
-
                 }
                 catch (Exception)
                 {
@@ -2523,7 +2515,7 @@ namespace ETWPM2Monitor2
  
         }
 
-        private  void T16_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        private void T16_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
             /// checking false positive events for Netwotk Coneection evens via ETW....
             /// every 10 seconds check, add items to ETW Checking Errors Tab.
@@ -5170,8 +5162,18 @@ namespace ETWPM2Monitor2
                     /// check processes before scan by memory scanner 
                     /// if process was scanned and Detected before, then ignore new scan.
                     if (initScan)
-                        BeginInvoke(new __AsyncScanner01(Async_Run_Scanner0102_Run), _Table, PID, _des_address_port, ProcessName);
+                    {
+                        ThreadStart _CoreScanThread = new ThreadStart(delegate
+                        {
+                            BeginInvoke(new __AsyncScanner01(Async_Run_Scanner0102_Run), _Table, PID, _des_address_port, ProcessName);
+                        });
 
+                        Thread _T8__CoreScanThread = new Thread(_CoreScanThread);
+                        _T8__CoreScanThread.Priority = ThreadPriority.Highest;
+                        _T8__CoreScanThread.Start();
+
+                        // BeginInvoke(new __AsyncScanner01(Async_Run_Scanner0102_Run), _Table, PID, _des_address_port, ProcessName);
+                    }
 
 
                     //List<_TableofProcess> TerminatedProcess = Process_Table.FindAll(Terminate => Terminate.Detection_Status == "Terminated");
@@ -5190,7 +5192,7 @@ namespace ETWPM2Monitor2
         }
         public async void Async_Run_Scanner0102_Run(List<_TableofProcess> __Table_of_Process_to_Scan, Int32 PID, string _des_address_port, string ProcessName)
         {
-
+           
             await Async_Run_Scanner0102_Method(__Table_of_Process_to_Scan, PID, _des_address_port, ProcessName);
         }
         public async Task Async_Run_Scanner0102_Method(List<_TableofProcess> __Table_of_Process_to_Scan, Int32 PID, string _des_address_port, string ProcessName)
@@ -5393,23 +5395,51 @@ namespace ETWPM2Monitor2
 
                                             if (Pe_sieveLevel == 0)
                                             {
-                                                Scanner_Action = "Scanned & Found!";
-                                                iList2.ImageIndex = 1;
+                                                if (_Isdetected)
+                                                {
+                                                    Scanner_Action = "Scanned & Found!";
+                                                    iList2.ImageIndex = 2;
+                                                }
+                                                else
+                                                {
+                                                    /// fixed,  bad bug was here ;)
+                                                    Scanner_Action = "Scanned & Not Found!";
+                                                    iList2.ImageIndex = 1;
+                                                }
+
                                             }
 
                                             if (Pe_sieveLevel == 1)
                                             {
-                                                Scanner_Action = "Suspended";
-                                                iList2.ImageIndex = 2;
+                                                if (_Isdetected)
+                                                {
+                                                    Scanner_Action = "Suspended";
+                                                    iList2.ImageIndex = 2;
+                                                }
+                                                else
+                                                {
+                                                    /// fixed
+                                                    Scanner_Action = "Scanned & Not Found!";
+                                                    iList2.ImageIndex = 1;
+                                                }
                                             }
 
                                             if (Pe_sieveLevel == 2)
                                             {
-                                                Scanner_Action = "Terminated";
-                                                iList2.ImageIndex = 2;
+                                                if (_Isdetected)
+                                                {
+                                                    Scanner_Action = "Terminated";
+                                                    iList2.ImageIndex = 2;
+                                                }
+                                                else
+                                                {
+                                                    /// fixed
+                                                    Scanner_Action = "Scanned & Not Found!";
+                                                    iList2.ImageIndex = 1;
+                                                }
                                             }
 
-                                            if (finalresult_Scanned_01[0] == "[Skipped[not scanned:0:0:0]")
+                                            if (finalresult_Scanned_01[0].ToLower().Contains("skipped"))
                                             {
                                                 Scanner_Action = "Skipped";
                                                 iList2.ImageIndex = 1;
@@ -5422,10 +5452,10 @@ namespace ETWPM2Monitor2
 
 
 
-                                                if ((!result2.Contains("Replaced:0")) && (!result2.Contains("not scanned:0")))
-                                                {
-                                                    injtype = "Process-Hollowing";
-                                                }
+                                                //if ((!result2.Contains("Replaced:0")) && (!result2.Contains("not scanned:0")))
+                                                //{
+                                                //    injtype = "Process-Hollowing";
+                                                //}
 
 
                                                 Scanned_PIds.Add(new _TableofProcess_Scanned_01
@@ -5514,33 +5544,33 @@ namespace ETWPM2Monitor2
                                 /// these if should change to better codes ...  
                                 ///
 
-                                if (_finalresult_Scanned_01[0].Contains("Replaced:0"))
-                                {
+                                ////if (_finalresult_Scanned_01[0].Contains("Replaced:0"))
+                                ////{
 
-                                    iList2.ImageIndex = 1;
-                                    if (!_finalresult_Scanned_01[0].Contains("PE:0") && !_finalresult_Scanned_01[0].Contains("shc:0"))
-                                    {
+                                ////    iList2.ImageIndex = 1;
+                                ////    if (!_finalresult_Scanned_01[0].Contains("PE:0") && !_finalresult_Scanned_01[0].Contains("shc:0"))
+                                ////    {
 
 
 
-                                    }
-                                    else if (!_finalresult_Scanned_01[0].Contains("PE:0") || !_finalresult_Scanned_01[0].Contains("shc:0"))
-                                    {
+                                ////    }
+                                ////    else if (!_finalresult_Scanned_01[0].Contains("PE:0") || !_finalresult_Scanned_01[0].Contains("shc:0"))
+                                ////    {
 
-                                    }
-                                }
-                                if (!(_finalresult_Scanned_01[0].Contains("Replaced:0")))
-                                {
-                                    if (_finalresult_Scanned_01[0] != "[error not found pe-sieve.exe[not scanned:0]")
-                                    {
+                                ////    }
+                                ////}
+                                ////if (!(_finalresult_Scanned_01[0].Contains("Replaced:0")))
+                                ////{
+                                ////    if (_finalresult_Scanned_01[0] != "[error not found pe-sieve.exe[not scanned:0]")
+                                ////    {
 
-                                    }
-                                    else if (_finalresult_Scanned_01[0] == "[error not found pe-sieve.exe[not scanned:0]")
-                                    {
-                                        subitemX = "Injection";
+                                ////    }
+                                ////    else if (_finalresult_Scanned_01[0] == "[error not found pe-sieve.exe[not scanned:0]")
+                                ////    {
+                                ////        subitemX = "Injection";
 
-                                    }
-                                }
+                                ////    }
+                                ////}
                             }
 
 
@@ -5553,9 +5583,9 @@ namespace ETWPM2Monitor2
                             {
                                 iList2.ImageIndex = 2;
 
-                                if (!_finalresult_Scanned_01[0].Contains("Replaced:0")
-                                && !_finalresult_Scanned_01[0].Contains("not scanned:0")
-                                && !finalresult_Scanned_01[0].ToLower().Contains("[skipped[not scanned:0:0:0]"))
+                                if (!_finalresult_Scanned_01[0].ToLower().Contains("replaced:0")
+                                && !_finalresult_Scanned_01[0].ToLower().Contains("not scanned:0")
+                                && !finalresult_Scanned_01[0].ToLower().Contains("skipped"))
                                 {
                                     _injtype = "Process-Hollowing";
 
@@ -5758,7 +5788,7 @@ namespace ETWPM2Monitor2
 
                                     }
 
-                                    // _finalresult_Scanned_02[2] = "Terminated";
+                                    
                                     iList2.ImageIndex = 2;
                                     Detection_Status_Action = "Terminated";
                                     IsTargetProcessTerminatedbyETWPM2monitor = true;
@@ -5771,8 +5801,10 @@ namespace ETWPM2Monitor2
                             iList2.SubItems.Add(subitemX);
                             /// tcp send info
                             iList2.SubItems.Add(_des_address_port);
+
                             /// status for suspend/terminate by hollowshunter
                             //iList2.SubItems.Add(_finalresult_Scanned_02[2]);
+
                             iList2.SubItems.Add(Detection_Status_Action);
                             /// detection info by pe-sieve64
                             iList2.SubItems.Add(_finalresult_Scanned_01[0]);
@@ -5791,15 +5823,6 @@ namespace ETWPM2Monitor2
                             && x.Description.Contains(":" + item.Injector.ToString() + "[Injected by "));
                             iList2.SubItems.Add(RelatedEvt_Description.Description);
 
-
-                            /// if mixed mode disabled for memoryscanner02, need this to show new event in system/detection logs Tab & alarms by ETW Tab
-                            /// bug was here
-                            
-                            //if (IsTargetProcessTerminatedbyETWPM2monitor)
-                            //{
-
-                            //    System_Detection_Log_events.Invoke((object)iList2, null);
-                            //}
 
                             foreach (string ShowItems in showitemsHash)
                             {
@@ -5821,6 +5844,7 @@ namespace ETWPM2Monitor2
                                 {
                                     BeginInvoke(new __Additem(_Additems_toListview2), iList2);
 
+                                    /// this code & method/event removed from source code
                                     //System_Detection_Log_events.Invoke((object)iList2, null);
 
                                 }
@@ -6680,7 +6704,7 @@ namespace ETWPM2Monitor2
 
         private void AboutToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(null, "ETWPM2Monitor2 v2.1 [test version 2.1.41.380]\nCode Published by Damon Mohammadbagher , Jul 2021", "About ETWPM2Monitor2 v2.1", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show(null, "ETWPM2Monitor2 v2.1 [test version 2.1.41.385]\nCode Published by Damon Mohammadbagher , Jul 2021", "About ETWPM2Monitor2 v2.1", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
         }
 
