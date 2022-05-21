@@ -5175,12 +5175,6 @@ namespace ETWPM2Monitor2
                         // BeginInvoke(new __AsyncScanner01(Async_Run_Scanner0102_Run), _Table, PID, _des_address_port, ProcessName);
                     }
 
-
-                    //List<_TableofProcess> TerminatedProcess = Process_Table.FindAll(Terminate => Terminate.Detection_Status == "Terminated");
-                    //if (Chart_Terminate != TerminatedProcess.Count) Chart_Terminate = TerminatedProcess.Count;
-
-                    //List<_TableofProcess> SuspendedProcess = Process_Table.FindAll(Suspended => Suspended.Detection_Status == "Suspended");
-                    //if (Chart_suspend != SuspendedProcess.Count) Chart_suspend = SuspendedProcess.Count;
                 }
             }
             catch (Exception ee)
@@ -5209,6 +5203,7 @@ namespace ETWPM2Monitor2
                     string result2 = "";
                     string _injtype = "Injection";
                     string _lastTargetProcessScannedInfo = "";
+                    bool _Isdetected = false;
 
                     foreach (_TableofProcess item in __Table_of_Process_to_Scan.ToList<_TableofProcess>())
                     {
@@ -5220,8 +5215,8 @@ namespace ETWPM2Monitor2
                             /// check target pids to "stop looping scan" , injectorID_PATH may be should add to this ....
                             Int32 IsScannedBefore = Scanned_PIds.ToList().FindIndex(x => x.PID == item.PID && x.ProcNameANDPath.ToLower() == item.ProcessName_Path.ToLower());
 
-
-                            if (!_StopLoopingScan_Exec_01 && IsScannedBefore == -1)
+                            /// && changed to ||
+                            if (!_StopLoopingScan_Exec_01 || IsScannedBefore == -1)
                             {
                                 /// pe-sieve64.exe scanner
 
@@ -5386,7 +5381,7 @@ namespace ETWPM2Monitor2
                                                 toolStripStatusLabel3.ForeColor = Color.Red;
                                             }
 
-                                            bool _Isdetected = false;
+                                          
 
                                             if (Convert.ToInt32(string.Join("", ("0" + result2).Where(char.IsDigit)).ToString()) > 0) { _Isdetected = true; }
                                             else { _Isdetected = false; }
@@ -5445,18 +5440,11 @@ namespace ETWPM2Monitor2
                                                 iList2.ImageIndex = 1;
                                             }
 
-                                            if (!Scanned_PIds.ToList<_TableofProcess_Scanned_01>().Exists(scanned => scanned.PID == Convert.ToInt32(item.PID.ToString()) && scanned.ProcNameANDPath == item.ProcessName_Path
+                                            if (!Scanned_PIds.ToList<_TableofProcess_Scanned_01>().Exists(scanned => scanned.PID == Convert.ToInt32(item.PID.ToString()) 
+                                            && scanned.ProcNameANDPath == item.ProcessName_Path
                                              && scanned.injectorPathPID == _InjectorPathPID))
                                             {
                                                 string injtype = "Injection";
-
-
-
-                                                //if ((!result2.Contains("Replaced:0")) && (!result2.Contains("not scanned:0")))
-                                                //{
-                                                //    injtype = "Process-Hollowing";
-                                                //}
-
 
                                                 Scanned_PIds.Add(new _TableofProcess_Scanned_01
                                                 {
@@ -5503,12 +5491,12 @@ namespace ETWPM2Monitor2
 
                             Thread.Sleep(100);
 
-                            int _resultPEScanned = Scanned_PIds2.FindIndex(PEScan => PEScan.PID == Convert.ToInt32(item.PID.ToString()) && PEScan.ProcNameANDPath == item.ProcessName_Path);
-                            if (_resultPEScanned != -1)
-                            {
+                            //int _resultPEScanned = Scanned_PIds2.FindIndex(PEScan => PEScan.PID == Convert.ToInt32(item.PID.ToString()) && PEScan.ProcNameANDPath == item.ProcessName_Path);
+                            //if (_resultPEScanned != -1)
+                            //{
 
-                                //_StopLoopingScan_Exec_02 = true;
-                            }
+                            //    //_StopLoopingScan_Exec_02 = true;
+                            //}
 
                             iList2.Name = item.ProcessName + ":" + item.PID + ">\n" + _finalresult_Scanned_01[1] + _finalresult_Scanned_02[1]
                                + "\n-------------------\nScanner Result/Status: " + _finalresult_Scanned_01[0];
@@ -5537,40 +5525,9 @@ namespace ETWPM2Monitor2
                                 catch (Exception ee)
                                 {
                                     if (IsSystemDeveloperLogs_on) BeginInvoke(new __core2(AsyncRun__Add_SystemDeveloperLogs), (object)" ==> [Async_Run_Scanner0102_Method] Method Call: error9 => " + ee.Message);
-
-
                                 }
 
-                                /// these if should change to better codes ...  
-                                ///
 
-                                ////if (_finalresult_Scanned_01[0].Contains("Replaced:0"))
-                                ////{
-
-                                ////    iList2.ImageIndex = 1;
-                                ////    if (!_finalresult_Scanned_01[0].Contains("PE:0") && !_finalresult_Scanned_01[0].Contains("shc:0"))
-                                ////    {
-
-
-
-                                ////    }
-                                ////    else if (!_finalresult_Scanned_01[0].Contains("PE:0") || !_finalresult_Scanned_01[0].Contains("shc:0"))
-                                ////    {
-
-                                ////    }
-                                ////}
-                                ////if (!(_finalresult_Scanned_01[0].Contains("Replaced:0")))
-                                ////{
-                                ////    if (_finalresult_Scanned_01[0] != "[error not found pe-sieve.exe[not scanned:0]")
-                                ////    {
-
-                                ////    }
-                                ////    else if (_finalresult_Scanned_01[0] == "[error not found pe-sieve.exe[not scanned:0]")
-                                ////    {
-                                ////        subitemX = "Injection";
-
-                                ////    }
-                                ////}
                             }
 
 
@@ -5591,10 +5548,7 @@ namespace ETWPM2Monitor2
 
                                 }
 
-                            }
-
-                            ///
-                            /// these if should change to better codes ...  
+                            }                         
 
                             IsTargetProcessTerminatedbyETWPM2monitor = false;
                             string Detection_Status_Action = "";
@@ -5605,16 +5559,38 @@ namespace ETWPM2Monitor2
 
                                 iList2.ImageIndex = 2;
 
-                                if (Pe_sieveLevel == 0) { iList2.ImageIndex = 2; Detection_Status_Action = "Scanned & Found!"; }
+                                if (Pe_sieveLevel == 0)
+                                {
+                                    if (_Isdetected)
+                                    {
+                                        iList2.ImageIndex = 2;
+                                        Detection_Status_Action = "Scanned & Found!";
+                                    }
+                                    else
+                                    {
+                                        /// fixed
+                                        iList2.ImageIndex = 1;
+                                        Detection_Status_Action = "Scanned & Not Found!";
+                                    }
+                                }
                                 else
                                 if (Pe_sieveLevel == 1)
                                 {
                                     try
                                     {
-                                        iList2.ImageIndex = 2;
-                                        Detection_Status_Action = "Suspended";
-                                        int _tpid = PID;
-                                        Memory_info.NtSuspendProcess(Process.GetProcessById(_tpid).Handle);
+                                        if (_Isdetected)
+                                        {
+                                            iList2.ImageIndex = 2;
+                                            Detection_Status_Action = "Suspended";
+                                            int _tpid = PID;
+                                            Memory_info.NtSuspendProcess(Process.GetProcessById(_tpid).Handle);
+                                        }
+                                        else
+                                        {
+                                            /// fixed
+                                            iList2.ImageIndex = 1;
+                                            Detection_Status_Action = "Scanned & Not Found!";
+                                        }
                                     }
                                     catch (Exception)
                                     {
@@ -5625,45 +5601,82 @@ namespace ETWPM2Monitor2
                                 else
                                 if (Pe_sieveLevel == 2)
                                 {
-                                    iList2.ImageIndex = 2;
-                                    try
+                                    if (_Isdetected)
                                     {
+                                        iList2.ImageIndex = 2;
                                         try
                                         {
                                             try
                                             {
-                                                _PPID_For_TimerScanner01 = PID;
-                                                _PPIDPath_For_TimerScanner01 = Process.GetProcessById(PID).MainModule.FileName.ToLower();
+                                                try
+                                                {
+                                                    _PPID_For_TimerScanner01 = PID;
+                                                    _PPIDPath_For_TimerScanner01 = Process.GetProcessById(PID).MainModule.FileName.ToLower();
+                                                }
+                                                catch (Exception ee)
+                                                {
+                                                    if (IsSystemDeveloperLogs_on) BeginInvoke(new __core2(AsyncRun__Add_SystemDeveloperLogs), (object)" ==> [Async_Run_Scanner0102_Method] Method Call: error10 => " + ee.Message);
+
+                                                }
+
+                                                /// timer to terminate sub processes     
+                                                t8.Enabled = true;
+                                                t8.Start();
+
+                                                /// check sub processes                                              
+                                                foreach (_TableofProcess_NewProcess_evt ___item in NewProcess_Table.ToList().FindAll(SubProc =>
+                                                SubProc.PPID == PID).ToList<_TableofProcess_NewProcess_evt>())
+                                                {
+                                                    ///"[ParentID Path: C:\\Windows\\SysWOW64\\notepad.exe]"
+
+                                                    if (___item.PPID_Path.ToLower().Substring(16).Split(']')[0] ==
+                                                        Process.GetProcessById(PID).MainModule.FileName.ToLower())
+                                                    {
+                                                        if (Process.GetProcesses().ToList().FindIndex(x => x.Id == ___item.PID) != -1)
+                                                        {
+                                                            try
+                                                            {
+                                                                IntPtr TintPtr = Process.GetProcessById(___item.PID).Handle;
+                                                                uint ExitCode = 0;
+
+                                                                Memory_info.GetExitCodeProcess(TintPtr, out ExitCode);
+
+                                                                Memory_info.TerminateProcess(TintPtr, ExitCode);
+                                                            }
+                                                            catch (Exception j)
+                                                            {
+
+
+                                                            }
+                                                        }
+                                                    }
+                                                }
                                             }
                                             catch (Exception ee)
                                             {
-                                                if (IsSystemDeveloperLogs_on) BeginInvoke(new __core2(AsyncRun__Add_SystemDeveloperLogs), (object)" ==> [Async_Run_Scanner0102_Method] Method Call: error10 => " + ee.Message);
-
-
+                                                if (IsSystemDeveloperLogs_on) BeginInvoke(new __core2(AsyncRun__Add_SystemDeveloperLogs), (object)" ==> [Async_Run_Scanner0102_Method] Method Call: error11 => " + ee.Message);
                                             }
 
-                                            /// timer to terminate sub processes     
-                                            t8.Enabled = true;
-                                            t8.Start();
 
-                                            /// check sub processes                                              
-                                            foreach (_TableofProcess_NewProcess_evt ___item in NewProcess_Table.ToList().FindAll(SubProc =>
-                                            SubProc.PPID == PID).ToList<_TableofProcess_NewProcess_evt>())
+                                            try
                                             {
-                                                ///"[ParentID Path: C:\\Windows\\SysWOW64\\notepad.exe]"
+                                                /// check sockets for shutdown
+                                                List<IntPtr> TP_Socket_intptrs = SocketClass.SocketHijacking.GetSocketsTargetProcess
+                                                    (Process.GetProcessById(PID));
 
-                                                if (___item.PPID_Path.ToLower().Substring(16).Split(']')[0] ==
-                                                    Process.GetProcessById(PID).MainModule.FileName.ToLower())
+                                                foreach (IntPtr _____item in TP_Socket_intptrs.ToList())
                                                 {
-                                                    if (Process.GetProcesses().ToList().FindIndex(x => x.Id == ___item.PID) != -1)
+                                                    SocketClass.SocketHijacking.shutdown(_____item, 2);
+                                                }
+
+                                                /// check target process                                          
+                                                try
+                                                {
+                                                    if (Process.GetProcesses().ToList().FindIndex(x => x.Id == PID) != -1)
                                                     {
                                                         try
                                                         {
-
-
-                                                            //   Process.GetProcessById(___item.PID).Kill();
-
-                                                            IntPtr TintPtr = Process.GetProcessById(___item.PID).Handle;
+                                                            IntPtr TintPtr = Process.GetProcessById(PID).Handle;
                                                             uint ExitCode = 0;
 
                                                             Memory_info.GetExitCodeProcess(TintPtr, out ExitCode);
@@ -5675,123 +5688,85 @@ namespace ETWPM2Monitor2
 
 
                                                         }
+
                                                     }
+
+                                                    int obj_index = Process_Table.FindIndex(process => process.ProcessName.ToLower() + ":" + process.PID == item.ProcessName.ToLower() + ":" + item.PID);
+
+
+                                                    _TableofProcess TempStruc = new _TableofProcess();
+                                                    TempStruc.TCPDetails2 = Process_Table[obj_index].TCPDetails2;
+                                                    TempStruc.TCPDetails = Process_Table[obj_index].TCPDetails;
+                                                    TempStruc.ProcessName_Path = Process_Table[obj_index].ProcessName_Path;
+                                                    TempStruc.ProcessName = Process_Table[obj_index].ProcessName;
+                                                    TempStruc.PID = Process_Table[obj_index].PID;
+                                                    TempStruc.IsLive = Process_Table[obj_index].IsLive;
+                                                    TempStruc.Injector_Path = Process_Table[obj_index].Injector_Path;
+                                                    TempStruc.Injector = Process_Table[obj_index].Injector;
+                                                    TempStruc.Description = Process_Table[obj_index].Description;
+                                                    TempStruc.IsShow_Alarm = true;
+                                                    TempStruc.Detection_Status = "Terminated";
+                                                    TempStruc.Detection_EventTime = Process_Table[obj_index].Detection_EventTime;
+                                                    TempStruc.InjectionType = _injtype;
+                                                    TempStruc.MemoryScanner01_Result = result2;
+                                                    TempStruc.MemoryScanner02_Result = "Disabled";
+
+                                                    int _indexNewProcess = NewProcess_Table.FindIndex(x => x.PID == item.Injector || x.ProcessName_Path == item.Injector_Path);
+
+                                                    if (_indexNewProcess != -1)
+                                                    {
+                                                        _TableofProcess_NewProcess_evt xFindingInjectorInfo = NewProcess_Table.Find(x => x.PID == item.Injector || x.ProcessName_Path == item.Injector_Path);
+
+                                                        TempStruc.Descripton_Details = item.ProcessName_Path + " Injected by => " + item.Injector_Path + " (PID:" + item.Injector.ToString()
+                                                        + ") \nInjector Details:\nInjector-ProcessName: "
+                                                        + xFindingInjectorInfo.ProcessName + "\nInjector-Path: " + xFindingInjectorInfo.ProcessName_Path
+                                                        + "\nInjector-CommandLine: " + xFindingInjectorInfo.CommandLine;
+                                                    }
+                                                    else
+                                                    {
+
+                                                        TempStruc.Descripton_Details = item.ProcessName_Path + " Injected by => " + item.Injector_Path + " (PID:" + item.Injector.ToString()
+                                                        + ") \nInjector Details:\nInjector-ProcessName: "
+                                                        + "\nInjector-Path: "
+                                                        + "\nInjector-CommandLine: ";
+                                                    }
+
+                                                    TempStruc.SubItems_Name_Property = item.ProcessName + ":" + item.PID + ">\n" + _finalresult_Scanned_01[1];
+                                                    TempStruc.SubItems_ImageIndex = 2;
+
+                                                    Process_Table[obj_index] = TempStruc;
+
                                                 }
+                                                catch (Exception ee)
+                                                {
+                                                    if (IsSystemDeveloperLogs_on) BeginInvoke(new __core2(AsyncRun__Add_SystemDeveloperLogs), (object)" ==> [Async_Run_Scanner0102_Method] Method Call: error12 => " + ee.Message);
+                                                }
+
                                             }
+                                            catch (Exception err)
+                                            {
+
+
+                                            }
+
                                         }
                                         catch (Exception ee)
                                         {
-                                            if (IsSystemDeveloperLogs_on) BeginInvoke(new __core2(AsyncRun__Add_SystemDeveloperLogs), (object)" ==> [Async_Run_Scanner0102_Method] Method Call: error11 => " + ee.Message);
-                                        }
-
-
-                                        try
-                                        {
-                                            /// check sockets for shutdown
-                                            List<IntPtr> TP_Socket_intptrs = SocketClass.SocketHijacking.GetSocketsTargetProcess
-                                                (Process.GetProcessById(PID));
-
-                                            foreach (IntPtr _____item in TP_Socket_intptrs.ToList())
-                                            {
-                                                SocketClass.SocketHijacking.shutdown(_____item, 2);
-                                            }
-
-                                            /// check target process                                          
-                                            try
-                                            {
-                                                if (Process.GetProcesses().ToList().FindIndex(x => x.Id == PID) != -1)
-                                                {
-                                                    try
-                                                    {
-                                                        //   Process.GetProcessById(PID).Kill();
-
-                                                        IntPtr TintPtr = Process.GetProcessById(PID).Handle;
-                                                        uint ExitCode = 0;
-
-                                                        Memory_info.GetExitCodeProcess(TintPtr, out ExitCode);
-
-                                                        Memory_info.TerminateProcess(TintPtr, ExitCode);
-                                                    }
-                                                    catch (Exception j)
-                                                    {
-
-
-                                                    }
-
-                                                }
-
-                                                int obj_index = Process_Table.FindIndex(process => process.ProcessName.ToLower() + ":" + process.PID == item.ProcessName.ToLower() + ":" + item.PID);
-
-
-                                                _TableofProcess TempStruc = new _TableofProcess();
-                                                TempStruc.TCPDetails2 = Process_Table[obj_index].TCPDetails2;
-                                                TempStruc.TCPDetails = Process_Table[obj_index].TCPDetails;
-                                                TempStruc.ProcessName_Path = Process_Table[obj_index].ProcessName_Path;
-                                                TempStruc.ProcessName = Process_Table[obj_index].ProcessName;
-                                                TempStruc.PID = Process_Table[obj_index].PID;
-                                                TempStruc.IsLive = Process_Table[obj_index].IsLive;
-                                                TempStruc.Injector_Path = Process_Table[obj_index].Injector_Path;
-                                                TempStruc.Injector = Process_Table[obj_index].Injector;
-                                                TempStruc.Description = Process_Table[obj_index].Description;
-                                                TempStruc.IsShow_Alarm = true;
-                                                TempStruc.Detection_Status = "Terminated";
-                                                TempStruc.Detection_EventTime = Process_Table[obj_index].Detection_EventTime;
-                                                TempStruc.InjectionType = _injtype;
-                                                TempStruc.MemoryScanner01_Result = result2;
-                                                TempStruc.MemoryScanner02_Result = "Disabled";
-
-                                                int _indexNewProcess = NewProcess_Table.FindIndex(x => x.PID == item.Injector || x.ProcessName_Path == item.Injector_Path);
-
-                                                if (_indexNewProcess != -1)
-                                                {
-                                                    _TableofProcess_NewProcess_evt xFindingInjectorInfo = NewProcess_Table.Find(x => x.PID == item.Injector || x.ProcessName_Path == item.Injector_Path);
-
-                                                    TempStruc.Descripton_Details = item.ProcessName_Path + " Injected by => " + item.Injector_Path + " (PID:" + item.Injector.ToString()
-                                                    + ") \nInjector Details:\nInjector-ProcessName: "
-                                                    + xFindingInjectorInfo.ProcessName + "\nInjector-Path: " + xFindingInjectorInfo.ProcessName_Path
-                                                    + "\nInjector-CommandLine: " + xFindingInjectorInfo.CommandLine;
-                                                }
-                                                else
-                                                {
-
-                                                    TempStruc.Descripton_Details = item.ProcessName_Path + " Injected by => " + item.Injector_Path + " (PID:" + item.Injector.ToString()
-                                                    + ") \nInjector Details:\nInjector-ProcessName: "
-                                                    + "\nInjector-Path: "
-                                                    + "\nInjector-CommandLine: ";
-                                                }
-
-                                                TempStruc.SubItems_Name_Property = item.ProcessName + ":" + item.PID + ">\n" + _finalresult_Scanned_01[1];
-                                                TempStruc.SubItems_ImageIndex = 2;
-
-                                                Process_Table[obj_index] = TempStruc;
-
-                                            }
-                                            catch (Exception ee)
-                                            {
-                                                if (IsSystemDeveloperLogs_on) BeginInvoke(new __core2(AsyncRun__Add_SystemDeveloperLogs), (object)" ==> [Async_Run_Scanner0102_Method] Method Call: error12 => " + ee.Message);
-
-
-                                            }
-
-                                        }
-                                        catch (Exception err)
-                                        {
+                                            if (IsSystemDeveloperLogs_on) BeginInvoke(new __core2(AsyncRun__Add_SystemDeveloperLogs), (object)" ==> [Async_Run_Scanner0102_Method] Method Call: error13 => " + ee.Message);
 
 
                                         }
 
+                                        iList2.ImageIndex = 2;
+                                        Detection_Status_Action = "Terminated";
+                                        IsTargetProcessTerminatedbyETWPM2monitor = true;
                                     }
-                                    catch (Exception ee)
+                                    else
                                     {
-                                        if (IsSystemDeveloperLogs_on) BeginInvoke(new __core2(AsyncRun__Add_SystemDeveloperLogs), (object)" ==> [Async_Run_Scanner0102_Method] Method Call: error13 => " + ee.Message);
-
-
+                                        /// fixed
+                                        iList2.ImageIndex = 1;
+                                        Detection_Status_Action = "Scanned & Not Found!";
                                     }
-
-                                    
-                                    iList2.ImageIndex = 2;
-                                    Detection_Status_Action = "Terminated";
-                                    IsTargetProcessTerminatedbyETWPM2monitor = true;
 
                                 }
 
@@ -6704,7 +6679,7 @@ namespace ETWPM2Monitor2
 
         private void AboutToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(null, "ETWPM2Monitor2 v2.1 [test version 2.1.41.385]\nCode Published by Damon Mohammadbagher , Jul 2021", "About ETWPM2Monitor2 v2.1", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show(null, "ETWPM2Monitor2 v2.1 [test version 2.1.42.392]\nCode Published by Damon Mohammadbagher , Jul 2021", "About ETWPM2Monitor2 v2.1", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
         }
 
@@ -7941,8 +7916,7 @@ namespace ETWPM2Monitor2
                     string module = "";
                     string module_size = "";
                     string filename = "";
-
-                    //string dump = "";
+                   
                     if (File.Exists(@".\process_" + PID + @"\" + @"dump_report.json"))
                     {
 
@@ -7975,13 +7949,9 @@ namespace ETWPM2Monitor2
                                 }
 
                                 richTextBox7.Text += item + "\n";
-
-
                             }
 
                         }
-
-
                     }
                     else
                     {
@@ -7993,9 +7963,7 @@ namespace ETWPM2Monitor2
             catch (Exception rr)
             {
 
-
             }
-
         }
 
         private void DGreyToolStripMenuItem_Click(object sender, EventArgs e)
