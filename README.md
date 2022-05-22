@@ -170,7 +170,7 @@ Note: EventIDs 1,2,3,4,255, these events will save save by ETWPM2Monitor2.1 in W
 
 md5 info [ETWPM2Monitor2.exe], "exe files are not safe here in github so make your own exe files with C# source by yourself [i recommend]":
          
-    34594f427f-708c32b01c-70dc48332e18 => ETWPM2Monitor2.exe (v2.1) [v2.1.41.375] 19,May,2022
+    ccd21f1d51-f67b583709-4e5488981039 => ETWPM2Monitor2.exe (v2.1) [v2.1.43.418] 22,May,2022
     
 ### ETWPM2Monitor2 v2.1 [v2.1.41.380]  
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2/Pics/NetworkConnectionsx3.png)
