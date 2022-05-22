@@ -60,6 +60,9 @@ Usage Steps
     Step2 (Run as Admin) : ETWPM2Monitor2.exe
 
 ----------------------------------------------------------
+### ETWPM2Monitor2 v2.1 , update(43) v2.1.43.418 [May 22, 2022] (Bugs in Alarms by ETW Tab fixed & New Injection Snapshot added to the source code)
+   ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2/Pics/Snapshot2.png)
+   
 ### ETWPM2Monitor2 v2.1 , update(41) v2.1.41.380 [May 20, 2022] (Bugs in Network Connection via Native APIs Tab fixed & New Filters Added to Network Connections via Native APIs for better performance etc.)
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2/Pics/NetworkConnectionsx3.png)
    
@@ -76,41 +79,41 @@ Usage Steps
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2/Pics/DetectionEventLogs.png)
 
 ### ETWPM2Monitor2 v2.1 , update(32) v2.1.32.187 [Apr 23, 2022] , Seconds + TotalSeconds and ... Added to the source code.
-   ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2/Pics/BeaconTime_02.png)
+   Pic => https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2/Pics/BeaconTime_02.png
    
 ### ETWPM2Monitor2 v2.1 , update(21) v2.1.21.97 [Mar 08, 2022] (Processes Tab Added)
-   ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2/Pics/Process.png)
+   Pic => https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2/Pics/Process.png
    
 #### note: Simple Processes Tab + Simple Search added to the source code ;) [Mar 08, 2022]
    
 ### ETWPM2Monitor2 v2.1 , update(17) v2.1.18.84 [Feb 27, 2022]
-   ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/Pics/ETWPM2Monitor2.1.png)
+   Pic => https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/Pics/ETWPM2Monitor2.1.png
    
 ### ETWPM2Monitor2 v2.1 (Search/Filters)
-   ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2/Pics/filters.png)
+   Pic => https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2/Pics/filters.png 
    
 #### note: Search/Filters from Event log "ETWPM2", added to the source code ;)  [25 feb 2022]
 
 ### ETWPM2Monitor2 v2.1 (Search/Filters)
-   ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2/Pics/filters2.png)
+   Pic => https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2/Pics/filters2.png
    
 #### note: you can use Filters in your search result for ... , this simple code worked but i will update search/filters source code soon ;)  [25 feb 2022]
 
 ### ETWPM2Monitor2 v2.1 (System/Detection Logs)
-   ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2/Pics/detection_logs.png)
+   Pic => https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2/Pics/detection_logs.png
    
 #### note: System/Detection Logs added to the source code ;)  [12 feb 2022]
 
 ### ETWPM2Monitor2 v2.1 (Detecting Cmd.exe for shell via [EventID 1] & Meterpreter Traffic Packets via [EventID 3])
-   ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2/Pics/tcp.png)
+   Pic => https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2/Pics/tcp.png 
    
 #### note: this traffic detection via EventID 3 added to source code ;)  [08 feb 2022]
 
 ### ETWPM2Monitor2 v2.1 (Memory Scanners Logs added to code, now you can see what happened in background when something Detected or not by [Memory Scanners & events])
-   ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2/Pics/v21_11.35_scannerlogs.png)
+   Pic => https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2/Pics/v21_11.35_scannerlogs.png
 
 ### ETWPM2Monitor2 v2.1 (all Alarms & System/Detection logs Now will save in windows Eventlog "ETWPM2Monitor2")
-   ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2/Pics/EVT.png)
+   Pic => https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2/Pics/EVT.png
       
 #### note: this simple important code added/updated to source code ;) [13 feb 2022] , 
     
