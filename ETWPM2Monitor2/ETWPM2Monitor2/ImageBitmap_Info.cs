@@ -13,7 +13,7 @@ namespace ETWPM2Monitor2
     class ImageBitmap_Info
     {
       
-        public static void MakeImageBMP(string _Str_Bytes)
+        public static void MakeImageBMP(string _Str_Bytes,string filename)
         {
             try
             {
@@ -27,7 +27,8 @@ namespace ETWPM2Monitor2
                 }
 
                 Bitmap _image = InjectBytestoBitmap(10, _bytes.Length / 10, _bytes);
-                _image.Save("LastInjectedPayloadDetected.bmp");
+                //_image.Save("LastInjectedPayloadDetected.bmp");
+                _image.Save(filename);
 
             }
             catch (Exception)

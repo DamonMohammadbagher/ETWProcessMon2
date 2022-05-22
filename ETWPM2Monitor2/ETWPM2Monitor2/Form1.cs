@@ -415,89 +415,7 @@ namespace ETWPM2Monitor2
         public static List<ListViewItem> _Listview3_Items_NetworkConnection_Apis = new List<ListViewItem>();
         public static List<ListViewItem> _Listview7_Items_NetworkConnection_history = new List<ListViewItem>();
 
-        public void _ProcessesTab_TakeSnapshot()
-        {
-            try
-            {
-                string date = DateTime.Now.Year + "_" + DateTime.Now.Month + "_" + DateTime.Now.Day + "_" + DateTime.Now.Hour + "." + DateTime.Now.Minute + "." + DateTime.Now.Second;
-
-                using (Stream Snapshot = File.Open("LiveProcessSnapshot" + date + ".data", FileMode.Create))
-                {
-                    BinaryFormatter _data = new BinaryFormatter();
-                    _data.Serialize(Snapshot, treeView1.Nodes.Cast<TreeNode>().ToList());
-                }
-
-                using (Stream Snapshot = File.Open("ClosedProcessSnapshot" + date + ".data2", FileMode.Create))
-                {
-                    BinaryFormatter _data = new BinaryFormatter();
-                    _data.Serialize(Snapshot, treeView2.Nodes.Cast<TreeNode>().ToList());
-                }
-
-                MessageBox.Show("Snapshot Data saved into 2 files: \n\n" + "1. LiveProcessSnapshot" + date + ".data" + "\n\n2. " + "ClosedProcessSnapshot" + date + ".data2");
-            }
-            catch (Exception ee)
-            {
-
-                MessageBox.Show(ee.Message);
-            }
-        }
-        public void _Snapshot1Tab_LoadSnapshot()
-        {
-            try
-            {
-                treeView4.Nodes.Clear();
-                treeView5.Nodes.Clear();
-
-                OpenFileDialog ofd = new OpenFileDialog();
-
-                ofd.Filter = "data files (LiveProcessSnapshot*.data)|*.data";
-                ofd.FilterIndex = 0;
-                ofd.ShowDialog();
-                string targetfile = ofd.FileName;
-                treeView4.ImageList = imageList1;
-                treeView5.ImageList = imageList1;
-
-                using (Stream file = File.Open(targetfile, FileMode.Open))
-                {
-                    BinaryFormatter _data = new BinaryFormatter();
-                    object obj = _data.Deserialize(file);
-
-                    TreeNode[] _Nodes = (obj as IEnumerable<TreeNode>).ToArray();
-                    treeView4.Nodes.AddRange(_Nodes);
-                }
-
-
-                OpenFileDialog ofd2 = new OpenFileDialog();
-
-                ofd2.Filter = "data2 files (ClosedProcessSnapshot*.data2)|*.data2";
-                ofd2.FilterIndex = 0;
-                ofd2.ShowDialog();
-                string targetfile2 = ofd2.FileName;
-
-                using (Stream file = File.Open(targetfile2, FileMode.Open))
-                {
-                    BinaryFormatter _data = new BinaryFormatter();
-                    object obj = _data.Deserialize(file);
-
-                    TreeNode[] _Nodes = (obj as IEnumerable<TreeNode>).ToArray();
-                    treeView5.Nodes.AddRange(_Nodes);
-                }
-
-                Thread.Sleep(100);
-                tabControl3.SelectedIndex = 2;
-                Thread.Sleep(10);
-                label1.Text = targetfile;
-                label2.Text = targetfile2;
-
-                MessageBox.Show("Data files loaded in Snapshot1 Tab \n" + targetfile + "\n" + targetfile2);
-
-            }
-            catch (Exception ee)
-            {
-
-                MessageBox.Show(ee.Message);
-            }
-        }
+ 
         public async Task _Add_SystemDeveloperLogs(string logmessage)
         {
             try
@@ -506,8 +424,7 @@ namespace ETWPM2Monitor2
                 {
                     System_DeveloperLogsList.Add(DateTime.Now.Hour + ":" + DateTime.Now.Minute + ":" + DateTime.Now.Second + "." + DateTime.Now.Millisecond + " " + logmessage);
                     listBox5.BeginInvoke((MethodInvoker)delegate
-                    {
-                        
+                    {                        
                         listBox5.Items.Add(DateTime.Now.Hour + ":" + DateTime.Now.Minute + ":" + DateTime.Now.Second + "." + DateTime.Now.Millisecond + " " + logmessage);
                     });
                 });
@@ -2306,6 +2223,23 @@ namespace ETWPM2Monitor2
                 , new int[] { 5, 110, 110, 110, 120 }, imageList1);
 
               
+                /// Set the view to show details.
+                listView9.View = View.Details;
+                /// Allow the user to edit item text.
+                listView9.LabelEdit = false;
+                /// Allow the user to rearrange columns.
+                listView9.AllowColumnReorder = true;
+                /// Display check boxes.
+                listView9.CheckBoxes = false;
+                /// Select the item and subitems when selection is made.
+                listView9.FullRowSelect = true;
+                /// Display grid lines.
+                listView9.GridLines = false;
+                listView9.Columns.Add(" ", 5, HorizontalAlignment.Left);
+                listView9.Columns.Add("Target Process", 110, HorizontalAlignment.Left);
+                listView9.Columns.Add("Injector Process", 110, HorizontalAlignment.Left);
+                listView9.Columns.Add("MZ Header Detection", 110, HorizontalAlignment.Left);
+                listView9.Columns.Add("Time of Detection", 120, HorizontalAlignment.Left);
 
                 _Set_iListview_Properties(listView6, new string[] { " ", "Time", "Level", "ETWPM2Monitor2 EventID", "Status", "Process Information" }
                 , new int[] { 20, 130, 80, 150, 100,600 }, imageList1);
@@ -2460,7 +2394,6 @@ namespace ETWPM2Monitor2
                 }
             });
         }
-
         public void _CheckTruePositiveList_Again()
         {
            
@@ -6679,7 +6612,7 @@ namespace ETWPM2Monitor2
 
         private void AboutToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(null, "ETWPM2Monitor2 v2.1 [test version 2.1.42.392]\nCode Published by Damon Mohammadbagher , Jul 2021", "About ETWPM2Monitor2 v2.1", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show(null, "ETWPM2Monitor2 v2.1 [test version 2.1.43.418]\nCode Published by Damon Mohammadbagher , Jul 2021", "About ETWPM2Monitor2 v2.1", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
         }
 
@@ -7282,7 +7215,7 @@ namespace ETWPM2Monitor2
                             {
                                 string payload = listView5.SelectedItems[0].Name.ToString().Split('\n')[28].Split(':')[1].Substring(1).Split('\n')[0];
 
-                                ImageBitmap_Info.MakeImageBMP(payload);
+                                ImageBitmap_Info.MakeImageBMP(payload, "LastInjectedPayloadDetected.bmp");
                                 ImageBitmap_Info.Lines(payload);
                                 Task.Delay(10);
 
@@ -7310,6 +7243,54 @@ namespace ETWPM2Monitor2
             }
         }
 
+        public async void _Run_Async_Changedindexof_listview_9()
+        {
+            await _Run_Async_Changedindexof_listview_9_method();
+        }
+
+        public async Task _Run_Async_Changedindexof_listview_9_method()
+        {
+            try
+            {
+                await Task.Run(() =>
+                {
+                    Invoke(new Action(() =>
+                    {
+                        richTextBox12.Text = listView9.SelectedItems[0].Name.ToString();
+                        try
+                        {
+                             
+                            if (!listView9.SelectedItems[0].Name.ToString().Contains("Read Target_Process Memory via API::ReadProcessMemory [ERROR] =>"))
+                            {
+                                string payload = listView9.SelectedItems[0].Name.ToString().Split('\n')[28].Split(':')[1].Substring(1).Split('\n')[0];
+
+                                ImageBitmap_Info.MakeImageBMP(payload, "Snapshot_LastInjectedPayloadDetected.bmp");
+                               
+                                Task.Delay(10);
+
+                                pictureBox3.ImageLocation = "Snapshot_LastInjectedPayloadDetected.bmp";
+                                
+                            }
+                            else
+                            {
+                                pictureBox3.ImageLocation = "";
+                                 
+                            }
+                        }
+                        catch (Exception)
+                        {
+
+
+                        }
+                    }));
+                });
+            }
+            catch (Exception)
+            {
+
+
+            }
+        }
         private void ToolStripStatusLabel7_Click(object sender, EventArgs e)
         {
             tabControl1.SelectedIndex = 3;
@@ -7473,13 +7454,49 @@ namespace ETWPM2Monitor2
 
         private void TakeSnapShotToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            _ProcessesTab_TakeSnapshot();
+            try
+            {                
+                Snapshot_Info._ProcessesTab_TakeSnapshot(treeView1, treeView2);
+            }
+            catch (Exception)
+            {
+
+               
+            }
+        
         }
 
         private void LoadSnapshotToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            _Snapshot1Tab_LoadSnapshot();
+            try
+            {
+                
+                object[] Return_obj = Snapshot_Info._ProcessesTab_Snapshot1Tab_LoadSnapshot();
+                treeView4.Nodes.Clear();
+                treeView5.Nodes.Clear();
+                treeView4.ImageList = imageList1;
+                treeView5.ImageList = imageList1;
 
+                if ((TreeNode[])Return_obj[0] != null)
+                    treeView4.Nodes.AddRange((TreeNode[])Return_obj[0]);
+                if ((TreeNode[])Return_obj[1] != null)
+                    treeView5.Nodes.AddRange((TreeNode[])Return_obj[1]);
+
+                Thread.Sleep(100);
+                tabControl3.SelectedIndex = 2;
+                Thread.Sleep(10);
+                label1.Text = (string)Return_obj[2];
+                label2.Text = (string)Return_obj[3];
+
+                MessageBox.Show("Data files loaded in Snapshot1 Tab \n" + (string)Return_obj[2] + "\n" + (string)Return_obj[3]);
+
+            }
+            catch (Exception)
+            {
+
+              
+            }
+            
         }
 
         private void TreeView4_AfterSelect(object sender, TreeViewEventArgs e)
@@ -7515,17 +7532,168 @@ namespace ETWPM2Monitor2
 
         private void LoadSnapshotToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            _Snapshot1Tab_LoadSnapshot();
+            //_ProcessesTab_Snapshot1Tab_LoadSnapshot();
+            object[] Return_obj = Snapshot_Info._ProcessesTab_Snapshot1Tab_LoadSnapshot();
+            treeView4.Nodes.Clear();
+            treeView5.Nodes.Clear();
+            treeView4.ImageList = imageList1;
+            treeView5.ImageList = imageList1;
+
+            if ((TreeNode[])Return_obj[0] != null)
+                treeView4.Nodes.AddRange((TreeNode[])Return_obj[0]);
+            if ((TreeNode[])Return_obj[1] != null)
+                treeView5.Nodes.AddRange((TreeNode[])Return_obj[1]);
+
+            Thread.Sleep(100);
+            tabControl3.SelectedIndex = 2;
+            Thread.Sleep(10);
+            label1.Text = (string)Return_obj[2];
+            label2.Text = (string)Return_obj[3];
+
+            MessageBox.Show("Data files loaded in Snapshot1 Tab \n" + (string)Return_obj[2] + "\n" + (string)Return_obj[3]);
         }
 
         private void TakeSnapshotToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            _ProcessesTab_TakeSnapshot();
+            try
+            {
+                Snapshot_Info._ProcessesTab_TakeSnapshot(treeView1, treeView2);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+          
         }
-       
+
         private void LoadSnapshotToolStripMenuItem2_Click(object sender, EventArgs e)
         {
-            _Snapshot1Tab_LoadSnapshot();
+            try
+            {
+                object[] Return_obj = Snapshot_Info._ProcessesTab_Snapshot1Tab_LoadSnapshot();
+                treeView4.Nodes.Clear();
+                treeView5.Nodes.Clear();
+                treeView4.ImageList = imageList1;
+                treeView5.ImageList = imageList1;
+
+                if ((TreeNode[])Return_obj[0] != null)
+                    treeView4.Nodes.AddRange((TreeNode[])Return_obj[0]);
+                if ((TreeNode[])Return_obj[1] != null)
+                    treeView5.Nodes.AddRange((TreeNode[])Return_obj[1]);
+
+                Thread.Sleep(100);
+                tabControl3.SelectedIndex = 2;
+                Thread.Sleep(10);
+                label1.Text = (string)Return_obj[2];
+                label2.Text = (string)Return_obj[3];
+
+                MessageBox.Show("Data files loaded in Snapshot1 Tab \n" + (string)Return_obj[2] + "\n" + (string)Return_obj[3]);
+            }
+            catch (Exception)
+            {
+
+
+            }
+        }
+
+        private void TakeSnapshotToolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                //_ETWPM2InjectionTab_TakeSnapshot();
+                Snapshot_Info._ETWPM2InjectionTab_TakeSnapshot(listView5);
+            }
+            catch (Exception)
+            {
+               
+            }           
+        }
+
+        private void LoadSnapshotToolStripMenuItem3_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                object[] return_obj = Snapshot_Info._ETWPM2InjectionTab_SnapshotTab_LoadSnapshot();
+
+                listView9.Items.Clear();
+                ListViewItem[] ilist = ((ListViewItem[])return_obj[0]).ToList().ToArray();
+
+                listView9.Items.AddRange(ilist.ToList().ToArray());
+                Thread.Sleep(100);
+                tabControl1.SelectedIndex = 2;
+                Thread.Sleep(10);
+                toolStripStatusLabel8.Text = "";
+                toolStripStatusLabel8.Text = ((string)return_obj[1]);
+                MessageBox.Show("Data files loaded in Snapshot Tab \n" + ((string)return_obj[1]));
+            }
+            catch (Exception)
+            {
+
+
+            }
+        }
+
+        private void ListView9_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+
+                ThreadStart __T7_for_show_Details_info = new ThreadStart(delegate
+                {
+                    BeginInvoke(new __Obj_Updater_to_WinForm(_Run_Async_Changedindexof_listview_9));
+                });
+
+                Thread _T7_for_show_Details_info_ = new Thread(__T7_for_show_Details_info);
+                _T7_for_show_Details_info_.Start();
+            }
+            catch (Exception)
+            {
+
+
+            }
+        }
+
+        private void ToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Snapshot_Info._ETWPM2InjectionTab_TakeSnapshot(listView5);
+            }
+            catch (Exception)
+            {
+
+               
+            }
+         
+        }
+
+        private void ToolStripMenuItem3_Click(object sender, EventArgs e)
+        {
+            try
+            {          
+            // _ETWPM2InjectionTab_SnapshotTab_LoadSnapshot();
+
+            object[] return_obj = Snapshot_Info._ETWPM2InjectionTab_SnapshotTab_LoadSnapshot();
+
+            listView9.Items.Clear();
+            ListViewItem[] ilist = ((ListViewItem[])return_obj[0]).ToList().ToArray();
+
+            listView9.Items.AddRange(ilist.ToList().ToArray());
+
+            Thread.Sleep(100);
+            tabControl1.SelectedIndex = 2;
+            Thread.Sleep(10);
+            toolStripStatusLabel8.Text = "";
+            toolStripStatusLabel8.Text = ((string)return_obj[1]);
+            MessageBox.Show("Data files loaded in Snapshot Tab \n" + ((string)return_obj[1]));
+
+            }
+            catch (Exception)
+            {
+
+                
+            }
         }
 
         private void ToolStripStatusLabel9_Click(object sender, EventArgs e)
@@ -8415,17 +8583,20 @@ namespace ETWPM2Monitor2
             {
                 int found = -1;
                 int count = 0;
+
                 List<int> founditems = new List<int>();
                 Source_to_Search = Source_to_Search.ToUpper();
                 match = match.ToUpper();
+
                 do
                 {
+                    
                     found = Source_to_Search.IndexOf(match, StartIndex);
                     if (found > -1)
                     {
-                        StartIndex = StartIndex + 1;
+                        StartIndex = found + match.Length;
                         count++;
-                        founditems.Add(StartIndex);
+                        founditems.Add(found);
                     }
 
                 } while (found > -1 && StartIndex < Source_to_Search.Length);

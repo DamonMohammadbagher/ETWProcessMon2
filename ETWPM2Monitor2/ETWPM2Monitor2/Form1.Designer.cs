@@ -98,11 +98,23 @@
             this.button4 = new System.Windows.Forms.Button();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.splitContainer15 = new System.Windows.Forms.SplitContainer();
+            this.tabControl6 = new System.Windows.Forms.TabControl();
+            this.tabPage19 = new System.Windows.Forms.TabPage();
             this.splitContainer9 = new System.Windows.Forms.SplitContainer();
             this.listView5 = new System.Windows.Forms.ListView();
             this.groupBox14 = new System.Windows.Forms.GroupBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.tabControl7 = new System.Windows.Forms.TabControl();
+            this.tabPage20 = new System.Windows.Forms.TabPage();
+            this.splitContainer14 = new System.Windows.Forms.SplitContainer();
+            this.listView9 = new System.Windows.Forms.ListView();
+            this.richTextBox12 = new System.Windows.Forms.RichTextBox();
+            this.groupBox24 = new System.Windows.Forms.GroupBox();
+            this.pictureBox3 = new System.Windows.Forms.PictureBox();
+            this.statusStrip5 = new System.Windows.Forms.StatusStrip();
+            this.toolStripStatusLabel8 = new System.Windows.Forms.ToolStripStatusLabel();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.listView2 = new System.Windows.Forms.ListView();
@@ -222,6 +234,9 @@
             this.networkConnectionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showEventsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dontShowEventsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.eTWPM2InjectionEventsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.takeSnapshotToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.loadSnapshotToolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.eTWPM2RealtimeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showEventDetailsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showEventDetails2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -270,6 +285,9 @@
             this.toolStripStatusLabel6 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel7 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel9 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.contextMenuStrip7 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip5.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -324,6 +342,12 @@
             this.splitContainer13.SuspendLayout();
             this.groupBox21.SuspendLayout();
             this.tabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer15)).BeginInit();
+            this.splitContainer15.Panel1.SuspendLayout();
+            this.splitContainer15.Panel2.SuspendLayout();
+            this.splitContainer15.SuspendLayout();
+            this.tabControl6.SuspendLayout();
+            this.tabPage19.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer9)).BeginInit();
             this.splitContainer9.Panel1.SuspendLayout();
             this.splitContainer9.Panel2.SuspendLayout();
@@ -331,6 +355,15 @@
             this.groupBox14.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            this.tabControl7.SuspendLayout();
+            this.tabPage20.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer14)).BeginInit();
+            this.splitContainer14.Panel1.SuspendLayout();
+            this.splitContainer14.Panel2.SuspendLayout();
+            this.splitContainer14.SuspendLayout();
+            this.groupBox24.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
+            this.statusStrip5.SuspendLayout();
             this.tabPage4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -384,6 +417,7 @@
             this.menuStrip3.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.statusStrip2.SuspendLayout();
+            this.contextMenuStrip7.SuspendLayout();
             this.SuspendLayout();
             // 
             // richTextBox1
@@ -393,7 +427,7 @@
             this.richTextBox1.Location = new System.Drawing.Point(0, 0);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.ReadOnly = true;
-            this.richTextBox1.Size = new System.Drawing.Size(618, 355);
+            this.richTextBox1.Size = new System.Drawing.Size(609, 308);
             this.richTextBox1.TabIndex = 0;
             this.richTextBox1.Text = "";
             // 
@@ -407,7 +441,7 @@
             this.listView1.Location = new System.Drawing.Point(0, 0);
             this.listView1.MultiSelect = false;
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(550, 333);
+            this.listView1.Size = new System.Drawing.Size(550, 470);
             this.listView1.TabIndex = 1;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.SelectedIndexChanged += new System.EventHandler(this.ListView1_SelectedIndexChanged);
@@ -446,7 +480,7 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 24);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1099, 388);
+            this.tabControl1.Size = new System.Drawing.Size(1099, 525);
             this.tabControl1.TabIndex = 2;
             this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.TabControl1_SelectedIndexChanged);
             // 
@@ -458,7 +492,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 23);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1091, 361);
+            this.tabPage1.Size = new System.Drawing.Size(1091, 498);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "ETWPM2 (Realtime Events)";
             // 
@@ -477,7 +511,7 @@
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.richTextBox6);
-            this.splitContainer2.Size = new System.Drawing.Size(1085, 355);
+            this.splitContainer2.Size = new System.Drawing.Size(1085, 492);
             this.splitContainer2.SplitterDistance = 550;
             this.splitContainer2.TabIndex = 2;
             // 
@@ -486,7 +520,7 @@
             this.statusStrip3.BackColor = System.Drawing.Color.WhiteSmoke;
             this.statusStrip3.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel5});
-            this.statusStrip3.Location = new System.Drawing.Point(0, 333);
+            this.statusStrip3.Location = new System.Drawing.Point(0, 470);
             this.statusStrip3.Name = "statusStrip3";
             this.statusStrip3.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
             this.statusStrip3.Size = new System.Drawing.Size(550, 22);
@@ -508,7 +542,7 @@
             this.richTextBox6.Location = new System.Drawing.Point(0, 0);
             this.richTextBox6.Name = "richTextBox6";
             this.richTextBox6.ReadOnly = true;
-            this.richTextBox6.Size = new System.Drawing.Size(531, 355);
+            this.richTextBox6.Size = new System.Drawing.Size(531, 492);
             this.richTextBox6.TabIndex = 0;
             this.richTextBox6.Text = "";
             // 
@@ -520,7 +554,7 @@
             this.tabPage10.Location = new System.Drawing.Point(4, 23);
             this.tabPage10.Name = "tabPage10";
             this.tabPage10.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage10.Size = new System.Drawing.Size(1091, 361);
+            this.tabPage10.Size = new System.Drawing.Size(1091, 498);
             this.tabPage10.TabIndex = 5;
             this.tabPage10.Text = "Processes";
             // 
@@ -533,7 +567,7 @@
             this.tabControl3.Location = new System.Drawing.Point(3, 3);
             this.tabControl3.Name = "tabControl3";
             this.tabControl3.SelectedIndex = 0;
-            this.tabControl3.Size = new System.Drawing.Size(1085, 355);
+            this.tabControl3.Size = new System.Drawing.Size(1085, 492);
             this.tabControl3.TabIndex = 1;
             // 
             // tabPage11
@@ -543,7 +577,7 @@
             this.tabPage11.Location = new System.Drawing.Point(4, 22);
             this.tabPage11.Name = "tabPage11";
             this.tabPage11.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage11.Size = new System.Drawing.Size(1077, 329);
+            this.tabPage11.Size = new System.Drawing.Size(1077, 466);
             this.tabPage11.TabIndex = 0;
             this.tabPage11.Text = "Processes List";
             this.tabPage11.UseVisualStyleBackColor = true;
@@ -564,8 +598,8 @@
             // 
             this.splitContainer5.Panel2.Controls.Add(this.splitContainer7);
             this.splitContainer5.Panel2.Controls.Add(this.Search);
-            this.splitContainer5.Size = new System.Drawing.Size(1069, 321);
-            this.splitContainer5.SplitterDistance = 156;
+            this.splitContainer5.Size = new System.Drawing.Size(1069, 458);
+            this.splitContainer5.SplitterDistance = 222;
             this.splitContainer5.TabIndex = 0;
             // 
             // splitContainer6
@@ -582,7 +616,7 @@
             // splitContainer6.Panel2
             // 
             this.splitContainer6.Panel2.Controls.Add(this.groupBox13);
-            this.splitContainer6.Size = new System.Drawing.Size(1069, 156);
+            this.splitContainer6.Size = new System.Drawing.Size(1069, 222);
             this.splitContainer6.SplitterDistance = 528;
             this.splitContainer6.TabIndex = 2;
             // 
@@ -594,7 +628,7 @@
             this.groupBox12.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox12.Location = new System.Drawing.Point(0, 0);
             this.groupBox12.Name = "groupBox12";
-            this.groupBox12.Size = new System.Drawing.Size(528, 156);
+            this.groupBox12.Size = new System.Drawing.Size(528, 222);
             this.groupBox12.TabIndex = 1;
             this.groupBox12.TabStop = false;
             this.groupBox12.Text = "Live Processes";
@@ -606,7 +640,7 @@
             this.treeView1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.treeView1.Location = new System.Drawing.Point(3, 16);
             this.treeView1.Name = "treeView1";
-            this.treeView1.Size = new System.Drawing.Size(522, 137);
+            this.treeView1.Size = new System.Drawing.Size(522, 203);
             this.treeView1.TabIndex = 0;
             this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TreeView1_AfterSelect);
             // 
@@ -640,7 +674,7 @@
             this.groupBox13.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox13.Location = new System.Drawing.Point(0, 0);
             this.groupBox13.Name = "groupBox13";
-            this.groupBox13.Size = new System.Drawing.Size(537, 156);
+            this.groupBox13.Size = new System.Drawing.Size(537, 222);
             this.groupBox13.TabIndex = 2;
             this.groupBox13.TabStop = false;
             this.groupBox13.Text = "Terminated/Closed Processes";
@@ -651,7 +685,7 @@
             this.treeView2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.treeView2.Location = new System.Drawing.Point(3, 16);
             this.treeView2.Name = "treeView2";
-            this.treeView2.Size = new System.Drawing.Size(531, 137);
+            this.treeView2.Size = new System.Drawing.Size(531, 203);
             this.treeView2.TabIndex = 1;
             this.treeView2.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TreeView2_AfterSelect);
             // 
@@ -668,7 +702,7 @@
             // splitContainer7.Panel2
             // 
             this.splitContainer7.Panel2.Controls.Add(this.richTextBox9);
-            this.splitContainer7.Size = new System.Drawing.Size(1069, 113);
+            this.splitContainer7.Size = new System.Drawing.Size(1069, 184);
             this.splitContainer7.SplitterDistance = 355;
             this.splitContainer7.TabIndex = 6;
             // 
@@ -677,7 +711,7 @@
             this.treeView3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeView3.Location = new System.Drawing.Point(0, 0);
             this.treeView3.Name = "treeView3";
-            this.treeView3.Size = new System.Drawing.Size(355, 113);
+            this.treeView3.Size = new System.Drawing.Size(355, 184);
             this.treeView3.TabIndex = 5;
             this.treeView3.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TreeView3_AfterSelect);
             // 
@@ -688,7 +722,7 @@
             this.richTextBox9.Location = new System.Drawing.Point(0, 0);
             this.richTextBox9.Name = "richTextBox9";
             this.richTextBox9.ReadOnly = true;
-            this.richTextBox9.Size = new System.Drawing.Size(710, 113);
+            this.richTextBox9.Size = new System.Drawing.Size(710, 184);
             this.richTextBox9.TabIndex = 0;
             this.richTextBox9.Text = "";
             // 
@@ -741,7 +775,7 @@
             this.tabPage12.Location = new System.Drawing.Point(4, 22);
             this.tabPage12.Name = "tabPage12";
             this.tabPage12.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage12.Size = new System.Drawing.Size(1077, 329);
+            this.tabPage12.Size = new System.Drawing.Size(1077, 466);
             this.tabPage12.TabIndex = 1;
             this.tabPage12.Text = "Processes Info/Details";
             this.tabPage12.UseVisualStyleBackColor = true;
@@ -761,8 +795,8 @@
             // splitContainer8.Panel2
             // 
             this.splitContainer8.Panel2.Controls.Add(this.groupBox15);
-            this.splitContainer8.Size = new System.Drawing.Size(1069, 206);
-            this.splitContainer8.SplitterDistance = 102;
+            this.splitContainer8.Size = new System.Drawing.Size(1069, 343);
+            this.splitContainer8.SplitterDistance = 169;
             this.splitContainer8.TabIndex = 6;
             // 
             // richTextBox8
@@ -772,7 +806,7 @@
             this.richTextBox8.Location = new System.Drawing.Point(0, 0);
             this.richTextBox8.Name = "richTextBox8";
             this.richTextBox8.ReadOnly = true;
-            this.richTextBox8.Size = new System.Drawing.Size(1069, 102);
+            this.richTextBox8.Size = new System.Drawing.Size(1069, 169);
             this.richTextBox8.TabIndex = 0;
             this.richTextBox8.Text = "";
             // 
@@ -783,7 +817,7 @@
             this.groupBox15.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox15.Location = new System.Drawing.Point(0, 0);
             this.groupBox15.Name = "groupBox15";
-            this.groupBox15.Size = new System.Drawing.Size(1069, 100);
+            this.groupBox15.Size = new System.Drawing.Size(1069, 170);
             this.groupBox15.TabIndex = 4;
             this.groupBox15.TabStop = false;
             this.groupBox15.Text = "All Remote Thread Injection (Details) ";
@@ -796,7 +830,7 @@
             this.listBox3.HorizontalScrollbar = true;
             this.listBox3.Location = new System.Drawing.Point(3, 16);
             this.listBox3.Name = "listBox3";
-            this.listBox3.Size = new System.Drawing.Size(1063, 81);
+            this.listBox3.Size = new System.Drawing.Size(1063, 151);
             this.listBox3.TabIndex = 2;
             // 
             // groupBox16
@@ -830,7 +864,7 @@
             this.tabPage17.Location = new System.Drawing.Point(4, 22);
             this.tabPage17.Name = "tabPage17";
             this.tabPage17.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage17.Size = new System.Drawing.Size(1077, 329);
+            this.tabPage17.Size = new System.Drawing.Size(1077, 466);
             this.tabPage17.TabIndex = 2;
             this.tabPage17.Text = "Snapshot1";
             this.tabPage17.UseVisualStyleBackColor = true;
@@ -851,8 +885,8 @@
             // 
             this.splitContainer11.Panel2.Controls.Add(this.splitContainer13);
             this.splitContainer11.Panel2.Controls.Add(this.groupBox21);
-            this.splitContainer11.Size = new System.Drawing.Size(1069, 321);
-            this.splitContainer11.SplitterDistance = 156;
+            this.splitContainer11.Size = new System.Drawing.Size(1069, 458);
+            this.splitContainer11.SplitterDistance = 222;
             this.splitContainer11.TabIndex = 1;
             // 
             // splitContainer12
@@ -871,7 +905,7 @@
             // 
             this.splitContainer12.Panel2.Controls.Add(this.groupBox20);
             this.splitContainer12.Panel2.Controls.Add(this.groupBox23);
-            this.splitContainer12.Size = new System.Drawing.Size(1069, 156);
+            this.splitContainer12.Size = new System.Drawing.Size(1069, 222);
             this.splitContainer12.SplitterDistance = 528;
             this.splitContainer12.TabIndex = 2;
             // 
@@ -882,7 +916,7 @@
             this.groupBox19.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox19.Location = new System.Drawing.Point(0, 0);
             this.groupBox19.Name = "groupBox19";
-            this.groupBox19.Size = new System.Drawing.Size(528, 121);
+            this.groupBox19.Size = new System.Drawing.Size(528, 187);
             this.groupBox19.TabIndex = 1;
             this.groupBox19.TabStop = false;
             this.groupBox19.Text = "Live Processes (Snapshot *.data)";
@@ -893,7 +927,7 @@
             this.treeView4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeView4.Location = new System.Drawing.Point(3, 16);
             this.treeView4.Name = "treeView4";
-            this.treeView4.Size = new System.Drawing.Size(522, 102);
+            this.treeView4.Size = new System.Drawing.Size(522, 168);
             this.treeView4.TabIndex = 0;
             this.treeView4.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TreeView4_AfterSelect);
             // 
@@ -917,7 +951,7 @@
             this.groupBox22.Controls.Add(this.label1);
             this.groupBox22.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.groupBox22.ForeColor = System.Drawing.Color.White;
-            this.groupBox22.Location = new System.Drawing.Point(0, 121);
+            this.groupBox22.Location = new System.Drawing.Point(0, 187);
             this.groupBox22.Name = "groupBox22";
             this.groupBox22.Size = new System.Drawing.Size(528, 35);
             this.groupBox22.TabIndex = 3;
@@ -942,7 +976,7 @@
             this.groupBox20.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox20.Location = new System.Drawing.Point(0, 0);
             this.groupBox20.Name = "groupBox20";
-            this.groupBox20.Size = new System.Drawing.Size(537, 121);
+            this.groupBox20.Size = new System.Drawing.Size(537, 187);
             this.groupBox20.TabIndex = 2;
             this.groupBox20.TabStop = false;
             this.groupBox20.Text = "Terminated/Closed Processes (Snapshot *.data2)";
@@ -952,7 +986,7 @@
             this.treeView5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeView5.Location = new System.Drawing.Point(3, 16);
             this.treeView5.Name = "treeView5";
-            this.treeView5.Size = new System.Drawing.Size(531, 102);
+            this.treeView5.Size = new System.Drawing.Size(531, 168);
             this.treeView5.TabIndex = 1;
             this.treeView5.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TreeView5_AfterSelect);
             // 
@@ -962,7 +996,7 @@
             this.groupBox23.Controls.Add(this.label2);
             this.groupBox23.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.groupBox23.ForeColor = System.Drawing.Color.White;
-            this.groupBox23.Location = new System.Drawing.Point(0, 121);
+            this.groupBox23.Location = new System.Drawing.Point(0, 187);
             this.groupBox23.Name = "groupBox23";
             this.groupBox23.Size = new System.Drawing.Size(537, 35);
             this.groupBox23.TabIndex = 4;
@@ -993,7 +1027,7 @@
             // splitContainer13.Panel2
             // 
             this.splitContainer13.Panel2.Controls.Add(this.richTextBox11);
-            this.splitContainer13.Size = new System.Drawing.Size(1069, 113);
+            this.splitContainer13.Size = new System.Drawing.Size(1069, 184);
             this.splitContainer13.SplitterDistance = 355;
             this.splitContainer13.TabIndex = 6;
             // 
@@ -1002,7 +1036,7 @@
             this.treeView6.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeView6.Location = new System.Drawing.Point(0, 0);
             this.treeView6.Name = "treeView6";
-            this.treeView6.Size = new System.Drawing.Size(355, 113);
+            this.treeView6.Size = new System.Drawing.Size(355, 184);
             this.treeView6.TabIndex = 5;
             this.treeView6.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TreeView6_AfterSelect);
             // 
@@ -1013,7 +1047,7 @@
             this.richTextBox11.Location = new System.Drawing.Point(0, 0);
             this.richTextBox11.Name = "richTextBox11";
             this.richTextBox11.ReadOnly = true;
-            this.richTextBox11.Size = new System.Drawing.Size(710, 113);
+            this.richTextBox11.Size = new System.Drawing.Size(710, 184);
             this.richTextBox11.TabIndex = 0;
             this.richTextBox11.Text = "";
             // 
@@ -1061,14 +1095,55 @@
             // tabPage2
             // 
             this.tabPage2.BackColor = System.Drawing.Color.LightGray;
-            this.tabPage2.Controls.Add(this.splitContainer9);
+            this.tabPage2.Controls.Add(this.splitContainer15);
             this.tabPage2.ImageIndex = 16;
             this.tabPage2.Location = new System.Drawing.Point(4, 23);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(1091, 361);
+            this.tabPage2.Size = new System.Drawing.Size(1091, 498);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "ETWPM2 (Injection Events)";
+            // 
+            // splitContainer15
+            // 
+            this.splitContainer15.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer15.Location = new System.Drawing.Point(3, 3);
+            this.splitContainer15.Name = "splitContainer15";
+            this.splitContainer15.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer15.Panel1
+            // 
+            this.splitContainer15.Panel1.BackColor = System.Drawing.Color.LightGray;
+            this.splitContainer15.Panel1.Controls.Add(this.tabControl6);
+            // 
+            // splitContainer15.Panel2
+            // 
+            this.splitContainer15.Panel2.BackColor = System.Drawing.Color.DimGray;
+            this.splitContainer15.Panel2.Controls.Add(this.tabControl7);
+            this.splitContainer15.Size = new System.Drawing.Size(1085, 492);
+            this.splitContainer15.SplitterDistance = 340;
+            this.splitContainer15.TabIndex = 4;
+            // 
+            // tabControl6
+            // 
+            this.tabControl6.Controls.Add(this.tabPage19);
+            this.tabControl6.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl6.Location = new System.Drawing.Point(0, 0);
+            this.tabControl6.Name = "tabControl6";
+            this.tabControl6.SelectedIndex = 0;
+            this.tabControl6.Size = new System.Drawing.Size(1085, 340);
+            this.tabControl6.TabIndex = 3;
+            // 
+            // tabPage19
+            // 
+            this.tabPage19.BackColor = System.Drawing.Color.Silver;
+            this.tabPage19.Controls.Add(this.splitContainer9);
+            this.tabPage19.Location = new System.Drawing.Point(4, 22);
+            this.tabPage19.Name = "tabPage19";
+            this.tabPage19.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage19.Size = new System.Drawing.Size(1077, 314);
+            this.tabPage19.TabIndex = 0;
+            this.tabPage19.Text = "Injection Events";
             // 
             // splitContainer9
             // 
@@ -1085,17 +1160,18 @@
             // 
             this.splitContainer9.Panel2.Controls.Add(this.richTextBox1);
             this.splitContainer9.Panel2.Controls.Add(this.groupBox14);
-            this.splitContainer9.Size = new System.Drawing.Size(1085, 355);
-            this.splitContainer9.SplitterDistance = 334;
+            this.splitContainer9.Size = new System.Drawing.Size(1071, 308);
+            this.splitContainer9.SplitterDistance = 329;
             this.splitContainer9.TabIndex = 2;
             // 
             // listView5
             // 
+            this.listView5.ContextMenuStrip = this.contextMenuStrip7;
             this.listView5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listView5.HideSelection = false;
             this.listView5.Location = new System.Drawing.Point(0, 0);
             this.listView5.Name = "listView5";
-            this.listView5.Size = new System.Drawing.Size(334, 355);
+            this.listView5.Size = new System.Drawing.Size(329, 308);
             this.listView5.TabIndex = 1;
             this.listView5.UseCompatibleStateImageBehavior = false;
             this.listView5.SelectedIndexChanged += new System.EventHandler(this.ListView5_SelectedIndexChanged);
@@ -1106,9 +1182,9 @@
             this.groupBox14.Controls.Add(this.pictureBox1);
             this.groupBox14.Controls.Add(this.pictureBox2);
             this.groupBox14.Dock = System.Windows.Forms.DockStyle.Right;
-            this.groupBox14.Location = new System.Drawing.Point(618, 0);
+            this.groupBox14.Location = new System.Drawing.Point(609, 0);
             this.groupBox14.Name = "groupBox14";
-            this.groupBox14.Size = new System.Drawing.Size(129, 355);
+            this.groupBox14.Size = new System.Drawing.Size(129, 308);
             this.groupBox14.TabIndex = 2;
             this.groupBox14.TabStop = false;
             this.groupBox14.Text = "Payload Bytes";
@@ -1119,7 +1195,7 @@
             this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pictureBox1.Location = new System.Drawing.Point(3, 16);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(123, 170);
+            this.pictureBox1.Size = new System.Drawing.Size(123, 123);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 1;
             this.pictureBox1.TabStop = false;
@@ -1127,12 +1203,114 @@
             // pictureBox2
             // 
             this.pictureBox2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pictureBox2.Location = new System.Drawing.Point(3, 186);
+            this.pictureBox2.Location = new System.Drawing.Point(3, 139);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(123, 166);
             this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox2.TabIndex = 2;
             this.pictureBox2.TabStop = false;
+            // 
+            // tabControl7
+            // 
+            this.tabControl7.Controls.Add(this.tabPage20);
+            this.tabControl7.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl7.Location = new System.Drawing.Point(0, 0);
+            this.tabControl7.Name = "tabControl7";
+            this.tabControl7.SelectedIndex = 0;
+            this.tabControl7.Size = new System.Drawing.Size(1085, 148);
+            this.tabControl7.TabIndex = 0;
+            // 
+            // tabPage20
+            // 
+            this.tabPage20.BackColor = System.Drawing.Color.Transparent;
+            this.tabPage20.Controls.Add(this.splitContainer14);
+            this.tabPage20.Controls.Add(this.statusStrip5);
+            this.tabPage20.Location = new System.Drawing.Point(4, 22);
+            this.tabPage20.Name = "tabPage20";
+            this.tabPage20.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage20.Size = new System.Drawing.Size(1077, 122);
+            this.tabPage20.TabIndex = 0;
+            this.tabPage20.Text = "Snapshot";
+            // 
+            // splitContainer14
+            // 
+            this.splitContainer14.BackColor = System.Drawing.Color.DarkGray;
+            this.splitContainer14.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer14.Location = new System.Drawing.Point(3, 3);
+            this.splitContainer14.Name = "splitContainer14";
+            // 
+            // splitContainer14.Panel1
+            // 
+            this.splitContainer14.Panel1.Controls.Add(this.listView9);
+            // 
+            // splitContainer14.Panel2
+            // 
+            this.splitContainer14.Panel2.Controls.Add(this.richTextBox12);
+            this.splitContainer14.Panel2.Controls.Add(this.groupBox24);
+            this.splitContainer14.Size = new System.Drawing.Size(1071, 94);
+            this.splitContainer14.SplitterDistance = 329;
+            this.splitContainer14.TabIndex = 3;
+            // 
+            // listView9
+            // 
+            this.listView9.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listView9.HideSelection = false;
+            this.listView9.Location = new System.Drawing.Point(0, 0);
+            this.listView9.Name = "listView9";
+            this.listView9.Size = new System.Drawing.Size(329, 94);
+            this.listView9.TabIndex = 1;
+            this.listView9.UseCompatibleStateImageBehavior = false;
+            this.listView9.SelectedIndexChanged += new System.EventHandler(this.ListView9_SelectedIndexChanged);
+            // 
+            // richTextBox12
+            // 
+            this.richTextBox12.BackColor = System.Drawing.Color.LightCyan;
+            this.richTextBox12.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.richTextBox12.Location = new System.Drawing.Point(0, 0);
+            this.richTextBox12.Name = "richTextBox12";
+            this.richTextBox12.ReadOnly = true;
+            this.richTextBox12.Size = new System.Drawing.Size(609, 94);
+            this.richTextBox12.TabIndex = 0;
+            this.richTextBox12.Text = "";
+            // 
+            // groupBox24
+            // 
+            this.groupBox24.BackColor = System.Drawing.Color.LightCyan;
+            this.groupBox24.Controls.Add(this.pictureBox3);
+            this.groupBox24.Dock = System.Windows.Forms.DockStyle.Right;
+            this.groupBox24.Location = new System.Drawing.Point(609, 0);
+            this.groupBox24.Name = "groupBox24";
+            this.groupBox24.Size = new System.Drawing.Size(129, 94);
+            this.groupBox24.TabIndex = 2;
+            this.groupBox24.TabStop = false;
+            this.groupBox24.Text = "Payload Bytes";
+            // 
+            // pictureBox3
+            // 
+            this.pictureBox3.BackColor = System.Drawing.Color.LightCyan;
+            this.pictureBox3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pictureBox3.Location = new System.Drawing.Point(3, 16);
+            this.pictureBox3.Name = "pictureBox3";
+            this.pictureBox3.Size = new System.Drawing.Size(123, 75);
+            this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox3.TabIndex = 1;
+            this.pictureBox3.TabStop = false;
+            // 
+            // statusStrip5
+            // 
+            this.statusStrip5.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripStatusLabel8});
+            this.statusStrip5.Location = new System.Drawing.Point(3, 97);
+            this.statusStrip5.Name = "statusStrip5";
+            this.statusStrip5.Size = new System.Drawing.Size(1071, 22);
+            this.statusStrip5.TabIndex = 4;
+            this.statusStrip5.Text = "statusStrip5";
+            // 
+            // toolStripStatusLabel8
+            // 
+            this.toolStripStatusLabel8.Name = "toolStripStatusLabel8";
+            this.toolStripStatusLabel8.Size = new System.Drawing.Size(80, 17);
+            this.toolStripStatusLabel8.Text = "Snapshot File:";
             // 
             // tabPage4
             // 
@@ -1142,7 +1320,7 @@
             this.tabPage4.Location = new System.Drawing.Point(4, 23);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(1091, 361);
+            this.tabPage4.Size = new System.Drawing.Size(1091, 498);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Alarms by ETW";
             // 
@@ -1163,8 +1341,8 @@
             // 
             this.splitContainer1.Panel2.BackColor = System.Drawing.Color.DimGray;
             this.splitContainer1.Panel2.Controls.Add(this.tabControl2);
-            this.splitContainer1.Size = new System.Drawing.Size(1085, 355);
-            this.splitContainer1.SplitterDistance = 139;
+            this.splitContainer1.Size = new System.Drawing.Size(1085, 492);
+            this.splitContainer1.SplitterDistance = 192;
             this.splitContainer1.TabIndex = 1;
             // 
             // listView2
@@ -1176,7 +1354,7 @@
             this.listView2.Location = new System.Drawing.Point(0, 0);
             this.listView2.MultiSelect = false;
             this.listView2.Name = "listView2";
-            this.listView2.Size = new System.Drawing.Size(1085, 139);
+            this.listView2.Size = new System.Drawing.Size(1085, 192);
             this.listView2.TabIndex = 0;
             this.listView2.UseCompatibleStateImageBehavior = false;
             this.listView2.SelectedIndexChanged += new System.EventHandler(this.ListView2_SelectedIndexChanged);
@@ -1228,7 +1406,7 @@
             this.tabControl2.Margin = new System.Windows.Forms.Padding(1);
             this.tabControl2.Name = "tabControl2";
             this.tabControl2.SelectedIndex = 0;
-            this.tabControl2.Size = new System.Drawing.Size(1085, 212);
+            this.tabControl2.Size = new System.Drawing.Size(1085, 296);
             this.tabControl2.TabIndex = 0;
             // 
             // tabPage5
@@ -1238,7 +1416,7 @@
             this.tabPage5.Margin = new System.Windows.Forms.Padding(0);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage5.Size = new System.Drawing.Size(1077, 186);
+            this.tabPage5.Size = new System.Drawing.Size(1077, 270);
             this.tabPage5.TabIndex = 0;
             this.tabPage5.Text = "Memory Scanner Result";
             this.tabPage5.UseVisualStyleBackColor = true;
@@ -1257,7 +1435,7 @@
             // splitContainer3.Panel2
             // 
             this.splitContainer3.Panel2.Controls.Add(this.MemoryAddresses_tabControl3);
-            this.splitContainer3.Size = new System.Drawing.Size(1071, 180);
+            this.splitContainer3.Size = new System.Drawing.Size(1071, 264);
             this.splitContainer3.SplitterDistance = 461;
             this.splitContainer3.TabIndex = 1;
             // 
@@ -1269,7 +1447,7 @@
             this.richTextBox2.Location = new System.Drawing.Point(0, 0);
             this.richTextBox2.Name = "richTextBox2";
             this.richTextBox2.ReadOnly = true;
-            this.richTextBox2.Size = new System.Drawing.Size(461, 180);
+            this.richTextBox2.Size = new System.Drawing.Size(461, 264);
             this.richTextBox2.TabIndex = 0;
             this.richTextBox2.Text = "";
             // 
@@ -1280,7 +1458,7 @@
             this.MemoryAddresses_tabControl3.Location = new System.Drawing.Point(0, 0);
             this.MemoryAddresses_tabControl3.Name = "MemoryAddresses_tabControl3";
             this.MemoryAddresses_tabControl3.SelectedIndex = 0;
-            this.MemoryAddresses_tabControl3.Size = new System.Drawing.Size(606, 180);
+            this.MemoryAddresses_tabControl3.Size = new System.Drawing.Size(606, 264);
             this.MemoryAddresses_tabControl3.TabIndex = 0;
             // 
             // tabPage8
@@ -1289,7 +1467,7 @@
             this.tabPage8.Location = new System.Drawing.Point(4, 22);
             this.tabPage8.Name = "tabPage8";
             this.tabPage8.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage8.Size = new System.Drawing.Size(598, 154);
+            this.tabPage8.Size = new System.Drawing.Size(598, 238);
             this.tabPage8.TabIndex = 1;
             this.tabPage8.Text = "Detected Memory Addresses (Pe-sieve, Default dump all should be [on] for this)";
             this.tabPage8.UseVisualStyleBackColor = true;
@@ -1301,7 +1479,7 @@
             this.richTextBox7.Location = new System.Drawing.Point(3, 3);
             this.richTextBox7.Name = "richTextBox7";
             this.richTextBox7.ReadOnly = true;
-            this.richTextBox7.Size = new System.Drawing.Size(592, 148);
+            this.richTextBox7.Size = new System.Drawing.Size(592, 232);
             this.richTextBox7.TabIndex = 0;
             this.richTextBox7.Text = "";
             // 
@@ -1314,7 +1492,7 @@
             this.tabPage6.Margin = new System.Windows.Forms.Padding(0);
             this.tabPage6.Name = "tabPage6";
             this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage6.Size = new System.Drawing.Size(1077, 186);
+            this.tabPage6.Size = new System.Drawing.Size(1077, 270);
             this.tabPage6.TabIndex = 1;
             this.tabPage6.Text = "Details & Injection Information by ETW";
             this.tabPage6.UseVisualStyleBackColor = true;
@@ -1327,7 +1505,7 @@
             this.groupBox9.Controls.Add(this.richTextBox4);
             this.groupBox9.Location = new System.Drawing.Point(605, 6);
             this.groupBox9.Name = "groupBox9";
-            this.groupBox9.Size = new System.Drawing.Size(466, 93);
+            this.groupBox9.Size = new System.Drawing.Size(466, 177);
             this.groupBox9.TabIndex = 1;
             this.groupBox9.TabStop = false;
             this.groupBox9.Text = "Event Message";
@@ -1339,7 +1517,7 @@
             this.richTextBox4.Location = new System.Drawing.Point(3, 16);
             this.richTextBox4.Name = "richTextBox4";
             this.richTextBox4.ReadOnly = true;
-            this.richTextBox4.Size = new System.Drawing.Size(460, 74);
+            this.richTextBox4.Size = new System.Drawing.Size(460, 158);
             this.richTextBox4.TabIndex = 0;
             this.richTextBox4.Text = "";
             // 
@@ -1348,7 +1526,7 @@
             this.groupBox10.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox10.Controls.Add(this.richTextBox5);
-            this.groupBox10.Location = new System.Drawing.Point(605, 102);
+            this.groupBox10.Location = new System.Drawing.Point(605, 186);
             this.groupBox10.Name = "groupBox10";
             this.groupBox10.Size = new System.Drawing.Size(466, 81);
             this.groupBox10.TabIndex = 2;
@@ -1375,7 +1553,7 @@
             this.richTextBox3.Location = new System.Drawing.Point(3, 3);
             this.richTextBox3.Name = "richTextBox3";
             this.richTextBox3.ReadOnly = true;
-            this.richTextBox3.Size = new System.Drawing.Size(596, 180);
+            this.richTextBox3.Size = new System.Drawing.Size(596, 264);
             this.richTextBox3.TabIndex = 0;
             this.richTextBox3.Text = "";
             // 
@@ -1386,7 +1564,7 @@
             this.tabPage7.Margin = new System.Windows.Forms.Padding(0);
             this.tabPage7.Name = "tabPage7";
             this.tabPage7.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage7.Size = new System.Drawing.Size(1077, 186);
+            this.tabPage7.Size = new System.Drawing.Size(1077, 270);
             this.tabPage7.TabIndex = 2;
             this.tabPage7.Text = "Charts & Scan Logs";
             this.tabPage7.UseVisualStyleBackColor = true;
@@ -1406,7 +1584,7 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(3, 3);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1071, 180);
+            this.panel1.Size = new System.Drawing.Size(1071, 264);
             this.panel1.TabIndex = 3;
             // 
             // groupBox11
@@ -1418,7 +1596,7 @@
             this.groupBox11.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.groupBox11.Location = new System.Drawing.Point(583, 8);
             this.groupBox11.Name = "groupBox11";
-            this.groupBox11.Size = new System.Drawing.Size(485, 169);
+            this.groupBox11.Size = new System.Drawing.Size(485, 253);
             this.groupBox11.TabIndex = 5;
             this.groupBox11.TabStop = false;
             this.groupBox11.Text = "Memory Scanners Logs";
@@ -1431,7 +1609,7 @@
             this.listBox1.HorizontalScrollbar = true;
             this.listBox1.Location = new System.Drawing.Point(3, 16);
             this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(479, 150);
+            this.listBox1.Size = new System.Drawing.Size(479, 234);
             this.listBox1.TabIndex = 1;
             // 
             // groupBox7
@@ -1587,7 +1765,7 @@
             this.tabPage9.Margin = new System.Windows.Forms.Padding(0);
             this.tabPage9.Name = "tabPage9";
             this.tabPage9.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage9.Size = new System.Drawing.Size(1077, 186);
+            this.tabPage9.Size = new System.Drawing.Size(1077, 270);
             this.tabPage9.TabIndex = 3;
             this.tabPage9.Text = "Network Connections";
             this.tabPage9.UseVisualStyleBackColor = true;
@@ -1608,8 +1786,8 @@
             // 
             this.splitContainer4.Panel2.BackColor = System.Drawing.Color.DimGray;
             this.splitContainer4.Panel2.Controls.Add(this.groupBox17);
-            this.splitContainer4.Size = new System.Drawing.Size(1071, 180);
-            this.splitContainer4.SplitterDistance = 90;
+            this.splitContainer4.Size = new System.Drawing.Size(1071, 264);
+            this.splitContainer4.SplitterDistance = 132;
             this.splitContainer4.TabIndex = 1;
             // 
             // groupBox18
@@ -1621,7 +1799,7 @@
             this.groupBox18.Location = new System.Drawing.Point(0, 0);
             this.groupBox18.Margin = new System.Windows.Forms.Padding(1);
             this.groupBox18.Name = "groupBox18";
-            this.groupBox18.Size = new System.Drawing.Size(1071, 90);
+            this.groupBox18.Size = new System.Drawing.Size(1071, 132);
             this.groupBox18.TabIndex = 1;
             this.groupBox18.TabStop = false;
             this.groupBox18.Text = "Network Connections via ETW Events";
@@ -1637,7 +1815,7 @@
             this.listView4.Margin = new System.Windows.Forms.Padding(1);
             this.listView4.MultiSelect = false;
             this.listView4.Name = "listView4";
-            this.listView4.Size = new System.Drawing.Size(1065, 71);
+            this.listView4.Size = new System.Drawing.Size(1065, 113);
             this.listView4.Sorting = System.Windows.Forms.SortOrder.Ascending;
             this.listView4.TabIndex = 0;
             this.listView4.UseCompatibleStateImageBehavior = false;
@@ -1673,7 +1851,7 @@
             this.groupBox17.Location = new System.Drawing.Point(0, 0);
             this.groupBox17.Margin = new System.Windows.Forms.Padding(1);
             this.groupBox17.Name = "groupBox17";
-            this.groupBox17.Size = new System.Drawing.Size(1071, 86);
+            this.groupBox17.Size = new System.Drawing.Size(1071, 128);
             this.groupBox17.TabIndex = 1;
             this.groupBox17.TabStop = false;
             this.groupBox17.Text = "Network Connections via Native APIs";
@@ -1688,7 +1866,7 @@
             this.tabControl5.Margin = new System.Windows.Forms.Padding(1);
             this.tabControl5.Name = "tabControl5";
             this.tabControl5.SelectedIndex = 0;
-            this.tabControl5.Size = new System.Drawing.Size(1065, 67);
+            this.tabControl5.Size = new System.Drawing.Size(1065, 109);
             this.tabControl5.TabIndex = 1;
             // 
             // tabPage16
@@ -1697,7 +1875,7 @@
             this.tabPage16.Location = new System.Drawing.Point(4, 22);
             this.tabPage16.Name = "tabPage16";
             this.tabPage16.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage16.Size = new System.Drawing.Size(1057, 41);
+            this.tabPage16.Size = new System.Drawing.Size(1057, 83);
             this.tabPage16.TabIndex = 1;
             this.tabPage16.Text = "Network Connections History";
             this.tabPage16.UseVisualStyleBackColor = true;
@@ -1708,7 +1886,7 @@
             this.listView7.HideSelection = false;
             this.listView7.Location = new System.Drawing.Point(3, 3);
             this.listView7.Name = "listView7";
-            this.listView7.Size = new System.Drawing.Size(1051, 35);
+            this.listView7.Size = new System.Drawing.Size(1051, 77);
             this.listView7.TabIndex = 0;
             this.listView7.UseCompatibleStateImageBehavior = false;
             // 
@@ -1718,7 +1896,7 @@
             this.tabPage13.Location = new System.Drawing.Point(4, 22);
             this.tabPage13.Name = "tabPage13";
             this.tabPage13.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage13.Size = new System.Drawing.Size(1057, 41);
+            this.tabPage13.Size = new System.Drawing.Size(1057, 83);
             this.tabPage13.TabIndex = 0;
             this.tabPage13.Text = "Network Connections";
             this.tabPage13.UseVisualStyleBackColor = true;
@@ -1730,7 +1908,7 @@
             this.listView3.HideSelection = false;
             this.listView3.Location = new System.Drawing.Point(3, 3);
             this.listView3.Name = "listView3";
-            this.listView3.Size = new System.Drawing.Size(1051, 35);
+            this.listView3.Size = new System.Drawing.Size(1051, 77);
             this.listView3.TabIndex = 0;
             this.listView3.UseCompatibleStateImageBehavior = false;
             // 
@@ -1754,7 +1932,7 @@
             this.tabPage18.Controls.Add(this.statusStrip4);
             this.tabPage18.Location = new System.Drawing.Point(4, 22);
             this.tabPage18.Name = "tabPage18";
-            this.tabPage18.Size = new System.Drawing.Size(1057, 41);
+            this.tabPage18.Size = new System.Drawing.Size(1057, 83);
             this.tabPage18.TabIndex = 2;
             this.tabPage18.Text = "ETW Checking Errors (List of True Positive Only)";
             this.tabPage18.UseVisualStyleBackColor = true;
@@ -1765,7 +1943,7 @@
             this.listView8.HideSelection = false;
             this.listView8.Location = new System.Drawing.Point(0, 0);
             this.listView8.Name = "listView8";
-            this.listView8.Size = new System.Drawing.Size(1057, 19);
+            this.listView8.Size = new System.Drawing.Size(1057, 61);
             this.listView8.TabIndex = 0;
             this.listView8.UseCompatibleStateImageBehavior = false;
             // 
@@ -1773,7 +1951,7 @@
             // 
             this.statusStrip4.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel4});
-            this.statusStrip4.Location = new System.Drawing.Point(0, 19);
+            this.statusStrip4.Location = new System.Drawing.Point(0, 61);
             this.statusStrip4.Name = "statusStrip4";
             this.statusStrip4.Size = new System.Drawing.Size(1057, 22);
             this.statusStrip4.TabIndex = 1;
@@ -1796,7 +1974,7 @@
             this.tabPage3.Location = new System.Drawing.Point(4, 23);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(1091, 361);
+            this.tabPage3.Size = new System.Drawing.Size(1091, 498);
             this.tabPage3.TabIndex = 4;
             this.tabPage3.Text = "System/Detection Logs";
             // 
@@ -1809,7 +1987,7 @@
             this.tabControl4.Margin = new System.Windows.Forms.Padding(5);
             this.tabControl4.Name = "tabControl4";
             this.tabControl4.SelectedIndex = 0;
-            this.tabControl4.Size = new System.Drawing.Size(1085, 355);
+            this.tabControl4.Size = new System.Drawing.Size(1085, 492);
             this.tabControl4.TabIndex = 0;
             // 
             // tabPage15
@@ -1820,7 +1998,7 @@
             this.tabPage15.Location = new System.Drawing.Point(4, 22);
             this.tabPage15.Name = "tabPage15";
             this.tabPage15.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage15.Size = new System.Drawing.Size(1077, 329);
+            this.tabPage15.Size = new System.Drawing.Size(1077, 466);
             this.tabPage15.TabIndex = 2;
             this.tabPage15.Text = "ETWPM2Monitor2 Detection Event Logs";
             this.tabPage15.ToolTipText = "Event Log Name: ETWPM2Monitor2";
@@ -1840,8 +2018,8 @@
             // splitContainer10.Panel2
             // 
             this.splitContainer10.Panel2.Controls.Add(this.richTextBox10);
-            this.splitContainer10.Size = new System.Drawing.Size(1069, 321);
-            this.splitContainer10.SplitterDistance = 149;
+            this.splitContainer10.Size = new System.Drawing.Size(1069, 458);
+            this.splitContainer10.SplitterDistance = 212;
             this.splitContainer10.TabIndex = 1;
             // 
             // listView6
@@ -1851,7 +2029,7 @@
             this.listView6.Location = new System.Drawing.Point(0, 0);
             this.listView6.MultiSelect = false;
             this.listView6.Name = "listView6";
-            this.listView6.Size = new System.Drawing.Size(1069, 149);
+            this.listView6.Size = new System.Drawing.Size(1069, 212);
             this.listView6.TabIndex = 0;
             this.listView6.UseCompatibleStateImageBehavior = false;
             this.listView6.SelectedIndexChanged += new System.EventHandler(this.ListView6_SelectedIndexChanged);
@@ -1863,7 +2041,7 @@
             this.richTextBox10.Location = new System.Drawing.Point(0, 0);
             this.richTextBox10.Name = "richTextBox10";
             this.richTextBox10.ReadOnly = true;
-            this.richTextBox10.Size = new System.Drawing.Size(1069, 168);
+            this.richTextBox10.Size = new System.Drawing.Size(1069, 242);
             this.richTextBox10.TabIndex = 0;
             this.richTextBox10.Text = "";
             // 
@@ -1875,7 +2053,7 @@
             this.tabPage14.Location = new System.Drawing.Point(4, 22);
             this.tabPage14.Name = "tabPage14";
             this.tabPage14.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage14.Size = new System.Drawing.Size(1077, 329);
+            this.tabPage14.Size = new System.Drawing.Size(1077, 466);
             this.tabPage14.TabIndex = 1;
             this.tabPage14.Text = "System (Developer) Logs";
             // 
@@ -1888,7 +2066,7 @@
             this.listBox5.Location = new System.Drawing.Point(3, 3);
             this.listBox5.Name = "listBox5";
             this.listBox5.ScrollAlwaysVisible = true;
-            this.listBox5.Size = new System.Drawing.Size(1069, 321);
+            this.listBox5.Size = new System.Drawing.Size(1069, 458);
             this.listBox5.TabIndex = 0;
             // 
             // imageList1
@@ -2005,6 +2183,7 @@
             this.toolStripSeparator10,
             this.processesToolStripMenuItem,
             this.networkConnectionsToolStripMenuItem,
+            this.eTWPM2InjectionEventsToolStripMenuItem,
             this.eTWPM2RealtimeToolStripMenuItem,
             this.toolStripSeparator11,
             this.showNotifyPopupToolStripMenuItem,
@@ -2329,6 +2508,29 @@
             this.dontShowEventsToolStripMenuItem1.Size = new System.Drawing.Size(172, 22);
             this.dontShowEventsToolStripMenuItem1.Text = "Don\'t Show Events";
             this.dontShowEventsToolStripMenuItem1.Click += new System.EventHandler(this.DontShowEventsToolStripMenuItem1_Click);
+            // 
+            // eTWPM2InjectionEventsToolStripMenuItem
+            // 
+            this.eTWPM2InjectionEventsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.takeSnapshotToolStripMenuItem2,
+            this.loadSnapshotToolStripMenuItem3});
+            this.eTWPM2InjectionEventsToolStripMenuItem.Name = "eTWPM2InjectionEventsToolStripMenuItem";
+            this.eTWPM2InjectionEventsToolStripMenuItem.Size = new System.Drawing.Size(207, 22);
+            this.eTWPM2InjectionEventsToolStripMenuItem.Text = "ETWPM2 Injection events";
+            // 
+            // takeSnapshotToolStripMenuItem2
+            // 
+            this.takeSnapshotToolStripMenuItem2.Name = "takeSnapshotToolStripMenuItem2";
+            this.takeSnapshotToolStripMenuItem2.Size = new System.Drawing.Size(161, 22);
+            this.takeSnapshotToolStripMenuItem2.Text = "Take Snapshot...";
+            this.takeSnapshotToolStripMenuItem2.Click += new System.EventHandler(this.TakeSnapshotToolStripMenuItem2_Click);
+            // 
+            // loadSnapshotToolStripMenuItem3
+            // 
+            this.loadSnapshotToolStripMenuItem3.Name = "loadSnapshotToolStripMenuItem3";
+            this.loadSnapshotToolStripMenuItem3.Size = new System.Drawing.Size(161, 22);
+            this.loadSnapshotToolStripMenuItem3.Text = "Load Snapshot...";
+            this.loadSnapshotToolStripMenuItem3.Click += new System.EventHandler(this.LoadSnapshotToolStripMenuItem3_Click);
             // 
             // eTWPM2RealtimeToolStripMenuItem
             // 
@@ -2663,7 +2865,7 @@
             this.toolStripStatusLabel1,
             this.toolStripStatusLabel2,
             this.toolStripStatusLabel3});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 434);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 571);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(1099, 22);
             this.statusStrip1.TabIndex = 7;
@@ -2697,7 +2899,7 @@
             this.toolStripStatusLabel6,
             this.toolStripStatusLabel7,
             this.toolStripStatusLabel9});
-            this.statusStrip2.Location = new System.Drawing.Point(0, 412);
+            this.statusStrip2.Location = new System.Drawing.Point(0, 549);
             this.statusStrip2.Name = "statusStrip2";
             this.statusStrip2.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
             this.statusStrip2.Size = new System.Drawing.Size(1099, 22);
@@ -2736,11 +2938,33 @@
             this.toolStripStatusLabel9.Text = "| ETWPM2Monitor2 Detection Event Logs (0)";
             this.toolStripStatusLabel9.Click += new System.EventHandler(this.ToolStripStatusLabel9_Click);
             // 
+            // contextMenuStrip7
+            // 
+            this.contextMenuStrip7.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem1,
+            this.toolStripMenuItem3});
+            this.contextMenuStrip7.Name = "contextMenuStrip7";
+            this.contextMenuStrip7.Size = new System.Drawing.Size(162, 48);
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(161, 22);
+            this.toolStripMenuItem1.Text = "Take Snapshot...";
+            this.toolStripMenuItem1.Click += new System.EventHandler(this.ToolStripMenuItem1_Click);
+            // 
+            // toolStripMenuItem3
+            // 
+            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(161, 22);
+            this.toolStripMenuItem3.Text = "Load Snapshot...";
+            this.toolStripMenuItem3.Click += new System.EventHandler(this.ToolStripMenuItem3_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1099, 456);
+            this.ClientSize = new System.Drawing.Size(1099, 593);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.statusStrip2);
             this.Controls.Add(this.menuStrip3);
@@ -2811,6 +3035,12 @@
             this.groupBox21.ResumeLayout(false);
             this.groupBox21.PerformLayout();
             this.tabPage2.ResumeLayout(false);
+            this.splitContainer15.Panel1.ResumeLayout(false);
+            this.splitContainer15.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer15)).EndInit();
+            this.splitContainer15.ResumeLayout(false);
+            this.tabControl6.ResumeLayout(false);
+            this.tabPage19.ResumeLayout(false);
             this.splitContainer9.Panel1.ResumeLayout(false);
             this.splitContainer9.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer9)).EndInit();
@@ -2818,6 +3048,17 @@
             this.groupBox14.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            this.tabControl7.ResumeLayout(false);
+            this.tabPage20.ResumeLayout(false);
+            this.tabPage20.PerformLayout();
+            this.splitContainer14.Panel1.ResumeLayout(false);
+            this.splitContainer14.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer14)).EndInit();
+            this.splitContainer14.ResumeLayout(false);
+            this.groupBox24.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
+            this.statusStrip5.ResumeLayout(false);
+            this.statusStrip5.PerformLayout();
             this.tabPage4.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
@@ -2876,6 +3117,7 @@
             this.statusStrip1.PerformLayout();
             this.statusStrip2.ResumeLayout(false);
             this.statusStrip2.PerformLayout();
+            this.contextMenuStrip7.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -3113,6 +3355,24 @@
         private System.Windows.Forms.ListView listView8;
         private System.Windows.Forms.StatusStrip statusStrip4;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel4;
+        private System.Windows.Forms.TabControl tabControl6;
+        private System.Windows.Forms.TabPage tabPage19;
+        private System.Windows.Forms.SplitContainer splitContainer15;
+        private System.Windows.Forms.TabControl tabControl7;
+        private System.Windows.Forms.TabPage tabPage20;
+        private System.Windows.Forms.SplitContainer splitContainer14;
+        private System.Windows.Forms.ListView listView9;
+        public System.Windows.Forms.RichTextBox richTextBox12;
+        private System.Windows.Forms.GroupBox groupBox24;
+        public System.Windows.Forms.PictureBox pictureBox3;
+        private System.Windows.Forms.StatusStrip statusStrip5;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel8;
+        private System.Windows.Forms.ToolStripMenuItem eTWPM2InjectionEventsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem takeSnapshotToolStripMenuItem2;
+        private System.Windows.Forms.ToolStripMenuItem loadSnapshotToolStripMenuItem3;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip7;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem3;
     }
 }
 
