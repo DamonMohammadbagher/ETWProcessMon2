@@ -50,7 +50,7 @@ md5 info, "exe files are not safe here in github so make your own exe files with
 
     b913a0d66d-750478c5a8-1d557aad377d => ETWProcessMon2.exe    
     951aef1888-093fca9e67-d881615ed10b => ETWProcessMon2.exe (v2.1) 16,May,2022
-    34594f427f-708c32b01c-70dc48332e18 => ETWPM2Monitor2.exe (v2.1) [v2.1.41.375] 19,May,2022
+    ccd21f1d51-f67b583709-4e5488981039 => ETWPM2Monitor2.exe (v2.1) [v2.1.43.418] 22,May,2022
     
 
 Usage Steps
