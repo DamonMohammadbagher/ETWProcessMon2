@@ -154,19 +154,20 @@ This tool [ETWPM2Monitor version2] is for Monitor ETW Event-Logs [log name: ETWP
 ! Note: ETWPM2Monitor2 v2.1 is new version of code & you can use this code with ETWProcessMon2.1 (v2.1),
 ! this version ETWPM2Monitor2 v2.1 will work with ETWProcessMon2.1 and both are
 ! very fast for (Remote-Thread-Injection) Technique/Payload Detection via ETW Events)
-+ code performance now is good and "a lot bugs" fixed. bug for Alarms by ETW Tab fixed & New Injection Snapshot added to the source code.
-+ last source/exe update(43) v2.1.43.418 [May 22, 2022]...
++ code performance now is good and "a lot bugs" fixed.  EventID 5 for ETWPM2Monitor2 Event log added to the source code. ETWPM2 (Injection Events) Tab now Saved into Windows Event Logs (Log Name: ETWPM2Monitor2) with EventID 5.
++ last source/exe update(44) v2.1.44.425 [May 24, 2022]...
 ```
 Video: https://www.youtube.com/watch?v=DMtMTkAfFNo
 
 Note: "ETWPM2Monitor2 v2.1" code Published here => https://github.com/DamonMohammadbagher/ETWProcessMon2/tree/main/ETWPM2Monitor2
 
-Note: EventIDs 1,2,3,4,255, these events will save save by ETWPM2Monitor2.1 in Windows Eventlog Name "ETWPM2Monitor2":
+Note: EventIDs 1,2,3,4,5,255, these events will save save by ETWPM2Monitor2.1 in Windows Eventlog Name "ETWPM2Monitor2":
 
         [Information] Event ID 1 : Detected + Scanned but not found 
         [Warning]     Event ID 2 : Detected + Scanned & Found or Suspended or Terminated via ETW Injection Events
         [Informarion] Event ID 3 : Detection for Meterpreter Traffic only via ETW Tcp Events 
         [Warning]     Event ID 4 : Detection for Shell Activity via ETW New Process Events
+        [Informarion] Event ID 5 : ETWPM2 (Injection Events) Tab : TargetProcess, InjectorProcess, MZ header in bytes + Inejction Bytes   
 
 md5 info [ETWPM2Monitor2.exe], "exe files are not safe here in github so make your own exe files with C# source by yourself [i recommend]":
          
