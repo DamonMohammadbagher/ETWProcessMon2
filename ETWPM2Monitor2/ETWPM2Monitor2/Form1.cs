@@ -80,6 +80,7 @@ namespace ETWPM2Monitor2
         public delegate void __Additem(object itemsOfListview1_2_5_6);
         public delegate void __AddTextTorichtexhbox1(object str);
         public delegate void __core2(object str);
+        public delegate void __core5(object str,int id);
         public delegate void __Updatelistview1();
         public delegate void __Obj_Updater_to_WinForm();
         public delegate void __Obj_Updater_to_WinForm2(TreeView ResultTreeview, string obj1, TreeView obj2);
@@ -305,7 +306,7 @@ namespace ETWPM2Monitor2
         /// </summary>
         public static int hollowshunter_DumpSwitches = 0;
         public int _1, _2, _3, _4, _5, _6, _7, _8, time4t = 0;
-        public static string subitemX = "";
+        public string subitemX = "";
         public static string[] temp_str = null;
         public static string tmpitemListview2 = "";
 
@@ -1003,7 +1004,7 @@ namespace ETWPM2Monitor2
 
             }
         }
-
+        
         /// <summary>
         /// add items to listview2 Alarms by ETW like Scanned,Scannedfound,Suspended,Terminated etc
         /// </summary>
@@ -3467,6 +3468,7 @@ namespace ETWPM2Monitor2
                                         && scannedproc.ProcNameANDPath == _main.ProcessName_Path);
 
 
+
                                         _TableofProcess TempStruc = new _TableofProcess();
                                         TempStruc.TCPDetails2 = Process_Table[obj_index].TCPDetails2;
                                         TempStruc.TCPDetails = Process_Table[obj_index].TCPDetails;
@@ -3480,9 +3482,37 @@ namespace ETWPM2Monitor2
                                         TempStruc.IsShow_Alarm = true;
                                         TempStruc.Detection_Status = xResult.Action;
                                         TempStruc.Detection_EventTime = Process_Table[obj_index].Detection_EventTime;
-                                        TempStruc.InjectionType = xResult.InjectionType.ToString();
+                                       
                                         TempStruc.MemoryScanner01_Result = xResult.Scanner01_RESULT_Int32_outputstr;
                                         TempStruc.MemoryScanner02_Result = "Disabled";
+
+                                        string temp_InjectionType_Recheck = "";
+                                        try
+                                        {
+                                            /// bug fixed
+                                            string replacestr = xResult.Scanner01_RESULT_Int32_outputstr.Substring(Memory_info._FindAllIndex("replaced:", _finalresult_Scanned_01[0], 0)[0])
+                                            .Split(']')[0];
+
+                                            int count = Convert.ToInt32(replacestr.Split(':')[1]);
+                                            if (count > 0)
+                                            {
+                                                /// injection type
+                                                temp_InjectionType_Recheck = "Process-Hollowing";
+                                                TempStruc.InjectionType = "Process-Hollowing";
+                                            }
+                                            else
+                                            {
+                                                /// injection type
+                                                temp_InjectionType_Recheck = "Injection";
+                                                TempStruc.InjectionType = "Injection";
+                                            }
+
+                                        }
+                                        catch (Exception)
+                                        {
+
+
+                                        }
 
                                         _TableofProcess_NewProcess_evt xFindingInjectorInfo = NewProcess_Table.ToList<_TableofProcess_NewProcess_evt>().Find(x => x.PID == Process_Table[obj_index].Injector
                                         || x.ProcessName_Path == Process_Table[obj_index].Injector_Path);
@@ -3509,7 +3539,7 @@ namespace ETWPM2Monitor2
                                         xiList2.SubItems.Add(_main.Detection_EventTime.ToString());
                                         xiList2.SubItems.Add(_main.ProcessName + ":" + _main.PID.ToString());
 
-                                        xiList2.SubItems.Add(xResult.InjectionType.ToString());
+                                        xiList2.SubItems.Add(temp_InjectionType_Recheck);
 
                                         xiList2.SubItems.Add(_main.TCPDetails2.ToString());
                                         xiList2.SubItems.Add(xResult.Action);
@@ -3534,7 +3564,7 @@ namespace ETWPM2Monitor2
                                         if (xResult.Action != "Skipped" && xResult.Scanner01_RESULT_Int32_outputstr.ToString() != string.Empty)
                                         {
                                             listView2.Items.Add(xiList2);
-                                            _DetectedItemsByETWAlarms.Add(xiList2);
+                                            _DetectedItemsByETWAlarms.Add(xiList2);                                           
 
                                         }
 
@@ -3550,7 +3580,7 @@ namespace ETWPM2Monitor2
                                     }
                                 }
 
-                                // Detection_Info.Detection_Compare_to_WinEventLogSaved(_DetectedItemsByETWAlarms, _DetectedItemsByWindowEventLog);
+                               
                             }
                         }
                     }
@@ -3584,9 +3614,36 @@ namespace ETWPM2Monitor2
                                     TempStruc.IsShow_Alarm = true;
                                     TempStruc.Detection_Status = xResult.Action;
                                     TempStruc.Detection_EventTime = Process_Table[obj_index].Detection_EventTime;
-                                    TempStruc.InjectionType = xResult.InjectionType.ToString();
+                                     
                                     TempStruc.MemoryScanner01_Result = xResult.Scanner01_RESULT_Int32_outputstr;
                                     TempStruc.MemoryScanner02_Result = "Disabled";
+                                    string temp_InjectionType_Recheck = "";
+                                    try
+                                    {
+                                        /// bug fixed
+                                        string replacestr = xResult.Scanner01_RESULT_Int32_outputstr.Substring(Memory_info._FindAllIndex("replaced:", _finalresult_Scanned_01[0], 0)[0])
+                                        .Split(']')[0];
+
+                                        int count = Convert.ToInt32(replacestr.Split(':')[1]);
+                                        if (count > 0)
+                                        {
+                                            /// injection type
+                                            temp_InjectionType_Recheck = "Process-Hollowing";
+                                            TempStruc.InjectionType = "Process-Hollowing";
+                                        }
+                                        else
+                                        {
+                                            /// injection type
+                                            temp_InjectionType_Recheck = "Injection";
+                                            TempStruc.InjectionType = "Injection";
+                                        }
+
+                                    }
+                                    catch (Exception)
+                                    {
+
+
+                                    }
 
                                     _TableofProcess_NewProcess_evt xFindingInjectorInfo = NewProcess_Table.ToList<_TableofProcess_NewProcess_evt>().Find(x => x.PID == Process_Table[obj_index].Injector
                                     || x.ProcessName_Path == Process_Table[obj_index].Injector_Path);
@@ -3613,7 +3670,7 @@ namespace ETWPM2Monitor2
                                     xiList2.SubItems.Add(_item.Detection_EventTime.ToString());
                                     xiList2.SubItems.Add(_item.ProcessName + ":" + _item.PID.ToString());
 
-                                    xiList2.SubItems.Add(xResult.InjectionType.ToString());
+                                    xiList2.SubItems.Add(temp_InjectionType_Recheck);
 
                                     xiList2.SubItems.Add(_item.TCPDetails2.ToString());
                                     xiList2.SubItems.Add(xResult.Action);
@@ -3639,7 +3696,7 @@ namespace ETWPM2Monitor2
                                     {
                                         listView2.Items.Add(xiList2);
                                         _DetectedItemsByETWAlarms.Add(xiList2);
-
+                                       
                                     }
 
                                     tabPage4.Text = "Alarms by ETW " + "(" + listView2.Items.Count.ToString() + ")";
@@ -3655,11 +3712,7 @@ namespace ETWPM2Monitor2
                         }
                     }
 
-                    /// checking Windows Events Log ETWPM2Monitor2 and compare/find those records which has/had not Event Raised in (Windows Event Logs)
-                    /// bug was here....
-                    /// 
-                   // Detection_Info.Detection_Compare_to_WinEventLogSaved(_DetectedItemsByETWAlarms, _DetectedItemsByWindowEventLog);
-
+                  
                 }
                 catch (Exception)
                 {
@@ -5094,18 +5147,18 @@ namespace ETWPM2Monitor2
 
                     /// check processes before scan by memory scanner 
                     /// if process was scanned and Detected before, then ignore new scan.
-                    if (initScan)
+                    if (initScan && isPEScanonoff)
                     {
                         ThreadStart _CoreScanThread = new ThreadStart(delegate
                         {
-                            BeginInvoke(new __AsyncScanner01(Async_Run_Scanner0102_Run), _Table, PID, _des_address_port, ProcessName);
+                            BeginInvoke(new __AsyncScanner01(Async_Run_Scanner0102_Run), _Table, PID, _des_address_port, ProcessName);                           
                         });
 
                         Thread _T8__CoreScanThread = new Thread(_CoreScanThread);
                         _T8__CoreScanThread.Priority = ThreadPriority.Highest;
                         _T8__CoreScanThread.Start();
 
-                        // BeginInvoke(new __AsyncScanner01(Async_Run_Scanner0102_Run), _Table, PID, _des_address_port, ProcessName);
+                        
                     }
 
                 }
@@ -5377,7 +5430,34 @@ namespace ETWPM2Monitor2
                                             && scanned.ProcNameANDPath == item.ProcessName_Path
                                              && scanned.injectorPathPID == _InjectorPathPID))
                                             {
-                                                string injtype = "Injection";
+                                               
+
+                                                try
+                                                {
+                                                    /// bug fixed
+                                                    string replacestr = _finalresult_Scanned_01[0].Substring(Memory_info._FindAllIndex("replaced:", _finalresult_Scanned_01[0], 0)[0])
+                                                    .Split(']')[0];
+
+                                                    int count = Convert.ToInt32(replacestr.Split(':')[1]);
+                                                    if (count > 0)
+                                                    {
+                                                        /// injection type
+                                                         subitemX = "Process-Hollowing";
+                                                        _injtype = "Process-Hollowing";
+                                                    }
+                                                    else
+                                                    {
+                                                        /// injection type
+                                                         subitemX = "Injection";
+                                                        _injtype = "Injection";
+                                                    }
+
+                                                }
+                                                catch (Exception)
+                                                {
+
+
+                                                }
 
                                                 Scanned_PIds.Add(new _TableofProcess_Scanned_01
                                                 {
@@ -5388,7 +5468,7 @@ namespace ETWPM2Monitor2
                                                     injectorPathPID = _InjectorPathPID,
                                                     Scanner01_RESULT_Int32_outputstr = result2,
                                                     ScannerResult_IsDetected = _Isdetected,
-                                                    InjectionType = injtype,
+                                                    InjectionType = subitemX,
                                                     Action = Scanner_Action
 
                                                 });
@@ -5424,12 +5504,7 @@ namespace ETWPM2Monitor2
 
                             Thread.Sleep(100);
 
-                            //int _resultPEScanned = Scanned_PIds2.FindIndex(PEScan => PEScan.PID == Convert.ToInt32(item.PID.ToString()) && PEScan.ProcNameANDPath == item.ProcessName_Path);
-                            //if (_resultPEScanned != -1)
-                            //{
-
-                            //    //_StopLoopingScan_Exec_02 = true;
-                            //}
+                           
 
                             iList2.Name = item.ProcessName + ":" + item.PID + ">\n" + _finalresult_Scanned_01[1] + _finalresult_Scanned_02[1]
                                + "\n-------------------\nScanner Result/Status: " + _finalresult_Scanned_01[0];
@@ -5469,23 +5544,41 @@ namespace ETWPM2Monitor2
                                 subitemX = "Injection";
                                 iList2.ImageIndex = 1;
                             }
-                            else if (Convert.ToInt32(string.Join("", ("0" + _finalresult_Scanned_01[0]).ToCharArray().Where(char.IsDigit))) > 0)
+                            else
+                            if (Convert.ToInt32(string.Join("", ("0" + _finalresult_Scanned_01[0]).ToCharArray().Where(char.IsDigit))) > 0)
                             {
                                 iList2.ImageIndex = 2;
 
-                                if (!_finalresult_Scanned_01[0].ToLower().Contains("replaced:0")
-                                && !_finalresult_Scanned_01[0].ToLower().Contains("not scanned:0")
-                                && !finalresult_Scanned_01[0].ToLower().Contains("skipped"))
+                                try
                                 {
-                                    _injtype = "Process-Hollowing";
+                                    string replacestr = _finalresult_Scanned_01[0].Substring(Memory_info._FindAllIndex("replaced:", _finalresult_Scanned_01[0], 0)[0])
+                                    .Split(']')[0];
+
+                                    int count = Convert.ToInt32(replacestr.Split(':')[1]);
+                                    if (count > 0)
+                                    {
+                                        subitemX = "Process-Hollowing";
+                                        _injtype = "Process-Hollowing";
+
+                                    }
+                                    else
+                                    {
+                                        /// injection type
+                                        subitemX = "Injection";
+                                        _injtype = "Injection";
+                                    }
 
                                 }
+                                catch (Exception)
+                                {
 
-                            }                         
+
+                                }
+                            }
 
                             IsTargetProcessTerminatedbyETWPM2monitor = false;
                             string Detection_Status_Action = "";
-                            iList2.ImageIndex = 1;
+                            //iList2.ImageIndex = 1;
 
                             if (Convert.ToInt32(string.Join("", ("0" + _finalresult_Scanned_01[0]).ToCharArray().Where(char.IsDigit))) > 0)
                             {
@@ -5705,6 +5798,8 @@ namespace ETWPM2Monitor2
 
                             }
 
+
+                            
                             /// injection type
                             iList2.SubItems.Add(subitemX);
                             /// tcp send info
@@ -6612,7 +6707,7 @@ namespace ETWPM2Monitor2
 
         private void AboutToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(null, "ETWPM2Monitor2 v2.1 [test version 2.1.43.418]\nCode Published by Damon Mohammadbagher , Jul 2021", "About ETWPM2Monitor2 v2.1", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show(null, "ETWPM2Monitor2 v2.1 [test version 2.1.44.425]\nCode Published by Damon Mohammadbagher , Jul 2021", "About ETWPM2Monitor2 v2.1", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
         }
 
@@ -7696,6 +7791,27 @@ namespace ETWPM2Monitor2
             }
         }
 
+        private void ONToolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            offToolStripMenuItem2.Checked = false;
+            oNToolStripMenuItem2.Checked = true;
+            isPEScanonoff = true;
+            toolStripStatusLabel3.Text = "| pe-sieve is on";
+            toolStripStatusLabel3.ForeColor = Color.GhostWhite;
+        }
+
+        private void OffToolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            toolStripStatusLabel3.Text = "| pe-sieve is off";
+            toolStripStatusLabel3.ForeColor = Color.Red;
+            offToolStripMenuItem2.Checked = true;
+            oNToolStripMenuItem2.Checked = false;
+            //pesieve64exeonToolStripMenuItem.Text = "pe-sieve64.exe on";
+            isPEScanonoff = false;
+            if (isPEScanonoff == false)
+                MessageBox.Show("\"Alarms by ETW\" TAB is disable now, because Memory Scanner is OFF\n");
+        }
+
         private void ToolStripStatusLabel9_Click(object sender, EventArgs e)
         {
             tabControl1.SelectedIndex = 4;
@@ -7873,12 +7989,7 @@ namespace ETWPM2Monitor2
 
         private void Pesieve64exeOffToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            toolStripStatusLabel3.Text = "| pe-sieve is off";
-            pesieve64exeOffToolStripMenuItem.Text = "pe-sieve64.exe [off]";
-            pesieve64exeonToolStripMenuItem.Text = "pe-sieve64.exe on";
-            isPEScanonoff = false;
-            if (isHollowHunteronoff == false && isPEScanonoff == false)
-                MessageBox.Show("\"Alarms by ETW\" TAB is disable now, because all memory-scanners are OFF\n" + "you need to set \"ON\" at least one of them");
+          
 
         }
 
@@ -8195,7 +8306,11 @@ namespace ETWPM2Monitor2
                 iList5.SubItems.Add(evettime);
                 iList5.Name = Eventmessage;
                 listView5.Items.Add(iList5);
-                
+
+                Thread.Sleep(20);
+
+                BeginInvoke(new __core2(SaveETWLogs.AsyncRun__SaveNewETW_Alarms_to_WinEventLog2), iList5);
+
             }
             catch (Exception)
             {

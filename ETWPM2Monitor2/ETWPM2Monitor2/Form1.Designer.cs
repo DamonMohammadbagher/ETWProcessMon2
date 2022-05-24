@@ -103,6 +103,9 @@
             this.tabPage19 = new System.Windows.Forms.TabPage();
             this.splitContainer9 = new System.Windows.Forms.SplitContainer();
             this.listView5 = new System.Windows.Forms.ListView();
+            this.contextMenuStrip7 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox14 = new System.Windows.Forms.GroupBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
@@ -285,9 +288,8 @@
             this.toolStripStatusLabel6 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel7 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel9 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.contextMenuStrip7 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
+            this.oNToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.offToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip5.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -352,6 +354,7 @@
             this.splitContainer9.Panel1.SuspendLayout();
             this.splitContainer9.Panel2.SuspendLayout();
             this.splitContainer9.SuspendLayout();
+            this.contextMenuStrip7.SuspendLayout();
             this.groupBox14.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -417,7 +420,6 @@
             this.menuStrip3.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.statusStrip2.SuspendLayout();
-            this.contextMenuStrip7.SuspendLayout();
             this.SuspendLayout();
             // 
             // richTextBox1
@@ -1175,6 +1177,28 @@
             this.listView5.TabIndex = 1;
             this.listView5.UseCompatibleStateImageBehavior = false;
             this.listView5.SelectedIndexChanged += new System.EventHandler(this.ListView5_SelectedIndexChanged);
+            // 
+            // contextMenuStrip7
+            // 
+            this.contextMenuStrip7.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem1,
+            this.toolStripMenuItem3});
+            this.contextMenuStrip7.Name = "contextMenuStrip7";
+            this.contextMenuStrip7.Size = new System.Drawing.Size(162, 48);
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(161, 22);
+            this.toolStripMenuItem1.Text = "Take Snapshot...";
+            this.toolStripMenuItem1.Click += new System.EventHandler(this.ToolStripMenuItem1_Click);
+            // 
+            // toolStripMenuItem3
+            // 
+            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(161, 22);
+            this.toolStripMenuItem3.Text = "Load Snapshot...";
+            this.toolStripMenuItem3.Click += new System.EventHandler(this.ToolStripMenuItem3_Click);
             // 
             // groupBox14
             // 
@@ -2253,11 +2277,12 @@
             // 
             // pesieve64exeOffToolStripMenuItem
             // 
-            this.pesieve64exeOffToolStripMenuItem.Enabled = false;
+            this.pesieve64exeOffToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.oNToolStripMenuItem2,
+            this.offToolStripMenuItem2});
             this.pesieve64exeOffToolStripMenuItem.Name = "pesieve64exeOffToolStripMenuItem";
-            this.pesieve64exeOffToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
-            this.pesieve64exeOffToolStripMenuItem.Text = "Pe-sieve.exe off";
-            this.pesieve64exeOffToolStripMenuItem.Click += new System.EventHandler(this.Pesieve64exeOffToolStripMenuItem_Click);
+            this.pesieve64exeOffToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
+            this.pesieve64exeOffToolStripMenuItem.Text = "MemoryScanner on/off";
             // 
             // pesieve64exeonToolStripMenuItem
             // 
@@ -2270,7 +2295,7 @@
             this.dontDumpTheModifiedPEsButSaveTheReportoffToolStripMenuItem,
             this.dontDumpAnyFilesToolStripMenuItem1});
             this.pesieve64exeonToolStripMenuItem.Name = "pesieve64exeonToolStripMenuItem";
-            this.pesieve64exeonToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.pesieve64exeonToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.pesieve64exeonToolStripMenuItem.Text = "Pe-sieve.exe on";
             // 
             // scanOnlyModeDefaultToolStripMenuItem
@@ -2938,27 +2963,19 @@
             this.toolStripStatusLabel9.Text = "| ETWPM2Monitor2 Detection Event Logs (0)";
             this.toolStripStatusLabel9.Click += new System.EventHandler(this.ToolStripStatusLabel9_Click);
             // 
-            // contextMenuStrip7
+            // oNToolStripMenuItem2
             // 
-            this.contextMenuStrip7.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem1,
-            this.toolStripMenuItem3});
-            this.contextMenuStrip7.Name = "contextMenuStrip7";
-            this.contextMenuStrip7.Size = new System.Drawing.Size(162, 48);
+            this.oNToolStripMenuItem2.Name = "oNToolStripMenuItem2";
+            this.oNToolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
+            this.oNToolStripMenuItem2.Text = "On";
+            this.oNToolStripMenuItem2.Click += new System.EventHandler(this.ONToolStripMenuItem2_Click);
             // 
-            // toolStripMenuItem1
+            // offToolStripMenuItem2
             // 
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(161, 22);
-            this.toolStripMenuItem1.Text = "Take Snapshot...";
-            this.toolStripMenuItem1.Click += new System.EventHandler(this.ToolStripMenuItem1_Click);
-            // 
-            // toolStripMenuItem3
-            // 
-            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(161, 22);
-            this.toolStripMenuItem3.Text = "Load Snapshot...";
-            this.toolStripMenuItem3.Click += new System.EventHandler(this.ToolStripMenuItem3_Click);
+            this.offToolStripMenuItem2.Name = "offToolStripMenuItem2";
+            this.offToolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
+            this.offToolStripMenuItem2.Text = "Off";
+            this.offToolStripMenuItem2.Click += new System.EventHandler(this.OffToolStripMenuItem2_Click);
             // 
             // Form1
             // 
@@ -3045,6 +3062,7 @@
             this.splitContainer9.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer9)).EndInit();
             this.splitContainer9.ResumeLayout(false);
+            this.contextMenuStrip7.ResumeLayout(false);
             this.groupBox14.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
@@ -3117,7 +3135,6 @@
             this.statusStrip1.PerformLayout();
             this.statusStrip2.ResumeLayout(false);
             this.statusStrip2.PerformLayout();
-            this.contextMenuStrip7.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -3373,6 +3390,8 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip7;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem3;
+        private System.Windows.Forms.ToolStripMenuItem oNToolStripMenuItem2;
+        private System.Windows.Forms.ToolStripMenuItem offToolStripMenuItem2;
     }
 }
 

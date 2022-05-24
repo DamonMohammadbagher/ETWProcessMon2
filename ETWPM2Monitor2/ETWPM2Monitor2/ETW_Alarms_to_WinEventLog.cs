@@ -98,6 +98,10 @@ namespace ETWPM2Monitor2
             await _SaveNewETW_Alarms_to_WinEventLog(obj);
         }
 
+        public async void AsyncRun__SaveNewETW_Alarms_to_WinEventLog2(object obj)
+        {
+            await _SaveNewETW_Alarms_to_WinEventLog2(obj);
+        }
         /// <summary>
         ///  save all Alarms like "Terminated,Suspended,Scannedfound,Detected" by Memory scanners etc to windows eventlog "ETWPM2Monitor2". Event ID1 (Medium Level) , Event ID2 (High Level)
         /// </summary>
@@ -201,6 +205,38 @@ namespace ETWPM2Monitor2
                    // if (Form1.IsSystemDeveloperLogs_on) Form.ActiveForm.BeginInvoke(new Form1.__core2(MainForm1.AsyncRun__Add_SystemDeveloperLogs), (object)" ==> [_SaveNewETW_Alarms_to_WinEventLog] Method Call: error1 => " + ee.Message);
 
 
+                }
+            });
+        }
+        public async Task _SaveNewETW_Alarms_to_WinEventLog2(object AlarmObjects)
+        {
+            await Task.Run(() =>
+            {
+                try
+                {
+                    /// ETW Injection Events and Details Saved with EventID:5 [Information]
+                    /// 
+                    ETW2MON = new EventLog("ETWPM2Monitor2", ".", "ETWPM2Monitor2.1");
+                    ListViewItem __AlarmObject = (ListViewItem)AlarmObjects;
+
+                    StringBuilder st = new StringBuilder();
+
+                    ListViewItem xitem = __AlarmObject;
+
+                    st.AppendLine("[#] Time: " + xitem.SubItems[4].Text + ", Target Process: " + xitem.SubItems[1].Text
+                        + ", Injector Process: " + xitem.SubItems[2].Text + ", MZ Header Detection: " + xitem.SubItems[3].Text);
+                         
+                    st.AppendLine("ETW Event Message:");
+                    st.AppendLine(" ");
+                    st.AppendLine(xitem.Name);
+                    st.AppendLine(" ");
+                    Task.Delay(50);
+                    ETW2MON.WriteEntry(st.ToString(), EventLogEntryType.Information, 5);
+                    Task.Delay(50);                   
+                }
+                catch (Exception ee)
+                {
+                    
                 }
             });
         }
