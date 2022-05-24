@@ -44,7 +44,7 @@ Note: EventIDs 1,2,3,4,5,255, these events will save save by ETWPM2Monitor2.1 in
         [Warning]     Event ID 2 : Detected + Scanned & Found or Suspended or Terminated via ETW Injection Events
         [Informarion] Event ID 3 : Detection for Meterpreter Traffic only via ETW Tcp Events 
         [Warning]     Event ID 4 : Detection for Shell Activity via ETW New Process Events
-        [Informarion] Event ID 5 : ETWPM2 (Injection Events) Tab, which contains: TargetProcess, InjectorProcess, MZ header in bytes + Inejction Bytes   
+        [Informarion] Event ID 5 : ETWPM2 (Injection Events) Tab : TargetProcess, InjectorProcess, MZ header in bytes + Inejction Bytes   
 
 
 md5 info, "exe files are not safe here in github so make your own exe files with C# source by yourself [i recommend]":
