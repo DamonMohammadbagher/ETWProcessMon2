@@ -154,8 +154,8 @@ This tool [ETWPM2Monitor version2] is for Monitor ETW Event-Logs [log name: ETWP
 ! Note: ETWPM2Monitor2 v2.1 is new version of code & you can use this code with ETWProcessMon2.1 (v2.1),
 ! this version ETWPM2Monitor2 v2.1 will work with ETWProcessMon2.1 and both are
 ! very fast for (Remote-Thread-Injection) Technique/Payload Detection via ETW Events)
-+ code performance now is good and "a lot bugs" fixed.  EventID 5 for ETWPM2Monitor2 Event log added to the source code. ETWPM2 (Injection Events) Tab now Saved into Windows Event Logs (Log Name: ETWPM2Monitor2) with EventID 5.
-+ last source/exe update(44) v2.1.44.425 [May 24, 2022]...
++ code performance now is good and "a lot bugs" fixed. New Memory Scanner Added to source code, CobaltStrikeScan.exe, C# code made by Apr4h. 
++ last source/exe update(45) v2.1.45.437 [May 26, 2022]...
 ```
 Video: https://www.youtube.com/watch?v=DMtMTkAfFNo
 
