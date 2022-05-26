@@ -47,9 +47,13 @@ New Switch syntax (scanning target process to find CobaltStrike Beacons):
                 
     CobaltStrikeScan.exe -t TargetPID 
                     
-    example: CobaltStrikeScan.exe -t 1234 
-            
+    example: CobaltStrikeScan.exe -t 1234            
    
+ md5 info for Exe file which created by me (new switch -t added to this exe):
+            
+    a89536efe5-2adbfbaa1c-5a46aeb032e0 => CobaltStrikeScan.exe (v1.0) 26,May,2022   
+
+---------------------------------------------
 
 Note: EventIDs 1,2,3,4,5,255, these events will save save by ETWPM2Monitor2.1 in Windows Eventlog Name "ETWPM2Monitor2":
 
