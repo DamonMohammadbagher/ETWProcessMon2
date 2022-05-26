@@ -54,6 +54,7 @@ namespace ETWPM2Monitor2
         public static System.Timers.Timer t15 = new System.Timers.Timer(1000);
         public static System.Timers.Timer t16 = new System.Timers.Timer(10000);
         public static System.Timers.Timer t17 = new System.Timers.Timer(2700);
+        public static System.Timers.Timer t18 = new System.Timers.Timer(1500);
 
         public static TimeSpan tt = new TimeSpan();
         public static uint NTReadTmpRef = 0;
@@ -2047,8 +2048,6 @@ namespace ETWPM2Monitor2
                 /// very important  
                 Form.CheckForIllegalCrossThreadCalls = false;
 
-                
-
                 _ExcludeProcessList.AddRange(new string[4] { "msedge", "firefox", "chrome", "iexplorer" });
 
                 BeginInvoke(new __Obj_Updater_to_WinForm(RealtimeWatchProcess_run));
@@ -2086,14 +2085,10 @@ namespace ETWPM2Monitor2
                 }
 
                 listView1.SmallImageList = imageList1;
-
                 listView4.SmallImageList = imageList1;
-
                 treeView1.ImageList = imageList1;
                 treeView2.ImageList = imageList1;
-
                 tabControl5.SelectedIndex = 1;
-
 
                 try
                 {
@@ -2105,16 +2100,12 @@ namespace ETWPM2Monitor2
                 }
                 catch (Exception)
                 {
-
-
                 }
 
                 listView2.HeaderStyle = ColumnHeaderStyle.Nonclickable;
                 listView2.BorderStyle = BorderStyle.FixedSingle;
                 listView1.HeaderStyle = ColumnHeaderStyle.Nonclickable;
                 listView1.BorderStyle = BorderStyle.FixedSingle;
-
-
 
                 t.Elapsed += T_Elapsed;
                 t.Enabled = true;
@@ -2189,6 +2180,10 @@ namespace ETWPM2Monitor2
                 t17.Enabled = true;
                 t17.Start();
 
+                t18.Elapsed += T18_Elapsed;
+                t18.Enabled = false;
+                
+
                 /// Set the view to show details.
                 listView1.View = View.Details;
                 /// Allow the user to edit item text.
@@ -2207,22 +2202,16 @@ namespace ETWPM2Monitor2
                 listView1.Columns.Add("Process", 170, HorizontalAlignment.Left);
                 listView1.Columns.Add("Evt-Type", 160, HorizontalAlignment.Left);               
 
-
                 _Set_iListview_Properties(listView2, new string[] { " ", "LocalTime", "Process", "Injection-Type", "Tcp Sends"
-                ,"Status", "PE-Sieve Pe:Shell:Replaced", "HollowsHunter Pe:","Description", "EventMessage"  }
+                ,"Status", "PE-Sieve Pe:Shell:Replaced", "Extended Memory Scanners","Description", "EventMessage"  }
                 , new int[] { 20, 130, 140, 100, 120, 100, 250, 100, 250, 1000 }, imageList1);
-
                
-
                 _Set_iListview_Properties(listView4, new string[] { " ", "Time", "Process", "Status", "Source IP:Port"
                 ,"Destination IP:Port", "Delta Time (Days or Hours or Minutes)", "Event Count","Event TTL (D:H:Minutes)", "Event First Time"  }
-                , new int[] { 20, 124, 180, 64, 120, 120, 187, 77, 135, 130 }, imageList1);
-
-               
+                , new int[] { 20, 124, 180, 64, 120, 120, 187, 77, 135, 130 }, imageList1);               
 
                 _Set_iListview_Properties(listView5, new string[] { " ", "Target Process", "Injector Process", "MZ Header Detection", "Time of Detection" }
                 , new int[] { 5, 110, 110, 110, 120 }, imageList1);
-
               
                 /// Set the view to show details.
                 listView9.View = View.Details;
@@ -2245,13 +2234,9 @@ namespace ETWPM2Monitor2
                 _Set_iListview_Properties(listView6, new string[] { " ", "Time", "Level", "ETWPM2Monitor2 EventID", "Status", "Process Information" }
                 , new int[] { 20, 130, 80, 150, 100,600 }, imageList1);
 
-               
-
-
                 _Set_iListview_Properties(listView3, new string[] { " ", "Time", "Process Name", "PID", "State"
                 ,"Local IP", "Port", "Remote IP","Port", "Process Info (File Path)"  }
                 , new int[] { 1, 130, 100, 50, 100, 100, 45, 100, 45, 520 }, imageList1);
-
 
                 listView7.View = View.Details;
                 // Allow the user to edit item text.
@@ -2275,13 +2260,11 @@ namespace ETWPM2Monitor2
                 listView7.Columns.Add("Remote IP", 100, HorizontalAlignment.Left);
                 listView7.Columns.Add("Port", 45, HorizontalAlignment.Left);
                 listView7.Columns.Add("Process Info (File Path)", 520, HorizontalAlignment.Left);
-                listView7.Columns.Add("ETW Detection Code", 120, HorizontalAlignment.Left);
-           
+                listView7.Columns.Add("ETW Detection Code", 120, HorizontalAlignment.Left);           
 
                 _Set_iListview_Properties(listView8, new string[] { " ", "Time", "Process Name", "PID", "State"
                 ,"Local IP", "Port", "Remote IP","Port", "Process Info (File Path)","ETW Detection Code","Sysmon Detection Code"  }
                 , new int[] { 1, 130, 100, 50, 100, 100, 45, 100, 45, 520, 120, 120 }, imageList1);
-
 
                 /// event for add Process to Alarm-Tab by ETW & Scanning Target Process by Memory Scanners
                 /// event is ready ...
@@ -2311,7 +2294,6 @@ namespace ETWPM2Monitor2
                 /// event fo change colors for listview4
                 ChangeColorstoDefault += Form1_ChangeColorstoDefault;
 
-
                 groupBox1.Text = "New Processes events: " + Chart_NewProcess;
                 groupBox2.Text = "Injection events: " + chart_Inj;
                 groupBox3.Text = "TCP Send events: " + Chart_Tcp;
@@ -2322,11 +2304,44 @@ namespace ETWPM2Monitor2
                 groupBox8.Text = "All Real-time events: " + Chart_Counts;
 
                 removeRealtimeRecordsAfter1000RecordsToolStripMenuItem.Checked = true;
-
             }
             catch (EventLogReadingException err)
             {
 
+            }
+        }
+
+        private void T18_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            /// checking Result for Memory Scan by CobaltStrikeScan.exe
+            /// 
+            string Result = ExtendedMemoryScanners_Info.Task_RESULT_for_CobaltstrikeScanner;
+            string[] _Results = Result.Split('\n');
+            if(Result!="" && Result!= null)
+            {
+                string _Result2 = "";
+                try
+                {
+                    t18.Enabled = false;
+                    if (!Result.Contains("Didn't find"))
+                    {
+                       
+                        for (int i = 0; i < 11; i++)
+                        {
+                            _Result2 += _Results[i] + "\n";
+                        }
+                    }
+                    else { _Result2 = Result; }
+                    MessageBox.Show(_Result2, "Extended MemoryScanner Result:" , MessageBoxButtons.OK, MessageBoxIcon.Warning);                    
+                    listView2.SelectedItems[0].SubItems[7].Text = _Results[0] + " (Scanned by CobaltstrikeScan.exe)";
+                    t18.Stop();
+                }
+                catch (Exception)
+                {
+                    t18.Enabled = false;
+                    t18.Stop();
+                }
+              
             }
         }
 
@@ -3421,13 +3436,23 @@ namespace ETWPM2Monitor2
                     if (Chart_suspend != SuspendedProcess.Count) Chart_suspend = SuspendedProcess.Count;
 
                     Task.Delay(10);
+                    List<_TableofProcess> AllDettectionItems = new List<_TableofProcess>();
+                    Int32 AllDettectionItemsIndex = 0;
+
+                    try
+                    {
+                        AllDettectionItems = Process_Table.ToList<_TableofProcess>().FindAll(process => process.IsShow_Alarm == true
+                                               && !process.MemoryScanner01_Result.Contains("[not scanned:0:0:0]") && !process.MemoryScanner01_Result.Contains("Skipped:[not scanned:0:0:0]"));
+
+                        AllDettectionItemsIndex = Process_Table.ToList<_TableofProcess>().FindIndex(process => process.IsShow_Alarm == true
+                             && !process.MemoryScanner01_Result.Contains("Skipped:[not scanned:0:0:0]") && !process.MemoryScanner01_Result.Contains("[not scanned:0:0:0]"));
+
+                    }
+                    catch (Exception)
+                    {
 
 
-                    List<_TableofProcess> AllDettectionItems = Process_Table.ToList<_TableofProcess>().FindAll(process => process.IsShow_Alarm == true
-                         && !process.MemoryScanner01_Result.Contains("[not scanned:0:0:0]") && !process.MemoryScanner01_Result.Contains("Skipped:[not scanned:0:0:0]"));
-
-                    Int32 AllDettectionItemsIndex = Process_Table.ToList<_TableofProcess>().FindIndex(process => process.IsShow_Alarm == true
-                         && !process.MemoryScanner01_Result.Contains("Skipped:[not scanned:0:0:0]") && !process.MemoryScanner01_Result.Contains("[not scanned:0:0:0]"));
+                    }
 
                     Task.Delay(10);
 
@@ -3482,7 +3507,7 @@ namespace ETWPM2Monitor2
                                         TempStruc.IsShow_Alarm = true;
                                         TempStruc.Detection_Status = xResult.Action;
                                         TempStruc.Detection_EventTime = Process_Table[obj_index].Detection_EventTime;
-                                       
+
                                         TempStruc.MemoryScanner01_Result = xResult.Scanner01_RESULT_Int32_outputstr;
                                         TempStruc.MemoryScanner02_Result = "Disabled";
 
@@ -3564,7 +3589,7 @@ namespace ETWPM2Monitor2
                                         if (xResult.Action != "Skipped" && xResult.Scanner01_RESULT_Int32_outputstr.ToString() != string.Empty)
                                         {
                                             listView2.Items.Add(xiList2);
-                                            _DetectedItemsByETWAlarms.Add(xiList2);                                           
+                                            _DetectedItemsByETWAlarms.Add(xiList2);
 
                                         }
 
@@ -3580,7 +3605,7 @@ namespace ETWPM2Monitor2
                                     }
                                 }
 
-                               
+
                             }
                         }
                     }
@@ -3614,7 +3639,7 @@ namespace ETWPM2Monitor2
                                     TempStruc.IsShow_Alarm = true;
                                     TempStruc.Detection_Status = xResult.Action;
                                     TempStruc.Detection_EventTime = Process_Table[obj_index].Detection_EventTime;
-                                     
+
                                     TempStruc.MemoryScanner01_Result = xResult.Scanner01_RESULT_Int32_outputstr;
                                     TempStruc.MemoryScanner02_Result = "Disabled";
                                     string temp_InjectionType_Recheck = "";
@@ -3696,7 +3721,7 @@ namespace ETWPM2Monitor2
                                     {
                                         listView2.Items.Add(xiList2);
                                         _DetectedItemsByETWAlarms.Add(xiList2);
-                                       
+
                                     }
 
                                     tabPage4.Text = "Alarms by ETW " + "(" + listView2.Items.Count.ToString() + ")";
@@ -3712,7 +3737,7 @@ namespace ETWPM2Monitor2
                         }
                     }
 
-                  
+
                 }
                 catch (Exception)
                 {
@@ -6585,7 +6610,7 @@ namespace ETWPM2Monitor2
                                                     + "Status: " + listviewitems_wasselected_ihope.SubItems[5].Text + " (by hollowshunter)" + "\n"
                                                     + "__________________________________________________________\n"
                                                        + "MemoryScanner PE-sieve Result: " + __result01 + "\n\n"
-                                                       + "MemoryScanner HollowsHunter Result: " + __result02 + "\n\n"
+                                                       + "Extended MemoryScanner Result: " + __result02 + "\n\n"
                                                           + "Description: " + listviewitems_wasselected_ihope.SubItems[8].Text + "\n"
                                                     + "__________________________________________________________\n"
                                                          + "ETW Event Message: " + listviewitems_wasselected_ihope.SubItems[9].Text + "\n"
@@ -6604,7 +6629,7 @@ namespace ETWPM2Monitor2
                                                     + "Status: " + listviewitems_wasselected_ihope.SubItems[5].Text + " (by hollowshunter)" + "\n"
                                                     + "__________________________________________________________\n"
                                                         + "MemoryScanner PE-sieve Result: " + __result01 + "\n\n"
-                                                       + "MemoryScanner HollowsHunter Result: " + __result02 + "\n\n"
+                                                       + "Extended MemoryScanner Result: " + __result02 + "\n\n"
                                                           + "Description: " + listviewitems_wasselected_ihope.SubItems[8].Text + "\n"
                                                     + "__________________________________________________________\n"
                                                           + "ETW Event Message: " + listviewitems_wasselected_ihope.SubItems[9].Text + "\n"
@@ -6652,7 +6677,7 @@ namespace ETWPM2Monitor2
                                                         + "Status: " + listviewitems_wasselected_ihope.SubItems[5].Text + "\n"
                                                         + "__________________________________________________________\n"
                                                            + "MemoryScanner PE-sieve Result: " + __result01 + "\n\n"
-                                                           + "MemoryScanner HollowsHunter Result: " + __result02 + "\n\n"
+                                                           + "Extended MemoryScanner Result: " + __result02 + "\n\n"
                                                               + "Description: " + listviewitems_wasselected_ihope.SubItems[8].Text + "\n"
                                                         + "__________________________________________________________\n"
                                                              + "ETW Event Message: " + listviewitems_wasselected_ihope.SubItems[9].Text + "\n"
@@ -6681,7 +6706,7 @@ namespace ETWPM2Monitor2
                                                         + "Status: " + listviewitems_wasselected_ihope.SubItems[5].Text + "\n"
                                                         + "__________________________________________________________\n"
                                                             + "MemoryScanner PE-sieve Result: " + __result01 + "\n\n"
-                                                           + "MemoryScanner HollowsHunter Result: " + __result02 + "\n\n"
+                                                           + "Extended MemoryScanner Result: " + __result02 + "\n\n"
                                                               + "Description: " + listviewitems_wasselected_ihope.SubItems[8].Text + "\n"
                                                         + "__________________________________________________________\n"
                                                               + "ETW Event Message: " + listviewitems_wasselected_ihope.SubItems[9].Text + "\n"
@@ -6707,7 +6732,7 @@ namespace ETWPM2Monitor2
 
         private void AboutToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(null, "ETWPM2Monitor2 v2.1 [test version 2.1.44.425]\nCode Published by Damon Mohammadbagher , Jul 2021", "About ETWPM2Monitor2 v2.1", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show(null, "ETWPM2Monitor2 v2.1 [test version 2.1.45.437]\nCode Published by Damon Mohammadbagher , Jul 2021", "About ETWPM2Monitor2 v2.1", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
         }
 
@@ -7810,6 +7835,26 @@ namespace ETWPM2Monitor2
             isPEScanonoff = false;
             if (isPEScanonoff == false)
                 MessageBox.Show("\"Alarms by ETW\" TAB is disable now, because Memory Scanner is OFF\n");
+        }
+
+        private void ScanProcessMemoryByCobaltStrikeScanBeaconDetectionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            /// scanning Target Process via Extended Memory Scanner CobaltStrikeScan.exe
+            /// -t target process added by me to the source for scan target proces (not all processes)
+            /// Github source code => https://github.com/Apr4h/CobaltStrikeScan
+            /// nice code .... 
+            try
+            {
+                string TargetPID = listView2.SelectedItems[0].SubItems[2].Text.Split(':')[1];
+                BeginInvoke(new __core2(ExtendedMemoryScanners_Info.RunAsyn_CobaltstrikeScan), (object)TargetPID);
+                t18.Enabled = true;
+                t18.Start();
+            }
+            catch (Exception)
+            {
+
+                
+            }
         }
 
         private void ToolStripStatusLabel9_Click(object sender, EventArgs e)

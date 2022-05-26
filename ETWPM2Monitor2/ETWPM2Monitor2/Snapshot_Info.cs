@@ -113,8 +113,7 @@ namespace ETWPM2Monitor2
         {
             try
             {
-                string date = DateTime.Now.Year + "_" + DateTime.Now.Month + "_" + DateTime.Now.Day + "_" + DateTime.Now.Hour + "."
-                    + DateTime.Now.Minute + "." + DateTime.Now.Second;
+                string date = DateTime.Now.ToString("yyyy_MM_dd_hh.mm.ss");
 
                 StringBuilder sb = new StringBuilder();
                 ListViewItem[] list = Target_listview.Items.Cast<ListViewItem>().ToArray();
@@ -148,8 +147,7 @@ namespace ETWPM2Monitor2
         {
             try
             {
-                string date = DateTime.Now.Year + "_" + DateTime.Now.Month + "_" + DateTime.Now.Day + "_" + DateTime.Now.Hour + "."
-                    + DateTime.Now.Minute + "." + DateTime.Now.Second;
+                string date = DateTime.Now.ToString("yyyy_MM_dd_hh.mm.ss");
 
                 using (Stream Snapshot = File.Open("LiveProcessSnapshot" + date + ".data", FileMode.Create))
                 {

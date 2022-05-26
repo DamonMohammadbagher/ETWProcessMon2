@@ -73,6 +73,7 @@
   <ItemGroup>
     <Compile Include="Detection_Info.cs" />
     <Compile Include="ETW_Alarms_to_WinEventLog.cs" />
+    <Compile Include="ExtendedMemoryScanners_Info.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>

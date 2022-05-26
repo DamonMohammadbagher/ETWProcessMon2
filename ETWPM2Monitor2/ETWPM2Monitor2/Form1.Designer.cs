@@ -126,6 +126,8 @@
             this.saveAllAlarmEventsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator18 = new System.Windows.Forms.ToolStripSeparator();
             this.checkProcessHollowingSizeChangingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.scanProcessMemoryByCobaltStrikeScanBeaconDetectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl2 = new System.Windows.Forms.TabControl();
             this.tabPage5 = new System.Windows.Forms.TabPage();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
@@ -205,6 +207,8 @@
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.scannersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pesieve64exeOffToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.oNToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.offToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.pesieve64exeonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.scanOnlyModeDefaultToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.scanSuspendToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -288,8 +292,6 @@
             this.toolStripStatusLabel6 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel7 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel9 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.oNToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.offToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip5.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -1389,35 +1391,49 @@
             this.alarmsEventsPropertiesToolStripMenuItem1,
             this.saveAllAlarmEventsToolStripMenuItem,
             this.toolStripSeparator18,
-            this.checkProcessHollowingSizeChangingToolStripMenuItem});
+            this.checkProcessHollowingSizeChangingToolStripMenuItem,
+            this.toolStripSeparator2,
+            this.scanProcessMemoryByCobaltStrikeScanBeaconDetectionToolStripMenuItem});
             this.contextMenuStrip6.Name = "contextMenuStrip6";
-            this.contextMenuStrip6.Size = new System.Drawing.Size(294, 76);
+            this.contextMenuStrip6.Size = new System.Drawing.Size(379, 104);
             // 
             // alarmsEventsPropertiesToolStripMenuItem1
             // 
             this.alarmsEventsPropertiesToolStripMenuItem1.Name = "alarmsEventsPropertiesToolStripMenuItem1";
-            this.alarmsEventsPropertiesToolStripMenuItem1.Size = new System.Drawing.Size(293, 22);
+            this.alarmsEventsPropertiesToolStripMenuItem1.Size = new System.Drawing.Size(378, 22);
             this.alarmsEventsPropertiesToolStripMenuItem1.Text = "Alarms Events Properties";
             this.alarmsEventsPropertiesToolStripMenuItem1.Click += new System.EventHandler(this.AlarmsEventsPropertiesToolStripMenuItem1_Click);
             // 
             // saveAllAlarmEventsToolStripMenuItem
             // 
             this.saveAllAlarmEventsToolStripMenuItem.Name = "saveAllAlarmEventsToolStripMenuItem";
-            this.saveAllAlarmEventsToolStripMenuItem.Size = new System.Drawing.Size(293, 22);
+            this.saveAllAlarmEventsToolStripMenuItem.Size = new System.Drawing.Size(378, 22);
             this.saveAllAlarmEventsToolStripMenuItem.Text = "Save All Alarm Events";
             this.saveAllAlarmEventsToolStripMenuItem.Click += new System.EventHandler(this.SaveAllAlarmEventsToolStripMenuItem_Click);
             // 
             // toolStripSeparator18
             // 
             this.toolStripSeparator18.Name = "toolStripSeparator18";
-            this.toolStripSeparator18.Size = new System.Drawing.Size(290, 6);
+            this.toolStripSeparator18.Size = new System.Drawing.Size(375, 6);
             // 
             // checkProcessHollowingSizeChangingToolStripMenuItem
             // 
             this.checkProcessHollowingSizeChangingToolStripMenuItem.Name = "checkProcessHollowingSizeChangingToolStripMenuItem";
-            this.checkProcessHollowingSizeChangingToolStripMenuItem.Size = new System.Drawing.Size(293, 22);
+            this.checkProcessHollowingSizeChangingToolStripMenuItem.Size = new System.Drawing.Size(378, 22);
             this.checkProcessHollowingSizeChangingToolStripMenuItem.Text = "Check Process-Hollowing (Bytes Change)";
             this.checkProcessHollowingSizeChangingToolStripMenuItem.Click += new System.EventHandler(this.CheckProcessHollowingSizeChangingToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(375, 6);
+            // 
+            // scanProcessMemoryByCobaltStrikeScanBeaconDetectionToolStripMenuItem
+            // 
+            this.scanProcessMemoryByCobaltStrikeScanBeaconDetectionToolStripMenuItem.Name = "scanProcessMemoryByCobaltStrikeScanBeaconDetectionToolStripMenuItem";
+            this.scanProcessMemoryByCobaltStrikeScanBeaconDetectionToolStripMenuItem.Size = new System.Drawing.Size(378, 22);
+            this.scanProcessMemoryByCobaltStrikeScanBeaconDetectionToolStripMenuItem.Text = "Scan by CobaltStrikeScan (CobaltStrike Beacon Detection)";
+            this.scanProcessMemoryByCobaltStrikeScanBeaconDetectionToolStripMenuItem.Click += new System.EventHandler(this.ScanProcessMemoryByCobaltStrikeScanBeaconDetectionToolStripMenuItem_Click);
             // 
             // tabControl2
             // 
@@ -2284,6 +2300,20 @@
             this.pesieve64exeOffToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
             this.pesieve64exeOffToolStripMenuItem.Text = "MemoryScanner on/off";
             // 
+            // oNToolStripMenuItem2
+            // 
+            this.oNToolStripMenuItem2.Name = "oNToolStripMenuItem2";
+            this.oNToolStripMenuItem2.Size = new System.Drawing.Size(91, 22);
+            this.oNToolStripMenuItem2.Text = "On";
+            this.oNToolStripMenuItem2.Click += new System.EventHandler(this.ONToolStripMenuItem2_Click);
+            // 
+            // offToolStripMenuItem2
+            // 
+            this.offToolStripMenuItem2.Name = "offToolStripMenuItem2";
+            this.offToolStripMenuItem2.Size = new System.Drawing.Size(91, 22);
+            this.offToolStripMenuItem2.Text = "Off";
+            this.offToolStripMenuItem2.Click += new System.EventHandler(this.OffToolStripMenuItem2_Click);
+            // 
             // pesieve64exeonToolStripMenuItem
             // 
             this.pesieve64exeonToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -2295,7 +2325,7 @@
             this.dontDumpTheModifiedPEsButSaveTheReportoffToolStripMenuItem,
             this.dontDumpAnyFilesToolStripMenuItem1});
             this.pesieve64exeonToolStripMenuItem.Name = "pesieve64exeonToolStripMenuItem";
-            this.pesieve64exeonToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.pesieve64exeonToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
             this.pesieve64exeonToolStripMenuItem.Text = "Pe-sieve.exe on";
             // 
             // scanOnlyModeDefaultToolStripMenuItem
@@ -2963,20 +2993,6 @@
             this.toolStripStatusLabel9.Text = "| ETWPM2Monitor2 Detection Event Logs (0)";
             this.toolStripStatusLabel9.Click += new System.EventHandler(this.ToolStripStatusLabel9_Click);
             // 
-            // oNToolStripMenuItem2
-            // 
-            this.oNToolStripMenuItem2.Name = "oNToolStripMenuItem2";
-            this.oNToolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
-            this.oNToolStripMenuItem2.Text = "On";
-            this.oNToolStripMenuItem2.Click += new System.EventHandler(this.ONToolStripMenuItem2_Click);
-            // 
-            // offToolStripMenuItem2
-            // 
-            this.offToolStripMenuItem2.Name = "offToolStripMenuItem2";
-            this.offToolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
-            this.offToolStripMenuItem2.Text = "Off";
-            this.offToolStripMenuItem2.Click += new System.EventHandler(this.OffToolStripMenuItem2_Click);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -3392,6 +3408,8 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem3;
         private System.Windows.Forms.ToolStripMenuItem oNToolStripMenuItem2;
         private System.Windows.Forms.ToolStripMenuItem offToolStripMenuItem2;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripMenuItem scanProcessMemoryByCobaltStrikeScanBeaconDetectionToolStripMenuItem;
     }
 }
 
