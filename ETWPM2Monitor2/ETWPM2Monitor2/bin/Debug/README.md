@@ -6,7 +6,7 @@ Note: in this code we have "Pe-sieve64.exe" , so to use you need to download the
 md5 info, "exe files are not safe here in github so make your own exe files with C# source by yourself [i recommend]":
 
        ccd21f1d51-f67b583709-4e5488981039 => ETWPM2Monitor2.exe (v2.1) [v2.1.43.418] 22,May,2022
-       a89536efe5-2adbfbaa1c-5a46aeb032e0 => CobaltStrikeScan.exe v1.0 26,May,2022
+       a89536efe5-2adbfbaa1c-5a46aeb032e0 => CobaltStrikeScan.exe (v1.0) 26,May,2022
       
       
     
