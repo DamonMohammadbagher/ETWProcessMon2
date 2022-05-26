@@ -37,7 +37,7 @@ Note: all alarms (Those Processes which Detected by ETWPM2Monitor2 v2.1) will sa
 
     link1: https://github.com/hasherezade/pe-sieve
 
-Note: New Memory Scanner "CobaltStrikeScan" which isfor Scan Target Process for Find Cobaltsrike Beacons Added to the source code (26 may 2022). this code is optional you can use that if you want, you should use those files in Folder "CobaltStrikeScan" and copy this folder to "Debug" folder.
+Note: New Memory Scanner "CobaltStrikeScan" which is for Scan Target Process to Find Cobaltsrike Beacons Added to the source code (26 may 2022). this code is optional you can use that if you want, you should use those files in Folder "CobaltStrikeScan" and copy this folder to "Debug" folder.
 
 `Important point: CobaltStrikeScan Source code "changed" by me ;) for Add new Switch "-t" and you should use CobaltStrikeScan.exe file which made by me in folder "CobaltStrikeScan" , if you want to see the original source code link is below (nice code made by Apr4h).`
 
