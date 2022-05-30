@@ -84,6 +84,7 @@ md5 info:
 
     25d54c2073-74411e9f4f-7488ee33cc78 => VirtualMemAllocMon.exe (v1.1) 16,May,2022
     d42ca87133-977815440d-be8bd04c9589 => VirtualMemAllocMon.exe (v2.0.0.1) 16,May,2022
+    
 
  ### VirtualMemAllocMon v2.0 & VirtualMemAlloc ETW Event  
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/VirtualMemAllocMon/VirtualMemAllocMon2/Pictures/VirtualMemAllocMonv2.png)
@@ -170,8 +171,8 @@ Note: EventIDs 1,2,3,4,5,255, these events will save save by ETWPM2Monitor2.1 in
         [Informarion] Event ID 5 : ETWPM2 (Injection Events) Tab : TargetProcess, InjectorProcess, MZ header in bytes + Injection Bytes   
 
 md5 info [ETWPM2Monitor2.exe], "exe files are not safe here in github so make your own exe files with C# source by yourself [i recommend]":
-         
-    ccd21f1d51-f67b583709-4e5488981039 => ETWPM2Monitor2.exe (v2.1) [v2.1.43.418] 22,May,2022
+              
+    c18f51e17c-fdccee8a2d-c6621f8bbcdf => ETWPM2Monitor2.exe (v2.1) [v2.1.45.437] 30,May,2022    
     
 ### ETWPM2Monitor2 v2.1 [v2.1.41.380]  
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2/Pics/NetworkConnectionsx3.png)
