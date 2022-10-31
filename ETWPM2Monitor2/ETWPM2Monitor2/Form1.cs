@@ -169,26 +169,46 @@ namespace ETWPM2Monitor2
         }
         public struct _TableofProcess
         {
+            //private string _TCPDetails2;
+            //public string TCPDetails2 { get { return _TCPDetails2; } set { _TCPDetails2 = value; } }
+
+            //public string TCPDetails;
+            //public string Description;
+            //public int PID;
+            //public int Injector;
+            //public string Injector_Path;
+            //public string ProcessName;
+            //public string ProcessName_Path;
+            //public bool IsLive { set; get; }
+            //public bool IsShow_Alarm { set; get; }
+            //public DateTime Detection_EventTime;
+            //public string Detection_Status;
+            //public string MemoryScanner01_Result;
+            //public string MemoryScanner02_Result;
+            //public string InjectionType;
+            //public string Descripton_Details;
+            //public string SubItems_Name_Property;
+            //public int SubItems_ImageIndex;
             private string _TCPDetails2;
             public string TCPDetails2 { get { return _TCPDetails2; } set { _TCPDetails2 = value; } }
 
-            public string TCPDetails;
-            public string Description;
-            public int PID;
-            public int Injector;
-            public string Injector_Path;
-            public string ProcessName;
-            public string ProcessName_Path;
+            public string TCPDetails { set; get; }
+            public string Description { set; get; }
+            public int PID { set; get; }
+            public int Injector { set; get; }
+            public string Injector_Path { set; get; }
+            public string ProcessName { set; get; }
+            public string ProcessName_Path { set; get; }
             public bool IsLive { set; get; }
             public bool IsShow_Alarm { set; get; }
-            public DateTime Detection_EventTime;
-            public string Detection_Status;
-            public string MemoryScanner01_Result;
-            public string MemoryScanner02_Result;
-            public string InjectionType;
-            public string Descripton_Details;
-            public string SubItems_Name_Property;
-            public int SubItems_ImageIndex;
+            public DateTime Detection_EventTime { set; get; }
+            public string Detection_Status { set; get; }
+            public string MemoryScanner01_Result { set; get; }
+            public string MemoryScanner02_Result { set; get; }
+            public string InjectionType { set; get; }
+            public string Descripton_Details { set; get; }
+            public string SubItems_Name_Property { set; get; }
+            public int SubItems_ImageIndex { set; get; }
         }
         public static List<_TableofProcess_NewProcess_evt> NewProcess_Table = new List<_TableofProcess_NewProcess_evt>();
         public static List<string> showitemsHash = new List<string>();
@@ -703,7 +723,7 @@ namespace ETWPM2Monitor2
                     /// EventID 3 = TCP Send Event
                     if (MyLviewItemsX1.SubItems[2].Text == "3")
                     {
-                        /// size 160 , 192 was about Meterpreter traffic wich will send send for each 1 min [sleep(1000) default] 
+                        /// size 160 , 192 was about Meterpreter traffic which will send send for each 1 min [sleep(1000) default] 
                         /// also 192 will send before every command packets  meterpreter backdoor
                         /// that was my test ;)
                         if ((MyLviewItemsX1.SubItems[5].Text.Split('\n')[6].Contains("[size:160]")) || (MyLviewItemsX1.SubItems[5].Text.Split('\n')[6].Contains("[size:192]")))
@@ -1981,6 +2001,7 @@ namespace ETWPM2Monitor2
 
                         foreach (var item in query)
                         {
+                            Thread.Sleep(50);
                             if (Processes_FileSystemList.ToList().FindIndex(x => x.FileName == item.Process.ProcessName + ":" + item.Process.Id) == -1)
                             {
                                 Processes_FileSystemList.Add(new _Table_of_FileSystem_for_Processes_Watcher
@@ -2047,6 +2068,10 @@ namespace ETWPM2Monitor2
             {
                 /// very important  
                 Form.CheckForIllegalCrossThreadCalls = false;
+
+                IsSystemDeveloperLogs_on = false;
+                onToolStripMenuItem1.Checked = false;
+                offToolStripMenuItem1.Checked = true;
 
                 _ExcludeProcessList.AddRange(new string[4] { "msedge", "firefox", "chrome", "iexplorer" });
 
@@ -2172,9 +2197,12 @@ namespace ETWPM2Monitor2
                 t15.Enabled = true;
                 t15.Start();
 
-                t16.Elapsed += T16_Elapsed;
-                t16.Enabled = true;
-                t16.Start();
+                //t16.Elapsed += T16_Elapsed;
+                //t16.Enabled = true;
+                //t16.Start();
+
+                BeginInvoke((MethodInvoker)delegate { _AsyncRun_checking_false_positive_events(); });
+               
 
                 t17.Elapsed += T17_Elapsed;
                 t17.Enabled = true;
@@ -2464,49 +2492,193 @@ namespace ETWPM2Monitor2
  
         }
 
-        private void T16_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        public async void _AsyncRun_checking_false_positive_events()
         {
-            /// checking false positive events for Netwotk Coneection evens via ETW....
-            /// every 10 seconds check, add items to ETW Checking Errors Tab.
-           
-            try
+            await checking_false_positive_events();
+        }
+        public async Task checking_false_positive_events()
+        {
+            await Task.Run((Action)delegate 
             {
-                List<ListViewItem> NativeApiNetworkConnectionList = _ETW_Network_Events_FalsePositiveChecking_Records.ToList<ListViewItem>()
-               .FindAll(x => x.SubItems[10].Text == "0" && x.SubItems[2].Text.ToLower() != "system" && x.SubItems[3].Text != "4")
-               .GroupBy(x1 => x1.SubItems[3]).Select(xx => xx.First()).ToList();
-                
-                if (NativeApiNetworkConnectionList != null)
+
+                while (true)
                 {
-                    int count = NativeApiNetworkConnectionList.Count;
-                    List<ListViewItem> list2 = listView4.Items.Cast<ListViewItem>().ToList();
-                    
-                    if (list2.Count > 0)
-                    {                       
+                    Thread.Sleep(10000);
+                    try
+                    {
+                        List<ListViewItem> NativeApiNetworkConnectionList = _ETW_Network_Events_FalsePositiveChecking_Records.ToList<ListViewItem>()
+                       .FindAll(x => x.SubItems[10].Text == "0" && x.SubItems[2].Text.ToLower() != "system" && x.SubItems[3].Text != "4")
+                       .GroupBy(x1 => x1.SubItems[3]).Select(xx => xx.First()).ToList();
 
-                        foreach (ListViewItem _item in NativeApiNetworkConnectionList.ToList<ListViewItem>())
+                        if (NativeApiNetworkConnectionList != null)
                         {
-                            Task.Delay(10);
-                            try
-                            {
-                                for (int i = 0; i < count; i++)
-                                {
-                                    int index = list2.FindIndex(x => x.SubItems[2].Text == _item.SubItems[2].Text + ":" + _item.SubItems[3].Text);
+                            int count = NativeApiNetworkConnectionList.Count;
+                            ListView.ListViewItemCollection _listxx = listView4.Items;
+                            List<ListViewItem> list2 = _listxx.Cast<ListViewItem>().ToList();
 
-                                    if (index == -1)
+                            //List<ListViewItem> list2 = listView4.Items.Cast<ListViewItem>().ToList();
+
+                            if (list2.Count > 0)
+                            {
+
+                                foreach (ListViewItem _item in NativeApiNetworkConnectionList.ToList<ListViewItem>())
+                                {
+                                    //Task.Delay(10);
+                                    Thread.Sleep(20);
+                                    try
                                     {
-                                        List<ListViewItem> _list = listView8.Items.Cast<ListViewItem>().ToList();
-                                        /// if == -1 then those records was true positive error...
-                                        /// in this time will show only true positive records to the listview8
-                                        if (_list.FindIndex(x => x.SubItems[2].Text + x.SubItems[3].Text + x.SubItems[7].Text
-                                        == _item.SubItems[2].Text + _item.SubItems[3].Text + _item.SubItems[7].Text) == -1)
+                                        for (int i = 0; i < count; i++)
                                         {
-                                            listView8.Items.Add(_item).BackColor = Color.DarkRed;
+                                            Thread.Sleep(20);
+                                            int index = list2.FindIndex(x => x.SubItems[2].Text == _item.SubItems[2].Text + ":" + _item.SubItems[3].Text);
+
+                                            if (index == -1)
+                                            {
+                                                /// cpu usage awful ;(
+                                                /// bug is here
+                                                listView8.BeginInvoke((MethodInvoker)delegate
+                                                {
+                                                    //Thread.Sleep(5);
+                                                    ListView.ListViewItemCollection _listx = listView8.Items;
+                                                    List<ListViewItem> _list = _listx.Cast<ListViewItem>().ToList();
+                                                    //List<ListViewItem> _list = listView8.Items.Cast<ListViewItem>().ToList();
+
+                                                    /// if == -1 then those records was true positive error...
+                                                    /// in this time will show only true positive records to the listview8
+                                                    if (_list.FindIndex(x => x.SubItems[2].Text + x.SubItems[3].Text + x.SubItems[7].Text
+                                                        == _item.SubItems[2].Text + _item.SubItems[3].Text + _item.SubItems[7].Text) == -1)
+                                                    {
+                                                        listView8.Items.Add(_item).BackColor = Color.DarkRed;
+                                                    }
+                                                });
+
+                                            }
+                                            else
+                                            {
+                                                /// false positive
+                                            }
                                         }
 
                                     }
-                                    else
+                                    catch (Exception)
                                     {
-                                        /// false positive
+
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                try
+                                {
+                                    List<ListViewItem> _list = listView8.Items.Cast<ListViewItem>().ToList();
+                                    /// bug fixed
+                                    foreach (ListViewItem item in NativeApiNetworkConnectionList.ToList<ListViewItem>())
+                                    {
+                                        if (_list.FindIndex(x => x.SubItems[2].Text + x.SubItems[3].Text + x.SubItems[7].Text
+                                         == item.SubItems[2].Text + item.SubItems[3].Text + item.SubItems[7].Text) == -1)
+                                        {
+                                            listView8.Items.Add(item).BackColor = Color.DarkRed;
+                                        }
+                                    }
+
+                                }
+                                catch (Exception)
+                                {
+
+
+                                }
+
+                            }
+                        }
+                    }
+                    catch (Exception t)
+                    {
+
+                    }
+                }
+
+            });
+        }
+
+        private async void T16_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            /// checking false positive events for Netwotk Coneection evens via ETW....
+            /// every 10 seconds check, add items to ETW Checking Errors Tab.
+            await Task.Run(() =>
+            {
+                try
+                {
+                    List<ListViewItem> NativeApiNetworkConnectionList = _ETW_Network_Events_FalsePositiveChecking_Records.ToList<ListViewItem>()
+                   .FindAll(x => x.SubItems[10].Text == "0" && x.SubItems[2].Text.ToLower() != "system" && x.SubItems[3].Text != "4")
+                   .GroupBy(x1 => x1.SubItems[3]).Select(xx => xx.First()).ToList();
+
+                    if (NativeApiNetworkConnectionList != null)
+                    {
+                        int count = NativeApiNetworkConnectionList.Count;
+                        ListView.ListViewItemCollection _listxx = listView4.Items;
+                        List<ListViewItem> list2 = _listxx.Cast<ListViewItem>().ToList();
+
+                        //List<ListViewItem> list2 = listView4.Items.Cast<ListViewItem>().ToList();
+
+                        if (list2.Count > 0)
+                        {
+
+                            foreach (ListViewItem _item in NativeApiNetworkConnectionList.ToList<ListViewItem>())
+                            {
+                                //Task.Delay(10);
+                                Thread.Sleep(10);
+                                try
+                                {
+                                    for (int i = 0; i < count; i++)
+                                    {
+                                        int index = list2.FindIndex(x => x.SubItems[2].Text == _item.SubItems[2].Text + ":" + _item.SubItems[3].Text);
+
+                                        if (index == -1)
+                                        {
+                                            /// cpu usage awful ;(
+                                            /// bug is here
+                                            listView8.BeginInvoke((MethodInvoker)delegate
+                                            {
+                                                //Thread.Sleep(5);
+                                                ListView.ListViewItemCollection _listx = listView8.Items;
+                                                List<ListViewItem> _list = _listx.Cast<ListViewItem>().ToList();
+                                                //List<ListViewItem> _list = listView8.Items.Cast<ListViewItem>().ToList();
+
+                                                /// if == -1 then those records was true positive error...
+                                                /// in this time will show only true positive records to the listview8
+                                                if (_list.FindIndex(x => x.SubItems[2].Text + x.SubItems[3].Text + x.SubItems[7].Text
+                                                    == _item.SubItems[2].Text + _item.SubItems[3].Text + _item.SubItems[7].Text) == -1)
+                                                {
+                                                    listView8.Items.Add(_item).BackColor = Color.DarkRed;
+                                                }
+                                            });
+
+                                        }
+                                        else
+                                        {
+                                            /// false positive
+                                        }
+                                    }
+
+                                }
+                                catch (Exception)
+                                {
+
+                                }
+                            }
+                        }
+                        else
+                        {
+                            try
+                            {
+                                List<ListViewItem> _list = listView8.Items.Cast<ListViewItem>().ToList();
+                                /// bug fixed
+                                foreach (ListViewItem item in NativeApiNetworkConnectionList.ToList<ListViewItem>())
+                                {
+                                    if (_list.FindIndex(x => x.SubItems[2].Text + x.SubItems[3].Text + x.SubItems[7].Text
+                                     == item.SubItems[2].Text + item.SubItems[3].Text + item.SubItems[7].Text) == -1)
+                                    {
+                                        listView8.Items.Add(item).BackColor = Color.DarkRed;
                                     }
                                 }
 
@@ -2514,38 +2686,17 @@ namespace ETWPM2Monitor2
                             catch (Exception)
                             {
 
-                            }
-                        }
-                    }
-                    else
-                    {
-                        try
-                        {
-                            List<ListViewItem> _list = listView8.Items.Cast<ListViewItem>().ToList();
-                            /// bug fixed
-                            foreach (ListViewItem item in NativeApiNetworkConnectionList.ToList<ListViewItem>())
-                            {
-                                if (_list.FindIndex(x => x.SubItems[2].Text + x.SubItems[3].Text + x.SubItems[7].Text
-                                 == item.SubItems[2].Text + item.SubItems[3].Text + item.SubItems[7].Text) == -1)
-                                {
-                                    listView8.Items.Add(item).BackColor = Color.DarkRed;
-                                }
+
                             }
 
                         }
-                        catch (Exception)
-                        {
-
-
-                        }
-
                     }
                 }
-            }
-            catch (Exception t)
-            {
-                
-            }
+                catch (Exception t)
+                {
+
+                }
+            });
            
         }
 
@@ -3105,95 +3256,98 @@ namespace ETWPM2Monitor2
 
                         bool found = false;
 
-                        ListViewItem[] __Items = listView3.Items.Cast<ListViewItem>().ToList().ToArray();
-
-                        foreach (ListViewItem _item in __Items)
+                        if (listView3.Items.Count > 0)
                         {
-                            if (_item.Name == item.FullSTR)
+                            ListViewItem[] __Items = listView3.Items.Cast<ListViewItem>().ToArray();
+
+                            foreach (ListViewItem _item in __Items)
                             {
-                                found = true;
-                                break;
-                            }
-                        }
-
-
-
-                        if (!found)
-                        {
-                            ListViewItem iList3x = new ListViewItem();
-                            iList3x.SubItems.Add(DateTime.Now.ToString());
-                            iList3x.SubItems.Add(item.ProcessName.ToString());
-                            iList3x.SubItems.Add(item.PID.ToString());
-                            iList3x.SubItems.Add(item.states_String.ToString());
-                            iList3x.SubItems.Add(item.LocalIP.ToString());
-                            iList3x.SubItems.Add(item.LPORT.ToString());
-                            iList3x.SubItems.Add(item.RemoteIP.ToString());
-                            iList3x.SubItems.Add(item.RPORT.ToString());
-
-                            int indexx = Network_Info.Processes_FileSystemList2.FindIndex(x => x.PID == item.PID);
-
-                            if (indexx != -1)
-                            {
-                                iList3x.SubItems.Add(Network_Info.Processes_FileSystemList2[indexx].FileName_Path);
-                            }
-                            else
-                            {
-                                iList3x.SubItems.Add(" ");
+                                if (_item.Name == item.FullSTR)
+                                {
+                                    found = true;
+                                    break;
+                                }
                             }
 
-                            iList3x.Name = item.FullSTR;
 
-                            ////if (listView7.Items.Count > 0)
-                            ////{
-                            ////    bool item7fouand = false;
-
-                            ////    ListViewItem[] __Items2 = listView7.Items.Cast<ListViewItem>().ToList().ToArray();
-
-                            ////    foreach (ListViewItem item7 in __Items2)
-                            ////    {
-                            ////        string h7 = item7.SubItems[2].Text
-                            ////            + item7.SubItems[3].Text
-                            ////            + item7.SubItems[4].Text
-                            ////            + item7.SubItems[7].Text
-                            ////            + item7.SubItems[9].Text;
-
-                            ////        string h3 = iList3x.SubItems[2].Text
-                            ////          + iList3x.SubItems[3].Text
-                            ////          + iList3x.SubItems[4].Text
-                            ////          + iList3x.SubItems[7].Text
-                            ////          + iList3x.SubItems[9].Text;
-
-                            ////        Thread.Sleep(10);
-
-                            ////        if (h7 == h3)
-                            ////        {
-                            ////            item7fouand = true;
-                            ////            break;
-                            ////        }
-                            ////    }
-
-                            ////    if (!item7fouand)
-                            ////    {
-                            ////        object tmp = iList3x.Clone();
-
-
-                            ////        listView7.Items.Add((ListViewItem)tmp).SubItems.Add("1");
-
-                            ////    }
-                            ////}
-                            ////else
-                            ////{
-                            ////    object tmp = iList3x.Clone();
-
-                            ////    listView7.Items.Add((ListViewItem)tmp).SubItems.Add("1");
-
-                            ////}
-
-
-                            if (iList3x != null)
+                            if (!found)
                             {
-                                //listView3.Items.Add(iList3x);
-                                _Listview3_Items_NetworkConnection_Apis.Add(iList3x);
+                                ListViewItem iList3x = new ListViewItem();
+                                iList3x.SubItems.Add(DateTime.Now.ToString());
+                                iList3x.SubItems.Add(item.ProcessName.ToString());
+                                iList3x.SubItems.Add(item.PID.ToString());
+                                iList3x.SubItems.Add(item.states_String.ToString());
+                                iList3x.SubItems.Add(item.LocalIP.ToString());
+                                iList3x.SubItems.Add(item.LPORT.ToString());
+                                iList3x.SubItems.Add(item.RemoteIP.ToString());
+                                iList3x.SubItems.Add(item.RPORT.ToString());
+
+                                int indexx = Network_Info.Processes_FileSystemList2.FindIndex(x => x.PID == item.PID);
+
+                                if (indexx != -1)
+                                {
+                                    iList3x.SubItems.Add(Network_Info.Processes_FileSystemList2[indexx].FileName_Path);
+                                }
+                                else
+                                {
+                                    iList3x.SubItems.Add(" ");
+                                }
+
+                                iList3x.Name = item.FullSTR;
+
+                                ////if (listView7.Items.Count > 0)
+                                ////{
+                                ////    bool item7fouand = false;
+
+                                ////    ListViewItem[] __Items2 = listView7.Items.Cast<ListViewItem>().ToList().ToArray();
+
+                                ////    foreach (ListViewItem item7 in __Items2)
+                                ////    {
+                                ////        string h7 = item7.SubItems[2].Text
+                                ////            + item7.SubItems[3].Text
+                                ////            + item7.SubItems[4].Text
+                                ////            + item7.SubItems[7].Text
+                                ////            + item7.SubItems[9].Text;
+
+                                ////        string h3 = iList3x.SubItems[2].Text
+                                ////          + iList3x.SubItems[3].Text
+                                ////          + iList3x.SubItems[4].Text
+                                ////          + iList3x.SubItems[7].Text
+                                ////          + iList3x.SubItems[9].Text;
+
+                                ////        Thread.Sleep(10);
+
+                                ////        if (h7 == h3)
+                                ////        {
+                                ////            item7fouand = true;
+                                ////            break;
+                                ////        }
+                                ////    }
+
+                                ////    if (!item7fouand)
+                                ////    {
+                                ////        object tmp = iList3x.Clone();
+
+
+                                ////        listView7.Items.Add((ListViewItem)tmp).SubItems.Add("1");
+
+                                ////    }
+                                ////}
+                                ////else
+                                ////{
+                                ////    object tmp = iList3x.Clone();
+
+                                ////    listView7.Items.Add((ListViewItem)tmp).SubItems.Add("1");
+
+                                ////}
+
+
+                                if (iList3x != null)
+                                {
+                                    //listView3.Items.Add(iList3x);
+                                    _Listview3_Items_NetworkConnection_Apis.Add(iList3x);
+                                }
+
                             }
 
                         }
@@ -3420,9 +3574,10 @@ namespace ETWPM2Monitor2
         private async void T9_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
             await Task.Run(() =>
-            {
+            {                         
                 try
                 {
+                   
 
                     List<_TableofProcess> TerminatedProcess = Process_Table.ToList<_TableofProcess>().FindAll(Terminate => Terminate.Detection_Status == "Terminated")
                     .GroupBy(x1 => x1.PID).Select(j => j.First()).ToList();
@@ -6237,12 +6392,24 @@ namespace ETWPM2Monitor2
                 EvtWatcher.Enabled = true;
             toolStripStatusLabel1.Text = "Monitor Status: on";
             i6 = 0;
+            try
+            {
+                if (Network_Info.Core.IsAlive || Network_Info.Core.IsBackground)
+                    Network_Info.Core.Resume();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+         
         }
         private void StoptMonitorToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (IsSystemDeveloperLogs_on) BeginInvoke(new __core2(AsyncRun__Add_SystemDeveloperLogs), (object)" ==> [StoptMonitorToolStripMenuItem_Click] Method Call: Started");
             //if(IsSystemDeveloperLogs_on) BeginInvoke(new __core2(AsyncRun__Add_SystemDeveloperLogs), (object)" ==> [StoptMonitorToolStripMenuItem_Click] Method Call: error1 => " + ee.Message);
-
+            if (Network_Info.Core.IsAlive)
+                Network_Info.Core.Suspend();
 
             i6 = 0;
             if (EvtWatcher.Enabled)
@@ -6732,7 +6899,7 @@ namespace ETWPM2Monitor2
 
         private void AboutToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(null, "ETWPM2Monitor2 v2.1 [test version 2.1.45.437]\nCode Published by Damon Mohammadbagher , Jul 2021", "About ETWPM2Monitor2 v2.1", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show(null, "ETWPM2Monitor2 v2.1 [test version 2.1.47.480]\nCode Published by Damon Mohammadbagher , Jul 2021", "About ETWPM2Monitor2 v2.1", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
         }
 
@@ -7853,8 +8020,24 @@ namespace ETWPM2Monitor2
             catch (Exception)
             {
 
-                
+
             }
+        }
+
+        private void HorizontalToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            splitContainer15.Orientation = Orientation.Horizontal;
+            splitContainer15.Panel1MinSize = 250;
+            splitContainer15.Panel2MinSize = 250;
+            splitContainer15.Refresh();
+        }
+
+        private void VerticalToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            splitContainer15.Orientation = Orientation.Vertical;
+            splitContainer15.Panel1MinSize = 250;
+            splitContainer15.Panel2MinSize = 250;
+            splitContainer15.Refresh();
         }
 
         private void ToolStripStatusLabel9_Click(object sender, EventArgs e)
