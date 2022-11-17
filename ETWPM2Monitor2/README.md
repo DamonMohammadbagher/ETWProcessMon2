@@ -35,9 +35,12 @@ Note: in this code we have "Pe-sieve64.exe" as memory scanner , so to use you ne
 
 [Download Pe-sieve64 v2.9.6: https://github.com/hasherezade/pe-sieve/releases/download/v0.2.9.6/pe-sieve64.exe]
 
-Note: all alarms (Those Processes which Detected by ETWPM2Monitor2 v2.1) will save in windows eventlog name "ETWPM2Monitor2".  
 
     link1: https://github.com/hasherezade/pe-sieve
+
+
+Note: all alarms (Those Processes which Detected by ETWPM2Monitor2 v2.1) will save in windows eventlog name "ETWPM2Monitor2".  
+
 
 Note: New Memory Scanner "CobaltStrikeScan" which is for Scan Target Process to Find Cobaltsrike Beacons Added to the source code (26 may 2022). this code is optional you can use that if you want, you should use those files in Folder "CobaltStrikeScan" and copy this folder to "Debug" folder.
 
