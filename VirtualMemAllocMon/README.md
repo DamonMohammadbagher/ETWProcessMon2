@@ -47,8 +47,7 @@ if you have error like this "System.Runtime.InteropServicesCOMException:..." mor
     
     step1: [win, Run As Admin] VirtualMemAllocMon.exe  
     Note: you need Run As Admin
- 
-    
+     
 ----------
  ### VirtualMemAllocMon v1.1 & Detecting Local Thread Injection Attack by sleep-mask method via ShellcodeFluctuation tool (Detecting payload in-memory before encoding via xor & Pe Header)  
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/VirtualMemAllocMon/Pics/Sleepmask4x.png)
