@@ -5,8 +5,8 @@ This tool [ETWPM2Monitor version2] is for Monitor ETW Event-Logs [log name: ETWP
 ! Note: ETWPM2Monitor2 v2.1 is new version of code & you can use this code with ETWProcessMon2.1 (v2.1),
 ! this version ETWPM2Monitor2 v2.1 will work with ETWProcessMon2.1 and both are
 ! very fast for (Remote-Thread-Injection) Technique/Payload Detection via ETW Events)
-+ code performance now is good and "a lot bugs" fixed. Cpu Usage now is lower than before and better performance ;). 
-+ last source/exe update(47) v2.1.47.480 [Oct 31, 2022]... 
++ some bugs fixed. New Tab called "Alarms by Memory Scanners" added. 
++ last source/exe update(51) v2.1.51.590 [Sep 17, 2023]... 
 ```
 Video: https://www.youtube.com/watch?v=DMtMTkAfFNo
 
@@ -41,6 +41,7 @@ Note: in this code we have "Pe-sieve64.exe" as memory scanner , so to use you ne
 
 Note: all alarms (Those Processes which Detected by ETWPM2Monitor2 v2.1) will save in windows eventlog name "ETWPM2Monitor2".  
 
+Note: New Memory Scanner "HuntSleepingBeacons" added to the source code v 2.1.51.590 also new Tab called "Alarms by Memory Scanner) added to the source code (Sep,17,2023).
 
 Note: New Memory Scanner "CobaltStrikeScan" which is for Scan Target Process to Find Cobaltsrike Beacons Added to the source code (26 may 2022). this code is optional you can use that if you want, you should use those files in Folder "CobaltStrikeScan" and copy this folder to "Debug" folder.
 
@@ -74,7 +75,9 @@ md5 info, "exe files are not safe here in github so make your own exe files with
     b913a0d66d-750478c5a8-1d557aad377d => ETWProcessMon2.exe    
     951aef1888-093fca9e67-d881615ed10b => ETWProcessMon2.exe (v2.1) 16,May,2022    
     bc42bb0ace-5de9f8ed08-e26c46503614 => ETWPM2Monitor2.exe (v2.1) [v2.1.47.480] 31,Oct,2022
-    a89536efe5-2adbfbaa1c-5a46aeb032e0 => CobaltStrikeScan.exe (v1.0) 26,May,2022   
+    3066c279ad-acf3f2971e-2bdf5c163fdf => ETWPM2Monitor2.exe (v2.1) [v2.1.51.590] 17,Sep,2023
+    a89536efe5-2adbfbaa1c-5a46aeb032e0 => CobaltStrikeScan.exe (v1.0) 26,May,2022
+    86f92a09f5-9be4a4148e-a5f0ccef2355 => Hunt-Sleeping-Beacons.exe 17,Sep,2023
     
 
 Usage Steps
@@ -84,6 +87,10 @@ Usage Steps
     Step2 (Run as Admin) : ETWPM2Monitor2.exe
 
 ----------------------------------------------------------
+
+### ETWPM2Monitor2 v2.1 , update(51) v2.1.51.590 [Sep 17, 2023] (New Tab called "Alarms by Memory Scanner" Added to source code also new memory scanner called "HuntSleepingBeacons" added to the source code)
+   ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2/Pics/V21_NewScanners.jpeg)
+
 ### ETWPM2Monitor2 v2.1 , update(45) v2.1.45.437 [May 26, 2022] (New Memory-Scanner CobaltStrikeScan.exe Added to source code)
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2/Pics/ExtendedMemoryScanner1.png)
    
