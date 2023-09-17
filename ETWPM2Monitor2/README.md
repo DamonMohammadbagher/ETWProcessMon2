@@ -5,7 +5,7 @@ This tool [ETWPM2Monitor version2] is for Monitor ETW Event-Logs [log name: ETWP
 ! Note: ETWPM2Monitor2 v2.1 is new version of code & you can use this code with ETWProcessMon2.1 (v2.1),
 ! this version ETWPM2Monitor2 v2.1 will work with ETWProcessMon2.1 and both are
 ! very fast for (Remote-Thread-Injection) Technique/Payload Detection via ETW Events)
-+ some bugs fixed. New Tab called "Alarms by Memory Scanners" added. 
++ some bugs fixed. New Tab called "Alarms by Memory Scanner" added. 
 + last source/exe update(51) v2.1.51.590 [Sep 17, 2023]... 
 ```
 Video: https://www.youtube.com/watch?v=DMtMTkAfFNo
