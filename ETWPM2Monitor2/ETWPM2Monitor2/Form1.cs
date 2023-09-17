@@ -55,7 +55,10 @@ namespace ETWPM2Monitor2
         public static System.Timers.Timer t16 = new System.Timers.Timer(10000);
         public static System.Timers.Timer t17 = new System.Timers.Timer(2700);
         public static System.Timers.Timer t18 = new System.Timers.Timer(1500);
+        public static System.Timers.Timer t19 = new System.Timers.Timer(5000);
+        //public static System.Timers.Timer t20 = new System.Timers.Timer(15000);
 
+       
         public static TimeSpan tt = new TimeSpan();
         public static uint NTReadTmpRef = 0;
         public static EventLog ETW2MON;
@@ -88,7 +91,7 @@ namespace ETWPM2Monitor2
         public delegate void __Obj_Updater_to_WinForm3(string obj1, int obj2);
         public delegate void __FSWatch_Object_Add(System.IO.FileSystemEventArgs _e);
         public delegate void __AsyncScanner01(List<_TableofProcess> __Table_of_Process_to_Scan, Int32 PID, string _des_address_port, string ProcessName);
-
+        public delegate void __core6(string str, string date);
         public struct _TCPConnection_Struc
         {
             private DateTime Time;
@@ -344,7 +347,7 @@ namespace ETWPM2Monitor2
         public event EventHandler NewTCP_Connection_Detected;
 
         /// <summary> event for change Listview4 colors </summary>        
-        public event EventHandler ChangeColorstoDefault;
+        public event EventHandler ChangeColorstoDefault;       
 
         public struct _TableofProcess_ETW_Event_Counts
         {
@@ -436,8 +439,24 @@ namespace ETWPM2Monitor2
         public static List<ListViewItem> _ETW_Network_Events_FalsePositiveChecking_Records = new List<ListViewItem>();
         public static List<ListViewItem> _Listview3_Items_NetworkConnection_Apis = new List<ListViewItem>();
         public static List<ListViewItem> _Listview7_Items_NetworkConnection_history = new List<ListViewItem>();
+        /// <summary>
+        ///  last update 9 june 2023 [v2.1.50.528] 
+        ///  New Memory Scanner called [Hunt_Sleeping_Beacons] added
+        /// </summary>
+        public static string Main_lastMemoryScannerIIResult = "";
+        public static List<ListViewItem> Main_DetectedItemsByMemoryScannerII_Alarms = new List<ListViewItem>();
+        public static ListViewItem Main_xiList3 = new ListViewItem();
+        public static string Main_MemoryScanner_Hunt_Sleeping_Beacons_Details = "";
+        public static string Main_DetectedPID_via__Hunt_Sleeping_Beacons = "";
+        public static string Main_DetectedProcess_via__Hunt_Sleeping_Beacons = "";
+        public string[] Main__Results_for__Hunt_Sleeping_Beacons = new string[1];
+        public static string Main_Result__in_background__Hunt_Sleeping_Beacons = "";
+        public static int Main_SearchProcessinNetHistoryListview7 = -1;
+        public static bool _IsMemoryScanner_PeSieve_isBusy = false;
+        public static string movjmp_info = "\n\n";
 
- 
+
+
         public async Task _Add_SystemDeveloperLogs(string logmessage)
         {
             try
@@ -788,6 +807,7 @@ namespace ETWPM2Monitor2
                         }
 
                     }
+
                     /// EventID 2 = Injection
                     if (MyLviewItemsX1.SubItems[2].Text == "2")
                     {
@@ -1741,6 +1761,7 @@ namespace ETWPM2Monitor2
 
             await Task.Run(() =>
             {
+                Thread.Sleep(250);
                 string evtmsg = "";
                 string[] EventMessageDetails = null;
 
@@ -1779,6 +1800,7 @@ namespace ETWPM2Monitor2
                     {
                         try
                         {
+                            Thread.Sleep(400);
                             Task.Delay(500);
                             listView6.BeginInvoke((MethodInvoker)delegate
                             {
@@ -1838,6 +1860,7 @@ namespace ETWPM2Monitor2
                     {
                         try
                         {
+                            Thread.Sleep(500);
                             Task.Delay(500);
                             listView6.BeginInvoke((MethodInvoker)delegate
                             {
@@ -1885,6 +1908,7 @@ namespace ETWPM2Monitor2
                     {
                         try
                         {
+                            Thread.Sleep(400);
                             Task.Delay(500);
                             listView6.BeginInvoke((MethodInvoker)delegate
                             {
@@ -2077,6 +2101,13 @@ namespace ETWPM2Monitor2
 
                 BeginInvoke(new __Obj_Updater_to_WinForm(RealtimeWatchProcess_run));
 
+                /// New Memory ScannerII Added to code Hunt-Sleeping-Beacons] , 
+                /// for detecting Sleep-mask and suspicious callstacks etc 9 june 2023
+                ThreadStart Core4 = new ThreadStart(delegate { BeginInvoke(new __LogReader(ExtendedMemoryScanners_Info._Invoke_Every_1_min_RunAsyn_Hunt_Sleeping_Beacons)); });
+                Thread _T1_Core4 = new Thread(Core4);
+                _T1_Core4.Priority = ThreadPriority.Highest;
+                _T1_Core4.Start();               
+
                 ThreadStart Core = new ThreadStart(delegate { BeginInvoke(new __Obj_Updater_to_WinForm(_Core)); });
                 Thread _T1_Core1 = new Thread(Core);
                 _T1_Core1.Priority = ThreadPriority.Highest;
@@ -2210,6 +2241,11 @@ namespace ETWPM2Monitor2
 
                 t18.Elapsed += T18_Elapsed;
                 t18.Enabled = false;
+
+                t19.Elapsed += T19_Elapsed;
+                t19.Enabled = true;                
+                t19.Start();
+
                 
 
                 /// Set the view to show details.
@@ -2240,7 +2276,11 @@ namespace ETWPM2Monitor2
 
                 _Set_iListview_Properties(listView5, new string[] { " ", "Target Process", "Injector Process", "MZ Header Detection", "Time of Detection" }
                 , new int[] { 5, 110, 110, 110, 120 }, imageList1);
-              
+
+                _Set_iListview_Properties(listView10, new string[] { " ", "Time", "Process", "PID","Tcp Sends" ,"Detection Score",
+                    "Memory Scanner 1 Details", "Memory Scanner 2 Details" }
+               , new int[] { 20, 110, 110, 110,110,120,300,300 }, imageList1);
+
                 /// Set the view to show details.
                 listView9.View = View.Details;
                 /// Allow the user to edit item text.
@@ -2338,13 +2378,103 @@ namespace ETWPM2Monitor2
 
             }
         }
+                
+        private void T19_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            /// checking Result for Memory Scan by Hunt-Sleeping-Beacons.exe
+            /// 
+            try
+            {
+                if (Main_lastMemoryScannerIIResult != ExtendedMemoryScanners_Info.Result__in_background__Hunt_Sleeping_Beacons)
+                {
+                    richTextBox14.Text = "Time of Last Scan: " + DateTime.Now.ToString() + "\n\n" + ExtendedMemoryScanners_Info.Result__in_background__Hunt_Sleeping_Beacons;
+                    Main_lastMemoryScannerIIResult = ExtendedMemoryScanners_Info.Result__in_background__Hunt_Sleeping_Beacons;
+                    BeginInvoke(new __LogReader(_RunAsync__Refresh_Lsitview10_ExtendedMemScannerResults));
+                }
+            }
+            catch (Exception)
+            {
 
+
+            }
+           
+        }
+
+        public async void _RunAsync__Refresh_Lsitview10_ExtendedMemScannerResults()
+        {
+           await _Refresh_Lsitview10_ExtendedMemScannerResults();
+        }
+        public async Task _Refresh_Lsitview10_ExtendedMemScannerResults()
+        {
+
+            await Task.Run(() =>
+            {
+                try
+                {
+                    t19.Stop();
+                    while (true)
+                    {
+                        for (int i = 0; i < ExtendedMemoryScanners_Info._DetectedItemsByMemoryScannerII_Alarms.Count; i++)
+                        {
+                            Thread.Sleep(2000);
+                            var FoundItems_MemoryScannerII_Alarms = Main_DetectedItemsByMemoryScannerII_Alarms.Find(x => 
+                            x == ExtendedMemoryScanners_Info._DetectedItemsByMemoryScannerII_Alarms[i]);
+
+                            if (FoundItems_MemoryScannerII_Alarms == null)
+                            {
+                                Main_DetectedItemsByMemoryScannerII_Alarms.Add(ExtendedMemoryScanners_Info._DetectedItemsByMemoryScannerII_Alarms[i]);
+                                Thread.Sleep(10);
+                                BeginInvoke(new __Additem(_RunAsync_AddingExtendedMemoryScannerResults_toListview10),
+                                        ExtendedMemoryScanners_Info._DetectedItemsByMemoryScannerII_Alarms[i]);
+                                Thread.Sleep(1000);
+
+                            }
+                            else { }
+
+                        }
+
+                        Thread.Sleep(5000);
+                        richTextBox14.Text = "Time of Last Scan: " + DateTime.Now.ToString() + "\n\n" 
+                        + ExtendedMemoryScanners_Info.Result__in_background__Hunt_Sleeping_Beacons;
+                    }
+                }
+                catch (Exception)
+                {
+
+
+                }
+            });
+           
+
+
+        }
+        public async void _RunAsync_AddingExtendedMemoryScannerResults_toListview10(object AlarmsItems)
+        {
+            await AddingExtendedMemoryScannerResults_toListview10(AlarmsItems);
+        }
+
+        public async Task AddingExtendedMemoryScannerResults_toListview10(object AlarmsItems_obj)
+        {
+            await Task.Run(() =>
+            {
+               /// action needed, not async ;D here
+               new Action(() =>
+                {
+                    Thread.Sleep(20);
+                    object _clone = ((ListViewItem)AlarmsItems_obj).Clone();
+                    Thread.Sleep(5);
+                    listView10.Items.Add((ListViewItem)_clone);
+                    tabPage21.Text = "Alarms by Memory Scanner" + " (" + listView10.Items.Count.ToString() + ")";
+                    
+                }).Invoke();
+            });
+        }
         private void T18_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
             /// checking Result for Memory Scan by CobaltStrikeScan.exe
             /// 
             string Result = ExtendedMemoryScanners_Info.Task_RESULT_for_CobaltstrikeScanner;
-            string[] _Results = Result.Split('\n');
+            string[] _Results_via_CobaltStrikeScan = Result.Split('\n');
             if(Result!="" && Result!= null)
             {
                 string _Result2 = "";
@@ -2356,12 +2486,12 @@ namespace ETWPM2Monitor2
                        
                         for (int i = 0; i < 11; i++)
                         {
-                            _Result2 += _Results[i] + "\n";
+                            _Result2 += _Results_via_CobaltStrikeScan[i] + "\n";
                         }
                     }
                     else { _Result2 = Result; }
                     MessageBox.Show(_Result2, "Extended MemoryScanner Result:" , MessageBoxButtons.OK, MessageBoxIcon.Warning);                    
-                    listView2.SelectedItems[0].SubItems[7].Text = _Results[0] + " (Scanned by CobaltstrikeScan.exe)";
+                    listView2.SelectedItems[0].SubItems[7].Text = _Results_via_CobaltStrikeScan[0] + " (Scanned by CobaltstrikeScan.exe)";
                     t18.Stop();
                 }
                 catch (Exception)
@@ -2599,107 +2729,7 @@ namespace ETWPM2Monitor2
 
             });
         }
-
-        private async void T16_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
-        {
-            /// checking false positive events for Netwotk Coneection evens via ETW....
-            /// every 10 seconds check, add items to ETW Checking Errors Tab.
-            await Task.Run(() =>
-            {
-                try
-                {
-                    List<ListViewItem> NativeApiNetworkConnectionList = _ETW_Network_Events_FalsePositiveChecking_Records.ToList<ListViewItem>()
-                   .FindAll(x => x.SubItems[10].Text == "0" && x.SubItems[2].Text.ToLower() != "system" && x.SubItems[3].Text != "4")
-                   .GroupBy(x1 => x1.SubItems[3]).Select(xx => xx.First()).ToList();
-
-                    if (NativeApiNetworkConnectionList != null)
-                    {
-                        int count = NativeApiNetworkConnectionList.Count;
-                        ListView.ListViewItemCollection _listxx = listView4.Items;
-                        List<ListViewItem> list2 = _listxx.Cast<ListViewItem>().ToList();
-
-                        //List<ListViewItem> list2 = listView4.Items.Cast<ListViewItem>().ToList();
-
-                        if (list2.Count > 0)
-                        {
-
-                            foreach (ListViewItem _item in NativeApiNetworkConnectionList.ToList<ListViewItem>())
-                            {
-                                //Task.Delay(10);
-                                Thread.Sleep(10);
-                                try
-                                {
-                                    for (int i = 0; i < count; i++)
-                                    {
-                                        int index = list2.FindIndex(x => x.SubItems[2].Text == _item.SubItems[2].Text + ":" + _item.SubItems[3].Text);
-
-                                        if (index == -1)
-                                        {
-                                            /// cpu usage awful ;(
-                                            /// bug is here
-                                            listView8.BeginInvoke((MethodInvoker)delegate
-                                            {
-                                                //Thread.Sleep(5);
-                                                ListView.ListViewItemCollection _listx = listView8.Items;
-                                                List<ListViewItem> _list = _listx.Cast<ListViewItem>().ToList();
-                                                //List<ListViewItem> _list = listView8.Items.Cast<ListViewItem>().ToList();
-
-                                                /// if == -1 then those records was true positive error...
-                                                /// in this time will show only true positive records to the listview8
-                                                if (_list.FindIndex(x => x.SubItems[2].Text + x.SubItems[3].Text + x.SubItems[7].Text
-                                                    == _item.SubItems[2].Text + _item.SubItems[3].Text + _item.SubItems[7].Text) == -1)
-                                                {
-                                                    listView8.Items.Add(_item).BackColor = Color.DarkRed;
-                                                }
-                                            });
-
-                                        }
-                                        else
-                                        {
-                                            /// false positive
-                                        }
-                                    }
-
-                                }
-                                catch (Exception)
-                                {
-
-                                }
-                            }
-                        }
-                        else
-                        {
-                            try
-                            {
-                                List<ListViewItem> _list = listView8.Items.Cast<ListViewItem>().ToList();
-                                /// bug fixed
-                                foreach (ListViewItem item in NativeApiNetworkConnectionList.ToList<ListViewItem>())
-                                {
-                                    if (_list.FindIndex(x => x.SubItems[2].Text + x.SubItems[3].Text + x.SubItems[7].Text
-                                     == item.SubItems[2].Text + item.SubItems[3].Text + item.SubItems[7].Text) == -1)
-                                    {
-                                        listView8.Items.Add(item).BackColor = Color.DarkRed;
-                                    }
-                                }
-
-                            }
-                            catch (Exception)
-                            {
-
-
-                            }
-
-                        }
-                    }
-                }
-                catch (Exception t)
-                {
-
-                }
-            });
-           
-        }
-
+     
         /// <summary>  remove those Process items in Network Connections via Native APIs 
         /// </summary>  
         private void T15_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
@@ -3383,15 +3413,17 @@ namespace ETWPM2Monitor2
         {
             await Task.Run(() =>
             {
+                Thread.Sleep(250);
                 _orangeDetection = 0;
                 _RedflagDetection = 0;
                 if (listView6.Items.Count > 0)
                 {
                     foreach (ListViewItem _info_item in listView6.Items)
                     {
+                        Thread.Sleep(100);
                         if (_info_item.SubItems[2].Text.ToLower() == "information") _orangeDetection++;
 
-                        Task.Delay(4);
+                        Task.Delay(40);
 
                         if (_info_item.SubItems[2].Text.ToLower() == "warning" && _info_item.SubItems[3].Text.ToLower() == "4")
                         {
@@ -3594,19 +3626,31 @@ namespace ETWPM2Monitor2
                     List<_TableofProcess> AllDettectionItems = new List<_TableofProcess>();
                     Int32 AllDettectionItemsIndex = 0;
 
+                    /// bug fixed here omg [ null exception ] 9 june 2023
+                    /// null value removed i will fix this with another code but for fix code this simple code needed ;(
+                    Process_Table.RemoveAll(x => x.MemoryScanner01_Result == null);
+
                     try
                     {
-                        AllDettectionItems = Process_Table.ToList<_TableofProcess>().FindAll(process => process.IsShow_Alarm == true
-                                               && !process.MemoryScanner01_Result.Contains("[not scanned:0:0:0]") && !process.MemoryScanner01_Result.Contains("Skipped:[not scanned:0:0:0]"));
+                        if (-1 != Process_Table.ToList<_TableofProcess>().FindIndex(process => process.IsShow_Alarm == true
+                                               && !process.MemoryScanner01_Result.Contains("[not scanned:0:0:0]")
+                                               && !process.MemoryScanner01_Result.Contains("Skipped:[not scanned:0:0:0]")))
+                        {
 
-                        AllDettectionItemsIndex = Process_Table.ToList<_TableofProcess>().FindIndex(process => process.IsShow_Alarm == true
-                             && !process.MemoryScanner01_Result.Contains("Skipped:[not scanned:0:0:0]") && !process.MemoryScanner01_Result.Contains("[not scanned:0:0:0]"));
+                            AllDettectionItems = Process_Table.ToList<_TableofProcess>().FindAll(process => process.IsShow_Alarm == true
+                                                   && !process.MemoryScanner01_Result.Contains("[not scanned:0:0:0]") && !process.MemoryScanner01_Result.Contains("Skipped:[not scanned:0:0:0]"));
+
+                            AllDettectionItemsIndex = Process_Table.ToList<_TableofProcess>().FindIndex(process => process.IsShow_Alarm == true
+                                 && !process.MemoryScanner01_Result.Contains("Skipped:[not scanned:0:0:0]") && !process.MemoryScanner01_Result.Contains("[not scanned:0:0:0]"));
+                        }
 
                     }
                     catch (Exception)
                     {
 
-
+                        /// bug fixed here omg [ null exception ]
+                        /// null value removed i will fix this with another code but for fix code this simple code needed ;(
+                        Process_Table.RemoveAll(x => x.MemoryScanner01_Result == null);
                     }
 
                     Task.Delay(10);
@@ -3644,113 +3688,129 @@ namespace ETWPM2Monitor2
                                         int obj_index = Process_Table.ToList<_TableofProcess>().FindIndex(process => process.ProcessName.ToLower() + ":"
                                         + process.PID == _main.ProcessName + ":" + _main.PID.ToString());
 
-                                        _TableofProcess_Scanned_01 xResult = Scanned_PIds.ToList<_TableofProcess_Scanned_01>().FindLast(scannedproc => scannedproc.PID == _main.PID
-                                        && scannedproc.ProcNameANDPath == _main.ProcessName_Path);
-
-
-
-                                        _TableofProcess TempStruc = new _TableofProcess();
-                                        TempStruc.TCPDetails2 = Process_Table[obj_index].TCPDetails2;
-                                        TempStruc.TCPDetails = Process_Table[obj_index].TCPDetails;
-                                        TempStruc.ProcessName_Path = Process_Table[obj_index].ProcessName_Path;
-                                        TempStruc.ProcessName = Process_Table[obj_index].ProcessName;
-                                        TempStruc.PID = Process_Table[obj_index].PID;
-                                        TempStruc.IsLive = Process_Table[obj_index].IsLive;
-                                        TempStruc.Injector_Path = Process_Table[obj_index].Injector_Path;
-                                        TempStruc.Injector = Process_Table[obj_index].Injector;
-                                        TempStruc.Description = Process_Table[obj_index].Description;
-                                        TempStruc.IsShow_Alarm = true;
-                                        TempStruc.Detection_Status = xResult.Action;
-                                        TempStruc.Detection_EventTime = Process_Table[obj_index].Detection_EventTime;
-
-                                        TempStruc.MemoryScanner01_Result = xResult.Scanner01_RESULT_Int32_outputstr;
-                                        TempStruc.MemoryScanner02_Result = "Disabled";
-
-                                        string temp_InjectionType_Recheck = "";
-                                        try
+                                        /// bug fixed for -1 result...
+                                        /// 
+                                        if (obj_index != -1)
                                         {
-                                            /// bug fixed
-                                            string replacestr = xResult.Scanner01_RESULT_Int32_outputstr.Substring(Memory_info._FindAllIndex("replaced:", _finalresult_Scanned_01[0], 0)[0])
-                                            .Split(']')[0];
+                                            _TableofProcess_Scanned_01 xResult = Scanned_PIds.ToList<_TableofProcess_Scanned_01>().FindLast(scannedproc => scannedproc.PID == _main.PID
+                                            && scannedproc.ProcNameANDPath == _main.ProcessName_Path);
 
-                                            int count = Convert.ToInt32(replacestr.Split(':')[1]);
-                                            if (count > 0)
+
+
+                                            _TableofProcess TempStruc = new _TableofProcess();
+                                            TempStruc.TCPDetails2 = Process_Table[obj_index].TCPDetails2;
+                                            TempStruc.TCPDetails = Process_Table[obj_index].TCPDetails;
+                                            TempStruc.ProcessName_Path = Process_Table[obj_index].ProcessName_Path;
+                                            TempStruc.ProcessName = Process_Table[obj_index].ProcessName;
+                                            TempStruc.PID = Process_Table[obj_index].PID;
+                                            TempStruc.IsLive = Process_Table[obj_index].IsLive;
+                                            TempStruc.Injector_Path = Process_Table[obj_index].Injector_Path;
+                                            TempStruc.Injector = Process_Table[obj_index].Injector;
+                                            TempStruc.Description = Process_Table[obj_index].Description;
+                                            TempStruc.IsShow_Alarm = true;
+                                            TempStruc.Detection_Status = xResult.Action;
+                                            TempStruc.Detection_EventTime = Process_Table[obj_index].Detection_EventTime;
+
+                                            TempStruc.MemoryScanner01_Result = xResult.Scanner01_RESULT_Int32_outputstr;
+                                            TempStruc.MemoryScanner02_Result = "Disabled";
+
+                                            string temp_InjectionType_Recheck = "";
+                                            try
                                             {
-                                                /// injection type
-                                                temp_InjectionType_Recheck = "Process-Hollowing";
-                                                TempStruc.InjectionType = "Process-Hollowing";
+                                                /// bug fixed
+                                                string replacestr = xResult.Scanner01_RESULT_Int32_outputstr.Substring(Memory_info._FindAllIndex("replaced:", _finalresult_Scanned_01[0], 0)[0])
+                                                .Split(']')[0];
+
+                                                int count = Convert.ToInt32(replacestr.Split(':')[1]);
+                                                if (count > 0)
+                                                {
+                                                    /// injection type
+                                                    temp_InjectionType_Recheck = "Process-Hollowing";
+                                                    TempStruc.InjectionType = "Process-Hollowing";
+                                                }
+                                                else
+                                                {
+                                                    /// injection type
+                                                    temp_InjectionType_Recheck = "Injection";
+                                                    TempStruc.InjectionType = "Injection";
+                                                }
+
+                                            }
+                                            catch (Exception)
+                                            {
+
+
+                                            }
+
+                                            _TableofProcess_NewProcess_evt xFindingInjectorInfo = NewProcess_Table.ToList<_TableofProcess_NewProcess_evt>().Find(x => x.PID == Process_Table[obj_index].Injector
+                                            || x.ProcessName_Path == Process_Table[obj_index].Injector_Path);
+
+                                            TempStruc.Descripton_Details = TempStruc.ProcessName + " Injected by => " + TempStruc.Injector_Path + " (PID:" + TempStruc.Injector.ToString()
+                                            + ") \nInjector Details:\nInjector-ProcessName: "
+                                            + xFindingInjectorInfo.ProcessName + "\nInjector-Path: " + xFindingInjectorInfo.ProcessName_Path
+                                            + "\nInjector-CommandLine: " + xFindingInjectorInfo.CommandLine;
+
+                                            TempStruc.SubItems_Name_Property = Process_Table[obj_index].ProcessName + ":" + Process_Table[obj_index].PID + ">\n" + xResult.Action;
+
+                                            if (xResult.Action == "Scanned & Found!" || xResult.Action == "Terminated" || xResult.Action == "Suspended")
+                                            {
+                                                TempStruc.SubItems_ImageIndex = 2;
                                             }
                                             else
                                             {
-                                                /// injection type
-                                                temp_InjectionType_Recheck = "Injection";
-                                                TempStruc.InjectionType = "Injection";
+                                                TempStruc.SubItems_ImageIndex = 1;
                                             }
 
+                                            Process_Table[obj_index] = TempStruc;
+
+
+                                            xiList2.SubItems.Add(_main.Detection_EventTime.ToString());
+                                            xiList2.SubItems.Add(_main.ProcessName + ":" + _main.PID.ToString());
+
+                                            xiList2.SubItems.Add(temp_InjectionType_Recheck);
+
+                                            xiList2.SubItems.Add(_main.TCPDetails2.ToString());
+                                            xiList2.SubItems.Add(xResult.Action);
+
+                                            xiList2.SubItems.Add(xResult.Scanner01_RESULT_Int32_outputstr);
+
+                                            xiList2.SubItems.Add("Disabled");
+                                            xiList2.SubItems.Add(TempStruc.Descripton_Details);
+                                            xiList2.SubItems.Add(_main.Description);
+
+                                            if (_main.SubItems_Name_Property.Length > TempStruc.SubItems_Name_Property.Length)
+                                            {
+                                                xiList2.Name = _main.SubItems_Name_Property;
+                                            }
+                                            else if (_main.SubItems_Name_Property.Length < TempStruc.SubItems_Name_Property.Length)
+                                            {
+                                                xiList2.Name = TempStruc.SubItems_Name_Property;
+                                            }
+
+                                            xiList2.ImageIndex = TempStruc.SubItems_ImageIndex;
+
+                                            if (xResult.Action != "Skipped" && xResult.Scanner01_RESULT_Int32_outputstr.ToString() != string.Empty)
+                                            {
+                                                //object cloner_xiList2 = xiList2.Clone();
+                                                //listView2.Items.Add((ListViewItem)cloner_xiList2);
+                                                try
+                                                {
+                                                    listView2.Items.Add(xiList2);
+
+                                                    _DetectedItemsByETWAlarms.Add(xiList2);
+                                                }
+                                                catch (Exception)
+                                                {
+
+                                                    
+                                                }
+                                                
+
+                                            }
+
+                                            tabPage4.Text = "Alarms by ETW " + "(" + listView2.Items.Count.ToString() + ")";
+                                            toolStripStatusLabel6.Text = "| Alarms by ETW " + "(" + listView2.Items.Count.ToString() + ")";
                                         }
-                                        catch (Exception)
-                                        {
-
-
-                                        }
-
-                                        _TableofProcess_NewProcess_evt xFindingInjectorInfo = NewProcess_Table.ToList<_TableofProcess_NewProcess_evt>().Find(x => x.PID == Process_Table[obj_index].Injector
-                                        || x.ProcessName_Path == Process_Table[obj_index].Injector_Path);
-
-                                        TempStruc.Descripton_Details = TempStruc.ProcessName + " Injected by => " + TempStruc.Injector_Path + " (PID:" + TempStruc.Injector.ToString()
-                                        + ") \nInjector Details:\nInjector-ProcessName: "
-                                        + xFindingInjectorInfo.ProcessName + "\nInjector-Path: " + xFindingInjectorInfo.ProcessName_Path
-                                        + "\nInjector-CommandLine: " + xFindingInjectorInfo.CommandLine;
-
-                                        TempStruc.SubItems_Name_Property = Process_Table[obj_index].ProcessName + ":" + Process_Table[obj_index].PID + ">\n" + xResult.Action;
-
-                                        if (xResult.Action == "Scanned & Found!" || xResult.Action == "Terminated" || xResult.Action == "Suspended")
-                                        {
-                                            TempStruc.SubItems_ImageIndex = 2;
-                                        }
-                                        else
-                                        {
-                                            TempStruc.SubItems_ImageIndex = 1;
-                                        }
-
-                                        Process_Table[obj_index] = TempStruc;
-
-
-                                        xiList2.SubItems.Add(_main.Detection_EventTime.ToString());
-                                        xiList2.SubItems.Add(_main.ProcessName + ":" + _main.PID.ToString());
-
-                                        xiList2.SubItems.Add(temp_InjectionType_Recheck);
-
-                                        xiList2.SubItems.Add(_main.TCPDetails2.ToString());
-                                        xiList2.SubItems.Add(xResult.Action);
-
-                                        xiList2.SubItems.Add(xResult.Scanner01_RESULT_Int32_outputstr);
-
-                                        xiList2.SubItems.Add("Disabled");
-                                        xiList2.SubItems.Add(TempStruc.Descripton_Details);
-                                        xiList2.SubItems.Add(_main.Description);
-
-                                        if (_main.SubItems_Name_Property.Length > TempStruc.SubItems_Name_Property.Length)
-                                        {
-                                            xiList2.Name = _main.SubItems_Name_Property;
-                                        }
-                                        else if (_main.SubItems_Name_Property.Length < TempStruc.SubItems_Name_Property.Length)
-                                        {
-                                            xiList2.Name = TempStruc.SubItems_Name_Property;
-                                        }
-
-                                        xiList2.ImageIndex = TempStruc.SubItems_ImageIndex;
-
-                                        if (xResult.Action != "Skipped" && xResult.Scanner01_RESULT_Int32_outputstr.ToString() != string.Empty)
-                                        {
-                                            listView2.Items.Add(xiList2);
-                                            _DetectedItemsByETWAlarms.Add(xiList2);
-
-                                        }
-
-                                        tabPage4.Text = "Alarms by ETW " + "(" + listView2.Items.Count.ToString() + ")";
-                                        toolStripStatusLabel6.Text = "| Alarms by ETW " + "(" + listView2.Items.Count.ToString() + ")";
-
                                     }
                                     catch (Exception ee)
                                     {
@@ -3874,9 +3934,21 @@ namespace ETWPM2Monitor2
 
                                     if (xResult.Action != "Skipped" && xResult.Scanner01_RESULT_Int32_outputstr.ToString() != string.Empty)
                                     {
-                                        listView2.Items.Add(xiList2);
-                                        _DetectedItemsByETWAlarms.Add(xiList2);
+                                        //object cloner_xiList2 = xiList2.Clone();
+                                        //listView2.Items.Add((ListViewItem)cloner_xiList2);                                       
+                                        //_DetectedItemsByETWAlarms.Add(xiList2);
 
+                                        try
+                                        {
+                                            listView2.Items.Add(xiList2);
+
+                                            _DetectedItemsByETWAlarms.Add(xiList2);
+                                        }
+                                        catch (Exception)
+                                        {
+
+
+                                        }
                                     }
 
                                     tabPage4.Text = "Alarms by ETW " + "(" + listView2.Items.Count.ToString() + ")";
@@ -4690,103 +4762,6 @@ namespace ETWPM2Monitor2
             }
         }
 
-        /// <summary>
-        /// add detected events to System_Detection_Logs Tab , for Injections events (only)
-        /// this code and old Detection log removed , instead new Detection Event Log added to source code
-        /// </summary>       
-        //private void Form1_System_Detection_Log_events(object sender, EventArgs e)
-        //{
-        //    try
-        //    {
-        //        if (IsSystemDeveloperLogs_on) BeginInvoke(new __core2(AsyncRun__Add_SystemDeveloperLogs), (object)" ==> [Form1_System_Detection_Log_events] Event/Method Call: Started");
-        //        //if(IsSystemDeveloperLogIson) BeginInvoke(new __core2(AsyncRun__Add_SystemDeveloperLogs), (object)" ==> [Form1_System_Detection_Log_events] Event/Method Call: error1 => " + ee.Message);
-
-        //        ListViewItem tmp = (ListViewItem)sender;
-
-        //        if (tmp.SubItems[3].Text.ToString() == "Injection" || tmp.SubItems[3].Text.ToString() == "Process-Hollowing")
-        //        {
-        //            Thread.Sleep(100);
-        //            ///  detecting etw event
-        //            iList3 = new ListViewItem();
-        //            iList3.Name = tmp.Name;
-        //            iList3.SubItems.Add(tmp.SubItems[1].Text);
-        //            iList3.SubItems.Add(tmp.SubItems[2].Text);
-        //            if (tmp.SubItems[5].Text == "--")
-        //            {
-        //                if (Convert.ToInt32(string.Join("", ("0" + tmp.SubItems[6].Text).ToCharArray().Where(char.IsDigit)).ToString()) > 0
-        //                    /*|| tmp.SubItems[7].Text.Contains(">>Detected")*/)
-        //                {
-        //                    iList3.SubItems.Add("[!] Found Suspicious");
-        //                    iList3.SubItems.Add("ETW [Inj] event");
-        //                    iList3.SubItems.Add("Scanned & Found!");
-        //                }
-        //                else
-        //                {
-        //                    iList3.SubItems.Add("[!] Found Suspicious");
-        //                    iList3.SubItems.Add("ETW [Inj] event");
-        //                    iList3.SubItems.Add("Scanned");
-        //                }
-
-        //            }
-        //            else
-        //            {
-        //                iList3.SubItems.Add("[!] " + tmp.SubItems[5].Text);
-        //                iList3.SubItems.Add("ETW [Inj] event");
-        //                iList3.SubItems.Add(tmp.SubItems[5].Text);
-        //            }
-
-        //            string Detectionstring = "";
-        //            if (Convert.ToInt32(string.Join("", ("0" + tmp.SubItems[6].Text).ToCharArray().Where(char.IsDigit)).ToString()) > 0)
-        //            {
-        //                Detectionstring = "[true]";
-        //            }
-        //            else
-        //            {
-        //                Detectionstring = "[false]";
-        //            }
-
-
-
-        //            iList3.SubItems.Add("Pe-Sieve64.exe" + " " + Detectionstring);
-
-
-        //            iList3.ImageIndex = tmp.ImageIndex;
-        //            if (tmp.Name != eventstring_tmp3)
-        //            {
-        //                //bool found = false;
-        //                //for (int i = 0; i < listView3.Items.Count; i++)
-        //                //{
-        //                //    if (listView3.Items[i].SubItems[2].Text + listView3.Items[i].SubItems[4].Text == tmp.SubItems[2].Text + "ETW [Inj] event")
-        //                //    {
-        //                //        found = true;
-        //                //    }
-        //                //}
-        //                //if (!found)
-        //                //{
-        //                //    BeginInvoke(new __Additem(_Additems_toListview3), iList3);
-        //                //    eventstring_tmp3 = tmp.Name;
-        //                //}
-
-        //                //if (tmp.SubItems[5].Text == "Terminated" || tmp.SubItems[5].Text == "Suspended")
-        //                //{
-        //                //    BeginInvoke(new __Additem(_Additems_toListview3), iList3);
-        //                //    eventstring_tmp3 = tmp.Name;
-        //                //}
-
-        //            }
-
-        //            Thread.Sleep(100);
-        //        }
-
-
-        //    }
-        //    catch (Exception ee)
-        //    {
-        //        if (IsSystemDeveloperLogs_on) BeginInvoke(new __core2(AsyncRun__Add_SystemDeveloperLogs), (object)" ==> [Form1_System_Detection_Log_events] Event/Method Call: error1 => " + ee.Message);
-
-
-        //    }
-        //}
         public async void _RunRemoveItemsLisview1()
         {
             await Listview1__Removeitems();
@@ -5370,6 +5345,7 @@ namespace ETWPM2Monitor2
                     string _injtype = "Injection";
                     string _lastTargetProcessScannedInfo = "";
                     bool _Isdetected = false;
+                    _IsMemoryScanner_PeSieve_isBusy = true;
 
                     foreach (_TableofProcess item in __Table_of_Process_to_Scan.ToList<_TableofProcess>())
                     {
@@ -6063,9 +6039,10 @@ namespace ETWPM2Monitor2
                 }
                 catch (Exception)
                 {
-
+                    _IsMemoryScanner_PeSieve_isBusy = false;
 
                 }
+                _IsMemoryScanner_PeSieve_isBusy = false;
             });
 
         }
@@ -6389,18 +6366,20 @@ namespace ETWPM2Monitor2
             //if(IsSystemDeveloperLogs_on) BeginInvoke(new __core2(AsyncRun__Add_SystemDeveloperLogs), (object)" ==> [StartMonitorToolStripMenuItem_Click] Method Call: error1 => " + ee.Message);
 
             if (!EvtWatcher.Enabled)
+            {
                 EvtWatcher.Enabled = true;
-            toolStripStatusLabel1.Text = "Monitor Status: on";
-            i6 = 0;
-            try
-            {
-                if (Network_Info.Core.IsAlive || Network_Info.Core.IsBackground)
-                    Network_Info.Core.Resume();
-            }
-            catch (Exception)
-            {
+                toolStripStatusLabel1.Text = "Monitor Status: on";
+                i6 = 0;
+                try
+                {
+                    if (Network_Info.Core.IsAlive || Network_Info.Core.IsBackground)
+                        Network_Info.Core.Resume();
+                }
+                catch (Exception)
+                {
 
-                throw;
+                    //throw;
+                }
             }
          
         }
@@ -6899,7 +6878,7 @@ namespace ETWPM2Monitor2
 
         private void AboutToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(null, "ETWPM2Monitor2 v2.1 [test version 2.1.47.480]\nCode Published by Damon Mohammadbagher , Jul 2021", "About ETWPM2Monitor2 v2.1", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show(null, "ETWPM2Monitor2 v2.1 [test version 2.1.51.590]\nCode Published by Damon Mohammadbagher , Jul 2021", "About ETWPM2Monitor2 v2.1", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
         }
 
@@ -7578,6 +7557,7 @@ namespace ETWPM2Monitor2
 
             }
         }
+
         private void ToolStripStatusLabel7_Click(object sender, EventArgs e)
         {
             tabControl1.SelectedIndex = 3;
@@ -8040,9 +8020,40 @@ namespace ETWPM2Monitor2
             splitContainer15.Refresh();
         }
 
+        public void Update_Richtexbox13_AllDetails_info()
+        {
+            try
+            {
+                richTextBox13.Text = "Time: " + listView10.SelectedItems[0].SubItems[1].Text
+                    + "\nProcess: " + listView10.SelectedItems[0].SubItems[2].Text
+                    + "\nPid: " + listView10.SelectedItems[0].SubItems[3].Text
+                    + "\nTcp Sends: " + listView10.SelectedItems[0].SubItems[4].Text
+                    + "\nDetection Score: " + listView10.SelectedItems[0].SubItems[5].Text
+                    + "\n" + listView10.SelectedItems[0].SubItems[6].Text
+                    + "\n\nMemory Scanner CobaltstrikeScan , Result: " + "\n\n" + listView10.SelectedItems[0].SubItems[7].Text + "\n";
+            }
+            catch (Exception)
+            {
+
+
+            }
+
+        }
+
+        private void ListView10_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ThreadStart __T10_for_show_Details_info = new ThreadStart(delegate
+            {
+                BeginInvoke(new __Obj_Updater_to_WinForm(Update_Richtexbox13_AllDetails_info));
+            });
+
+            Thread _T10_for_show_Details_info_ = new Thread(__T10_for_show_Details_info);
+            _T10_for_show_Details_info_.Start();
+        }
+
         private void ToolStripStatusLabel9_Click(object sender, EventArgs e)
         {
-            tabControl1.SelectedIndex = 4;
+            tabControl1.SelectedIndex = 5;
             tabControl4.SelectedIndex = 0;
         }
 
@@ -8847,8 +8858,30 @@ namespace ETWPM2Monitor2
 
                 NewResult = NewResult + "\n-----------------------------------\nMZ Header Detection:" + FoundItem.ToString() 
                     + "\n----------------------------------------------------------------------\n";
+                movjmp_info = "\n\n";
+                for (int i = 0; i < bytes.Length; i++)
+                {
+                    // Search for mov instructions
+                    if (i + 4 < bytes.Length && bytes[i] == 0xB8)
+                    {
+                        int value = BitConverter.ToInt32(bytes, i + 1);
+                        string bytestr = BitConverter.ToString(bytes, i,20);
+                        int destAddr =/* i +*/ value;
+                        movjmp_info += 
+                       ($"MOV instruction found at position {i} with source {value} and destination 0x{destAddr:x}") + $"\n=> {bytestr}\n";
+                    }
 
-                return NewResult.ToString();
+                    // Search for jmp instructions
+                    if (i + 4 < bytes.Length && bytes[i] == 0xE9)
+                    {
+                        int offset = BitConverter.ToInt32(bytes, i + 1);
+                        string bytestr = BitConverter.ToString(bytes, i, 20);
+                        int destAddr = i + 5 + offset;
+                        movjmp_info += ($"JMP instruction found at position {i} with destination 0x{destAddr:x}") + $"\n=> {bytestr}\n";
+                    }
+                }
+
+                return NewResult.ToString() + movjmp_info;
 
             }
             public static string HexDump2(byte[] bytes, int bytesPerLine = 16)
@@ -8926,24 +8959,31 @@ namespace ETWPM2Monitor2
             {
                 int found = -1;
                 int count = 0;
-
                 List<int> founditems = new List<int>();
-                Source_to_Search = Source_to_Search.ToUpper();
-                match = match.ToUpper();
-
-                do
+                try
                 {
-                    
-                    found = Source_to_Search.IndexOf(match, StartIndex);
-                    if (found > -1)
+                                   
+                    Source_to_Search = Source_to_Search.ToUpper();
+                    match = match.ToUpper();
+
+                    do
                     {
-                        StartIndex = found + match.Length;
-                        count++;
-                        founditems.Add(found);
-                    }
 
-                } while (found > -1 && StartIndex < Source_to_Search.Length);
+                        found = Source_to_Search.IndexOf(match, StartIndex);
+                        if (found > -1)
+                        {
+                            StartIndex = found + match.Length;
+                            count++;
+                            founditems.Add(found);
+                        }
 
+                    } while (found > -1 && StartIndex < Source_to_Search.Length);
+                }
+                catch (Exception)
+                {
+
+
+                }
                 return ((int[])founditems.ToArray());
             } 
 

@@ -240,5 +240,15 @@ namespace ETWPM2Monitor2
                 }
             });
         }
+
+        /// <summary>
+        /// save all Alarms from Extended Memory Scanner called [Hunt-Sleeping-Beacons] to to windows eventlog "ETWPM2Monitor2". EventID 6 (Medium Level) , EventID 7 (High Level)
+        /// </summary>
+        /// <param name="AlarmObjects"></param>
+        /// <returns></returns>
+        public async Task _SaveNewExtendedMemoryScanner_Alarms_to_WinEventLog(object AlarmObjects)
+        {
+
+        }
     }
 }
