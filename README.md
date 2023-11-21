@@ -165,8 +165,8 @@ This tool [ETWPM2Monitor version2] is for Monitor ETW Event-Logs [log name: ETWP
 ! Note: ETWPM2Monitor2 v2.1 is new version of code & you can use this code with ETWProcessMon2.1 (v2.1),
 ! this version ETWPM2Monitor2 v2.1 will work with ETWProcessMon2.1 and both are
 ! very fast for (Remote-Thread-Injection) Technique/Payload Detection via ETW Events)
-+ some bugs fixed. New Tab called "Alarms by Memory Scanner" added. 
-+ last source/exe update(51) v2.1.51.590 [Sep 17, 2023]... 
++ some bugs fixed. New Tab called "Alarms by Memory Scanner" added, powershell detection added.
++ last source/exe update(52) v2.1.52.628 [Nov 21, 2023]... 
 ```
 Video: https://www.youtube.com/watch?v=DMtMTkAfFNo
 
@@ -183,7 +183,8 @@ Note: EventIDs 1,2,3,4,5,255, these events will save save by ETWPM2Monitor2.1 in
 md5 info [ETWPM2Monitor2.exe], "exe files are not safe here in github so make your own exe files with C# source by yourself [i recommend]":
                     
     bc42bb0ace-5de9f8ed08-e26c46503614 => ETWPM2Monitor2.exe (v2.1) [v2.1.47.480] 31,Oct,2022 [old]
-    3066c279ad-acf3f2971e-2bdf5c163fdf => ETWPM2Monitor2.exe (v2.1) [v2.1.51.590] 17,Sep,2023
+    3066c279ad-acf3f2971e-2bdf5c163fdf => ETWPM2Monitor2.exe (v2.1) [v2.1.51.590] 17,Sep,2023 [old]
+    34064d7e1c-4ae5a43e39-9c806767d425 => ETWPM2Monitor2.exe (v2.1) [v2.1.52.628] 21,Nov,2023
     
 ### ETWPM2Monitor2 v2.1 [v2.1.51.590]  
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/ETWPM2Monitor2/Pics/V21_NewScanners.jpeg)
