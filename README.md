@@ -105,7 +105,7 @@ md5 info:
    
 For more Information & Details with Picture about this Code => https://github.com/DamonMohammadbagher/ETWProcessMon2/tree/main/VirtualMemAllocMon 
 
------------------------------------------------------------   
+-----------------------------------------------------------
 ### SysPM2Monitor2.7.exe
 
 this tool [SysPM2Monitor2 v2.7] is for Monitor Sysmon Event-Logs & this code almost is same with ETWPM2Monitor2.exe code but in this case this code Integrated with Sysmon Events so we dont have all ETW Events in this case, but we have ETW VirtualMemAllocMon code in this tool so we have at the same time Sysmon logs + ETW VirtualMemAlloc logs (memory scanner via ETW VirtualMemAlloc Events)...
