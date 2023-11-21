@@ -364,353 +364,705 @@ namespace ETWPM2Monitor2
 
         //}
 
-        public static void _Run_Core_Method()
+        public static async Task _Run_Core_Method()
         {
-            Core = new Thread(Core_Method);
-            Core.Priority = ThreadPriority.AboveNormal;
-            Core.Start();
+            //Core = new Thread(Core_Method);
+            //Core.Priority = ThreadPriority.AboveNormal;
+            //Core.Start();
+            await Task.Run(() =>
+             {
+                 ThreadStart Core = new ThreadStart(delegate
+                 {
+
+                     Core_Method().GetAwaiter();
+
+                 });
+                 Thread _T1_Core1 = new Thread(Core);
+                 _T1_Core1.Priority = ThreadPriority.AboveNormal;
+                 _T1_Core1.Start();
+             });
         }
-        
-        private static void Core_Method()
+
+        private static async Task Core_Method()
         {
-            bool initial = true;
-            Network_Info_DataTables.Filtering_IS_127001 = false;
 
-            Network_Info_DataTables.Settable();
-            Network_Info_DataTables.TCPIP_settable();
-
-            GetProcessesPaths();
-
-            while (true)
+            await Task.Run(() =>
             {
-                if (Network_Info_DataTables.StopThread)
-                {
-                    break;
-                }
+                bool initial = true;
+                Network_Info_DataTables.Filtering_IS_127001 = false;
 
-                try
+                Network_Info_DataTables.Settable();
+                Network_Info_DataTables.TCPIP_settable();
+
+                GetProcessesPaths();
+
+                while (true)
                 {
+                    Thread.Sleep(100);
+                    if (Network_Info_DataTables.StopThread)
+                    {
+                        break;
+                    }
 
                     try
                     {
+
+                        try
+                        {
+
+                            Endpoits = 0;
+                            Listen = 0;
+                            Sync = 0;
+                            Estab = 0;
+
+                            //x64 code
+                            int _x64_counter = 0;
+                            int _x64_counter_tmp = 0;
+
+                            foreach (TcpRow _X64_TcpRows_tmp in ManagedIpHelper.GetExtendedTcpTable(true))
+                            {
+                                _x64_counter_tmp++;
+                            }
+
+                            Table1_x64 = new _Table[_x64_counter_tmp];
+
+                            foreach (TcpRow _X64_TcpRows in ManagedIpHelper.GetExtendedTcpTable(true))
+                            {
+                                Thread.Sleep(5);
+                                if (Network_Info_DataTables.StopThread)
+                                {
+                                    Core.Abort();
+                                    break;
+                                }
+
+                                try
+                                {
+                                    switch (Network_Info_DataTables.Filtering_ISEstablished)
+                                    {
+
+                                        case false:
+                                            {
+                                                // add to x64 table code
+                                                switch (Network_Info_DataTables.Filtering_IS_127001)
+                                                {
+                                                    case true:
+                                                        {
+                                                            try
+                                                            {
+                                                                if (_X64_TcpRows.LocalEndPoint.Address.ToString() != "127.0.0.1")
+                                                                {
+                                                                    Table1_x64[_x64_counter].LocalIP = _X64_TcpRows.LocalEndPoint;
+                                                                    Table1_x64[_x64_counter].LPORT = _X64_TcpRows.LocalEndPoint.Port;
+                                                                    Table1_x64[_x64_counter].RemoteIP = _X64_TcpRows.RemoteEndPoint;
+                                                                    Table1_x64[_x64_counter].RPORT = _X64_TcpRows.RemoteEndPoint.Port;
+
+                                                                    switch (_X64_TcpRows.State)
+                                                                    {
+                                                                        case TcpState.Established:
+                                                                            Estab++; Table1_x64[_x64_counter].states = 5;
+                                                                            break;
+                                                                        case TcpState.Listen:
+                                                                            Listen++; Table1_x64[_x64_counter].states = 2;
+                                                                            break;
+                                                                        case TcpState.SynSent:
+                                                                            Sync++; Table1_x64[_x64_counter].states = 3;
+                                                                            break;
+                                                                    }
+
+                                                                    Table1_x64[_x64_counter].states_String = _X64_TcpRows.State.ToString().ToUpper();
+                                                                    Table1_x64[_x64_counter].PID = _X64_TcpRows.ProcessId;
+                                                                    Table1_x64[_x64_counter].ProcessName = Network_Info_DataTables.SetRow(_X64_TcpRows.ProcessId);
+
+                                                                    Int32 PPath_index = Processes_FileSystemList2.FindIndex(x => x.PID == _X64_TcpRows.ProcessId
+                                                                    /*&& x.FileName == Network_Info_DataTables.SetRow(_X64_TcpRows.ProcessId)*/);
+
+                                                                    if (PPath_index != -1)
+                                                                    {
+                                                                        Table1_x64[_x64_counter].ProcessPath = Processes_FileSystemList2[PPath_index].FileName_Path;
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        Table1_x64[_x64_counter].ProcessPath = " ";
+                                                                    }
+
+                                                                    Table1_x64[_x64_counter].IsLive = 2;
+                                                                    Table1_x64[_x64_counter].FullSTR = Table1_x64[_x64_counter].ProcessName.ToString() + Table1_x64[_x64_counter].PID.ToString()
+                                                                        + Table1_x64[_x64_counter].RemoteIP.Address.ToString() + Table1_x64[_x64_counter].RPORT.ToString() + Table1_x64[_x64_counter].states.ToString();
+                                                                }
+                                                                break;
+                                                            }
+                                                            catch (Exception)
+                                                            {
+                                                                break;
+                                                            }
+                                                        }
+                                                    case false:
+                                                        {
+                                                            try
+                                                            {
+
+
+                                                                Table1_x64[_x64_counter].LocalIP = _X64_TcpRows.LocalEndPoint;
+                                                                Table1_x64[_x64_counter].LPORT = _X64_TcpRows.LocalEndPoint.Port;
+                                                                Table1_x64[_x64_counter].RemoteIP = _X64_TcpRows.RemoteEndPoint;
+                                                                Table1_x64[_x64_counter].RPORT = _X64_TcpRows.RemoteEndPoint.Port;
+
+                                                                switch (_X64_TcpRows.State)
+                                                                {
+                                                                    case TcpState.Established:
+                                                                        Estab++; Table1_x64[_x64_counter].states = 5;
+                                                                        break;
+                                                                    case TcpState.Listen:
+                                                                        Listen++; Table1_x64[_x64_counter].states = 2;
+                                                                        break;
+                                                                    case TcpState.SynSent:
+                                                                        Sync++; Table1_x64[_x64_counter].states = 3;
+                                                                        break;
+                                                                }
+
+                                                                Table1_x64[_x64_counter].states_String = _X64_TcpRows.State.ToString().ToUpper();
+                                                                Table1_x64[_x64_counter].PID = _X64_TcpRows.ProcessId;
+                                                                Table1_x64[_x64_counter].ProcessName = Network_Info_DataTables.SetRow(_X64_TcpRows.ProcessId);
+
+                                                                Int32 PPath_index = Processes_FileSystemList2.FindIndex(x => x.PID == _X64_TcpRows.ProcessId
+                                                                  /* && x.FileName == Network_Info_DataTables.SetRow(_X64_TcpRows.ProcessId)*/);
+
+                                                                if (PPath_index != -1)
+                                                                {
+                                                                    Table1_x64[_x64_counter].ProcessPath = Processes_FileSystemList2[PPath_index].FileName_Path;
+                                                                }
+                                                                else
+                                                                {
+                                                                    Table1_x64[_x64_counter].ProcessPath = " ";
+                                                                }
+
+                                                                Table1_x64[_x64_counter].IsLive = 2;
+                                                                Table1_x64[_x64_counter].FullSTR = Table1_x64[_x64_counter].ProcessName.ToString() + Table1_x64[_x64_counter].PID.ToString()
+                                                                    + Table1_x64[_x64_counter].RemoteIP.Address.ToString() + Table1_x64[_x64_counter].RPORT.ToString() + Table1_x64[_x64_counter].states.ToString();
+
+
+                                                                break;
+                                                            }
+                                                            catch (Exception)
+                                                            {
+                                                                break;
+                                                                //   throw;
+                                                            }
+                                                        }
+
+                                                }
+                                            }
+                                            break;
+                                        case true:
+                                            {
+                                                switch (Network_Info_DataTables.Filtering_IS_127001)
+                                                {
+                                                    case true:
+                                                        {
+                                                            try
+                                                            {
+                                                                if (_X64_TcpRows.LocalEndPoint.Address.ToString() != "127.0.0.1" && _X64_TcpRows.State == TcpState.Established)
+                                                                {
+                                                                    Table1_x64[_x64_counter].LocalIP = _X64_TcpRows.LocalEndPoint;
+                                                                    Table1_x64[_x64_counter].LPORT = _X64_TcpRows.LocalEndPoint.Port;
+                                                                    Table1_x64[_x64_counter].RemoteIP = _X64_TcpRows.RemoteEndPoint;
+                                                                    Table1_x64[_x64_counter].RPORT = _X64_TcpRows.RemoteEndPoint.Port;
+
+                                                                    switch (_X64_TcpRows.State)
+                                                                    {
+                                                                        case TcpState.Established:
+                                                                            Estab++; Table1_x64[_x64_counter].states = 5;
+                                                                            break;
+                                                                        case TcpState.Listen:
+                                                                            Listen++; Table1_x64[_x64_counter].states = 2;
+                                                                            break;
+                                                                        case TcpState.SynSent:
+                                                                            Sync++; Table1_x64[_x64_counter].states = 3;
+                                                                            break;
+                                                                    }
+
+                                                                    Table1_x64[_x64_counter].states_String = _X64_TcpRows.State.ToString().ToUpper();
+                                                                    Table1_x64[_x64_counter].PID = _X64_TcpRows.ProcessId;
+                                                                    Table1_x64[_x64_counter].ProcessName = Network_Info_DataTables.SetRow(_X64_TcpRows.ProcessId);
+
+                                                                    Int32 PPath_index = Processes_FileSystemList2.FindIndex(x => x.PID == _X64_TcpRows.ProcessId
+                                                                   /*&& x.FileName == Network_Info_DataTables.SetRow(_X64_TcpRows.ProcessId)*/);
+
+                                                                    if (PPath_index != -1)
+                                                                    {
+                                                                        Table1_x64[_x64_counter].ProcessPath = Processes_FileSystemList2[PPath_index].FileName_Path;
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        Table1_x64[_x64_counter].ProcessPath = " ";
+                                                                    }
+
+                                                                    Table1_x64[_x64_counter].IsLive = 2;
+                                                                    Table1_x64[_x64_counter].FullSTR = Table1_x64[_x64_counter].ProcessName.ToString() + Table1_x64[_x64_counter].PID.ToString()
+                                                                        + Table1_x64[_x64_counter].RemoteIP.Address.ToString() + Table1_x64[_x64_counter].RPORT.ToString() + Table1_x64[_x64_counter].states.ToString();
+                                                                }
+                                                                break;
+                                                            }
+                                                            catch (Exception)
+                                                            {
+                                                                break;
+                                                            }
+                                                        }
+                                                    case false:
+                                                        {
+                                                            try
+                                                            {
+                                                                if (_X64_TcpRows.State == TcpState.Established)
+                                                                {
+                                                                    Table1_x64[_x64_counter].LocalIP = _X64_TcpRows.LocalEndPoint;
+                                                                    Table1_x64[_x64_counter].LPORT = _X64_TcpRows.LocalEndPoint.Port;
+                                                                    Table1_x64[_x64_counter].RemoteIP = _X64_TcpRows.RemoteEndPoint;
+                                                                    Table1_x64[_x64_counter].RPORT = _X64_TcpRows.RemoteEndPoint.Port;
+
+                                                                    switch (_X64_TcpRows.State)
+                                                                    {
+                                                                        case TcpState.Established:
+                                                                            Estab++; Table1_x64[_x64_counter].states = 5;
+                                                                            break;
+                                                                        case TcpState.Listen:
+                                                                            Listen++; Table1_x64[_x64_counter].states = 2;
+                                                                            break;
+                                                                        case TcpState.SynSent:
+                                                                            Sync++; Table1_x64[_x64_counter].states = 3;
+                                                                            break;
+                                                                    }
+
+                                                                    Table1_x64[_x64_counter].states_String = _X64_TcpRows.State.ToString().ToUpper();
+                                                                    Table1_x64[_x64_counter].PID = _X64_TcpRows.ProcessId;
+                                                                    Table1_x64[_x64_counter].ProcessName = Network_Info_DataTables.SetRow(_X64_TcpRows.ProcessId);
+
+                                                                    Int32 PPath_index = Processes_FileSystemList2.FindIndex(x => x.PID == _X64_TcpRows.ProcessId
+                                                                   /*&& x.FileName == Network_Info_DataTables.SetRow(_X64_TcpRows.ProcessId)*/);
+
+                                                                    if (PPath_index != -1)
+                                                                    {
+                                                                        Table1_x64[_x64_counter].ProcessPath = Processes_FileSystemList2[PPath_index].FileName_Path;
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        Table1_x64[_x64_counter].ProcessPath = " ";
+                                                                    }
+
+                                                                    Table1_x64[_x64_counter].IsLive = 2;
+                                                                    Table1_x64[_x64_counter].FullSTR = Table1_x64[_x64_counter].ProcessName.ToString() + Table1_x64[_x64_counter].PID.ToString()
+                                                                        + Table1_x64[_x64_counter].RemoteIP.Address.ToString() + Table1_x64[_x64_counter].RPORT.ToString() + Table1_x64[_x64_counter].states.ToString();
+                                                                }
+
+                                                                break;
+                                                            }
+                                                            catch (Exception)
+                                                            {
+                                                                break;
+                                                                //   throw;
+                                                            }
+                                                        }
+
+                                                }
+                                            }
+                                            break;
+
+
+
+
+                                    }
+
+                                    if (initial)
+                                    {
+
+                                        // BeginInvoke(new Additem(Additems), Table1_x64[_x64_counter]);
+                                        // Additems(Table1_x64[_x64_counter]);
+                                    }
+
+                                }
+                                catch (Exception e)
+                                {
+
+                                }
+                                _x64_counter++;
+                            }
+
+
+                        }
+                        catch (Exception err)
+                        {
+
+                        }
+
+
+
+                        try
+                        {
+
+                            if (!initial)
+                            {
+                                for (int i = 0; i < Table1_x64.Length; i++)
+                                {
+                                    if (Network_Info_DataTables.StopThread)
+                                    {
+                                        Core.Abort();
+                                        break;
+                                    }
+                                    for (int b = 0; b < Table2_x64.Length; b++)
+                                    {
+                                        if (Table1_x64[i].IsLive != 1)
+                                        {
+                                            if (Table1_x64[i].FullSTR == Table2_x64[b].FullSTR)
+                                            {
+                                                Table2_x64[b].IsLive = 1;
+                                                Table1_x64[i].IsLive = 1;
+
+                                            }
+                                        }
+                                    }
+                                    if (Table1_x64[i].IsLive != 1)
+                                    {
+                                        try
+                                        {
+                                            // BeginInvoke(new Additem(Additems), Table1_x64[i]);
+                                            // Additems(Table1_x64[i]);
+
+                                            Table1_x64[i].IsLive = 1;
+                                        }
+                                        catch (Exception err)
+                                        {
+
+
+                                        }
+
+                                    }
+                                    Thread.Sleep(1);
+                                }
+                            }
+
+                        }
+                        catch (Exception err)
+                        {
+
+
+                        }
+
+
+
+                        initial = false;
+
+                        try
+                        {
+                            Before_after = 0;
+                            //BeginInvoke(new DeleteItem(_DeleteItems), (object)1);
+                            // _DeleteItems((object)1);
+
+                        }
+                        catch (Exception err)
+                        {
+
+                        }
+
+                        //BeginInvoke(new information(Information));
+
+                        Thread.Sleep(2);
 
                         Endpoits = 0;
                         Listen = 0;
                         Sync = 0;
                         Estab = 0;
 
-                        //x64 code
-                        int _x64_counter = 0;
-                        int _x64_counter_tmp = 0;
-
-                        foreach (TcpRow _X64_TcpRows_tmp in ManagedIpHelper.GetExtendedTcpTable(true))
-                        {
-                            _x64_counter_tmp++;
-                        }
-
-                        Table1_x64 = new _Table[_x64_counter_tmp];
-
-                        foreach (TcpRow _X64_TcpRows in ManagedIpHelper.GetExtendedTcpTable(true))
+                        try
                         {
 
-                            if (Network_Info_DataTables.StopThread)
+                            //x64 code
+                            int _x64_counter_2 = 0;
+                            int _x64_counter_tmp_2 = 0;
+                            foreach (TcpRow _X64_TcpRows_tmp in ManagedIpHelper.GetExtendedTcpTable(true))
                             {
-                                Core.Abort();
-                                break;
+                                _x64_counter_tmp_2++;
+
                             }
+                            Table2_x64 = new _Table[_x64_counter_tmp_2];
 
-                            try
+                            foreach (TcpRow _X64_TcpRows in ManagedIpHelper.GetExtendedTcpTable(true))
                             {
-                                switch (Network_Info_DataTables.Filtering_ISEstablished)
+                                Thread.Sleep(5);
+                                if (Network_Info_DataTables.StopThread)
                                 {
+                                    Core.Abort();
+                                    break;
+                                }
+                                try
+                                {
+                                    switch (Network_Info_DataTables.Filtering_ISEstablished)
+                                    {
 
-                                    case false:
-                                        {
-                                            // add to x64 table code
-                                            switch (Network_Info_DataTables.Filtering_IS_127001)
+                                        case false:
                                             {
-                                                case true:
-                                                    {
-                                                        try
+                                                // add to x64 table code
+                                                switch (Network_Info_DataTables.Filtering_IS_127001)
+                                                {
+                                                    case true:
                                                         {
-                                                            if (_X64_TcpRows.LocalEndPoint.Address.ToString() != "127.0.0.1")
+                                                            try
                                                             {
-                                                                Table1_x64[_x64_counter].LocalIP = _X64_TcpRows.LocalEndPoint;
-                                                                Table1_x64[_x64_counter].LPORT = _X64_TcpRows.LocalEndPoint.Port;
-                                                                Table1_x64[_x64_counter].RemoteIP = _X64_TcpRows.RemoteEndPoint;
-                                                                Table1_x64[_x64_counter].RPORT = _X64_TcpRows.RemoteEndPoint.Port;
+
+
+                                                                if (_X64_TcpRows.LocalEndPoint.Address.ToString() != "127.0.0.1")
+                                                                {
+                                                                    // add to x64 table code
+                                                                    Table2_x64[_x64_counter_2].LocalIP = _X64_TcpRows.LocalEndPoint;
+                                                                    Table2_x64[_x64_counter_2].LPORT = _X64_TcpRows.LocalEndPoint.Port;
+                                                                    Table2_x64[_x64_counter_2].RemoteIP = _X64_TcpRows.RemoteEndPoint;
+                                                                    Table2_x64[_x64_counter_2].RPORT = _X64_TcpRows.RemoteEndPoint.Port;
+
+                                                                    switch (_X64_TcpRows.State)
+                                                                    {
+                                                                        case TcpState.Established:
+                                                                            Estab++; Table2_x64[_x64_counter_2].states = 5;
+                                                                            break;
+                                                                        case TcpState.Listen:
+                                                                            Listen++; Table2_x64[_x64_counter_2].states = 2;
+                                                                            break;
+                                                                        case TcpState.SynSent:
+                                                                            Sync++; Table2_x64[_x64_counter_2].states = 3;
+                                                                            break;
+                                                                    }
+
+                                                                    Table2_x64[_x64_counter_2].states_String = _X64_TcpRows.State.ToString().ToUpper();
+                                                                    Table2_x64[_x64_counter_2].PID = _X64_TcpRows.ProcessId;
+                                                                    Table2_x64[_x64_counter_2].ProcessName = Network_Info_DataTables.SetRow(_X64_TcpRows.ProcessId);
+
+                                                                    Int32 PPath_index = Processes_FileSystemList2.FindIndex(x => x.PID == _X64_TcpRows.ProcessId
+                                                                   /*&& x.FileName == Network_Info_DataTables.SetRow(_X64_TcpRows.ProcessId)*/);
+
+                                                                    if (PPath_index != -1)
+                                                                    {
+                                                                        Table2_x64[_x64_counter_2].ProcessPath = Processes_FileSystemList2[PPath_index].FileName_Path;
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        Table2_x64[_x64_counter_2].ProcessPath = " ";
+                                                                    }
+
+                                                                    Table2_x64[_x64_counter_2].IsLive = 2;
+                                                                    Table2_x64[_x64_counter_2].FullSTR = Table1_x64[_x64_counter_2].LPORT.ToString() + Table1_x64[_x64_counter_2].RemoteIP.Address.ToString() + Table1_x64[_x64_counter_2].RPORT.ToString() + Table1_x64[_x64_counter_2].states.ToString();
+                                                                }
+                                                                break;
+                                                            }
+                                                            catch (Exception)
+                                                            {
+
+                                                                break;
+                                                            }
+                                                        }
+                                                    case false:
+                                                        {
+                                                            try
+                                                            {
+
+
+                                                                Table2_x64[_x64_counter_2].LocalIP = _X64_TcpRows.LocalEndPoint;
+                                                                Table2_x64[_x64_counter_2].LPORT = _X64_TcpRows.LocalEndPoint.Port;
+                                                                Table2_x64[_x64_counter_2].RemoteIP = _X64_TcpRows.RemoteEndPoint;
+                                                                Table2_x64[_x64_counter_2].RPORT = _X64_TcpRows.RemoteEndPoint.Port;
 
                                                                 switch (_X64_TcpRows.State)
                                                                 {
                                                                     case TcpState.Established:
-                                                                        Estab++; Table1_x64[_x64_counter].states = 5;
+                                                                        Estab++; Table2_x64[_x64_counter_2].states = 5;
                                                                         break;
                                                                     case TcpState.Listen:
-                                                                        Listen++; Table1_x64[_x64_counter].states = 2;
+                                                                        Listen++; Table2_x64[_x64_counter_2].states = 2;
                                                                         break;
                                                                     case TcpState.SynSent:
-                                                                        Sync++; Table1_x64[_x64_counter].states = 3;
+                                                                        Sync++; Table2_x64[_x64_counter_2].states = 3;
                                                                         break;
                                                                 }
-
-                                                                Table1_x64[_x64_counter].states_String = _X64_TcpRows.State.ToString().ToUpper();
-                                                                Table1_x64[_x64_counter].PID = _X64_TcpRows.ProcessId;
-                                                                Table1_x64[_x64_counter].ProcessName = Network_Info_DataTables.SetRow(_X64_TcpRows.ProcessId);
+                                                                Table2_x64[_x64_counter_2].states_String = _X64_TcpRows.State.ToString().ToUpper();
+                                                                Table2_x64[_x64_counter_2].PID = _X64_TcpRows.ProcessId;
+                                                                Table2_x64[_x64_counter_2].ProcessName = Network_Info_DataTables.SetRow(_X64_TcpRows.ProcessId);
 
                                                                 Int32 PPath_index = Processes_FileSystemList2.FindIndex(x => x.PID == _X64_TcpRows.ProcessId
-                                                                /*&& x.FileName == Network_Info_DataTables.SetRow(_X64_TcpRows.ProcessId)*/);
+                                                               /*&& x.FileName == Network_Info_DataTables.SetRow(_X64_TcpRows.ProcessId)*/);
 
                                                                 if (PPath_index != -1)
                                                                 {
-                                                                    Table1_x64[_x64_counter].ProcessPath = Processes_FileSystemList2[PPath_index].FileName_Path;
+                                                                    Table2_x64[_x64_counter_2].ProcessPath = Processes_FileSystemList2[PPath_index].FileName_Path;
                                                                 }
                                                                 else
                                                                 {
-                                                                    Table1_x64[_x64_counter].ProcessPath = " ";
+                                                                    Table2_x64[_x64_counter_2].ProcessPath = " ";
                                                                 }
 
-                                                                Table1_x64[_x64_counter].IsLive = 2;
-                                                                Table1_x64[_x64_counter].FullSTR = Table1_x64[_x64_counter].ProcessName.ToString() + Table1_x64[_x64_counter].PID.ToString()
-                                                                    + Table1_x64[_x64_counter].RemoteIP.Address.ToString() + Table1_x64[_x64_counter].RPORT.ToString() + Table1_x64[_x64_counter].states.ToString();
+                                                                Table2_x64[_x64_counter_2].IsLive = 2;
+                                                                Table2_x64[_x64_counter_2].FullSTR = Table1_x64[_x64_counter_2].LPORT.ToString() + Table1_x64[_x64_counter_2].RemoteIP.Address.ToString() + Table1_x64[_x64_counter_2].RPORT.ToString() + Table1_x64[_x64_counter_2].states.ToString();
+                                                                break;
                                                             }
-                                                            break;
-                                                        }
-                                                        catch (Exception)
-                                                        {
-                                                            break;
-                                                        }
-                                                    }
-                                                case false:
-                                                    {
-                                                        try
-                                                        {
-
-
-                                                            Table1_x64[_x64_counter].LocalIP = _X64_TcpRows.LocalEndPoint;
-                                                            Table1_x64[_x64_counter].LPORT = _X64_TcpRows.LocalEndPoint.Port;
-                                                            Table1_x64[_x64_counter].RemoteIP = _X64_TcpRows.RemoteEndPoint;
-                                                            Table1_x64[_x64_counter].RPORT = _X64_TcpRows.RemoteEndPoint.Port;
-
-                                                            switch (_X64_TcpRows.State)
+                                                            catch (Exception)
                                                             {
-                                                                case TcpState.Established:
-                                                                    Estab++; Table1_x64[_x64_counter].states = 5;
-                                                                    break;
-                                                                case TcpState.Listen:
-                                                                    Listen++; Table1_x64[_x64_counter].states = 2;
-                                                                    break;
-                                                                case TcpState.SynSent:
-                                                                    Sync++; Table1_x64[_x64_counter].states = 3;
-                                                                    break;
+
+                                                                break;
                                                             }
+                                                        }
+                                                }
+                                            }
+                                            break;
+                                        case true:
+                                            {
 
-                                                            Table1_x64[_x64_counter].states_String = _X64_TcpRows.State.ToString().ToUpper();
-                                                            Table1_x64[_x64_counter].PID = _X64_TcpRows.ProcessId;
-                                                            Table1_x64[_x64_counter].ProcessName = Network_Info_DataTables.SetRow(_X64_TcpRows.ProcessId);
+                                                switch (Network_Info_DataTables.Filtering_IS_127001)
+                                                {
+                                                    case true:
+                                                        {
+                                                            try
+                                                            {
+                                                                if (_X64_TcpRows.LocalEndPoint.Address.ToString() != "127.0.0.1" && _X64_TcpRows.State == TcpState.Established)
+                                                                {
+                                                                    Table2_x64[_x64_counter_2].LocalIP = _X64_TcpRows.LocalEndPoint;
+                                                                    Table2_x64[_x64_counter_2].LPORT = _X64_TcpRows.LocalEndPoint.Port;
+                                                                    Table2_x64[_x64_counter_2].RemoteIP = _X64_TcpRows.RemoteEndPoint;
+                                                                    Table2_x64[_x64_counter_2].RPORT = _X64_TcpRows.RemoteEndPoint.Port;
+                                                                    switch (_X64_TcpRows.State)
+                                                                    {
+                                                                        case TcpState.Established:
+                                                                            Estab++; Table2_x64[_x64_counter_2].states = 5;
+                                                                            break;
+                                                                        case TcpState.Listen:
+                                                                            Listen++; Table2_x64[_x64_counter_2].states = 2;
+                                                                            break;
+                                                                        case TcpState.SynSent:
+                                                                            Sync++; Table2_x64[_x64_counter_2].states = 3;
+                                                                            break;
+                                                                    }
+                                                                    Table2_x64[_x64_counter_2].states_String = _X64_TcpRows.State.ToString().ToUpper();
+                                                                    Table2_x64[_x64_counter_2].PID = _X64_TcpRows.ProcessId;
+                                                                    Table2_x64[_x64_counter_2].ProcessName = Network_Info_DataTables.SetRow(_X64_TcpRows.ProcessId);
 
-                                                            Int32 PPath_index = Processes_FileSystemList2.FindIndex(x => x.PID == _X64_TcpRows.ProcessId
+                                                                    Int32 PPath_index = Processes_FileSystemList2.FindIndex(x => x.PID == _X64_TcpRows.ProcessId
                                                               /* && x.FileName == Network_Info_DataTables.SetRow(_X64_TcpRows.ProcessId)*/);
 
-                                                            if (PPath_index != -1)
-                                                            {
-                                                                Table1_x64[_x64_counter].ProcessPath = Processes_FileSystemList2[PPath_index].FileName_Path;
-                                                            }
-                                                            else
-                                                            {
-                                                                Table1_x64[_x64_counter].ProcessPath = " ";
-                                                            }
+                                                                    if (PPath_index != -1)
+                                                                    {
+                                                                        Table2_x64[_x64_counter_2].ProcessPath = Processes_FileSystemList2[PPath_index].FileName_Path;
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        Table2_x64[_x64_counter_2].ProcessPath = " ";
+                                                                    }
 
-                                                            Table1_x64[_x64_counter].IsLive = 2;
-                                                            Table1_x64[_x64_counter].FullSTR = Table1_x64[_x64_counter].ProcessName.ToString() + Table1_x64[_x64_counter].PID.ToString()
-                                                                + Table1_x64[_x64_counter].RemoteIP.Address.ToString() + Table1_x64[_x64_counter].RPORT.ToString() + Table1_x64[_x64_counter].states.ToString();
-
-
-                                                            break;
-                                                        }
-                                                        catch (Exception)
-                                                        {
-                                                            break;
-                                                            //   throw;
-                                                        }
-                                                    }
-
-                                            }
-                                        }
-                                        break;
-                                    case true:
-                                        {
-                                            switch (Network_Info_DataTables.Filtering_IS_127001)
-                                            {
-                                                case true:
-                                                    {
-                                                        try
-                                                        {
-                                                            if (_X64_TcpRows.LocalEndPoint.Address.ToString() != "127.0.0.1" && _X64_TcpRows.State == TcpState.Established)
-                                                            {
-                                                                Table1_x64[_x64_counter].LocalIP = _X64_TcpRows.LocalEndPoint;
-                                                                Table1_x64[_x64_counter].LPORT = _X64_TcpRows.LocalEndPoint.Port;
-                                                                Table1_x64[_x64_counter].RemoteIP = _X64_TcpRows.RemoteEndPoint;
-                                                                Table1_x64[_x64_counter].RPORT = _X64_TcpRows.RemoteEndPoint.Port;
-
-                                                                switch (_X64_TcpRows.State)
-                                                                {
-                                                                    case TcpState.Established:
-                                                                        Estab++; Table1_x64[_x64_counter].states = 5;
-                                                                        break;
-                                                                    case TcpState.Listen:
-                                                                        Listen++; Table1_x64[_x64_counter].states = 2;
-                                                                        break;
-                                                                    case TcpState.SynSent:
-                                                                        Sync++; Table1_x64[_x64_counter].states = 3;
-                                                                        break;
+                                                                    Table2_x64[_x64_counter_2].IsLive = 2;
+                                                                    Table2_x64[_x64_counter_2].FullSTR = Table1_x64[_x64_counter_2].LPORT.ToString() + Table1_x64[_x64_counter_2].RemoteIP.Address.ToString() + Table1_x64[_x64_counter_2].RPORT.ToString() + Table1_x64[_x64_counter_2].states.ToString();
                                                                 }
+                                                                break;
+                                                            }
+                                                            catch (Exception)
+                                                            {
 
-                                                                Table1_x64[_x64_counter].states_String = _X64_TcpRows.State.ToString().ToUpper();
-                                                                Table1_x64[_x64_counter].PID = _X64_TcpRows.ProcessId;
-                                                                Table1_x64[_x64_counter].ProcessName = Network_Info_DataTables.SetRow(_X64_TcpRows.ProcessId);
+                                                                break;
+                                                            }
+                                                        }
+                                                    case false:
+                                                        {
+                                                            try
+                                                            {
+                                                                if (_X64_TcpRows.State == TcpState.Established)
+                                                                {
+                                                                    Table2_x64[_x64_counter_2].LocalIP = _X64_TcpRows.LocalEndPoint;
+                                                                    Table2_x64[_x64_counter_2].LPORT = _X64_TcpRows.LocalEndPoint.Port;
+                                                                    Table2_x64[_x64_counter_2].RemoteIP = _X64_TcpRows.RemoteEndPoint;
+                                                                    Table2_x64[_x64_counter_2].RPORT = _X64_TcpRows.RemoteEndPoint.Port;
+                                                                    switch (_X64_TcpRows.State)
+                                                                    {
+                                                                        case TcpState.Established:
+                                                                            Estab++; Table2_x64[_x64_counter_2].states = 5;
+                                                                            break;
+                                                                        case TcpState.Listen:
+                                                                            Listen++; Table2_x64[_x64_counter_2].states = 2;
+                                                                            break;
+                                                                        case TcpState.SynSent:
+                                                                            Sync++; Table2_x64[_x64_counter_2].states = 3;
+                                                                            break;
+                                                                    }
+                                                                    Table2_x64[_x64_counter_2].states_String = _X64_TcpRows.State.ToString().ToUpper();
+                                                                    Table2_x64[_x64_counter_2].PID = _X64_TcpRows.ProcessId;
+                                                                    Table2_x64[_x64_counter_2].ProcessName = Network_Info_DataTables.SetRow(_X64_TcpRows.ProcessId);
 
-                                                                Int32 PPath_index = Processes_FileSystemList2.FindIndex(x => x.PID == _X64_TcpRows.ProcessId
+                                                                    Int32 PPath_index = Processes_FileSystemList2.FindIndex(x => x.PID == _X64_TcpRows.ProcessId
                                                                /*&& x.FileName == Network_Info_DataTables.SetRow(_X64_TcpRows.ProcessId)*/);
 
-                                                                if (PPath_index != -1)
-                                                                {
-                                                                    Table1_x64[_x64_counter].ProcessPath = Processes_FileSystemList2[PPath_index].FileName_Path;
-                                                                }
-                                                                else
-                                                                {
-                                                                    Table1_x64[_x64_counter].ProcessPath = " ";
-                                                                }
+                                                                    if (PPath_index != -1)
+                                                                    {
+                                                                        Table2_x64[_x64_counter_2].ProcessPath = Processes_FileSystemList2[PPath_index].FileName_Path;
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        Table2_x64[_x64_counter_2].ProcessPath = " ";
+                                                                    }
 
-                                                                Table1_x64[_x64_counter].IsLive = 2;
-                                                                Table1_x64[_x64_counter].FullSTR = Table1_x64[_x64_counter].ProcessName.ToString() + Table1_x64[_x64_counter].PID.ToString()
-                                                                    + Table1_x64[_x64_counter].RemoteIP.Address.ToString() + Table1_x64[_x64_counter].RPORT.ToString() + Table1_x64[_x64_counter].states.ToString();
+                                                                    Table2_x64[_x64_counter_2].IsLive = 2;
+                                                                    Table2_x64[_x64_counter_2].FullSTR = Table1_x64[_x64_counter_2].LPORT.ToString() + Table1_x64[_x64_counter_2].RemoteIP.Address.ToString() + Table1_x64[_x64_counter_2].RPORT.ToString() + Table1_x64[_x64_counter_2].states.ToString();
+                                                                }
+                                                                break;
                                                             }
-                                                            break;
-                                                        }
-                                                        catch (Exception)
-                                                        {
-                                                            break;
-                                                        }
-                                                    }
-                                                case false:
-                                                    {
-                                                        try
-                                                        {
-                                                            if (_X64_TcpRows.State == TcpState.Established)
+                                                            catch (Exception)
                                                             {
-                                                                Table1_x64[_x64_counter].LocalIP = _X64_TcpRows.LocalEndPoint;
-                                                                Table1_x64[_x64_counter].LPORT = _X64_TcpRows.LocalEndPoint.Port;
-                                                                Table1_x64[_x64_counter].RemoteIP = _X64_TcpRows.RemoteEndPoint;
-                                                                Table1_x64[_x64_counter].RPORT = _X64_TcpRows.RemoteEndPoint.Port;
 
-                                                                switch (_X64_TcpRows.State)
-                                                                {
-                                                                    case TcpState.Established:
-                                                                        Estab++; Table1_x64[_x64_counter].states = 5;
-                                                                        break;
-                                                                    case TcpState.Listen:
-                                                                        Listen++; Table1_x64[_x64_counter].states = 2;
-                                                                        break;
-                                                                    case TcpState.SynSent:
-                                                                        Sync++; Table1_x64[_x64_counter].states = 3;
-                                                                        break;
-                                                                }
-
-                                                                Table1_x64[_x64_counter].states_String = _X64_TcpRows.State.ToString().ToUpper();
-                                                                Table1_x64[_x64_counter].PID = _X64_TcpRows.ProcessId;
-                                                                Table1_x64[_x64_counter].ProcessName = Network_Info_DataTables.SetRow(_X64_TcpRows.ProcessId);
-
-                                                                Int32 PPath_index = Processes_FileSystemList2.FindIndex(x => x.PID == _X64_TcpRows.ProcessId
-                                                               /*&& x.FileName == Network_Info_DataTables.SetRow(_X64_TcpRows.ProcessId)*/);
-
-                                                                if (PPath_index != -1)
-                                                                {
-                                                                    Table1_x64[_x64_counter].ProcessPath = Processes_FileSystemList2[PPath_index].FileName_Path;
-                                                                }
-                                                                else
-                                                                {
-                                                                    Table1_x64[_x64_counter].ProcessPath = " ";
-                                                                }
-
-                                                                Table1_x64[_x64_counter].IsLive = 2;
-                                                                Table1_x64[_x64_counter].FullSTR = Table1_x64[_x64_counter].ProcessName.ToString() + Table1_x64[_x64_counter].PID.ToString()
-                                                                    + Table1_x64[_x64_counter].RemoteIP.Address.ToString() + Table1_x64[_x64_counter].RPORT.ToString() + Table1_x64[_x64_counter].states.ToString();
+                                                                break;
                                                             }
-
-                                                            break;
                                                         }
-                                                        catch (Exception)
-                                                        {
-                                                            break;
-                                                            //   throw;
-                                                        }
-                                                    }
-
+                                                }
                                             }
-                                        }
-                                        break;
-
-
-
+                                            break;
+                                    }
 
                                 }
-
-                                if (initial)
+                                catch (Exception e)
                                 {
 
-                                    // BeginInvoke(new Additem(Additems), Table1_x64[_x64_counter]);
-                                   // Additems(Table1_x64[_x64_counter]);
+
                                 }
-
+                                _x64_counter_2++;
                             }
-                            catch (Exception e)
-                            {
 
-                            }
-                            _x64_counter++;
+                        }
+                        catch (Exception err)
+                        {
+
+
                         }
 
 
-                    }
-                    catch (Exception err)
-                    {
-
-                    }
-
-
-
-                    try
-                    {
-
-                        if (!initial)
+                        try
                         {
-                            for (int i = 0; i < Table1_x64.Length; i++)
+
+                            for (int i = 0; i < Table2_x64.Length; i++)
                             {
                                 if (Network_Info_DataTables.StopThread)
                                 {
                                     Core.Abort();
                                     break;
                                 }
-                                for (int b = 0; b < Table2_x64.Length; b++)
+                                for (int b = 0; b < Table1_x64.Length; b++)
                                 {
-                                    if (Table1_x64[i].IsLive != 1)
+                                    if (Table2_x64[i].IsLive != 1)
                                     {
-                                        if (Table1_x64[i].FullSTR == Table2_x64[b].FullSTR)
+                                        if (Table2_x64[i].FullSTR == Table1_x64[b].FullSTR)
                                         {
-                                            Table2_x64[b].IsLive = 1;
-                                            Table1_x64[i].IsLive = 1;
+                                            Table1_x64[b].IsLive = 1;
+                                            Table2_x64[i].IsLive = 1;
 
                                         }
                                     }
                                 }
-                                if (Table1_x64[i].IsLive != 1)
+                                if (Table2_x64[i].IsLive != 1)
                                 {
                                     try
                                     {
-                                        // BeginInvoke(new Additem(Additems), Table1_x64[i]);
-                                       // Additems(Table1_x64[i]);
 
-                                        Table1_x64[i].IsLive = 1;
+                                        // BeginInvoke(new Additem(Additems), Table2_x64[i]);
+                                        // Additems(Table2_x64[i]);
+                                        Table2_x64[i].IsLive = 1;
                                     }
                                     catch (Exception err)
                                     {
@@ -719,344 +1071,34 @@ namespace ETWPM2Monitor2
                                     }
 
                                 }
-                                Thread.Sleep(1);
+
                             }
                         }
-
-                    }
-                    catch (Exception err)
-                    {
-
-
-                    }
-
-
-
-                    initial = false;
-
-                    try
-                    {
-                        Before_after = 0;
-                        //BeginInvoke(new DeleteItem(_DeleteItems), (object)1);
-                        // _DeleteItems((object)1);
-
-                    }
-                    catch (Exception err)
-                    {
-
-                    }
-
-                    //BeginInvoke(new information(Information));
-
-                    Thread.Sleep(2);
-
-                    Endpoits = 0;
-                    Listen = 0;
-                    Sync = 0;
-                    Estab = 0;
-
-                    try
-                    {
-
-                        //x64 code
-                        int _x64_counter_2 = 0;
-                        int _x64_counter_tmp_2 = 0;
-                        foreach (TcpRow _X64_TcpRows_tmp in ManagedIpHelper.GetExtendedTcpTable(true))
-                        {
-                            _x64_counter_tmp_2++;
-
-                        }
-                        Table2_x64 = new _Table[_x64_counter_tmp_2];
-
-                        foreach (TcpRow _X64_TcpRows in ManagedIpHelper.GetExtendedTcpTable(true))
+                        catch (Exception err)
                         {
 
-                            if (Network_Info_DataTables.StopThread)
-                            {
-                                Core.Abort();
-                                break;
-                            }
-                            try
-                            {
-                                switch (Network_Info_DataTables.Filtering_ISEstablished)
-                                {
 
-                                    case false:
-                                        {
-                                            // add to x64 table code
-                                            switch (Network_Info_DataTables.Filtering_IS_127001)
-                                            {
-                                                case true:
-                                                    {
-                                                        try
-                                                        {
-
-
-                                                            if (_X64_TcpRows.LocalEndPoint.Address.ToString() != "127.0.0.1")
-                                                            {
-                                                                // add to x64 table code
-                                                                Table2_x64[_x64_counter_2].LocalIP = _X64_TcpRows.LocalEndPoint;
-                                                                Table2_x64[_x64_counter_2].LPORT = _X64_TcpRows.LocalEndPoint.Port;
-                                                                Table2_x64[_x64_counter_2].RemoteIP = _X64_TcpRows.RemoteEndPoint;
-                                                                Table2_x64[_x64_counter_2].RPORT = _X64_TcpRows.RemoteEndPoint.Port;
-
-                                                                switch (_X64_TcpRows.State)
-                                                                {
-                                                                    case TcpState.Established:
-                                                                        Estab++; Table2_x64[_x64_counter_2].states = 5;
-                                                                        break;
-                                                                    case TcpState.Listen:
-                                                                        Listen++; Table2_x64[_x64_counter_2].states = 2;
-                                                                        break;
-                                                                    case TcpState.SynSent:
-                                                                        Sync++; Table2_x64[_x64_counter_2].states = 3;
-                                                                        break;
-                                                                }
-
-                                                                Table2_x64[_x64_counter_2].states_String = _X64_TcpRows.State.ToString().ToUpper();
-                                                                Table2_x64[_x64_counter_2].PID = _X64_TcpRows.ProcessId;
-                                                                Table2_x64[_x64_counter_2].ProcessName = Network_Info_DataTables.SetRow(_X64_TcpRows.ProcessId);
-
-                                                                Int32 PPath_index = Processes_FileSystemList2.FindIndex(x => x.PID == _X64_TcpRows.ProcessId
-                                                               /*&& x.FileName == Network_Info_DataTables.SetRow(_X64_TcpRows.ProcessId)*/);
-
-                                                                if (PPath_index != -1)
-                                                                {
-                                                                    Table2_x64[_x64_counter_2].ProcessPath = Processes_FileSystemList2[PPath_index].FileName_Path;
-                                                                }
-                                                                else
-                                                                {
-                                                                    Table2_x64[_x64_counter_2].ProcessPath = " ";
-                                                                }
-
-                                                                Table2_x64[_x64_counter_2].IsLive = 2;
-                                                                Table2_x64[_x64_counter_2].FullSTR = Table1_x64[_x64_counter_2].LPORT.ToString() + Table1_x64[_x64_counter_2].RemoteIP.Address.ToString() + Table1_x64[_x64_counter_2].RPORT.ToString() + Table1_x64[_x64_counter_2].states.ToString();
-                                                            }
-                                                            break;
-                                                        }
-                                                        catch (Exception)
-                                                        {
-
-                                                            break;
-                                                        }
-                                                    }
-                                                case false:
-                                                    {
-                                                        try
-                                                        {
-
-
-                                                            Table2_x64[_x64_counter_2].LocalIP = _X64_TcpRows.LocalEndPoint;
-                                                            Table2_x64[_x64_counter_2].LPORT = _X64_TcpRows.LocalEndPoint.Port;
-                                                            Table2_x64[_x64_counter_2].RemoteIP = _X64_TcpRows.RemoteEndPoint;
-                                                            Table2_x64[_x64_counter_2].RPORT = _X64_TcpRows.RemoteEndPoint.Port;
-
-                                                            switch (_X64_TcpRows.State)
-                                                            {
-                                                                case TcpState.Established:
-                                                                    Estab++; Table2_x64[_x64_counter_2].states = 5;
-                                                                    break;
-                                                                case TcpState.Listen:
-                                                                    Listen++; Table2_x64[_x64_counter_2].states = 2;
-                                                                    break;
-                                                                case TcpState.SynSent:
-                                                                    Sync++; Table2_x64[_x64_counter_2].states = 3;
-                                                                    break;
-                                                            }
-                                                            Table2_x64[_x64_counter_2].states_String = _X64_TcpRows.State.ToString().ToUpper();
-                                                            Table2_x64[_x64_counter_2].PID = _X64_TcpRows.ProcessId;
-                                                            Table2_x64[_x64_counter_2].ProcessName = Network_Info_DataTables.SetRow(_X64_TcpRows.ProcessId);
-
-                                                            Int32 PPath_index = Processes_FileSystemList2.FindIndex(x => x.PID == _X64_TcpRows.ProcessId
-                                                           /*&& x.FileName == Network_Info_DataTables.SetRow(_X64_TcpRows.ProcessId)*/);
-
-                                                            if (PPath_index != -1)
-                                                            {
-                                                                Table2_x64[_x64_counter_2].ProcessPath = Processes_FileSystemList2[PPath_index].FileName_Path;
-                                                            }
-                                                            else
-                                                            {
-                                                                Table2_x64[_x64_counter_2].ProcessPath = " ";
-                                                            }
-
-                                                            Table2_x64[_x64_counter_2].IsLive = 2;
-                                                            Table2_x64[_x64_counter_2].FullSTR = Table1_x64[_x64_counter_2].LPORT.ToString() + Table1_x64[_x64_counter_2].RemoteIP.Address.ToString() + Table1_x64[_x64_counter_2].RPORT.ToString() + Table1_x64[_x64_counter_2].states.ToString();
-                                                            break;
-                                                        }
-                                                        catch (Exception)
-                                                        {
-
-                                                            break;
-                                                        }
-                                                    }
-                                            }
-                                        }
-                                        break;
-                                    case true:
-                                        {
-
-                                            switch (Network_Info_DataTables.Filtering_IS_127001)
-                                            {
-                                                case true:
-                                                    {
-                                                        try
-                                                        {
-                                                            if (_X64_TcpRows.LocalEndPoint.Address.ToString() != "127.0.0.1" && _X64_TcpRows.State == TcpState.Established)
-                                                            {
-                                                                Table2_x64[_x64_counter_2].LocalIP = _X64_TcpRows.LocalEndPoint;
-                                                                Table2_x64[_x64_counter_2].LPORT = _X64_TcpRows.LocalEndPoint.Port;
-                                                                Table2_x64[_x64_counter_2].RemoteIP = _X64_TcpRows.RemoteEndPoint;
-                                                                Table2_x64[_x64_counter_2].RPORT = _X64_TcpRows.RemoteEndPoint.Port;
-                                                                switch (_X64_TcpRows.State)
-                                                                {
-                                                                    case TcpState.Established:
-                                                                        Estab++; Table2_x64[_x64_counter_2].states = 5;
-                                                                        break;
-                                                                    case TcpState.Listen:
-                                                                        Listen++; Table2_x64[_x64_counter_2].states = 2;
-                                                                        break;
-                                                                    case TcpState.SynSent:
-                                                                        Sync++; Table2_x64[_x64_counter_2].states = 3;
-                                                                        break;
-                                                                }
-                                                                Table2_x64[_x64_counter_2].states_String = _X64_TcpRows.State.ToString().ToUpper();
-                                                                Table2_x64[_x64_counter_2].PID = _X64_TcpRows.ProcessId;
-                                                                Table2_x64[_x64_counter_2].ProcessName = Network_Info_DataTables.SetRow(_X64_TcpRows.ProcessId);
-
-                                                                Int32 PPath_index = Processes_FileSystemList2.FindIndex(x => x.PID == _X64_TcpRows.ProcessId
-                                                          /* && x.FileName == Network_Info_DataTables.SetRow(_X64_TcpRows.ProcessId)*/);
-
-                                                                if (PPath_index != -1)
-                                                                {
-                                                                    Table2_x64[_x64_counter_2].ProcessPath = Processes_FileSystemList2[PPath_index].FileName_Path;
-                                                                }
-                                                                else
-                                                                {
-                                                                    Table2_x64[_x64_counter_2].ProcessPath = " ";
-                                                                }
-
-                                                                Table2_x64[_x64_counter_2].IsLive = 2;
-                                                                Table2_x64[_x64_counter_2].FullSTR = Table1_x64[_x64_counter_2].LPORT.ToString() + Table1_x64[_x64_counter_2].RemoteIP.Address.ToString() + Table1_x64[_x64_counter_2].RPORT.ToString() + Table1_x64[_x64_counter_2].states.ToString();
-                                                            }
-                                                            break;
-                                                        }
-                                                        catch (Exception)
-                                                        {
-
-                                                            break;
-                                                        }
-                                                    }
-                                                case false:
-                                                    {
-                                                        try
-                                                        {
-                                                            if (_X64_TcpRows.State == TcpState.Established)
-                                                            {
-                                                                Table2_x64[_x64_counter_2].LocalIP = _X64_TcpRows.LocalEndPoint;
-                                                                Table2_x64[_x64_counter_2].LPORT = _X64_TcpRows.LocalEndPoint.Port;
-                                                                Table2_x64[_x64_counter_2].RemoteIP = _X64_TcpRows.RemoteEndPoint;
-                                                                Table2_x64[_x64_counter_2].RPORT = _X64_TcpRows.RemoteEndPoint.Port;
-                                                                switch (_X64_TcpRows.State)
-                                                                {
-                                                                    case TcpState.Established:
-                                                                        Estab++; Table2_x64[_x64_counter_2].states = 5;
-                                                                        break;
-                                                                    case TcpState.Listen:
-                                                                        Listen++; Table2_x64[_x64_counter_2].states = 2;
-                                                                        break;
-                                                                    case TcpState.SynSent:
-                                                                        Sync++; Table2_x64[_x64_counter_2].states = 3;
-                                                                        break;
-                                                                }
-                                                                Table2_x64[_x64_counter_2].states_String = _X64_TcpRows.State.ToString().ToUpper();
-                                                                Table2_x64[_x64_counter_2].PID = _X64_TcpRows.ProcessId;
-                                                                Table2_x64[_x64_counter_2].ProcessName = Network_Info_DataTables.SetRow(_X64_TcpRows.ProcessId);
-
-                                                                Int32 PPath_index = Processes_FileSystemList2.FindIndex(x => x.PID == _X64_TcpRows.ProcessId
-                                                           /*&& x.FileName == Network_Info_DataTables.SetRow(_X64_TcpRows.ProcessId)*/);
-
-                                                                if (PPath_index != -1)
-                                                                {
-                                                                    Table2_x64[_x64_counter_2].ProcessPath = Processes_FileSystemList2[PPath_index].FileName_Path;
-                                                                }
-                                                                else
-                                                                {
-                                                                    Table2_x64[_x64_counter_2].ProcessPath = " ";
-                                                                }
-
-                                                                Table2_x64[_x64_counter_2].IsLive = 2;
-                                                                Table2_x64[_x64_counter_2].FullSTR = Table1_x64[_x64_counter_2].LPORT.ToString() + Table1_x64[_x64_counter_2].RemoteIP.Address.ToString() + Table1_x64[_x64_counter_2].RPORT.ToString() + Table1_x64[_x64_counter_2].states.ToString();
-                                                            }
-                                                            break;
-                                                        }
-                                                        catch (Exception)
-                                                        {
-
-                                                            break;
-                                                        }
-                                                    }
-                                            }
-                                        }
-                                        break;
-                                }
-
-                            }
-                            catch (Exception e)
-                            {
-
-
-                            }
-                            _x64_counter_2++;
                         }
 
-                    }
-                    catch (Exception err)
-                    {
 
 
-                    }
 
-
-                    try
-                    {
-
-                        for (int i = 0; i < Table2_x64.Length; i++)
+                        try
                         {
-                            if (Network_Info_DataTables.StopThread)
-                            {
-                                Core.Abort();
-                                break;
-                            }
-                            for (int b = 0; b < Table1_x64.Length; b++)
-                            {
-                                if (Table2_x64[i].IsLive != 1)
-                                {
-                                    if (Table2_x64[i].FullSTR == Table1_x64[b].FullSTR)
-                                    {
-                                        Table1_x64[b].IsLive = 1;
-                                        Table2_x64[i].IsLive = 1;
+                            Before_after = 1;
+                            //BeginInvoke(new DeleteItem(_DeleteItems), (object)1);
+                            // _DeleteItems((object)1);
+                        }
+                        catch (Exception err)
+                        {
 
-                                    }
-                                }
-                            }
-                            if (Table2_x64[i].IsLive != 1)
-                            {
-                                try
-                                {
-
-                                    // BeginInvoke(new Additem(Additems), Table2_x64[i]);
-                                    // Additems(Table2_x64[i]);
-                                    Table2_x64[i].IsLive = 1;
-                                }
-                                catch (Exception err)
-                                {
-
-
-                                }
-
-                            }
 
                         }
+
+
+                        //BeginInvoke(new information(Information));
+                        Thread.Sleep(10);
+
                     }
                     catch (Exception err)
                     {
@@ -1065,37 +1107,12 @@ namespace ETWPM2Monitor2
                     }
 
 
-
-
-                    try
-                    {
-                        Before_after = 1;
-                        //BeginInvoke(new DeleteItem(_DeleteItems), (object)1);
-                       // _DeleteItems((object)1);
-                    }
-                    catch (Exception err)
-                    {
-
-
-                    }
-
-
-                    //BeginInvoke(new information(Information));
-                    Thread.Sleep(10);
-
-                }
-                catch (Exception err)
-                {
+                    Table1_x64.ToList().RemoveAll(x => x.IsLive > 1);
+                    Table2_x64.ToList().RemoveAll(x => x.IsLive > 1);
 
 
                 }
-
-
-                Table1_x64.ToList().RemoveAll(x => x.IsLive > 1);
-                Table2_x64.ToList().RemoveAll(x => x.IsLive > 1);
-
-
-            }
+            });
         }
 
         public static void GetProcessesPaths()
@@ -1294,13 +1311,17 @@ namespace ETWPM2Monitor2
             string expression;
             string result = "";
 
-            DataRow[] foundRows;
+            DataRow[] foundRows = new DataRow[1];
             expression = "Pid = " + Pid.ToString() + "";
             // Use the Select method to find all rows matching the filter.
             if (table.Rows != null)
             {
+
+
+
                 foundRows = table.Select(expression);
                 result = foundRows[0][1].ToString();
+
             }
 
             //// Print column 0 of each returned row.          

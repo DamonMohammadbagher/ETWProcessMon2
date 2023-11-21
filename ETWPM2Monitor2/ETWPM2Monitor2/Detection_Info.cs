@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Diagnostics;
 
 namespace ETWPM2Monitor2
 {
@@ -13,8 +13,6 @@ namespace ETWPM2Monitor2
         public static Form1 MainForm1 = new Form1();       
         public static string lastETW_Alarms_Detection = "";
         public delegate void _AddItems(ListViewItem str);
-
-
         public static void _SaveNewETW_Alarms_to_WinEventLog(ListViewItem AlarmObjects)
         {
             try
@@ -23,12 +21,11 @@ namespace ETWPM2Monitor2
                 ListViewItem __AlarmObject = (ListViewItem)AlarmObjects;
 
                 StringBuilder st = new StringBuilder();
-
                 ListViewItem xitem = __AlarmObject;
 
                 st.AppendLine("[#] Time: " + xitem.SubItems[1].Text + ", Process: " + xitem.SubItems[2].Text
-                    + ", Injection-Type: " + xitem.SubItems[3].Text + ", TCP-Send: " + xitem.SubItems[4].Text +
-                    ", Status: " + xitem.SubItems[5].Text);
+                    + ", Injection-Type: " + xitem.SubItems[3].Text + ", TCP-Send: " + xitem.SubItems[4].Text
+                    + ", Status: " + xitem.SubItems[5].Text);
                 st.AppendLine("Memory Scanner Results:");
                 st.AppendLine("Pe-sieve: " + xitem.SubItems[6].Text.Replace('\r', ' '));
                 st.AppendLine("Hollows_Hunter: " + xitem.SubItems[7].Text.Replace('\r', ' '));
@@ -44,10 +41,13 @@ namespace ETWPM2Monitor2
                     __AlarmObject.SubItems[5].Text.Contains("Suspended") ||
                     __AlarmObject.SubItems[5].Text.Contains("Scanned & Found") ||
                      __AlarmObject.SubItems[7].Text.Contains(">>Detected") ||
-                    Convert.ToInt32(string.Join("", ("0" + __AlarmObject.SubItems[6].Text).Where(char.IsDigit)).ToString()) > 0)
+                    Convert.ToInt32(string.Join("",
+                    ("0" + __AlarmObject.SubItems[6].Text).Where(char.IsDigit)).ToString()) > 0)
                 {
                     Task.Delay(50);
-                    string simpledescription = "[#] Time: " + xitem.SubItems[1].Text + "\nProcess: " + xitem.SubItems[2].Text + " Detected by ETWPM2Monitor2 (Detection High level)!\n"
+                    string simpledescription = "[#] Time: " + xitem.SubItems[1].Text + "\nProcess: "
+                        + xitem.SubItems[2].Text
+                        + " Detected by ETWPM2Monitor2 (Detection High level)!\n"
                         + "------------------------------------------------------------\n";
 
                     if (lastETW_Alarms_Detection != simpledescription + st.ToString()

@@ -50,8 +50,8 @@ namespace ETWPM2Monitor2
         public static System.Timers.Timer t11 = new System.Timers.Timer(5000);
         public static System.Timers.Timer t12 = new System.Timers.Timer(7000);
         public static System.Timers.Timer t13 = new System.Timers.Timer(2000);
-        public static System.Timers.Timer t14 = new System.Timers.Timer(1000);
-        public static System.Timers.Timer t15 = new System.Timers.Timer(1000);
+        public static System.Timers.Timer t14 = new System.Timers.Timer(10000);
+        public static System.Timers.Timer t15 = new System.Timers.Timer(10000);
         public static System.Timers.Timer t16 = new System.Timers.Timer(10000);
         public static System.Timers.Timer t17 = new System.Timers.Timer(2700);
         public static System.Timers.Timer t18 = new System.Timers.Timer(1500);
@@ -409,7 +409,13 @@ namespace ETWPM2Monitor2
         public static bool _isNotifyEnabled = true;
         public static string _ProcessName;
         public static bool _IsProcessTab_Enabled = false;
-        public static int ETWPM2Realt_timeShowMode_Level = 1;
+        /// <summary>
+        /// ETWPM2Realt_timeShowMode_Level => 1 and 0
+        /// 0 is mode to show all event also in this mode tool will detect shell process via Red Background
+        /// 1 is besr performance to show last events [events will overwrite to relative listview items] , 
+        /// in this mode 1 , we have bug to show shell process with red background , will fix in the future...
+        /// </summary>
+        public static int ETWPM2Realt_timeShowMode_Level = 0;
         public static string SearchInjector, SearchInjector2 = "";
         public static int _PPID_For_TimerScanner01 = -1;
         public static string _PPIDPath_For_TimerScanner01 = "";
@@ -991,7 +997,9 @@ namespace ETWPM2Monitor2
                         string parentid = MyLviewItemsX1.SubItems[5].Text.Split('\n')[6].ToLower();
                         
                         if (commandline.Contains("[commandline: \"" + _windir + "\\system32\\cmd.exe\"") 
-                            || commandline.Contains("[commandline: " + _windir + "\\system32\\cmd.exe") || commandline.Contains("[commandline: cmd"))
+                            || commandline.Contains("[commandline: " + _windir + "\\system32\\cmd.exe") || commandline.Contains("[commandline: cmd")
+                              || commandline.Contains("[commandline: " + _windir + "\\system32\\windowspowershell\\")
+                        || commandline.Contains("[commandline: powershell.exe"))
                         {
                            
                             if (parentid != "[parentid path: " + _windir + "\\explorer.exe]")
@@ -1704,8 +1712,6 @@ namespace ETWPM2Monitor2
             catch (Exception ee)
             {
                 if (IsSystemDeveloperLogs_on) BeginInvoke(new __core2(AsyncRun__Add_SystemDeveloperLogs), (object)" ==> [_Core2] Method Call: error1 => " + ee.Message);
-
-
             }
         }
 
@@ -1969,40 +1975,60 @@ namespace ETWPM2Monitor2
 
                 if (!init)
                 {
-
-                    var wmiQueryString = "SELECT ProcessId, ExecutablePath, CommandLine FROM Win32_Process";
-                    /// this System.Management should add to "References" in the project
-                    using (var searcher = new ManagementObjectSearcher(wmiQueryString))
-                    using (var results = searcher.Get())
+                    try
                     {
-                        var query = from _Process in Process.GetProcesses()
-                                    join Obj in results.Cast<ManagementObject>()
-                                    on _Process.Id equals (int)(uint)Obj["ProcessId"]
-                                    select new
-                                    {
-                                        Process = _Process,
-                                        Path = (string)Obj["ExecutablePath"],
-                                        CommandLine = (string)Obj["CommandLine"],
-
-                                    };
-                        foreach (var item in query)
+                        var wmiQueryString = "SELECT ProcessId, ExecutablePath, CommandLine FROM Win32_Process";
+                        /// this System.Management should add to "References" in the project
+                        using (var searcher = new ManagementObjectSearcher(wmiQueryString))
+                        using (var results = searcher.Get())
                         {
-                            Task.Delay(10);
-                            Processes_FileSystemList.Add(new _Table_of_FileSystem_for_Processes_Watcher
+                            var query = from _Process in Process.GetProcesses()
+                                        join Obj in results.Cast<ManagementObject>()
+                                        on _Process.Id equals (int)(uint)Obj["ProcessId"]
+                                        select new
+                                        {
+                                            Process = _Process,
+                                            Path = (string)Obj["ExecutablePath"],
+                                            CommandLine = (string)Obj["CommandLine"],
+
+                                        };
+                            foreach (var item in query)
                             {
-                                Eventtime = DateTime.Now.ToString(),
-                                FileName = item.Process.ProcessName + ":" + item.Process.Id,
-                                FileName_Path = item.Path,
-                                File_MD5 = _Get_MD5(item.Path),
-                                ProcessCommandLine = item.CommandLine
-                            });
+                                try
+                                {
+
+                                    //Task.Delay(10);
+                                    Thread.Sleep(10);
+                                    Processes_FileSystemList.Add(new _Table_of_FileSystem_for_Processes_Watcher
+                                    {
+                                        Eventtime = DateTime.Now.ToString(),
+                                        FileName = item.Process.ProcessName + ":" + item.Process.Id,
+                                        FileName_Path = item.Path,
+                                        File_MD5 = _Get_MD5(item.Path),
+                                        ProcessCommandLine = item.CommandLine
+                                    });
+                                }
+                                catch (Exception)
+                                {
+
+
+                                }
+
+                            }
                         }
+
+                        init = true;
+
+                    }
+                    catch (Exception)
+                    {
+
+                     //   throw;
                     }
 
-                    init = true;
                 }
 
-            step1:
+                step1:
                 Thread.Sleep(500);
                 try
                 {
@@ -2050,7 +2076,7 @@ namespace ETWPM2Monitor2
 
             });
         }
-        public async void RealtimeWatchProcess_run()
+        public async Task RealtimeWatchProcess_run()
         {
             if (IsSystemDeveloperLogs_on) BeginInvoke(new __core2(AsyncRun__Add_SystemDeveloperLogs), (object)" ==> [RealtimeWatchProcess_run] Method Call: Started");
             //if(IsSystemDeveloperLogIson) BeginInvoke(new __core2(AsyncRun__Add_SystemDeveloperLogs), (object)" ==> [RealtimeWatchProcess_run] Method Call: error1 => " + ee.Message);
@@ -2097,9 +2123,17 @@ namespace ETWPM2Monitor2
                 onToolStripMenuItem1.Checked = false;
                 offToolStripMenuItem1.Checked = true;
 
+                showEventDetailsToolStripMenuItem.Checked = true;
+                showEventDetails2ToolStripMenuItem.Checked = false;
+                ETWPM2Realt_timeShowMode_Level = 0;
+
                 _ExcludeProcessList.AddRange(new string[4] { "msedge", "firefox", "chrome", "iexplorer" });
 
-                BeginInvoke(new __Obj_Updater_to_WinForm(RealtimeWatchProcess_run));
+                //BeginInvoke(new __Obj_Updater_to_WinForm(RealtimeWatchProcess_run));
+
+                ///fix bug here
+                new Task(() => { RealtimeWatchProcess_run().GetAwaiter(); }).Start();
+
 
                 /// New Memory ScannerII Added to code Hunt-Sleeping-Beacons] , 
                 /// for detecting Sleep-mask and suspicious callstacks etc 9 june 2023
@@ -2121,7 +2155,8 @@ namespace ETWPM2Monitor2
 
                 try
                 {
-                    if (IsSystemDeveloperLogs_on) BeginInvoke(new __core2(AsyncRun__Add_SystemDeveloperLogs), (object)" ==> [Form1_Load::CreateEventSource] Method Call: Started");
+                    if (IsSystemDeveloperLogs_on) BeginInvoke(new __core2(AsyncRun__Add_SystemDeveloperLogs), 
+                        (object)" ==> [Form1_Load::CreateEventSource] Method Call: Started");
 
                     /// added in v2.1 => All Alarms will save to Windows EventLog "ETWPM2Monitor2" (run as admin)
                     if (!EventLog.Exists("ETWPM2Monitor2"))
@@ -2130,14 +2165,14 @@ namespace ETWPM2Monitor2
                         System.Diagnostics.EventLog.CreateEventSource(ESCD);
 
                     }
+
                     ETW2MON = new EventLog("ETWPM2Monitor2", ".", "ETWPM2Monitor2.1");
                     ETW2MON.WriteEntry("ETWPM2Monitor2 v2.1 Started", EventLogEntryType.Information, 255);
                 }
                 catch (Exception ee)
                 {
-                    if (IsSystemDeveloperLogs_on) BeginInvoke(new __core2(AsyncRun__Add_SystemDeveloperLogs), (object)" ==> [Form1_Load::CreateEventSource] Method Call: error1 => " + ee.Message);
-
-
+                    if (IsSystemDeveloperLogs_on) BeginInvoke(new __core2(AsyncRun__Add_SystemDeveloperLogs),
+                        (object)" ==> [Form1_Load::CreateEventSource] Method Call: error1 => " + ee.Message);
                 }
 
                 listView1.SmallImageList = imageList1;
@@ -2186,8 +2221,8 @@ namespace ETWPM2Monitor2
                 t3.Start();
 
                 t6.Elapsed += T6_Elapsed;
-                t6.Enabled = true;
-                t6.Start();
+                t6.Enabled = false;
+                //t6.Start();
 
                 t7.Elapsed += T7_Elapsed;
                 t7.Enabled = true;
@@ -2215,10 +2250,15 @@ namespace ETWPM2Monitor2
                 t13.Enabled = true;
                 t13.Start();
 
+                new Task(() =>
+                {
 
-                /// Network Monitor Timer : checking TCP Connections via C# Codes or Native APIs to compare to ETW TCP Events
-                /// this will help to detect those Connections which has/had not ETW Events but Connection was Established or Send ....
-                Network_Info._Run_Core_Method();
+                    /// Network Monitor Timer : checking TCP Connections via C# Codes or Native APIs to compare to ETW TCP Events
+                    /// this will help to detect those Connections which has/had not ETW Events but Connection was Established or Send ....
+                    System.Runtime.CompilerServices.TaskAwaiter tx = Network_Info._Run_Core_Method().GetAwaiter();
+                    tx.GetResult();
+
+                }).Start();
 
                 t14.Elapsed += T14_Elapsed;
                 t14.Enabled = true;
@@ -2729,7 +2769,7 @@ namespace ETWPM2Monitor2
 
             });
         }
-     
+
         /// <summary>  remove those Process items in Network Connections via Native APIs 
         /// </summary>  
         private void T15_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
@@ -2740,80 +2780,98 @@ namespace ETWPM2Monitor2
 
             try
             {
-                
-                    
-                    if (Network_Info.Before_after == 1)
+
+
+                if (Network_Info.Before_after == 1)
+                {
+                    try
                     {
-                        try
+                        ///bug fixed
+                        //ListView.ListViewItemCollection _listView3_Items_coll = listView3.Items;
+                        ListViewItem[] _listView3_Items = listView3.Items.Cast<ListViewItem>().ToList().ToArray<ListViewItem>();
+
+                        for (int w = 0; w < listView3.Items.Count;w++)
                         {
-                            for (int w = 0; w < listView3.Items.Count; w++)
+                            int found = -1;
+                            found = Network_Info.Table2_x64.ToList().FindIndex(f => f.FullSTR == _listView3_Items[w].Name);
+                            Thread.Sleep(15);
+                           
+                            if (found == -1)
                             {
-                                int found = 0;
-
-                                for (int x = 0; x < Network_Info.Table2_x64.Length; x++)
+                                try
                                 {
-                                    if (listView3.Items[w].Name == Network_Info.Table2_x64[x].FullSTR)
-                                    {
-                                        found = 1;
-                                    }
+                                    listView3.Items[w].Remove();
                                 }
-
-                                if (found == 0)
+                                catch (Exception)
                                 {
 
-                                     listView3.Items[w].Remove();
-                                    
+
                                 }
+
+
                             }
-                        }
-                        catch (Exception)
-                        {
-
-
-                        }
-
-                    }
-                    else if (Network_Info.Before_after == 0)
-                    {
-                        try
-                        {
-
-                            for (int w = 0; w < listView3.Items.Count; w++)
-                            {
-                                int found = 0;
-
-                                for (int x = 0; x < Network_Info.Table1_x64.Length; x++)
-                                {
-                                    if (listView3.Items[w].Name == Network_Info.Table1_x64[x].FullSTR)
-                                    {
-                                        found = 1;
-                                    }
-                                }
-
-                                if (found == 0)
-                                {
-                                     listView3.Items[w].Remove();
-                                   
-
-                                }
-                            }
-                        }
-                        catch (Exception)
-                        {
-
-
+                            
                         }
                     }
-                   
-              
+                    catch (Exception)
+                    {
+
+
+                    }
+
+                }
+                else if (Network_Info.Before_after == 0)
+                {
+                    try
+                    {
+
+                        ///bug fixed
+                        //ListView.ListViewItemCollection _listView3_Items_coll = listView3.Items;
+                        //List<ListViewItem> _listView3_Items = listView3.Items.Cast<ListViewItem>().ToList();
+                        ListViewItem[] _listView3_Items = listView3.Items.Cast<ListViewItem>().ToList().ToArray<ListViewItem>();
+
+                        for (int w = 0; w < listView3.Items.Count;w++)
+                        {
+                            //int found = 0;
+                            int found = -1;
+                            found = Network_Info.Table2_x64.ToList().FindIndex(f => f.FullSTR == _listView3_Items[w].Name);
+                            Thread.Sleep(15);                          
+
+                            if (found == -1)
+                            {
+                                try
+                                {
+                                    listView3.Items[w].Remove();
+                                }
+                                catch (Exception)
+                                {
+
+                                    //throw;
+                                }
+
+
+
+                            }
+                            
+                        }
+                    }
+                    catch (Exception)
+                    {
+
+
+                    }
+                }
+
+
 
             }
             catch (Exception em)
             {
 
-               
+
             }
         }
+
         /// <summary>  checking Network Connection records which made by ETW Events  
         /// </summary>  
         private void T14_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
@@ -2830,24 +2888,24 @@ namespace ETWPM2Monitor2
                   
                     try
                     {
+                        ///bug fixed
+                        //ListView.ListViewItemCollection _listView3_Items_coll = listView3.Items;                        
+                        //List<ListViewItem> __Items3 = listView3.Items.Cast<ListViewItem>().ToList();
 
                         ListViewItem[] __Items3 = listView3.Items.Cast<ListViewItem>().ToList().ToArray();
 
                         foreach (ListViewItem item3 in __Items3)
-                        {
-
-                           
+                        {                                                       
                             Task.Delay(TCPConnectionDelay_for_RefreshList);
-
                             try
                             {
-
 
                                 bool found = false;
                                 if (listView4.Items.Count > 0)
                                 {
-
-                                    ListViewItem[] __Items4 = listView4.Items.Cast<ListViewItem>().ToList().ToArray();
+                                                                     
+                                    ListViewItem[] __Items4 = new ListViewItem[1];
+                                    __Items4 = listView4.Items.Cast<ListViewItem>().ToList().ToArray<ListViewItem>();
 
                                     foreach (ListViewItem item4 in __Items4)
                                     {
@@ -2884,7 +2942,8 @@ namespace ETWPM2Monitor2
                                             {
                                                 bool item7fouand = false;
 
-                                                ListViewItem[] __Items7 = listView7.Items.Cast<ListViewItem>().ToList().ToArray();
+                                                ListViewItem[] __Items7 = new ListViewItem[1];
+                                                __Items7 = listView7.Items.Cast<ListViewItem>().ToList().ToArray<ListViewItem>();
 
                                                 foreach (ListViewItem item7 in __Items7)
                                                 {
@@ -2936,7 +2995,9 @@ namespace ETWPM2Monitor2
                                             if (listView7.Items.Count > 0)
                                             {
                                                 bool item7fouand = false;
-                                                ListViewItem[] __Items7 = listView7.Items.Cast<ListViewItem>().ToList().ToArray();
+
+                                                ListViewItem[] __Items7 = new ListViewItem[1];
+                                                __Items7 = listView7.Items.Cast<ListViewItem>().ToList().ToArray<ListViewItem>();
 
                                                 foreach (ListViewItem item7 in __Items7)
                                                 {
@@ -3029,7 +3090,9 @@ namespace ETWPM2Monitor2
                                         if (listView7.Items.Count > 0)
                                         {
                                             bool item7fouand = false;
-                                            ListViewItem[] __Items7 = listView7.Items.Cast<ListViewItem>().ToList().ToArray();
+
+                                            ListViewItem[] __Items7 = new ListViewItem[1];
+                                            __Items7 = listView7.Items.Cast<ListViewItem>().ToList().ToArray<ListViewItem>();
 
                                             foreach (ListViewItem item7 in __Items7)
                                             {
@@ -3078,7 +3141,8 @@ namespace ETWPM2Monitor2
                                         if (listView7.Items.Count > 0)
                                         {
                                             bool item7fouand = false;
-                                            ListViewItem[] __Items7 = listView7.Items.Cast<ListViewItem>().ToList().ToArray();
+                                            ListViewItem[] __Items7 = new ListViewItem[1];
+                                            __Items7 = listView7.Items.Cast<ListViewItem>().ToList().ToArray<ListViewItem>();
 
                                             foreach (ListViewItem item7 in __Items7)
                                             {
@@ -3166,9 +3230,7 @@ namespace ETWPM2Monitor2
                         }
                     }
 
-
                     tabPage16.Text = "Network Connections History (Detection Error: " + _found.ToString() + " of " + listView7.Items.Count.ToString() + ")";
-
                     tabPage13.Text = "Network Connections (" + listView3.Items.Count.ToString() + ")";
                 });
 
@@ -4718,7 +4780,10 @@ namespace ETWPM2Monitor2
                     string Shell_Pid = tmp2.SubItems[5].Text.Split('\n')[2].Substring(6).Split(' ')[0];
 
                     if (commandline.Contains("[commandline: \"" + _windir + "\\system32\\cmd.exe\"")
-                        || commandline.Contains("[commandline: " + _windir + "\\system32\\cmd.exe") || commandline.Contains("[commandline: cmd"))
+                        || commandline.Contains("[commandline: " + _windir + "\\system32\\cmd.exe") 
+                        || commandline.Contains("[commandline: cmd")
+                        || commandline.Contains("[commandline: " + _windir + "\\system32\\windowspowershell\\")
+                        || commandline.Contains("[commandline: powershell.exe"))
                     {
 
                         if (parentid != "[parentid path: " + _windir + "\\explorer.exe]")
@@ -6273,7 +6338,8 @@ namespace ETWPM2Monitor2
                         iList.Name = e.EventRecord.RecordId.ToString();
                         iList.SubItems.Add(e.EventRecord.TimeCreated.ToString());
                         iList.SubItems.Add(e.EventRecord.Id.ToString());
-                        iList.SubItems.Add(e.EventRecord.FormatDescription().Substring(e.EventRecord.FormatDescription().IndexOf(":")).Split(' ')[1]);
+                        iList.SubItems.Add(e.EventRecord.FormatDescription()
+                            .Substring(e.EventRecord.FormatDescription().IndexOf(":")).Split(' ')[1]);
                         iList.SubItems.Add("[INJ]");
                         iList.SubItems.Add(e.EventRecord.FormatDescription());
                         iList.ImageIndex = 1;
@@ -6282,7 +6348,8 @@ namespace ETWPM2Monitor2
                         Thread.Sleep(25);
                         chart_Inj++;
 
-                        RemoteThreadInjectionDetection_ProcessLists.Invoke((object)(e.EventRecord.FormatDescription().Substring(e.EventRecord.FormatDescription().IndexOf(":")).Split(' ')[1].Replace('\n', ' ')
+                        RemoteThreadInjectionDetection_ProcessLists.Invoke((object)(e.EventRecord.FormatDescription()
+                            .Substring(e.EventRecord.FormatDescription().IndexOf(":")).Split(' ')[1].Replace('\n', ' ')
                         + "@" + e.EventRecord.FormatDescription()), null);
 
                         Thread.Sleep(10);
@@ -6350,15 +6417,21 @@ namespace ETWPM2Monitor2
         {
             if (!IsSearchFormActived)
             {
+                try
+                {
+
+                
                 EvtWatcher.Enabled = false;
                 EvtWatcher.Dispose();
 
                 /// exit Core Thread for Monitoring TCP/UDP Connections
                 Network_Info_DataTables.StopThread = true;
                 Network_Info.Core.Abort();
+                }
+                catch (Exception)
+                {                 
+                }
             }
-
-
         }
         private void StartMonitorToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -6878,7 +6951,7 @@ namespace ETWPM2Monitor2
 
         private void AboutToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(null, "ETWPM2Monitor2 v2.1 [test version 2.1.51.590]\nCode Published by Damon Mohammadbagher , Jul 2021", "About ETWPM2Monitor2 v2.1", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show(null, "ETWPM2Monitor2 v2.1 [test version 2.1.52.628]\nCode Published by Damon Mohammadbagher , Jul 2021", "About ETWPM2Monitor2 v2.1", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
         }
 
