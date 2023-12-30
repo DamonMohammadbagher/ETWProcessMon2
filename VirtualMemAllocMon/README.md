@@ -17,6 +17,8 @@ Related Video about (VirtualMemAllocMon.exe without using ETWProcessMon2.exe)
 
 Video1: https://share.vidyard.com/watch/vQvfgkd8332F5K4MryrHQZ
 
+Video2 [new]: https://www.youtube.com/watch?v=26ZBx5fw25s
+
 Related Article:
 
 Article1:
