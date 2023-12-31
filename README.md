@@ -92,6 +92,8 @@ md5 info:
 
     25d54c2073-74411e9f4f-7488ee33cc78 => VirtualMemAllocMon.exe (v1.1) 16,May,2022
     d42ca87133-977815440d-be8bd04c9589 => VirtualMemAllocMon.exe (v2.0.0.1) 16,May,2022
+    effd066c8c-d4d1f9db4d-8d78a501a075 => VirtualMemAllocMon.exe (v2.1.0.1) 01,Jan,2024
+
     
 ### VirtualMemAllocMon v1.1 & Detecting Local Thread Injection Attack by sleep-mask method via ShellcodeFluctuation tool (Detecting payload in-memory before encoding via xor & Pe Header)  
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/VirtualMemAllocMon/Pics/Sleepmask4x.png)
