@@ -13,11 +13,11 @@ Note: for this code you need to install Nuget [Microsoft.Diagnostics.Tracing.Tra
 link: https://www.nuget.org/packages/Microsoft.Diagnostics.Tracing.TraceEvent
 
 md5 info:
-                 
-         effd066c8c-d4d1f9db4d-8d78a501a075 => VirtualMemAllocMon.exe (v2.1.0.1) 01,Jan,2024
+                          
+         fe5d3c1214-2313d64f32-a87de101332c => VirtualMemAllocMon.exe (v2.2.0.4) 17,Jan,2024
          
 
-### VirtualMemAllocMon.exe [v2.1.0.1]
+### VirtualMemAllocMon.exe [v2.2.0.4]
 
  usage:  
     
