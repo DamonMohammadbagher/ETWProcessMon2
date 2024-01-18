@@ -32,5 +32,7 @@ Video step by step: https://www.youtube.com/watch?v=26ZBx5fw25s
 
 
  ### VirtualMemAllocMon & Remote Thread Injection Attack (Meterpreter session & Pe Header)  
-   ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/VirtualMemAllocMon/VirtualMemAllocMon2/Pictures/VirtualMemAllocMonv2.png)
+   ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/VirtualMemAllocMon/VirtualMemAllocMon2.2/Pics/v2.2-1.png)
+
+   ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/VirtualMemAllocMon/VirtualMemAllocMon2.2/Pics/v2.2-2.png)
 
