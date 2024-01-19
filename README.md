@@ -101,6 +101,9 @@ md5 info:
 ### VirtualMemAllocMon v1.1 & Detecting Local Thread Injection Attack by sleep-mask method via ShellcodeFluctuation tool (Detecting payload in-memory before encoding via xor & Pe Header)  
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/VirtualMemAllocMon/Pics/Sleepmask4x.png)
    
+ ### VirtualMemAllocMon v2.2 & Detecting EKKO Technique + JMP Method and ...
+   ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/VirtualMemAllocMon/VirtualMemAllocMon2.2/Pics/v2.2-2.png)
+ 
  ### VirtualMemAllocMon v2.0 & VirtualMemAlloc ETW Event  
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/VirtualMemAllocMon/VirtualMemAllocMon2/Pictures/VirtualMemAllocMonv2.png)
    
