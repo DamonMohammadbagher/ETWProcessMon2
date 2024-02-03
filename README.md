@@ -26,6 +26,27 @@ in these second examples you can see how we can use ETWProcessMon/2 v1/v1.1 or v
 also in the next picture you can see what we can find in "ETWProcessMonlog.txt" file which made by ETWProcessMon v1.0 , v1.1 and v2.0 , but in ETWProcessMon2.exe v2.1 we don't have this text log file, for example you can see in Cobaltstrike v4.4 with Sleep Command (which will Encrypt/Decrypt MZ Header in-memory)
 you will have Abnormal ETW VirtualMemAlloc Events for Target Process in this case "Notepad", as you can see when Sleep set to 2 then we have every 2 sec ETW VirtualMemAlloc Events for same StartAddress (in-memory) for Process Notepad. (Delta time for Each ETW event is 2 sec because Sleep Set to 2 secs)
 
+format in ETWProcessMonlog.txt log file for version (1.0 , 1.1 and 2.0):
+
+ETWProcessMonlog.txt and example of ETW VirtualMemAlloc events records:
+
+     "[3/23/2022 5:07:51 PM] PID:(5140) TID(6628) :1661968515072:65536:MEM_COMMIT, MEM_RESERVE:0x10000:0x182f50c0000 [VirtualMemAlloc]"
+
+in this VirtualMemAlloc Record in ETWProcessMonlog.txt you have these informations:
+      
+      [Date Time] PID:(????) TID(????) :Win32StartAddress:Size_of_Allocation:Mem_Commit, Mem_Reserve:Length:StartAddress]
+
+so your ETW VirtualMemAlloc Event informations are :
+       
+      Date time => [3/23/2022 5:07:51 PM]
+      PID => 5140
+      TID => 6628
+      Win32StartAddress => 1661968515072
+      Size_of_Allocation => 65536
+      Memory info => MEM_COMMIT, MEM_RESERVE
+      Length:StartAddress => 0x10000:0x182f50c0000
+      
+
 ### ETWProcessMon.exe v1.0/v1.1 for Beacon Detection via VirtualMemAlloc ETW Events....  
    ![](https://github.com/DamonMohammadbagher/ETWProcessMon2/blob/main/Pics/EventWatcher01.png)
 
