@@ -28,7 +28,7 @@ you will have Abnormal ETW VirtualMemAlloc Events for Target Process in this cas
 
 format in ETWProcessMonlog.txt log file for version (1.0 , 1.1 and 2.0):
 
-ETWProcessMonlog.txt and example of ETW VirtualMemAlloc events records:
+ETWProcessMonlog.txt and example of ETW VirtualMemAlloc event records:
 
      "[3/23/2022 5:07:51 PM] PID:(5140) TID(6628) :1661968515072:65536:MEM_COMMIT, MEM_RESERVE:0x10000:0x182f50c0000 [VirtualMemAlloc]"
 
