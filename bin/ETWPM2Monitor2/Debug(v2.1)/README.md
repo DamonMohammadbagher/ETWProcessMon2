@@ -6,6 +6,7 @@ md5 info, "exe files are not safe here in github so make your own exe files with
     34064d7e1c-4ae5a43e39-9c806767d425 => ETWPM2Monitor2.exe (v2.1) [v2.1.52.628] 21,Nov,2023
     a89536efe5-2adbfbaa1c-5a46aeb032e0 => CobaltStrikeScan.exe (v1.0) 26,May,2022
     86f92a09f5-9be4a4148e-a5f0ccef2355 => Hunt-Sleeping-Beacons.exe 17,Sep,2023
+    bc8bfbe7ce-08b43d1a43-a5e6d73cf389 => pe-sieve.exe [v0.3.5]
 
 Usage Steps
 
