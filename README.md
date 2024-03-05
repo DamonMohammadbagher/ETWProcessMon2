@@ -155,6 +155,10 @@ Important: `this Code will use memory scanner "VirtualMemAllocMon.exe" v1.1 so b
 Important: `this Code will use memory scanners "pe-sieve64.exe" & "hollows_hunter64.exe",so before run SysPM2Monitor2.7 you need download/paste these exe files to \SysPM2Monitor2.7\Bin\Debug\ folder then you can run SysPM2Monitor2.7.exe , you can download these files from here link1: https://github.com/hasherezade/pe-sieve
 link2: https://github.com/hasherezade/hollows_hunter.`
 
+#### Note: pe-sieve64.exe [v0.3.5] is compatible with ETWPM2Monitor2.exe and SysPM2Monitor2.7.exe
+
+#### Note: New Ver of pe-sieve64.exe [v0.3.9] is not compatible to use for these projects like ETWPM2Monitor2.exe and SysPM2Monitor2.7.exe
+
 Video1 : https://www.youtube.com/watch?v=E7mB1we9GhU
 
 Video2 : https://www.youtube.com/watch?v=Q8fSpUXR2kw
@@ -215,6 +219,10 @@ md5 info [ETWPM2Monitor2.exe], "exe files are not safe here in github so make yo
     3066c279ad-acf3f2971e-2bdf5c163fdf => ETWPM2Monitor2.exe (v2.1) [v2.1.51.590] 17,Sep,2023 [old]
     34064d7e1c-4ae5a43e39-9c806767d425 => ETWPM2Monitor2.exe (v2.1) [v2.1.52.628] 21,Nov,2023
     bc8bfbe7ce-08b43d1a43-a5e6d73cf389 => pe-sieve.exe [v0.3.5] (compatible ver with ETWPM2Monitor2.exe)
+
+#### Note: pe-sieve64.exe [v0.3.5] is compatible with ETWPM2Monitor2.exe and SysPM2Monitor2.7.exe
+
+#### Note: New Ver of pe-sieve64.exe [v0.3.9] is not compatible to use for these projects like ETWPM2Monitor2.exe and SysPM2Monitor2.7.exe
 
     
 ### ETWPM2Monitor2 v2.1 [v2.1.51.590]  
