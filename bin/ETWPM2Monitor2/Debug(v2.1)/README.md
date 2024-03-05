@@ -31,3 +31,8 @@ New Switch syntax (scanning target process to find CobaltStrike Beacons):
  md5 info for Exe file which created by me (new switch -t added to this exe):
             
     a89536efe5-2adbfbaa1c-5a46aeb032e0 => CobaltStrikeScan.exe (v1.0) 26,May,2022   
+
+
+#### Note: pe-sieve64.exe [v0.3.5] is compatible with ETWPM2Monitor2.exe and SysPM2Monitor2.7.exe
+
+#### Note: New Ver of pe-sieve64.exe [v0.3.9] is not compatible to use for these projects like ETWPM2Monitor2.exe and SysPM2Monitor2.7.exe
