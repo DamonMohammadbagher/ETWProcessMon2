@@ -398,7 +398,7 @@ namespace ETWPM2Monitor2
 
                 while (true)
                 {
-                    Thread.Sleep(100);
+                    Thread.Sleep(200);
                     if (Network_Info_DataTables.StopThread)
                     {
                         break;
@@ -764,7 +764,7 @@ namespace ETWPM2Monitor2
 
                         //BeginInvoke(new information(Information));
 
-                        Thread.Sleep(2);
+                        Thread.Sleep(50);
 
                         Endpoits = 0;
                         Listen = 0;
@@ -1316,11 +1316,9 @@ namespace ETWPM2Monitor2
             // Use the Select method to find all rows matching the filter.
             if (table.Rows != null)
             {
-
-
-
+              
                 foundRows = table.Select(expression);
-                result = foundRows[0][1].ToString();
+                result = foundRows[0][1].ToString();              
 
             }
 

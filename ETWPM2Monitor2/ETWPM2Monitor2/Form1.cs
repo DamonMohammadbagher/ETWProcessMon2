@@ -409,13 +409,7 @@ namespace ETWPM2Monitor2
         public static bool _isNotifyEnabled = true;
         public static string _ProcessName;
         public static bool _IsProcessTab_Enabled = false;
-        /// <summary>
-        /// ETWPM2Realt_timeShowMode_Level => 1 and 0
-        /// 0 is mode to show all event also in this mode tool will detect shell process via Red Background
-        /// 1 is besr performance to show last events [events will overwrite to relative listview items] , 
-        /// in this mode 1 , we have bug to show shell process with red background , will fix in the future...
-        /// </summary>
-        public static int ETWPM2Realt_timeShowMode_Level = 0;
+        public static int ETWPM2Realt_timeShowMode_Level = 1;
         public static string SearchInjector, SearchInjector2 = "";
         public static int _PPID_For_TimerScanner01 = -1;
         public static string _PPIDPath_For_TimerScanner01 = "";
@@ -924,40 +918,49 @@ namespace ETWPM2Monitor2
                                     if (lastprocess.ToLower() == MyLviewItemsX1.SubItems[3].Text.ToLower())
                                     {
                                         try
-                                        {
-                                            DateTime lastdt = Convert.ToDateTime(listView1.Items[listView1.Items.Count - 1].SubItems[5].Text.Split('\n')[4].Split('=')[1]);
-                                            DateTime currentdt = Convert.ToDateTime(MyLviewItemsX1.SubItems[5].Text.Split('\n')[4].Split('=')[1]);
-                                            TimeSpan ts = currentdt - lastdt;
-                                            string delta = ts.TotalSeconds.ToString();
-
-                                            listView1.Items[listView1.Items.Count - 1].SubItems[4].Text += " " + "▼";
-
-                                            Int32 deltalast = -1;
-
-                                            if (listView1.Items[listView1.Items.Count - 1].SubItems[4].Text.Contains("DeltaTime:"))
+                                        {   // "[ETW] \n[MEM] Injected ThreadStart Detected,\nTarget_Process: NativePayload_TI2JMP:12200   TID(3704) Injected by C:\\Windows\\System32\\cmd.exe\nTarget_ProcessPath: Process Exited (PID:12200)\n\nDebug info: [3/4/2024 11:06:31 PM] PID: (12200)(NativePayload_TI2JMP) 3704::0x004d0000:1632:5436[Injected by cmd]\n---------------------------------------------\nDebug Integers : TargetProcessPID,InjectedTID:StartAddress:ParentThreadID:InjectorPID\nTPID > 12200\nInjectedTID > 3704\nStartAddress > 0x004d0000\nPTID > 1632\nInjectorPID > 5436\n---------------------------------------------\nDebug Process_Names : TargetProcessName,InjectorProcessName\nTargetProcessName > NativePayload_TI2JMP\nInjectorProcessName > C:\\Windows\\System32\\cmd.exe\nEventTime > 3/4/2024 11:06:31 PM"
+                                            //
+                                            // 
+                                            if (!listView1.Items[listView1.Items.Count - 1].SubItems[5].Text.Contains("[MEM] Injected ThreadStart Detected")
+                                                && !listView1.Items[listView1.Items.Count - 1].SubItems[5].Text.Contains("[MEM] NewProcess Started"))
                                             {
-                                                deltalast = Convert.ToInt32(string.Join("", ("0" + listView1.Items[listView1.Items.Count - 1].SubItems[4].Text)
-                                                   .ToCharArray().Where(char.IsDigit)).ToString());
+                                                DateTime lastdt = Convert.ToDateTime(listView1.Items[listView1.Items.Count - 1].SubItems[5].Text.Split('\n')[4].Split('=')[1]);
+                                                DateTime currentdt = Convert.ToDateTime(MyLviewItemsX1.SubItems[5].Text.Split('\n')[4].Split('=')[1]);
+                                                TimeSpan ts = currentdt - lastdt;
+                                                string delta = ts.TotalSeconds.ToString();
+
+                                                listView1.Items[listView1.Items.Count - 1].SubItems[4].Text += " " + "▼";
+
+                                                Int32 deltalast = -1;
+
+                                                if (listView1.Items[listView1.Items.Count - 1].SubItems[4].Text.Contains("DeltaTime:"))
+                                                {
+                                                    deltalast = Convert.ToInt32(string.Join("", ("0" + listView1.Items[listView1.Items.Count - 1].SubItems[4].Text)
+                                                       .ToCharArray().Where(char.IsDigit)).ToString());
+                                                }
+
+                                                listView1.Items.Add(MyLviewItemsX1);
+
+                                                listView1.Items[listView1.Items.Count - 1].SubItems[4].Text += " " + "▲" + " (DeltaTime: " + delta + " Sec)";
+
+
+
+                                                Int32 deltacurrent = Convert.ToInt32(ts.TotalSeconds);
+
+                                                /// show tcp events for process. those Events which has/had same Delta Time.
+                                                if (deltalast == deltacurrent)
+                                                {
+                                                    listView1.Items[listView1.Items.Count - 2].BackColor = Color.LightGoldenrodYellow;
+                                                    listView1.Items[listView1.Items.Count - 1].BackColor = Color.LightGoldenrodYellow;
+                                                    listView1.Items[listView1.Items.Count - 2].ForeColor = Color.Black;
+                                                    listView1.Items[listView1.Items.Count - 1].ForeColor = Color.Black;
+                                                }
+
                                             }
-
-                                            listView1.Items.Add(MyLviewItemsX1);
-
-                                            listView1.Items[listView1.Items.Count - 1].SubItems[4].Text += " " + "▲" + " (DeltaTime: " + delta + " Sec)";
-
-
-
-                                            Int32 deltacurrent = Convert.ToInt32(ts.TotalSeconds);
-
-                                            /// show tcp events for process. those Events which has/had same Delta Time.
-                                            if (deltalast == deltacurrent)
+                                            else
                                             {
-                                                listView1.Items[listView1.Items.Count - 2].BackColor = Color.LightGoldenrodYellow;
-                                                listView1.Items[listView1.Items.Count - 1].BackColor = Color.LightGoldenrodYellow;
-                                                listView1.Items[listView1.Items.Count - 2].ForeColor = Color.Black;
-                                                listView1.Items[listView1.Items.Count - 1].ForeColor = Color.Black;
+                                                listView1.Items.Add(MyLviewItemsX1);
                                             }
-
-                                           
                                         }
                                         catch (Exception ee)
                                         {
@@ -980,7 +983,7 @@ namespace ETWPM2Monitor2
                             }
                             catch (Exception)
                             {
-
+                                MessageBox.Show("ops");
                                 
                             }                                                     
 
@@ -994,10 +997,13 @@ namespace ETWPM2Monitor2
                     if (MyLviewItemsX1.SubItems[2].Text == "1")
                     {
                         string commandline = MyLviewItemsX1.SubItems[5].Text.Split('\n')[4].ToLower();
+                        string __command = MyLviewItemsX1.SubItems[5].Text.Split('\n')[3].ToLower();
                         string parentid = MyLviewItemsX1.SubItems[5].Text.Split('\n')[6].ToLower();
                         
                         if (commandline.Contains("[commandline: \"" + _windir + "\\system32\\cmd.exe\"") 
-                            || commandline.Contains("[commandline: " + _windir + "\\system32\\cmd.exe") || commandline.Contains("[commandline: cmd")
+                            || commandline.Contains("[commandline: " + _windir + "\\system32\\cmd.exe")
+                            || commandline.Contains("[commandline: cmd") || __command.Contains("cmd")
+                             || __command.Contains("cmd.exe")
                               || commandline.Contains("[commandline: " + _windir + "\\system32\\windowspowershell\\")
                         || commandline.Contains("[commandline: powershell.exe"))
                         {
@@ -2123,10 +2129,6 @@ namespace ETWPM2Monitor2
                 onToolStripMenuItem1.Checked = false;
                 offToolStripMenuItem1.Checked = true;
 
-                showEventDetailsToolStripMenuItem.Checked = true;
-                showEventDetails2ToolStripMenuItem.Checked = false;
-                ETWPM2Realt_timeShowMode_Level = 0;
-
                 _ExcludeProcessList.AddRange(new string[4] { "msedge", "firefox", "chrome", "iexplorer" });
 
                 //BeginInvoke(new __Obj_Updater_to_WinForm(RealtimeWatchProcess_run));
@@ -2221,8 +2223,8 @@ namespace ETWPM2Monitor2
                 t3.Start();
 
                 t6.Elapsed += T6_Elapsed;
-                t6.Enabled = false;
-                //t6.Start();
+                t6.Enabled = true;
+                t6.Start();
 
                 t7.Elapsed += T7_Elapsed;
                 t7.Enabled = true;
@@ -2786,16 +2788,39 @@ namespace ETWPM2Monitor2
                 {
                     try
                     {
+
+
+                       
+
+
                         ///bug fixed
                         //ListView.ListViewItemCollection _listView3_Items_coll = listView3.Items;
-                        ListViewItem[] _listView3_Items = listView3.Items.Cast<ListViewItem>().ToList().ToArray<ListViewItem>();
+                        ListViewItem[] _listView3_Items = listView3.Items.Cast<ListViewItem>().ToList().ToArray();
 
                         for (int w = 0; w < listView3.Items.Count;w++)
                         {
                             int found = -1;
                             found = Network_Info.Table2_x64.ToList().FindIndex(f => f.FullSTR == _listView3_Items[w].Name);
-                            Thread.Sleep(15);
-                           
+                            Thread.Sleep(10);
+                            //for (int x = 0; x < Network_Info.Table2_x64.Length; x++)
+                            //{
+                            //    Thread.Sleep(25);
+                            //    try
+                            //    {
+                            //        if (_listView3_Items[w].Name == Network_Info.Table2_x64[x].FullSTR)
+                            //        {
+                            //            found = 1;
+                            //        }
+
+                            //    }
+                            //    catch (Exception)
+                            //    {
+                            //        int a = w;
+                            //        int b = x;
+                            //        //throw;
+                            //    }
+                            //}
+
                             if (found == -1)
                             {
                                 try
@@ -2828,14 +2853,31 @@ namespace ETWPM2Monitor2
                         ///bug fixed
                         //ListView.ListViewItemCollection _listView3_Items_coll = listView3.Items;
                         //List<ListViewItem> _listView3_Items = listView3.Items.Cast<ListViewItem>().ToList();
-                        ListViewItem[] _listView3_Items = listView3.Items.Cast<ListViewItem>().ToList().ToArray<ListViewItem>();
+                        ListViewItem[] _listView3_Items = listView3.Items.Cast<ListViewItem>().ToList().ToArray();
 
                         for (int w = 0; w < listView3.Items.Count;w++)
                         {
                             //int found = 0;
                             int found = -1;
                             found = Network_Info.Table2_x64.ToList().FindIndex(f => f.FullSTR == _listView3_Items[w].Name);
-                            Thread.Sleep(15);                          
+                            Thread.Sleep(25);
+                            //for (int x = 0; x < Network_Info.Table1_x64.Length; x++)
+                            //{
+                            //    Thread.Sleep(25);
+                            //    try
+                            //    {
+                            //        if (_listView3_Items[w].Name == Network_Info.Table1_x64[x].FullSTR)
+                            //        {
+                            //            found = 1;
+                            //        }
+
+                            //    }
+                            //    catch (Exception)
+                            //    {
+
+                            //        //throw;
+                            //    }
+                            //}
 
                             if (found == -1)
                             {
@@ -2871,7 +2913,6 @@ namespace ETWPM2Monitor2
 
             }
         }
-
         /// <summary>  checking Network Connection records which made by ETW Events  
         /// </summary>  
         private void T14_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
@@ -2895,17 +2936,23 @@ namespace ETWPM2Monitor2
                         ListViewItem[] __Items3 = listView3.Items.Cast<ListViewItem>().ToList().ToArray();
 
                         foreach (ListViewItem item3 in __Items3)
-                        {                                                       
+                        {
+                            
+                           
                             Task.Delay(TCPConnectionDelay_for_RefreshList);
+
                             try
                             {
+
 
                                 bool found = false;
                                 if (listView4.Items.Count > 0)
                                 {
-                                                                     
+                                  
+                                   
+
                                     ListViewItem[] __Items4 = new ListViewItem[1];
-                                    __Items4 = listView4.Items.Cast<ListViewItem>().ToList().ToArray<ListViewItem>();
+                                    __Items4 = listView4.Items.Cast<ListViewItem>().ToList().ToArray();
 
                                     foreach (ListViewItem item4 in __Items4)
                                     {
@@ -2943,7 +2990,7 @@ namespace ETWPM2Monitor2
                                                 bool item7fouand = false;
 
                                                 ListViewItem[] __Items7 = new ListViewItem[1];
-                                                __Items7 = listView7.Items.Cast<ListViewItem>().ToList().ToArray<ListViewItem>();
+                                                __Items7 = listView7.Items.Cast<ListViewItem>().ToList().ToArray();
 
                                                 foreach (ListViewItem item7 in __Items7)
                                                 {
@@ -2997,7 +3044,7 @@ namespace ETWPM2Monitor2
                                                 bool item7fouand = false;
 
                                                 ListViewItem[] __Items7 = new ListViewItem[1];
-                                                __Items7 = listView7.Items.Cast<ListViewItem>().ToList().ToArray<ListViewItem>();
+                                                __Items7 = listView7.Items.Cast<ListViewItem>().ToList().ToArray();
 
                                                 foreach (ListViewItem item7 in __Items7)
                                                 {
@@ -3092,7 +3139,7 @@ namespace ETWPM2Monitor2
                                             bool item7fouand = false;
 
                                             ListViewItem[] __Items7 = new ListViewItem[1];
-                                            __Items7 = listView7.Items.Cast<ListViewItem>().ToList().ToArray<ListViewItem>();
+                                            __Items7 = listView7.Items.Cast<ListViewItem>().ToList().ToArray();
 
                                             foreach (ListViewItem item7 in __Items7)
                                             {
@@ -3142,7 +3189,7 @@ namespace ETWPM2Monitor2
                                         {
                                             bool item7fouand = false;
                                             ListViewItem[] __Items7 = new ListViewItem[1];
-                                            __Items7 = listView7.Items.Cast<ListViewItem>().ToList().ToArray<ListViewItem>();
+                                            __Items7 = listView7.Items.Cast<ListViewItem>().ToList().ToArray();
 
                                             foreach (ListViewItem item7 in __Items7)
                                             {
@@ -3230,7 +3277,9 @@ namespace ETWPM2Monitor2
                         }
                     }
 
+
                     tabPage16.Text = "Network Connections History (Detection Error: " + _found.ToString() + " of " + listView7.Items.Count.ToString() + ")";
+
                     tabPage13.Text = "Network Connections (" + listView3.Items.Count.ToString() + ")";
                 });
 
@@ -3244,127 +3293,25 @@ namespace ETWPM2Monitor2
         }
         private void T13_Elapsed1(object sender, System.Timers.ElapsedEventArgs e)
         {
-             
-                List<Network_Info._Table> TPClist = Network_Info.Table2_x64.ToList<Network_Info._Table>().FindAll
-                    (x => x.IsLive == 1 && (x.states_String.ToString() == "ESTABLISHED" || x.states_String.ToString() == "CLOSEWAIT"));
-
-            foreach (Network_Info._Table item in TPClist.ToList<Network_Info._Table>())
+            List<Network_Info._Table> TPClist = new List<Network_Info._Table>();
+            try
             {
+                                                
+                if (Network_Info.Table2_x64.Length > 0 )
+                    TPClist = Network_Info.Table2_x64.ToList<Network_Info._Table>().FindAll
+                      (x => x.IsLive == 1 && (x.states_String.ToString() == "ESTABLISHED" || x.states_String.ToString() == "CLOSEWAIT"));
 
-                if (listView3.Items.Count <= 0)
-                {
-                    try
-                    {
-                        Thread.Sleep(TCPConnectionDelay_for_RefreshList);
-                        ListViewItem iList3x = new ListViewItem();
-
-                        iList3x.SubItems.Add(DateTime.Now.ToString());
-                        iList3x.SubItems.Add(item.ProcessName.ToString());
-                        iList3x.SubItems.Add(item.PID.ToString());
-                        iList3x.SubItems.Add(item.states_String.ToString());
-                        iList3x.SubItems.Add(item.LocalIP.ToString());
-                        iList3x.SubItems.Add(item.LPORT.ToString());
-                        iList3x.SubItems.Add(item.RemoteIP.ToString());
-                        iList3x.SubItems.Add(item.RPORT.ToString());
-
-                        int indexx = Network_Info.Processes_FileSystemList2.FindIndex(x => x.PID == item.PID);
-
-                        if (indexx != -1)
-                        {
-                            iList3x.SubItems.Add(Network_Info.Processes_FileSystemList2[indexx].FileName_Path);
-                        }
-                        else
-                        {
-                            iList3x.SubItems.Add(" ");
-                        }
-
-                        iList3x.Name = item.FullSTR;
-
-                        ////if (listView7.Items.Count > 0)
-                        ////{
-                        ////    bool item7fouand = false;
-
-                        ////    ListViewItem[] __Items7 = listView7.Items.Cast<ListViewItem>().ToList().ToArray();
-
-                        ////    foreach (ListViewItem item7 in __Items7)
-                        ////    {
-                        ////        string h7 = item7.SubItems[2].Text
-                        ////                  + item7.SubItems[3].Text
-                        ////                  + item7.SubItems[4].Text
-                        ////                  + item7.SubItems[7].Text
-                        ////                  + item7.SubItems[9].Text;
-
-                        ////        string h3 = iList3x.SubItems[2].Text
-                        ////          + iList3x.SubItems[3].Text
-                        ////          + iList3x.SubItems[4].Text
-                        ////          + iList3x.SubItems[7].Text
-                        ////          + iList3x.SubItems[9].Text;
-
-                        ////        Thread.Sleep(10);
-
-                        ////        if (h7 == h3)
-                        ////        {
-                        ////            item7fouand = true;
-                        ////            break;
-                        ////        }
-                        ////    }
-
-                        ////    if (!item7fouand)
-                        ////    {
-                        ////        object tmp = iList3x.Clone();
-                        ////        listView7.Items.Add((ListViewItem)tmp).SubItems.Add("1");
-
-                        ////    }
-                        ////}
-                        ////else
-                        ////{
-                        ////    object tmp = iList3x.Clone();
-                        ////    listView7.Items.Add((ListViewItem)tmp).SubItems.Add("1");
-                        ////}
-
-
-
-
-                        if (iList3x != null)
-                        {
-                            //listView3.Items.Add(iList3x);
-                            _Listview3_Items_NetworkConnection_Apis.Add(iList3x);
-
-                        }
-
-                    }
-                    catch (Exception)
+                if (TPClist != null)
+                    foreach (Network_Info._Table item in TPClist.ToList<Network_Info._Table>())
                     {
 
-
-                    }
-                }
-
-                if (listView3.Items.Count > 0)
-                {
-                    try
-                    {
-
-
-                        bool found = false;
-
-                        if (listView3.Items.Count > 0)
+                        if (listView3.Items.Count <= 0)
                         {
-                            ListViewItem[] __Items = listView3.Items.Cast<ListViewItem>().ToArray();
-
-                            foreach (ListViewItem _item in __Items)
+                            try
                             {
-                                if (_item.Name == item.FullSTR)
-                                {
-                                    found = true;
-                                    break;
-                                }
-                            }
-
-
-                            if (!found)
-                            {
+                                Thread.Sleep(TCPConnectionDelay_for_RefreshList);
                                 ListViewItem iList3x = new ListViewItem();
+
                                 iList3x.SubItems.Add(DateTime.Now.ToString());
                                 iList3x.SubItems.Add(item.ProcessName.ToString());
                                 iList3x.SubItems.Add(item.PID.ToString());
@@ -3391,15 +3338,15 @@ namespace ETWPM2Monitor2
                                 ////{
                                 ////    bool item7fouand = false;
 
-                                ////    ListViewItem[] __Items2 = listView7.Items.Cast<ListViewItem>().ToList().ToArray();
+                                ////    ListViewItem[] __Items7 = listView7.Items.Cast<ListViewItem>().ToList().ToArray();
 
-                                ////    foreach (ListViewItem item7 in __Items2)
+                                ////    foreach (ListViewItem item7 in __Items7)
                                 ////    {
                                 ////        string h7 = item7.SubItems[2].Text
-                                ////            + item7.SubItems[3].Text
-                                ////            + item7.SubItems[4].Text
-                                ////            + item7.SubItems[7].Text
-                                ////            + item7.SubItems[9].Text;
+                                ////                  + item7.SubItems[3].Text
+                                ////                  + item7.SubItems[4].Text
+                                ////                  + item7.SubItems[7].Text
+                                ////                  + item7.SubItems[9].Text;
 
                                 ////        string h3 = iList3x.SubItems[2].Text
                                 ////          + iList3x.SubItems[3].Text
@@ -3419,8 +3366,6 @@ namespace ETWPM2Monitor2
                                 ////    if (!item7fouand)
                                 ////    {
                                 ////        object tmp = iList3x.Clone();
-
-
                                 ////        listView7.Items.Add((ListViewItem)tmp).SubItems.Add("1");
 
                                 ////    }
@@ -3428,31 +3373,148 @@ namespace ETWPM2Monitor2
                                 ////else
                                 ////{
                                 ////    object tmp = iList3x.Clone();
-
                                 ////    listView7.Items.Add((ListViewItem)tmp).SubItems.Add("1");
-
                                 ////}
+
+
 
 
                                 if (iList3x != null)
                                 {
                                     //listView3.Items.Add(iList3x);
                                     _Listview3_Items_NetworkConnection_Apis.Add(iList3x);
+
                                 }
+
+                            }
+                            catch (Exception)
+                            {
+
+
+                            }
+                        }
+
+                        if (listView3.Items.Count > 0)
+                        {
+                            try
+                            {
+
+
+                                bool found = false;
+
+                                if (listView3.Items.Count > 0)
+                                {
+                                    ListViewItem[] __Items = listView3.Items.Cast<ListViewItem>().ToList().ToArray();
+
+                                    foreach (ListViewItem _item in __Items)
+                                    {
+                                        if (_item.Name == item.FullSTR)
+                                        {
+                                            found = true;
+                                            break;
+                                        }
+                                    }
+
+
+                                    if (!found)
+                                    {
+                                        ListViewItem iList3x = new ListViewItem();
+                                        iList3x.SubItems.Add(DateTime.Now.ToString());
+                                        iList3x.SubItems.Add(item.ProcessName.ToString());
+                                        iList3x.SubItems.Add(item.PID.ToString());
+                                        iList3x.SubItems.Add(item.states_String.ToString());
+                                        iList3x.SubItems.Add(item.LocalIP.ToString());
+                                        iList3x.SubItems.Add(item.LPORT.ToString());
+                                        iList3x.SubItems.Add(item.RemoteIP.ToString());
+                                        iList3x.SubItems.Add(item.RPORT.ToString());
+
+                                        int indexx = Network_Info.Processes_FileSystemList2.FindIndex(x => x.PID == item.PID);
+
+                                        if (indexx != -1)
+                                        {
+                                            iList3x.SubItems.Add(Network_Info.Processes_FileSystemList2[indexx].FileName_Path);
+                                        }
+                                        else
+                                        {
+                                            iList3x.SubItems.Add(" ");
+                                        }
+
+                                        iList3x.Name = item.FullSTR;
+
+                                        ////if (listView7.Items.Count > 0)
+                                        ////{
+                                        ////    bool item7fouand = false;
+
+                                        ////    ListViewItem[] __Items2 = listView7.Items.Cast<ListViewItem>().ToList().ToArray();
+
+                                        ////    foreach (ListViewItem item7 in __Items2)
+                                        ////    {
+                                        ////        string h7 = item7.SubItems[2].Text
+                                        ////            + item7.SubItems[3].Text
+                                        ////            + item7.SubItems[4].Text
+                                        ////            + item7.SubItems[7].Text
+                                        ////            + item7.SubItems[9].Text;
+
+                                        ////        string h3 = iList3x.SubItems[2].Text
+                                        ////          + iList3x.SubItems[3].Text
+                                        ////          + iList3x.SubItems[4].Text
+                                        ////          + iList3x.SubItems[7].Text
+                                        ////          + iList3x.SubItems[9].Text;
+
+                                        ////        Thread.Sleep(10);
+
+                                        ////        if (h7 == h3)
+                                        ////        {
+                                        ////            item7fouand = true;
+                                        ////            break;
+                                        ////        }
+                                        ////    }
+
+                                        ////    if (!item7fouand)
+                                        ////    {
+                                        ////        object tmp = iList3x.Clone();
+
+
+                                        ////        listView7.Items.Add((ListViewItem)tmp).SubItems.Add("1");
+
+                                        ////    }
+                                        ////}
+                                        ////else
+                                        ////{
+                                        ////    object tmp = iList3x.Clone();
+
+                                        ////    listView7.Items.Add((ListViewItem)tmp).SubItems.Add("1");
+
+                                        ////}
+
+
+                                        if (iList3x != null)
+                                        {
+                                            //listView3.Items.Add(iList3x);
+                                            _Listview3_Items_NetworkConnection_Apis.Add(iList3x);
+                                        }
+
+                                    }
+
+                                }
+                            }
+                            catch (Exception)
+                            {
+
 
                             }
 
                         }
-                    }
-                    catch (Exception)
-                    {
-
 
                     }
-
-                }
 
             }
+            catch (Exception)
+            {
+
+                //throw;
+            }
+
 
         }
         private void T12_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
@@ -4778,10 +4840,12 @@ namespace ETWPM2Monitor2
                     string parentidPath = tmp2.SubItems[5].Text.Split('\n')[6].Substring(16);
                     parentidPath = parentidPath.Substring(0, parentidPath.Length - 1);
                     string Shell_Pid = tmp2.SubItems[5].Text.Split('\n')[2].Substring(6).Split(' ')[0];
+                    string __command = tmp2.SubItems[5].Text.Split('\n')[3].ToLower();
 
                     if (commandline.Contains("[commandline: \"" + _windir + "\\system32\\cmd.exe\"")
                         || commandline.Contains("[commandline: " + _windir + "\\system32\\cmd.exe") 
-                        || commandline.Contains("[commandline: cmd")
+                        || commandline.Contains("[commandline: cmd") || __command.Contains("cmd")
+                             || __command.Contains("cmd.exe")
                         || commandline.Contains("[commandline: " + _windir + "\\system32\\windowspowershell\\")
                         || commandline.Contains("[commandline: powershell.exe"))
                     {
@@ -5161,7 +5225,7 @@ namespace ETWPM2Monitor2
             catch (Exception ee)
             {
                 if (IsSystemDeveloperLogs_on) BeginInvoke(new __core2(AsyncRun__Add_SystemDeveloperLogs), (object)" ==> [Form1_NewProcessAddedtolist_NewProcessEvt] Event/Method Call: error1 => " + ee.Message);
-
+               // MessageBox.Show("");
             }
 
         }
@@ -6378,7 +6442,7 @@ namespace ETWPM2Monitor2
                         obj[0] = null;
                         obj[1] = null;
 
-                        Thread.Sleep(15);
+                        Thread.Sleep(10);
 
                         Chart_Tcp++;
 
@@ -6419,19 +6483,23 @@ namespace ETWPM2Monitor2
             {
                 try
                 {
+                    EvtWatcher.Enabled = false;
+                    EvtWatcher.Dispose();
 
-                
-                EvtWatcher.Enabled = false;
-                EvtWatcher.Dispose();
+                    /// exit Core Thread for Monitoring TCP/UDP Connections
+                    Network_Info_DataTables.StopThread = true;
+                    Network_Info.Core.Abort();
 
-                /// exit Core Thread for Monitoring TCP/UDP Connections
-                Network_Info_DataTables.StopThread = true;
-                Network_Info.Core.Abort();
                 }
                 catch (Exception)
-                {                 
+                {
+
+                  
                 }
+               
             }
+
+
         }
         private void StartMonitorToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -6460,8 +6528,17 @@ namespace ETWPM2Monitor2
         {
             if (IsSystemDeveloperLogs_on) BeginInvoke(new __core2(AsyncRun__Add_SystemDeveloperLogs), (object)" ==> [StoptMonitorToolStripMenuItem_Click] Method Call: Started");
             //if(IsSystemDeveloperLogs_on) BeginInvoke(new __core2(AsyncRun__Add_SystemDeveloperLogs), (object)" ==> [StoptMonitorToolStripMenuItem_Click] Method Call: error1 => " + ee.Message);
-            if (Network_Info.Core.IsAlive)
-                Network_Info.Core.Suspend();
+            try
+            {
+                if (Network_Info.Core.IsAlive)
+                    Network_Info.Core.Suspend();
+            }
+            catch (Exception)
+            {
+
+         //       throw;
+            }
+         
 
             i6 = 0;
             if (EvtWatcher.Enabled)
@@ -6951,7 +7028,7 @@ namespace ETWPM2Monitor2
 
         private void AboutToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(null, "ETWPM2Monitor2 v2.1 [test version 2.1.52.628]\nCode Published by Damon Mohammadbagher , Jul 2021", "About ETWPM2Monitor2 v2.1", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show(null, "ETWPM2Monitor2 v2.1 [test version 2.1.52.630]\nCode Published by Damon Mohammadbagher , Jul 2021", "About ETWPM2Monitor2 v2.1", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
         }
 
@@ -8122,6 +8199,11 @@ namespace ETWPM2Monitor2
 
             Thread _T10_for_show_Details_info_ = new Thread(__T10_for_show_Details_info);
             _T10_for_show_Details_info_.Start();
+        }
+
+        private void AutoScrollToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
 
         private void ToolStripStatusLabel9_Click(object sender, EventArgs e)

@@ -1916,7 +1916,7 @@
             this.toolStripMenuItem2,
             this.killProcessToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(194, 70);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(194, 48);
             // 
             // toolStripMenuItem2
             // 
@@ -2418,18 +2418,19 @@
             this.autoScrollToolStripMenuItem.Name = "autoScrollToolStripMenuItem";
             this.autoScrollToolStripMenuItem.Size = new System.Drawing.Size(207, 22);
             this.autoScrollToolStripMenuItem.Text = "Auto Scroll";
+            this.autoScrollToolStripMenuItem.Click += new System.EventHandler(this.AutoScrollToolStripMenuItem_Click);
             // 
             // onToolStripMenuItem
             // 
             this.onToolStripMenuItem.Name = "onToolStripMenuItem";
-            this.onToolStripMenuItem.Size = new System.Drawing.Size(89, 22);
+            this.onToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.onToolStripMenuItem.Text = "on";
             this.onToolStripMenuItem.Click += new System.EventHandler(this.OnToolStripMenuItem_Click);
             // 
             // offToolStripMenuItem
             // 
             this.offToolStripMenuItem.Name = "offToolStripMenuItem";
-            this.offToolStripMenuItem.Size = new System.Drawing.Size(89, 22);
+            this.offToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.offToolStripMenuItem.Text = "off";
             this.offToolStripMenuItem.Click += new System.EventHandler(this.OffToolStripMenuItem_Click);
             // 
