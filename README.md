@@ -199,7 +199,7 @@ This tool [ETWPM2Monitor version2] is for Monitor ETW Event-Logs [log name: ETWP
 ! this version ETWPM2Monitor2 v2.1 will work with ETWProcessMon2.1 and both are
 ! very fast for (Remote-Thread-Injection) Technique/Payload Detection via ETW Events)
 + some bugs fixed. New Tab called "Alarms by Memory Scanner" added, powershell detection added.
-+ last source/exe update(52) v2.1.52.628 [Nov 21, 2023]... 
++ last source/exe update(52) v2.1.52.630 [Mar 19, 2024]... 
 ```
 Video: https://www.youtube.com/watch?v=DMtMTkAfFNo
 
@@ -217,7 +217,8 @@ md5 info [ETWPM2Monitor2.exe], "exe files are not safe here in github so make yo
                     
     bc42bb0ace-5de9f8ed08-e26c46503614 => ETWPM2Monitor2.exe (v2.1) [v2.1.47.480] 31,Oct,2022 [old]
     3066c279ad-acf3f2971e-2bdf5c163fdf => ETWPM2Monitor2.exe (v2.1) [v2.1.51.590] 17,Sep,2023 [old]
-    34064d7e1c-4ae5a43e39-9c806767d425 => ETWPM2Monitor2.exe (v2.1) [v2.1.52.628] 21,Nov,2023
+    34064d7e1c-4ae5a43e39-9c806767d425 => ETWPM2Monitor2.exe (v2.1) [v2.1.52.628] 21,Nov,2023 [old]
+    f7749e4e0a-b16fccf5bd-d2a66bf81167 => ETWPM2Monitor2.exe (v2.1) [v2.1.52.630] 19,Mar,2024
     bc8bfbe7ce-08b43d1a43-a5e6d73cf389 => pe-sieve.exe [v0.3.5] (compatible ver with ETWPM2Monitor2.exe)
 
 #### Note: pe-sieve64.exe [v0.3.5] is compatible with ETWPM2Monitor2.exe and SysPM2Monitor2.7.exe
