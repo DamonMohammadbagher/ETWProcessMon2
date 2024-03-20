@@ -983,7 +983,7 @@ namespace ETWPM2Monitor2
                             }
                             catch (Exception)
                             {
-                                MessageBox.Show("ops");
+                                // MessageBox.Show("ops");
                                 
                             }                                                     
 
